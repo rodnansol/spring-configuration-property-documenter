@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.rodnansol.example</groupId>
+        <artifactId>spring-configuration-property-documenter-examples</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+    <artifactId>multi-module</artifactId>
+    <name>multi-module</name>
+    <description>multi-module</description>
+    <packaging>pom</packaging>
+    <modules>
+        <module>multi-module-a</module>
+        <module>multi-module-b</module>
+        <module>multi-module-c</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <inherited>false</inherited>
+                <groupId>org.rodnansol</groupId>
+                <artifactId>spring-configuration-property-documenter-maven-plugin</artifactId>
+                <version>999-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>aggregate-every-document-without-config</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>aggregate-documents</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>aggregate-given-documents</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>aggregate-documents</goal>
+                        </goals>
+                        <configuration>
+                            <inputFiles>
+                                <file>multi-module-a/target/property-docs/multi-module-a-property-docs.adoc</file>
+                                <file>multi-module-c/target/property-docs/multi-module-c-property-docs.adoc</file>
+                            </inputFiles>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aggregate-specified-document-into-specified-file</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>aggregate-documents</goal>
+                        </goals>
+                        <configuration>
+                            <inputFiles>
+                                <file>multi-module-b/target/property-docs/multi-module-b-property-docs.adoc</file>
+                                <file>multi-module-c/target/property-docs/multi-module-c-property-docs.adoc</file>
+                            </inputFiles>
+                            <outputFile>target/aggregated/given-aggregated.adoc</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aggregate-every-document-into-specified-file</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>aggregate-documents</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>target/aggregated/all-aggregated.adoc</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

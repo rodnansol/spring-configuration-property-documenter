@@ -1,0 +1,12 @@
+## {{name}}
+{{description}}
+{{#each propertyGroups}}
+### {{name}}
+#### {{type}}
+| Key | Type | Description | Default value | Deprecation |
+|-----|------|-------------|---------------|-------------|
+{{#each properties}}|{{key}}|{{type}}|{{description}}|{{defaultValue}}|{{propertyDeprecation}}|
+{{/each}}
+{{/each}}
+
+This is a generated file, generated at: {{generationDate}}

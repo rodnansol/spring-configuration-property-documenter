@@ -1,0 +1,25 @@
+== {{name}}
+
+{{description}}
+{{#each propertyGroups}}
+
+=== {{name}}
+==== {{type}}
+
+[cols="2,1,3,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation
+{{#each properties}}
+|{{key}}
+|{{type}}
+|{{description}}
+|{{defaultValue}}
+|{{propertyDeprecation}}
+{{/each}}
+
+|===
+{{/each}}
+
+
+This is a generated file, generated at: *{{generationDate}}*
+
