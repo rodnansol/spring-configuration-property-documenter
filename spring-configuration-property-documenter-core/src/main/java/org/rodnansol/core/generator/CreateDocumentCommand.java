@@ -1,5 +1,7 @@
 package org.rodnansol.core.generator;
 
+import org.rodnansol.core.project.Project;
+
 import java.io.File;
 import java.util.Objects;
 
@@ -9,15 +11,17 @@ import java.util.Objects;
  */
 public class CreateDocumentCommand {
 
+    private final Project project;
     private final String name;
-    private final File metadataFile;
+    private final File metadataInput;
     private final String template;
     private final File output;
     private String description;
 
-    public CreateDocumentCommand(String name, File metadataFile, String template, File output) {
+    public CreateDocumentCommand(Project project, String name, File metadataInput, String template, File output) {
+        this.project = Objects.requireNonNull(project, "project is NULL");;
         this.name = Objects.requireNonNull(name, "name is NULL");
-        this.metadataFile = Objects.requireNonNull(metadataFile, "name is NULL");
+        this.metadataInput = Objects.requireNonNull(metadataInput, "metadataStream is NULL");
         this.template = Objects.requireNonNull(template, "template is NULL");
         this.output = output;
     }
@@ -38,11 +42,15 @@ public class CreateDocumentCommand {
         this.description = description;
     }
 
-    public File getMetadataFile() {
-        return metadataFile;
+    public File getMetadataInput() {
+        return metadataInput;
     }
 
     public File getOutput() {
         return output;
+    }
+
+    public Project getProject() {
+        return project;
     }
 }

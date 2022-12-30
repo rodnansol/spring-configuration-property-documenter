@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class PropertyGroup {
 
-    private final String name;
+    private final String groupName;
     private final String type;
     private final String sourceType;
     private List<Property> properties;
@@ -19,8 +19,8 @@ public class PropertyGroup {
     private List<PropertyGroup> childrenGroups;
     private boolean nested;
 
-    public PropertyGroup(String name, String type, String sourceType) {
-        this.name = name;
+    public PropertyGroup(String groupName, String type, String sourceType) {
+        this.groupName = groupName;
         this.type = type;
         this.sourceType = sourceType;
         this.nested = !type.equals(sourceType);
@@ -54,8 +54,8 @@ public class PropertyGroup {
         this.nested = nested;
     }
 
-    public String getName() {
-        return name;
+    public String getGroupName() {
+        return groupName;
     }
 
     public String getSourceType() {

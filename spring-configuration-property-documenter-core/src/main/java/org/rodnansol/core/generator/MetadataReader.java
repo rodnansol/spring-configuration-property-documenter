@@ -7,6 +7,7 @@ import org.springframework.boot.configurationprocessor.metadata.JsonMarshaller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -21,11 +22,16 @@ import java.util.stream.Collectors;
  */
 public class MetadataReader {
 
+    public static final MetadataReader INSTANCE = new MetadataReader();
+
+    private MetadataReader() {
+    }
+
     /**
      * @param metadataFile
      * @return
      */
-    public Map<String, List<Property>> readProperties(File metadataFile) {
+    public Map<String, List<Property>> readPropertiesAsMap(File metadataFile) {
         Objects.requireNonNull(metadataFile, "metadataFile is NULL");
         try {
             ConfigurationMetadata configurationMetadata = new JsonMarshaller().read(new FileInputStream(metadataFile));
@@ -35,10 +41,15 @@ public class MetadataReader {
         }
     }
 
-    public List<PropertyGroup> readProperties2(File metadataFile) {
-        Objects.requireNonNull(metadataFile, "metadataFile is NULL");
+    /**
+     *
+     * @param metadataStream
+     * @return
+     */
+    public List<PropertyGroup> readPropertiesAsList(InputStream metadataStream) {
+        Objects.requireNonNull(metadataStream, "metadataFile is NULL");
         try {
-            ConfigurationMetadata configurationMetadata = new JsonMarshaller().read(new FileInputStream(metadataFile));
+            ConfigurationMetadata configurationMetadata = new JsonMarshaller().read(metadataStream);
             Map<String, List<Property>> propertyMap = getPropertyMap(configurationMetadata);
             Map<String, List<PropertyGroup>> propertyGroupsByType = getPropertyGroups(configurationMetadata);
             updateGroupsWithPropertiesAndAssociations(propertyMap, propertyGroupsByType);
@@ -51,7 +62,7 @@ public class MetadataReader {
     private PropertyGroup setProperties(Map<String, List<Property>> propertyMap, PropertyGroup propertyGroup) {
         propertyGroup.setProperties(propertyMap.get(propertyGroup.getType()).stream()
             .map(property -> {
-                property.setKey(property.getFqName().substring(propertyGroup.getName().length() + 1));
+                property.setKey(property.getFqName().substring(propertyGroup.getGroupName().length() + 1));
                 return property;
             })
             .collect(Collectors.toList()));

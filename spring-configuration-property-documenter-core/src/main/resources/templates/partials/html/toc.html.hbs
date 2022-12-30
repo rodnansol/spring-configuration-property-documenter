@@ -1,0 +1,25 @@
+<div class="center">
+    <button type="button" class="collapsible">Table of contents</button>
+    <div id="toc-content">
+
+        {{#if subTemplateDataList}}
+            <ul>
+                {{#each subTemplateDataList}}
+                    <li><a href="#{{moduleName}}">{{moduleName}}</a>
+                        <ul>
+                            {{#each propertyGroups}}
+                                <li><a href="#{{groupName}}">{{groupName}} - <code>{{type}}</code></a></li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                {{/each}}
+            </ul>
+        {{else}}
+            <ul>
+                {{#each propertyGroups}}
+                    <li><a href="#{{groupName}}">{{groupName}} - <code>{{type}}</code></a></li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    </div>
+</div>

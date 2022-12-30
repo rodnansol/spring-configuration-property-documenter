@@ -9,7 +9,7 @@
     </parent>
     <artifactId>multi-module-c</artifactId>
     <name>multi-module-c</name>
-    <description>multi-module-c</description>
+    <description>Description for multi-module-c</description>
     <properties>
         <java.version>17</java.version>
     </properties>

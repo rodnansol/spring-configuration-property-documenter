@@ -7,7 +7,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.rodnansol.core.action.AggregationAction;
-import org.rodnansol.core.util.Project;
+import org.rodnansol.core.project.ProjectFactory;
 
 import java.io.File;
 import java.util.List;
@@ -18,9 +18,10 @@ import java.util.List;
  * @author nandorholozsnyak
  * @since 0.1.0
  */
-@Mojo(name = "aggregate-documents")
+@Mojo(name = AggregateDocumentsMojo.AGGREGATE_DOCUMENTS)
 public class AggregateDocumentsMojo extends AbstractMojo {
 
+    protected static final String AGGREGATE_DOCUMENTS = "aggregate-documents";
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
 
@@ -32,7 +33,7 @@ public class AggregateDocumentsMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        new AggregationAction(Project.ofMavenProject(project.getBasedir(), project.getName(), project.getModules()), inputFiles, outputFile)
+        new AggregationAction(ProjectFactory.ofMavenProject(project.getBasedir(), project.getName(), project.getModules()), inputFiles, outputFile)
             .executeAggregation();
     }
 }

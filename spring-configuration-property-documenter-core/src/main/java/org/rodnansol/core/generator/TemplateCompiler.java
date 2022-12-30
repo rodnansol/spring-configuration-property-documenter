@@ -15,12 +15,27 @@ import java.io.IOException;
  */
 public class TemplateCompiler {
 
+    public static final TemplateCompiler INSTANCE = new TemplateCompiler();
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TemplateCompiler.class);
 
-    public String compileTemplate(String template, TemplateData templateData) throws IOException {
+    private TemplateCompiler() {
+    }
+
+    /**
+     * @param template
+     * @param templateData
+     * @return
+     * @throws DocumentGenerationException
+     */
+    public String compileTemplate(String template, TemplateData templateData) throws DocumentGenerationException {
         LOGGER.debug("Compiling template:[{}] with data:[{}]", template, template);
-        Template temp = new Handlebars().compile(template);
-        return temp.apply(templateData);
+        try {
+            Template temp = new Handlebars().compile(template);
+            return temp.apply(templateData);
+        } catch (IOException e) {
+            throw new DocumentGenerationException("Error during compiling the template", e);
+        }
     }
 
 }

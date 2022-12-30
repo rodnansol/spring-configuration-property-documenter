@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.rodnansol.example</groupId>
+        <artifactId>multi-module</artifactId>
+        <version>999-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>multi-module-docs</artifactId>
+    <name>multi-module-docs</name>
+    <description>Description for multi-module-docs</description>
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.rodnansol.example</groupId>
+            <artifactId>multi-module-a</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.rodnansol.example</groupId>
+            <artifactId>multi-module-b</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.rodnansol.example</groupId>
+            <artifactId>multi-module-c</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <inherited>false</inherited>
+                <groupId>org.rodnansol</groupId>
+                <artifactId>spring-configuration-property-documenter-maven-plugin</artifactId>
+                <version>999-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>aggregate-every-document-without-config</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>aggregate-documents</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>aggregate-given-documents</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>aggregate-documents</goal>
+                        </goals>
+                        <configuration>
+                            <inputFiles>
+                                <file>../multi-module-a/target/property-docs/multi-module-a-property-docs.adoc</file>
+                                <file>../multi-module-c/target/property-docs/multi-module-c-property-docs.adoc</file>
+                            </inputFiles>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aggregate-specified-document-into-specified-file</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>aggregate-documents</goal>
+                        </goals>
+                        <configuration>
+                            <inputFiles>
+                                <file>../multi-module-b/target/property-docs/multi-module-b-property-docs.adoc</file>
+                                <file>../multi-module-c/target/property-docs/multi-module-c-property-docs.adoc</file>
+                            </inputFiles>
+                            <outputFile>target/aggregated/given-aggregated.adoc</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aggregate-every-document-into-specified-file</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>aggregate-documents</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>target/aggregated/all-aggregated.adoc</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aggregate-docs-markdown</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <inputFile>../multi-module-a</inputFile>
+                                </input>
+                                <input>
+                                    <name>Multi Module B</name>
+                                    <description>Multi Module B properties with a jar file input</description>
+                                    <inputFile>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</inputFile>
+                                </input>
+                                <input>
+                                    <name>Multi Module C</name>
+                                    <description>Multi Module C properties with a specific file input</description>
+                                    <inputFile>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</inputFile>
+                                </input>
+                            </inputs>
+                            <outputFile>target/aggregated-md.md</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aggregate-docs-markdown-adoc</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>ADOC</type>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <inputFile>../multi-module-a</inputFile>
+                                </input>
+                                <input>
+                                    <name>Multi Module B</name>
+                                    <description>Multi Module B properties with a jar file input</description>
+                                    <inputFile>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</inputFile>
+                                </input>
+                                <input>
+                                    <name>Multi Module C</name>
+                                    <description>Multi Module C properties with a specific file input</description>
+                                    <inputFile>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</inputFile>
+                                </input>
+                            </inputs>
+                            <outputFile>target/aggregated-adoc.adoc</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aggregate-docs-markdown-html</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>HTML</type>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <inputFile>../multi-module-a</inputFile>
+                                </input>
+                                <input>
+                                    <name>Multi Module B</name>
+                                    <description>Multi Module B properties with a jar file input</description>
+                                    <inputFile>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</inputFile>
+                                </input>
+                                <input>
+                                    <name>Multi Module C</name>
+                                    <description>Multi Module C properties with a specific file input</description>
+                                    <inputFile>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</inputFile>
+                                </input>
+                            </inputs>
+                            <outputFile>target/aggregated-html.html</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

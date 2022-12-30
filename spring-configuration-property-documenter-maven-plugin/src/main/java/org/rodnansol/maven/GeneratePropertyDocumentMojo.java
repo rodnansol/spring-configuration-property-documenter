@@ -1,12 +1,11 @@
 package org.rodnansol.maven;
 
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.rodnansol.core.util.Project;
 import org.rodnansol.core.action.DocumentGenerationAction;
+import org.rodnansol.core.project.ProjectFactory;
 
 import java.io.File;
 
@@ -18,9 +17,10 @@ import java.io.File;
  * @author nandorholozsnyak
  * @since 0.1.0
  */
-@Mojo(name = "generate-property-document")
+@Mojo(name = GeneratePropertyDocumentMojo.GENERATE_PROPERTY_DOCUMENT)
 public class GeneratePropertyDocumentMojo extends AbstractMojo {
 
+    protected static final String GENERATE_PROPERTY_DOCUMENT = "generate-property-document";
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
 
@@ -56,10 +56,15 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
     String type;
 
     /**
-     * The metadata file that must be read and used for the document generation.
+     * Metadata input that can be:
+     * <ul>
+     *     <li>A path to JSON file for example: <b>target/classes/META-INF/spring-configuration-metadata.json</b></li>
+     *     <li>A directory that contains the file</li>
+     *     <li>A jar/zip file that contains the file within the following entry <b>META-INF/spring-configuration-metadata.json</b></li>
+     * </ul>
      */
-    @Parameter(property = "metadataFile", defaultValue = "target/classes/META-INF/spring-configuration-metadata.json")
-    File metadataFile;
+    @Parameter(property = "metadataInput", defaultValue = "target/classes/META-INF/spring-configuration-metadata.json")
+    File metadataInput;
 
     /**
      * Output file.
@@ -67,10 +72,25 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
     @Parameter(property = "outputFile")
     File outputFile;
 
+    /**
+     * Define if the process should fail on an error or not.
+     */
+    @Parameter(property = "failOnError", defaultValue = "false")
+    boolean failOnError;
+
     @Override
-    public void execute() throws MojoExecutionException {
-        new DocumentGenerationAction(Project.ofMavenProject(project.getBasedir(), project.getName(), project.getModules()), name, description, template, type, metadataFile, outputFile)
-            .execute();
+    public void execute() {
+        try {
+            new DocumentGenerationAction(
+                ProjectFactory.ofMavenProject(project.getBasedir(), project.getName(), project.getModules()), name, description, template, type, metadataInput, outputFile)
+                .execute();
+        } catch (Exception e) {
+            if (failOnError) {
+                throw new RuntimeException(e);
+            } else {
+                getLog().warn("Error during file generation, failOnError is set to false, check the logs please....", e);
+            }
+        }
     }
 
 }

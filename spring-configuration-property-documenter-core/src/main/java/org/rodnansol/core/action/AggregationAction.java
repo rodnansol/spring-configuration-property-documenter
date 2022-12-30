@@ -4,7 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.util.PluginUtils;
-import org.rodnansol.core.util.Project;
+import org.rodnansol.core.project.Project;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,7 +72,7 @@ public class AggregationAction {
             throw new DocumentGenerationException("Unable to aggregate files with different extensions");
         }
         if (outputFile == null) {
-            String aggregatedTargetFileName = PluginUtils.getDefaultAggregatedTargetFilePath(project, requiredExtension);
+            String aggregatedTargetFileName = project.getDefaultAggregatedTargetFilePath(requiredExtension);
             LOGGER.debug("Input files are specified, but the output file is missing, aggregating files with the following extension:[{}] into [{}]", requiredExtension, aggregatedTargetFileName);
             aggregateFiles(aggregatedTargetFileName, inputFiles);
         } else {
@@ -89,7 +89,7 @@ public class AggregationAction {
             return;
         }
         for (Map.Entry<String, List<File>> entry : fileExtensionMap.entrySet()) {
-            String aggregatedTargetFileName = PluginUtils.getDefaultAggregatedTargetFilePath(project, entry.getKey());
+            String aggregatedTargetFileName = project.getDefaultAggregatedTargetFilePath(entry.getKey());
             List<File> files = entry.getValue();
             aggregateFiles(aggregatedTargetFileName, files);
         }
@@ -122,7 +122,7 @@ public class AggregationAction {
     private Map<String, List<File>> getChildModuleBasedDocumentationsGroupedByFileExtensions() {
         return project.getModules()
             .stream()
-            .map(module -> PluginUtils.getDefaultOutputFolder(project, module))
+            .map(module -> project.getDefaultOutputFolder(module))
             .map(this::listFilesOfGivenFolder)
             .filter(Objects::nonNull)
             .flatMap(Arrays::stream)

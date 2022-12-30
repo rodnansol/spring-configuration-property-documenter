@@ -1,12 +1,11 @@
-## {{name}}
-{{description}}
+## {{moduleName}}
+{{#if moduleDescription}}{{moduleDescription}}{{/if}}
 {{#each propertyGroups}}
-### {{name}}
-#### {{type}}
+### {{groupName}}
+**Class:** `{{type}}`
+
 | Key | Type | Description | Default value | Deprecation |
 |-----|------|-------------|---------------|-------------|
 {{#each properties}}|{{key}}|{{type}}|{{description}}|{{defaultValue}}|{{propertyDeprecation}}|
 {{/each}}
 {{/each}}
-
-This is a generated file, generated at: {{generationDate}}

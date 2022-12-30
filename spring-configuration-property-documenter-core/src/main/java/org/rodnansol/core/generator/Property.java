@@ -7,12 +7,11 @@ package org.rodnansol.core.generator;
 public class Property {
 
     private final String fqName;
-    private String key;
     private final String type;
+    private String key;
     private String description;
     private String defaultValue;
     private PropertyDeprecation propertyDeprecation;
-
 
     public Property(String fqName, String type) {
         this.fqName = fqName;
@@ -21,6 +20,10 @@ public class Property {
 
     public String getKey() {
         return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getDescription() {
@@ -43,16 +46,6 @@ public class Property {
         return type;
     }
 
-    @Override
-    public String toString() {
-        return "Property{" +
-            "key='" + key + '\'' +
-            ", type='" + type + '\'' +
-            ", description='" + description + '\'' +
-            ", defaultValue='" + defaultValue + '\'' +
-            '}';
-    }
-
     public PropertyDeprecation getPropertyDeprecation() {
         return propertyDeprecation;
     }
@@ -65,7 +58,15 @@ public class Property {
         return fqName;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    @Override
+    public String toString() {
+        return "Property{" +
+            "fqName='" + fqName + '\'' +
+            ", type='" + type + '\'' +
+            ", key='" + key + '\'' +
+            ", description='" + description + '\'' +
+            ", defaultValue='" + defaultValue + '\'' +
+            ", propertyDeprecation=" + propertyDeprecation +
+            '}';
     }
 }

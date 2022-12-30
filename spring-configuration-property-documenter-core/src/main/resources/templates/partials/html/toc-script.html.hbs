@@ -1,0 +1,12 @@
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            let tocContent = document.getElementById('toc-content');
+            tocContent.classList.toggle("visible");
+        });
+    }
+
+</script>

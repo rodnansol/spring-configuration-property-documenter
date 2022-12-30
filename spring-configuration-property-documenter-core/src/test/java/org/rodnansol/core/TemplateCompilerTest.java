@@ -4,8 +4,7 @@ import org.rodnansol.core.generator.TemplateCompiler;
 
 class TemplateCompilerTest {
 
-    private TemplateCompiler underTest = new TemplateCompiler();
-
+    private TemplateCompiler underTest = TemplateCompiler.INSTANCE;
 
 
 }

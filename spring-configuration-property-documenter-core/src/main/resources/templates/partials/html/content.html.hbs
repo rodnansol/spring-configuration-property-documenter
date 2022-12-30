@@ -1,0 +1,31 @@
+<div class="center">
+    <h2 id="{{moduleName}}">{{moduleName}}</h2>
+    {{moduleDescription}}
+    {{#each propertyGroups}}
+        <h2 id="{{groupName}}">{{groupName}}</h2>
+        <b>Class:</b> <code>{{type}}</code>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Key</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default value</th>
+                <th>Deprecation</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each properties}}
+                <tr>
+                    <td>{{key}}</td>
+                    <td>{{type}}</td>
+                    <td>{{description}}</td>
+                    <td>{{defaultValue}}</td>
+                    <td>{{propertyDeprecation}}</td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+        <hr>
+    {{/each}}
+</div>

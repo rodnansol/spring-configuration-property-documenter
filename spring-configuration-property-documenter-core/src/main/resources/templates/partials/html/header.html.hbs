@@ -1,0 +1,108 @@
+<head>
+    <title>{{mainName}}</title>
+    <style>
+        .top {
+            --offset: 50px;
+
+            position: sticky;
+            bottom: 20px;
+            left: 95%;
+            place-self: end;
+            margin-top: calc(100vh + var(--offset));
+
+            /* visual styling */
+            text-decoration: none;
+            padding: 10px;
+            font-family: sans-serif;
+            color: #fff;
+            background: #7db04b;
+            border-radius: 100px;
+            white-space: nowrap;
+        }
+
+        html,
+        body {
+            scroll-behavior: smooth;
+        }
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+            width: 75%;
+        }
+        .center-text {
+            text-align: center;
+        }
+
+        .table {
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            table-layout: fixed ;
+            width: 100% ;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .table thead tr {
+            background-color: #7db04b;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px 15px;
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .table tbody tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+
+        code {
+            background-color: #eeeeee;
+        }
+
+        .collapsible {
+            background-color: #7db04b;
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            border: none;
+            width: 100%;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+
+        }
+
+        .active, .collapsible:hover {
+            background-color: #96d95c;
+        }
+
+        #toc-content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+        #toc-content.visible {
+            max-height: 200vh;
+            transition: max-height 0.5s ease-in;
+        }
+
+        li a {
+            font-family: sans-serif;
+            color: black;
+        }
+    </style>
+</head>

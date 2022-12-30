@@ -6,8 +6,9 @@ import org.rodnansol.core.generator.Documenter;
 import org.rodnansol.core.generator.MetadataReader;
 import org.rodnansol.core.generator.TemplateCompiler;
 import org.rodnansol.core.generator.TemplateType;
+import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.util.PluginUtils;
-import org.rodnansol.core.util.Project;
+import org.rodnansol.core.project.Project;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,32 +24,25 @@ import java.io.IOException;
 public class DocumentGenerationAction {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentGenerationAction.class);
-
     private final Project project;
-
     private final String name;
-
     private final String description;
     private final String type;
-    private final File metadataFile;
+    private final File metadataInput;
     private String template;
     private File outputFile;
 
-    public DocumentGenerationAction(Project project, String name, String description, String template, String type, File metadataFile, File outputFile) {
+    public DocumentGenerationAction(Project project, String name, String description, String template, String type, File metadataInput, File outputFile) {
         this.project = project;
         this.name = name;
         this.description = description;
         this.template = template;
         this.type = type;
-        this.metadataFile = metadataFile;
+        this.metadataInput = metadataInput;
         this.outputFile = outputFile;
     }
 
     public void execute() {
-        if (!metadataFile.exists()) {
-            LOGGER.warn("Configured metadata input file does not exist:[{}], unable to proceed...", metadataFile);
-            return;
-        }
         TemplateType templateType = TemplateType.valueOf(type);
         initializeTemplate(templateType);
         checkOutputFileAndCreateIfDoesNotExist(templateType);
@@ -58,8 +52,8 @@ public class DocumentGenerationAction {
 
     private void generateDocument() throws DocumentGenerationException {
         try {
-            Documenter documenter = new Documenter(new MetadataReader(), new TemplateCompiler());
-            CreateDocumentCommand command = new CreateDocumentCommand(name, metadataFile, template, outputFile);
+            Documenter documenter = new Documenter(MetadataReader.INSTANCE, TemplateCompiler.INSTANCE, MetadataInputResolverContext.INSTANCE);
+            CreateDocumentCommand command = new CreateDocumentCommand(project, name, metadataInput, template, outputFile);
             command.setDescription(description);
             documenter.readMetadataAndGenerateRenderedFile(command);
         } catch (IOException e) {
@@ -69,7 +63,7 @@ public class DocumentGenerationAction {
 
     private void initializeTemplate(TemplateType templateType) {
         if (template == null) {
-            template = templateType.calculateTemplate();
+            template = templateType.findSingleTemplate();
         }
     }
 
@@ -80,7 +74,7 @@ public class DocumentGenerationAction {
                 throw new DocumentGenerationException("Output file does not have the proper extension, requested file name:[" + outputFile + "] with requested extension:[" + extension + "]");
             }
         } else {
-            outputFile = PluginUtils.initializeFile(PluginUtils.getDefaultTargetFilePath(project, templateType));
+            outputFile = PluginUtils.initializeFile(project.getDefaultTargetFilePath(templateType));
         }
     }
 
