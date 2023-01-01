@@ -21,9 +21,9 @@ public class AggregationMojoInput {
     private String description;
 
     /**
-     * Input file
+     * Input.
      */
-    private File inputFile;
+    private File input;
 
     public String getName() {
         return name;
@@ -41,11 +41,11 @@ public class AggregationMojoInput {
         this.description = description;
     }
 
-    public File getInputFile() {
-        return inputFile;
+    public File getInput() {
+        return input;
     }
 
-    public void setInputFile(File inputFile) {
-        this.inputFile = inputFile;
+    public void setInput(File input) {
+        this.input = input;
     }
 }

@@ -86,7 +86,7 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
     }
 
     private CombinedInput mapToCombinedInput(AggregationMojoInput aggregationMojoInput) {
-        CombinedInput combinedInput = new CombinedInput(aggregationMojoInput.getInputFile(), aggregationMojoInput.getName());
+        CombinedInput combinedInput = new CombinedInput(aggregationMojoInput.getInput(), aggregationMojoInput.getName());
         combinedInput.setDescription(aggregationMojoInput.getDescription());
         return combinedInput;
     }
