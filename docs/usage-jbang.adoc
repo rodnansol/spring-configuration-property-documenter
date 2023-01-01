@@ -1,0 +1,102 @@
+= Spring Configuration Property Documenter - Maven Plugin
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+https://jbang.dev[JBang] is a cool utility tool, with that you can make Java based script files that you can run with external dependencies, and because of that it is a great tool for us as well to make sure you have one additional entry point to the Spring Configuration Property Documenter tool.
+
+toc::[]
+
+== JBang installation
+In this section we are not going to talk about how to install JBang, if you want to you can check it on the official website: https://www.jbang.dev/download/
+
+== Usage
+
+JBang can run Java files from any source and because of that we are able to run this file if you have JBang: https://raw.githubusercontent.com/rodnansol/spring-configuration-property-documenter/master/jbang/src/PropertyDocumenter.java
+
+This is a CLI tool, created with JBang and it is using PicoCLI. We can run this application with the following commands:
+
+.To generate a simple document:
+[source,shell]
+----
+jbang https://raw.githubusercontent.com/rodnansol/spring-configuration-property-documenter/master/jbang/src/PropertyDocumenter.java generate \
+-n "Simple JBang Application" -i spring-configuration-metadata.json \
+-tt HTML \
+-o spring-app-simple-property-docs.html
+----
+
+.To aggregate multiple documents:
+[source,shell]
+----
+jbang https://raw.githubusercontent.com/rodnansol/spring-configuration-property-documenter/master/jbang/src/PropertyDocumenter.java aggregate \
+-n "Multi Module Project" \
+-mn "Module A" -i ~/multi-module/multi-module-a \
+-mn "Module B" -i ~/multi-module/multi-module-b \
+-mn "Module C" -i ~/multi-module/multi-module-c \
+-tt HTML \
+-o spring-app-aggregated-property-docs.html
+----
+
+Please use the `help` command to have more information about the tool:
+[source,log]
+----
+ jbang PropertyDocumenter.java generate --help
+Usage: <main class> generate [-hV] -i=<input> [-n=<documentName>]
+                             -o=<outputFile> [-pt=<projectType>]
+                             [-tt=<templateType>]
+Documents the incoming input into a file.
+
+Example: jbang PropertyDocumenter.java document \
+            -n "Header title"  -i ~/module-a \
+            -tt HTML \
+            -o property-docs.html
+
+  -h, --help            Show this help message and exit.
+  -i, --input=<input>   Input file, directory or JAR file
+  -n, --name=<documentName>
+                        Main header name
+  -o, --output=<outputFile>
+                        Output file name
+      -pt, --project-type=<projectType>
+                        Type of the project,
+                        currently supported: MAVEN, GRADLE
+
+      -tt, --template-type=<templateType>
+                        Desired template type, supported:
+                        MARKDOWN, ADOC, HTML
+
+  -V, --version         Print version information and exit.
+
+❯ jbang PropertyDocumenter.java aggregate --help
+Usage: <main class> aggregate [-hV] [-n=<mainName>] -o=<outputFile>
+                              [-pt=<projectType>] [-tt=<templateType>]
+                              -i=<inputs>... [-i=<inputs>...]...
+                              [-mn=<moduleNames>...]...
+Aggregates the incoming inputs into one big file while.
+Please specify the module names for each input with a sequence.
+
+Example: jbang PropertyDocumenter.java aggregate \
+            -n "Multi module project" \
+            -mn "Module A" -i ~/module-a \
+            -mn "Module B" -i ~/module-b \
+            -mn "Module C" -i ~/module-c \
+            -tt HTML \
+            -o aggregated-property-docs.html
+
+  -h, --help                 Show this help message and exit.
+  -i, --inputs=<inputs>...   List of input files, directories or JAR files
+      -mn, --module-names=<moduleNames>...
+                             List of the module names
+  -n, --name=<mainName>      Main header name
+  -o, --output=<outputFile>  Output file name
+      -pt, --project-type=<projectType>
+                             Type of the project,
+                             currently supported: MAVEN, GRADLE
+
+      -tt, --template-type=<templateType>
+                             Desired template type, supported:
+                             MARKDOWN, ADOC, HTML
+
+  -V, --version              Print version information and exit.
+
+----
