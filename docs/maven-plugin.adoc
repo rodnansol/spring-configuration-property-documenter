@@ -72,29 +72,132 @@ For these cases we have to introduce a new module that will contain all the othe
 
 Check the diagram below:
 
-[graphviz]
-....
-digraph "G" {
-  node [shape="box",style="rounded",fontname="Helvetica",fontsize="14"]
-  edge [fontsize="10",fontname="Helvetica"]
+image::img/multi-module-maven-setup.png[Multi module Maven example]
 
-  // Node Definitions:
-  "org.rodnansol.example:multi-module-c"[label=<multi-module-c>]
-  "org.rodnansol.example:multi-module-docs"[label=<multi-module-docs>]
-  "org.rodnansol.example:multi-module"[label=<multi-module>]
-  "org.rodnansol.example:multi-module-a"[label=<multi-module-a>]
-  "org.rodnansol.example:multi-module-b"[label=<multi-module-b>]
+// [graphviz]
+// ....
+// digraph "G" {
+//   node [shape="box",style="rounded",fontname="Helvetica",fontsize="14"]
+//   edge [fontsize="10",fontname="Helvetica"]
+//
+//   // Node Definitions:
+//   "org.rodnansol.example:multi-module-c"[label=<multi-module-c>]
+//   "org.rodnansol.example:multi-module-docs"[label=<multi-module-docs>]
+//   "org.rodnansol.example:multi-module"[label=<multi-module>]
+//   "org.rodnansol.example:multi-module-a"[label=<multi-module-a>]
+//   "org.rodnansol.example:multi-module-b"[label=<multi-module-b>]
+//
+//   // Edge Definitions:
+//   "org.rodnansol.example:multi-module-a" -> "org.rodnansol.example:multi-module-docs"[style="solid"]
+//   "org.rodnansol.example:multi-module-b" -> "org.rodnansol.example:multi-module-docs"[style="solid"]
+//   "org.rodnansol.example:multi-module-c" -> "org.rodnansol.example:multi-module-docs"[style="solid"]
+//   "org.rodnansol.example:multi-module" -> "org.rodnansol.example:multi-module-a"[style="solid"]
+//   "org.rodnansol.example:multi-module" -> "org.rodnansol.example:multi-module-b"[style="solid"]
+//   "org.rodnansol.example:multi-module" -> "org.rodnansol.example:multi-module-c"[style="solid"]
+// }
+// ....
 
-  // Edge Definitions:
-  "org.rodnansol.example:multi-module-a" -> "org.rodnansol.example:multi-module-docs"[style="solid"]
-  "org.rodnansol.example:multi-module-b" -> "org.rodnansol.example:multi-module-docs"[style="solid"]
-  "org.rodnansol.example:multi-module-c" -> "org.rodnansol.example:multi-module-docs"[style="solid"]
-  "org.rodnansol.example:multi-module" -> "org.rodnansol.example:multi-module-a"[style="solid"]
-  "org.rodnansol.example:multi-module" -> "org.rodnansol.example:multi-module-b"[style="solid"]
-  "org.rodnansol.example:multi-module" -> "org.rodnansol.example:multi-module-c"[style="solid"]
-}
-....
+In the *multi-module-docs* module we have to configure the plugin:
 
+.pom.xml
+[source,xml]
+----
+ <build>
+        <plugins>
+            <plugin>
+                <groupId>org.rodnansol</groupId>
+                <artifactId>spring-configuration-property-documenter-maven-plugin</artifactId>
+                <version>latest-version</version>
+                <executions>
+                    <execution>
+                        <id>aggregate-docs-markdown</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <inputFile>../multi-module-a</inputFile>
+                                </input>
+                                <input>
+                                    <name>Multi Module B</name>
+                                    <description>Multi Module B properties with a jar file input</description>
+                                    <inputFile>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</inputFile>
+                                </input>
+                                <input>
+                                    <name>Multi Module C</name>
+                                    <description>Multi Module C properties with a specific file input</description>
+                                    <inputFile>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</inputFile>
+                                </input>
+                            </inputs>
+                            <outputFile>target/aggregated-md.md</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aggregate-docs-markdown-adoc</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>ADOC</type>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <inputFile>../multi-module-a</inputFile>
+                                </input>
+                                <input>
+                                    <name>Multi Module B</name>
+                                    <description>Multi Module B properties with a jar file input</description>
+                                    <inputFile>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</inputFile>
+                                </input>
+                                <input>
+                                    <name>Multi Module C</name>
+                                    <description>Multi Module C properties with a specific file input</description>
+                                    <inputFile>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</inputFile>
+                                </input>
+                            </inputs>
+                            <outputFile>target/aggregated-adoc.adoc</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aggregate-docs-markdown-html</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>HTML</type>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <inputFile>../multi-module-a</inputFile>
+                                </input>
+                                <input>
+                                    <name>Multi Module B</name>
+                                    <description>Multi Module B properties with a jar file input</description>
+                                    <inputFile>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</inputFile>
+                                </input>
+                                <input>
+                                    <name>Multi Module C</name>
+                                    <description>Multi Module C properties with a specific file input</description>
+                                    <inputFile>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</inputFile>
+                                </input>
+                            </inputs>
+                            <outputFile>target/aggregated-html.html</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+----
 
 == Available goals and configuration
 
