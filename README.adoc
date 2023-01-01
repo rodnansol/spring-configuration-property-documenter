@@ -17,7 +17,9 @@ toc::[]
 === Introduction
 The https://docs.spring.io/spring-framework/docs/current/reference/html/index.html[Spring Framework] is a really powerful tool that lets you build simple and complex application with Java. Developers have been using it as their main framework to build applications, and during any software development developers tend to make their solutions future-proof and highly customizable.
 
-To make sure these goals could be achieved proper requirements and documents are required for the team and the software. As the software is being built and new features are being implemented and as the codebase is growing, developers tend to make shortcuts, and they stop writing documentations, the requirements are getting weaker and the quality of the software is getting worse. Developers like to automatize most of their "boring" tasks and creating documentation is a good candidate for this one, if the code itself contains enough information to make it as the "official" documentation, then why shouldn't we utilize tools that achieve these goals?
+To make sure these goals could be achieved proper requirements and documents are required for the team and the software. As the software is being built and new features are being implemented and as the codebase is growing, developers tend to make shortcuts, and they stop writing documentations, the requirements are getting weaker and the quality of the software is getting worse.
+
+Developers like to automatize most of their "boring" tasks and creating documentation is a good candidate for this one, if the code itself contains enough information to make it as the "official" documentation, then why shouldn't we utilize tools that achieve these goals?
 
 === Project
 The Spring Framework ships an annotation processing library that creates metadata from the classes thar are annotation with the `@ConfigurationProperties` annotation. This library is called `spring-boot-configuration-processor` and you can read more about it here: https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html[Configuration Metadata].
@@ -50,6 +52,7 @@ class MyProperties {
 
     private LocalDateTime dateTime = LocalDateTime.of(1995, 10, 20, 0, 1, 2, 3);
     // Getters & Setters
+}
 ----
 
 .Generated spring-configuration-metadata.json file
@@ -123,10 +126,10 @@ You can use our <<Maven>> plugin or our <<Gradle (coming soon)>> plugin to utili
 
 WARNING: Until the Gradle plugin is not available you can use the <<JBang>> script for your Gradle projects.
 
-Check out the file://samples[samples] folder for the different samples.
+Check out the https://github.com/rodnansol/spring-configuration-property-documenter/tree/master/samples[samples] folder for the different samples.
 
 
-== Usage
+== Setup
 === Requirements
 
 The tool has been built with Java and there are different entry points to it, but to be able to use it there are a few requirements:
@@ -138,9 +141,9 @@ The tool has been built with Java and there are different entry points to it, bu
 
 The project is currently having the following modules:
 
-- spring-configuration-property-documenter-core
-- spring-configuration-property-documenter-maven-plugin
-- jbang (Not Maven Module)
+- <<_spring_configuration_property_documenter_core>>
+- <<_spring_configuration_property_documenter_maven_plugin>>
+- <<_jbang>> (Not Maven Module)
 
 ==== spring-configuration-property-documenter-core
 This Maven module contains the "core" codebase for the whole project, other modules are just entry points to this core module.
@@ -151,10 +154,22 @@ This Maven module is a Maven plugin implementation, please check the <<Maven>> p
 ==== jbang
 If you are not willing to use the Maven/Gradle plugin (that is coming soon), and you are familiar with JBang you can use this module where a `PropertyDocumenter` script is resides, to have a new entry point to the tool. Please read the <<JBang>> for more information.
 
-=== Maven
-=== Gradle (coming soon)
-=== JBang
-=== Custom templates
+== Usage
+
+As said before the tool can be executed by multiple tools, by far probably the most convenient is going to be the Maven and Gradle plugin, but we offer another approach with https://www.jbang.dev/[JBang].
+
+=== Entry points
+==== Maven
+include::docs/maven-plugin.adoc[]
+
+==== Gradle (coming soon)
+include::docs/gradle-plugin.adoc[]
+
+==== JBang
+include::docs/usage-jbang.adoc[]
+
+=== Customization
+==== Custom templates
 
 == Installation
 

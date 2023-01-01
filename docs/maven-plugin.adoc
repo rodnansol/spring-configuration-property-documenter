@@ -1,0 +1,1 @@
+Test from the maven plugin section
