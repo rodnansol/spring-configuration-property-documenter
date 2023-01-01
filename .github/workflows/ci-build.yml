@@ -1,0 +1,42 @@
+name: ci-build
+on:
+  push:
+    branches:
+      - master
+    tags-ignore:
+      - '*.*'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    name: build-and-testing
+    steps:
+      - uses: actions/checkout@v3
+      - name: install-java8
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: temurin
+          cache: maven
+      - name: Build & Verify Project
+        run: ./mvnw clean verify
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v3
+        if: always() # always run even if the previous step fails
+        with:
+          report_paths: '**/target/surefire-reports/TEST-*.xml'
+#      - name: install-java17
+#        uses: actions/setup-java@v2
+#        with:
+#          java-version: 17
+#          distribution: temurin
+#          cache: maven
+#      - name: Build & Verify Samples
+#        run: ./mvnw clean verify -f samples/pom.xml
+
