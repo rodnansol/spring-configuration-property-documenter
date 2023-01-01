@@ -1,1 +1,118 @@
-Test from the maven plugin section
+= Spring Configuration Property Documenter - Maven Plugin
+:toc:
+:toclevels: 4
+
+If you are having a Maven project where you would like to use the tool, then this documentation will guide you through all the steps you need to set it up, you can use it for a single module Maven project or a multi module Maven project, both are supported.
+
+NOTE: The multi module setup will need a "small" trick/hack to achieve the things we want.
+
+== Setup
+
+=== Single module
+In this case the story is relatively simple, you have to only insert the following code snippet to your `pom.xml` and after that you can use it immediately.
+
+The plugin is having multiple <<_available_goals_and_configuration, goals>> at this moment, please check out the documentation and customization for those.
+
+Spring's annotation processor will kick in the `compile` phase, and because of that the plugin must be linked after that lifecycle, for example the `process-classes`.
+
+.pom.xml
+[source,xml]
+----
+ <build>
+        <plugins>
+            ...
+            <plugin>
+                <groupId>org.rodnansol</groupId>
+                <artifactId>spring-configuration-property-documenter-maven-plugin</artifactId>
+                <version>latest-version</version>
+                <executions>
+                    <execution>
+                        <id>generate-adoc</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>ADOC</type>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-markdown</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-html</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>HTML</type>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        ...
+        </plugins>
+    </build>
+----
+
+In this example 3 files are going to be created with different extensions (Markdown, AsciiDoc, HTML).
+
+=== Multi module
+Bigger projects are going to be containing multiple Maven modules and the plugin is also prepared for those cases as well, we can generate the document for each module, and we are going to be able to aggregate them. There are two supported options right now.
+
+For these cases we have to introduce a new module that will contain all the other modules as its dependencies, with this "trick" we can ensure that the plugin will be invoked at the end of the Maven build and all the required resources (the `spring-configuration-metadata.json` files) will be already generated (without those it will be really hard to generate the final docucment).
+
+Check the diagram below:
+
+[graphviz]
+....
+digraph "G" {
+  node [shape="box",style="rounded",fontname="Helvetica",fontsize="14"]
+  edge [fontsize="10",fontname="Helvetica"]
+
+  // Node Definitions:
+  "org.rodnansol.example:multi-module-c"[label=<multi-module-c>]
+  "org.rodnansol.example:multi-module-docs"[label=<multi-module-docs>]
+  "org.rodnansol.example:multi-module"[label=<multi-module>]
+  "org.rodnansol.example:multi-module-a"[label=<multi-module-a>]
+  "org.rodnansol.example:multi-module-b"[label=<multi-module-b>]
+
+  // Edge Definitions:
+  "org.rodnansol.example:multi-module-a" -> "org.rodnansol.example:multi-module-docs"[style="solid"]
+  "org.rodnansol.example:multi-module-b" -> "org.rodnansol.example:multi-module-docs"[style="solid"]
+  "org.rodnansol.example:multi-module-c" -> "org.rodnansol.example:multi-module-docs"[style="solid"]
+  "org.rodnansol.example:multi-module" -> "org.rodnansol.example:multi-module-a"[style="solid"]
+  "org.rodnansol.example:multi-module" -> "org.rodnansol.example:multi-module-b"[style="solid"]
+  "org.rodnansol.example:multi-module" -> "org.rodnansol.example:multi-module-c"[style="solid"]
+}
+....
+
+
+== Available goals and configuration
+
+|===
+|Goal |Description
+
+|`generate-property-document`
+|This goal reads the `spring-configuration-metadata.json` file from any given source (input file, directory or JAR file) and generates a single document for the given module. It is good to document a single application or a single module.
+
+|`generate-and-aggregate-documents`
+|This goal reads all the given `spring-configuration-metadata.json` files from the given/specified sources and it will be generating one single document that will contain all documentation created by the given sources. This goal is good for a multi module setup, it is able to read multiple files and aggregate them.
+
+|`aggregate-documents`
+|This goal reads all the given files and it will aggregates them into one big file. It is good if you have multiple different template based documentation and you would like to aggregate them into one. *This is not going to generate documents only aggregate the given ones, this has a different purpose than the `generate-and-aggregate-documents`*.
+|===
+
+=== Configuration
+
+==== `generate-property-document`
+==== `generate-and-aggregate-documents`
+==== `aggregate-documents`

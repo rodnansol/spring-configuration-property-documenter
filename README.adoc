@@ -1,6 +1,7 @@
 = Spring Configuration Property Documenter
 :toc:
 :toc-placement!:
+:toclevels: 4
 
 - Have you ever felt that you have no proper way to oversee a project because it is having a lot of customizable properties, but they are not documented, and you do not know where to start a new feature or bugfix?
 
