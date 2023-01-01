@@ -1,10 +1,13 @@
 = Spring Configuration Property Documenter - Maven Plugin
 :toc:
+:toc-placement!:
 :toclevels: 4
 
 If you are having a Maven project where you would like to use the tool, then this documentation will guide you through all the steps you need to set it up, you can use it for a single module Maven project or a multi module Maven project, both are supported.
 
 NOTE: The multi module setup will need a "small" trick/hack to achieve the things we want.
+
+toc::[]
 
 == Setup
 
@@ -233,6 +236,55 @@ As we can see in the `input` tags we can define an `inputFile` field that can be
 
 [#generate-property-document]
 ==== `generate-property-document`
+
+
+|===
+|Parameter name |Description |Mandatory |Default value
+
+|name
+|Main header's name
+|No (it will be inferred if not specified from the default value)
+|`${project.name}`
+
+|description
+|Description about the module that will be generated into the document
+|No (it will be inferred if not specified from the default value)
+|`${project.description}`
+
+|template
+|Template to be used during the generation, if not specified the default templates are going to be used
+|No
+|
+
+|type
+|The type of the document, basically the extension. If the `template` is not being specified the default template will be resolved based on this value.
+|No
+|*MARKDOWN*
+
+|metadataInput
+|Path to the metadata input:
+
+- A path to JSON file for example:
+target/classes/META-INF/spring-configuration-metadata.json
+- A directory that contains the file
+- A jar/zip file that contains the file within the following entry META-INF/spring-configuration-metadata.json
+|No
+|*target/classes/META-INF/spring-configuration-metadata.json*
+
+
+|outputFile
+|The output file's full path
+|Yes
+|
+
+|failOnError
+|If the Maven build should fail in case the document generation fails.
+|No
+|*false*
+
+|===
+
+
 [#generate-and-aggregate-documents]
 ==== `generate-and-aggregate-documents`
 [#aggregate-documents]
