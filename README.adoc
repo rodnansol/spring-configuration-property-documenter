@@ -164,11 +164,11 @@ As said before the tool can be executed by multiple tools, by far probably the m
 
 === Entry points
 
-==== <<docs/maven-plugin.adoc, Maven>>
+==== <<docs/maven-plugin.adoc#header, Maven>>
 
 ==== <<docs/gradle-plugin.adoc, Gradle (Coming soon)>>
 
-==== <<docs/include::docs/usage-jbang.adoc, JBang>>
+==== <<docs/usage-jbang.adoc#header, JBang>>
 
 === Customization
 ==== Custom templates

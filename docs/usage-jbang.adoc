@@ -1,4 +1,5 @@
-= Spring Configuration Property Documenter - Maven Plugin
+[#header]
+= Spring Configuration Property Documenter -  with JBang
 :toc:
 :toc-placement!:
 :toclevels: 4
@@ -14,7 +15,7 @@ In this section we are not going to talk about how to install JBang, if you want
 
 JBang can run Java files from any source and because of that we are able to run this file if you have JBang: https://raw.githubusercontent.com/rodnansol/spring-configuration-property-documenter/master/jbang/src/PropertyDocumenter.java
 
-This is a CLI tool, created with JBang and it is using PicoCLI. We can run this application with the following commands:
+This is a CLI tool, created with JBang, and it is using PicoCLI. We can run this application with the following commands:
 
 .To generate a simple document:
 [source,shell]
@@ -100,3 +101,6 @@ Example: jbang PropertyDocumenter.java aggregate \
   -V, --version              Print version information and exit.
 
 ----
+
+
+The following code can be checked out and modified for your use cases: https://github.com/rodnansol/spring-configuration-property-documenter/blob/master/jbang/src/PropertyDocumenter.java

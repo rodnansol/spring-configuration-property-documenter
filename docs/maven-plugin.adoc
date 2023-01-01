@@ -1,3 +1,4 @@
+[#header]
 = Spring Configuration Property Documenter - Maven Plugin
 :toc:
 :toc-placement!:
