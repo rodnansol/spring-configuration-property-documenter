@@ -326,11 +326,14 @@ As we can see in the `input` tags we can define an `input` field that can be:
 ! Input file or path
 
 - A path to JSON file for example:
+
 *target/classes/META-INF/spring-configuration-metadata.json*
 
 - A directory that contains the file
 
-- A jar/zip file that contains the file within the following entry *META-INF/spring-configuration-metadata.json*
+- A jar/zip file that contains the file within the following entry:
+
+*META-INF/spring-configuration-metadata.json*
 ! Yes
 
 !===
