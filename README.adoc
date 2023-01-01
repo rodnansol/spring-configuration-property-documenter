@@ -142,16 +142,19 @@ The tool has been built with Java and there are different entry points to it, bu
 
 The project is currently having the following modules:
 
-- <<_spring_configuration_property_documenter_core>>
-- <<_spring_configuration_property_documenter_maven_plugin>>
-- <<_jbang>> (Not Maven Module)
+- <<core>>
+- <<maven-plugin>>
+- <<jbang-module>> (Not Maven Module)
 
+[#core]
 ==== spring-configuration-property-documenter-core
 This Maven module contains the "core" codebase for the whole project, other modules are just entry points to this core module.
 
+[#maven-plugin]
 ==== spring-configuration-property-documenter-maven-plugin
 This Maven module is a Maven plugin implementation, please check the <<Maven>> part for the available goals and configuration.
 
+[#jbang-module]
 ==== jbang
 If you are not willing to use the Maven/Gradle plugin (that is coming soon), and you are familiar with JBang you can use this module where a `PropertyDocumenter` script is resides, to have a new entry point to the tool. Please read the <<JBang>> for more information.
 
