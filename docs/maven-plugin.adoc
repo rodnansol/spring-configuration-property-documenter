@@ -323,7 +323,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 ! No
 
 ! `input`
-! Input file
+! Input file or path
 
 - A path to JSON file for example:
 *target/classes/META-INF/spring-configuration-metadata.json*
@@ -334,6 +334,8 @@ As we can see in the `input` tags we can define an `input` field that can be:
 ! Yes
 
 !===
+|Yes
+|
 
 |outputFile
 |The output file's full path
