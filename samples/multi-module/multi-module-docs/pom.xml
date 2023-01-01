@@ -97,17 +97,17 @@
                                 <input>
                                     <name>Multi Module A</name>
                                     <description>Multi Module A properties with a folder input</description>
-                                    <inputFile>../multi-module-a</inputFile>
+                                    <input>../multi-module-a</input>
                                 </input>
                                 <input>
                                     <name>Multi Module B</name>
                                     <description>Multi Module B properties with a jar file input</description>
-                                    <inputFile>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</inputFile>
+                                    <input>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</input>
                                 </input>
                                 <input>
                                     <name>Multi Module C</name>
                                     <description>Multi Module C properties with a specific file input</description>
-                                    <inputFile>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</inputFile>
+                                    <input>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</input>
                                 </input>
                             </inputs>
                             <outputFile>target/aggregated-md.md</outputFile>
@@ -125,17 +125,17 @@
                                 <input>
                                     <name>Multi Module A</name>
                                     <description>Multi Module A properties with a folder input</description>
-                                    <inputFile>../multi-module-a</inputFile>
+                                    <input>../multi-module-a</input>
                                 </input>
                                 <input>
                                     <name>Multi Module B</name>
                                     <description>Multi Module B properties with a jar file input</description>
-                                    <inputFile>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</inputFile>
+                                    <input>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</input>
                                 </input>
                                 <input>
                                     <name>Multi Module C</name>
                                     <description>Multi Module C properties with a specific file input</description>
-                                    <inputFile>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</inputFile>
+                                    <input>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</input>
                                 </input>
                             </inputs>
                             <outputFile>target/aggregated-adoc.adoc</outputFile>
@@ -153,17 +153,17 @@
                                 <input>
                                     <name>Multi Module A</name>
                                     <description>Multi Module A properties with a folder input</description>
-                                    <inputFile>../multi-module-a</inputFile>
+                                    <input>../multi-module-a</input>
                                 </input>
                                 <input>
                                     <name>Multi Module B</name>
                                     <description>Multi Module B properties with a jar file input</description>
-                                    <inputFile>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</inputFile>
+                                    <input>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</input>
                                 </input>
                                 <input>
                                     <name>Multi Module C</name>
                                     <description>Multi Module C properties with a specific file input</description>
-                                    <inputFile>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</inputFile>
+                                    <input>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</input>
                                 </input>
                             </inputs>
                             <outputFile>target/aggregated-html.html</outputFile>

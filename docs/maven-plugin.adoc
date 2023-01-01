@@ -1,0 +1,352 @@
+[#header]
+= Spring Configuration Property Documenter - Maven Plugin
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+If you are having a Maven project where you would like to use the tool, then this documentation will guide you through all the steps you need to set it up, you can use it for a single module Maven project or a multi module Maven project, both are supported.
+
+NOTE: The multi module setup will need a "small" trick/hack to achieve the things we want.
+
+toc::[]
+
+== Setup
+
+=== Single module
+In this case the story is relatively simple, you have to only insert the following code snippet to your `pom.xml` and after that you can use it immediately.
+
+The plugin is having multiple <<available-goals-and-config, goals>> at this moment, please check out the documentation and customization for those.
+
+Spring's annotation processor will kick in the `compile` phase, and because of that the plugin must be linked after that lifecycle, for example the `process-classes`.
+
+.pom.xml
+[%collapsible]
+====
+[source,xml]
+----
+ <build>
+        <plugins>
+            ...
+            <plugin>
+                <groupId>org.rodnansol</groupId>
+                <artifactId>spring-configuration-property-documenter-maven-plugin</artifactId>
+                <version>latest-version</version>
+                <executions>
+                    <execution>
+                        <id>generate-adoc</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>ADOC</type>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-markdown</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-html</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>HTML</type>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        ...
+        </plugins>
+    </build>
+----
+====
+
+In this example 3 files are going to be created with different extensions (Markdown, AsciiDoc, HTML).
+
+=== Multi module
+Bigger projects are going to be containing multiple Maven modules and the plugin is also prepared for those cases as well, we can generate the document for each module, and we are going to be able to aggregate them. There are two supported options right now.
+
+For these cases we have to introduce a new module that will contain all the other modules as its dependencies, with this "trick" we can ensure that the plugin will be invoked at the end of the Maven build and all the required resources (the `spring-configuration-metadata.json` files) will be already generated (without those it will be really hard to generate the final docucment).
+
+Check the diagram below:
+
+image::img/multi-module-maven-setup.png[Multi module Maven example]
+
+// [graphviz]
+// ....
+// digraph "G" {
+//   node [shape="box",style="rounded",fontname="Helvetica",fontsize="14"]
+//   edge [fontsize="10",fontname="Helvetica"]
+//
+//   // Node Definitions:
+//   "org.rodnansol.example:multi-module-c"[label=<multi-module-c>]
+//   "org.rodnansol.example:multi-module-docs"[label=<multi-module-docs>]
+//   "org.rodnansol.example:multi-module"[label=<multi-module>]
+//   "org.rodnansol.example:multi-module-a"[label=<multi-module-a>]
+//   "org.rodnansol.example:multi-module-b"[label=<multi-module-b>]
+//
+//   // Edge Definitions:
+//   "org.rodnansol.example:multi-module-a" -> "org.rodnansol.example:multi-module-docs"[style="solid"]
+//   "org.rodnansol.example:multi-module-b" -> "org.rodnansol.example:multi-module-docs"[style="solid"]
+//   "org.rodnansol.example:multi-module-c" -> "org.rodnansol.example:multi-module-docs"[style="solid"]
+//   "org.rodnansol.example:multi-module" -> "org.rodnansol.example:multi-module-a"[style="solid"]
+//   "org.rodnansol.example:multi-module" -> "org.rodnansol.example:multi-module-b"[style="solid"]
+//   "org.rodnansol.example:multi-module" -> "org.rodnansol.example:multi-module-c"[style="solid"]
+// }
+// ....
+
+In the *multi-module-docs* module we have to configure the plugin:
+
+.pom.xml
+[%collapsible]
+====
+[source,xml]
+----
+ <build>
+        <plugins>
+            <plugin>
+                <groupId>org.rodnansol</groupId>
+                <artifactId>spring-configuration-property-documenter-maven-plugin</artifactId>
+                <version>latest-version</version>
+                <executions>
+                    <execution>
+                        <id>aggregate-docs-markdown</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <input>../multi-module-a</input>
+                                </input>
+                                <input>
+                                    <name>Multi Module B</name>
+                                    <description>Multi Module B properties with a jar file input</description>
+                                    <input>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</input>
+                                </input>
+                                <input>
+                                    <name>Multi Module C</name>
+                                    <description>Multi Module C properties with a specific file input</description>
+                                    <input>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</input>
+                                </input>
+                            </inputs>
+                            <outputFile>target/aggregated-md.md</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aggregate-docs-markdown-adoc</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>ADOC</type>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <input>../multi-module-a</input>
+                                </input>
+                                <input>
+                                    <name>Multi Module B</name>
+                                    <description>Multi Module B properties with a jar file input</description>
+                                    <input>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</input>
+                                </input>
+                                <input>
+                                    <name>Multi Module C</name>
+                                    <description>Multi Module C properties with a specific file input</description>
+                                    <input>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</input>
+                                </input>
+                            </inputs>
+                            <outputFile>target/aggregated-adoc.adoc</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>aggregate-docs-markdown-html</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>HTML</type>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <input>../multi-module-a</input>
+                                </input>
+                                <input>
+                                    <name>Multi Module B</name>
+                                    <description>Multi Module B properties with a jar file input</description>
+                                    <input>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</input>
+                                </input>
+                                <input>
+                                    <name>Multi Module C</name>
+                                    <description>Multi Module C properties with a specific file input</description>
+                                    <input>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</input>
+                                </input>
+                            </inputs>
+                            <outputFile>target/aggregated-html.html</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+----
+====
+
+The <<generate-and-aggregate-documents>> goal is not linked to any lifecycle, but it must be run after all the other modules have been built. We use the `package` lifecycle here, but other can be used as well, the dependency association will make sure that this module can not be built until the other dependencies are not available/built.
+
+As we can see in the `input` tags we can define an `input` field that can be:
+
+- a specific `spring-configuration-metadata.json` file
+- a directory (that must contain the `spring-configuration-metadata.json` in the children directories)
+- a jar file (that must contain the `spring-configuration-metadata.json` in the `META-INF` directory)
+
+[#available-goals-and-config]
+== Available goals and configuration
+
+|===
+|Goal |Description
+
+|`generate-property-document`
+|This goal reads the `spring-configuration-metadata.json` file from any given source (input file, directory or JAR file) and generates a single document for the given module. It is good to document a single application or a single module.
+
+|`generate-and-aggregate-documents`
+|This goal reads all the given `spring-configuration-metadata.json` files from the given/specified sources and it will be generating one single document that will contain all documentation created by the given sources. This goal is good for a multi module setup, it is able to read multiple files and aggregate them.
+
+|`aggregate-documents`
+|This goal reads all the given files and it will aggregates them into one big file. It is good if you have multiple different template based documentation and you would like to aggregate them into one. *This is not going to generate documents only aggregate the given ones, this has a different purpose than the `generate-and-aggregate-documents`*.
+|===
+
+=== Configuration
+
+[#generate-property-document]
+==== `generate-property-document`
+
+|===
+|Parameter name |Description |Mandatory |Default value
+
+|name
+|Main header's name
+|No (it will be inferred if not specified from the default value)
+|`${project.name}`
+
+|description
+|Description about the module that will be generated into the document
+|No (it will be inferred if not specified from the default value)
+|`${project.description}`
+
+|template
+|Template to be used during the generation, if not specified the default templates are going to be used
+|No
+|
+
+|type
+|The type of the document, basically the extension. If the `template` is not being specified the default template will be resolved based on this value.
+|No
+|*MARKDOWN*
+
+|metadataInput
+|Path to the metadata input:
+
+- A path to JSON file for example:
+*target/classes/META-INF/spring-configuration-metadata.json*
+
+- A directory that contains the file
+
+- A jar/zip file that contains the file within the following entry *META-INF/spring-configuration-metadata.json*
+|No
+|*target/classes/META-INF/spring-configuration-metadata.json*
+
+
+|outputFile
+|The output file's full path
+|Yes
+|
+
+|failOnError
+|If the Maven build should fail in case the document generation fails.
+|No
+|*false*
+
+|===
+
+[#generate-and-aggregate-documents]
+==== `generate-and-aggregate-documents`
+
+[cols="1,3a,1,1"]
+|===
+|Parameter name |Description |Mandatory |Default value
+
+|name
+|Main header's name
+|No (it will be inferred if not specified from the default value)
+|`${project.name}`
+
+|description
+|Description about the module that will be generated into the document
+|No (it will be inferred if not specified from the default value)
+|`${project.description}`
+
+|type
+|The type of the document, basically the extension. If the `template` is not being specified the default template will be resolved based on this value.
+|No
+|*MARKDOWN*
+
+|inputs
+|Multiple input file
+
+[cols="1,1,1"]
+!===
+!Parameter name !Description !Mandatory
+
+! `name`
+! Name of the module
+! Yes
+
+! `description`
+! Description of the module
+! No
+
+! `input`
+! Input file or path
+
+- A path to JSON file for example:
+
+*target/classes/META-INF/spring-configuration-metadata.json*
+
+- A directory that contains the file
+
+- A jar/zip file that contains the file within the following entry:
+
+*META-INF/spring-configuration-metadata.json*
+! Yes
+
+!===
+|Yes
+|
+
+|outputFile
+|The output file's full path
+|Yes
+|
+
+|===
+
+[#aggregate-documents]
+==== `aggregate-documents`

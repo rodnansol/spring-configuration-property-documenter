@@ -1,0 +1,178 @@
+= Spring Configuration Property Documenter
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+- Have you ever felt that you have no proper way to oversee a project because it is having a lot of customizable properties, but they are not documented, and you do not know where to start a new feature or bugfix?
+
+- Have you ever felt like you are having too much services, and you do not know how to customize them externally?
+
+- Have you ever wondered is there any way to document your application's properties that you are having in your project?
+
+If for any question your answer is *YES* then you are at the best place.
+
+toc::[]
+
+== Goals
+
+=== Introduction
+The https://docs.spring.io/spring-framework/docs/current/reference/html/index.html[Spring Framework] is a really powerful tool that lets you build simple and complex application with Java. Developers have been using it as their main framework to build applications, and during any software development developers tend to make their solutions future-proof and highly customizable.
+
+To make sure these goals could be achieved proper requirements and documents are required for the team and the software. As the software is being built and new features are being implemented and as the codebase is growing, developers tend to make shortcuts, and they stop writing documentations, the requirements are getting weaker and the quality of the software is getting worse.
+
+Developers like to automatize most of their "boring" tasks and creating documentation is a good candidate for this one, if the code itself contains enough information to make it as the "official" documentation, then why shouldn't we utilize tools that achieve these goals?
+
+=== Project
+The Spring Framework ships an annotation processing library that creates metadata from the classes thar are annotation with the `@ConfigurationProperties` annotation. This library is called `spring-boot-configuration-processor` and you can read more about it here: https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html[Configuration Metadata].
+
+After your application has this dependency during build time the annotation processor will kick in and a so called `spring-configuration-metadata.json` file will be created, that will represent your `@ConfigurationProperties` annotated classes in a JSON file format, these are metadata about your classes.
+
+.An example configuration property class
+[source,java]
+----
+@Component
+@ConfigurationProperties(prefix = "this.is.my")
+class MyProperties {
+
+    /**
+     * This is my variable.
+     */
+    private String variable;
+
+    @Deprecated(since = "Since you are a pilot")
+    private String anotherVariable = "with default value";
+
+    /**
+     * A duration.
+     */
+    private Duration duration = Duration.ofDays(2);
+
+    private Instant instant = Instant.ofEpochSecond(123);
+
+    private LocalDate date = LocalDate.of(1995, 10, 20);
+
+    private LocalDateTime dateTime = LocalDateTime.of(1995, 10, 20, 0, 1, 2, 3);
+    // Getters & Setters
+}
+----
+
+.Generated spring-configuration-metadata.json file
+[source,json]
+----
+{
+  "groups": [
+    {
+      "name": "this.is.my",
+      "type": "org.rodnansol.MyProperties",
+      "sourceType": "org.rodnansol.MyProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "this.is.my.date",
+      "type": "java.time.LocalDate",
+      "sourceType": "org.rodnansol.MyProperties"
+    },
+    {
+      "name": "this.is.my.date-time",
+      "type": "java.time.LocalDateTime",
+      "sourceType": "org.rodnansol.MyProperties"
+    },
+    {
+      "name": "this.is.my.instant",
+      "type": "java.time.Instant",
+      "sourceType": "org.rodnansol.MyProperties"
+    },
+    {
+      "name": "this.is.my.variable",
+      "type": "java.lang.String",
+      "description": "This is my variable.",
+      "sourceType": "org.rodnansol.MyProperties"
+    },
+    {
+      "name": "this.is.my.another-variable",
+      "type": "java.lang.String",
+      "sourceType": "org.rodnansol.MyProperties",
+      "deprecated": true,
+      "deprecation": {}
+    },
+    {
+      "name": "this.is.my.duration",
+      "type": "java.time.Duration",
+      "description": "A duration.",
+      "sourceType": "org.rodnansol.MyProperties",
+      "deprecated": true,
+      "deprecation": {
+        "reason": "Because it is deprecated",
+        "replacement": "instant"
+      }
+    }
+  ],
+  "hints": []
+}
+----
+
+This tool is going to read and process this metadata file, and it is able to generate shiny "documentations" in different formats.
+
+This tool will let you create:
+
+- *Markdown*
+- *AsciiDoc*
+- *HTML*
+- _More to come..._
+
+styled documents about your configuration properties.
+
+You can use our <<Maven>> plugin or our <<Gradle (coming soon)>> plugin to utilize the document generation tool.
+
+WARNING: Until the Gradle plugin is not available you can use the <<JBang>> script for your Gradle projects.
+
+Check out the https://github.com/rodnansol/spring-configuration-property-documenter/tree/master/samples[samples] folder for the different samples.
+
+
+== Setup
+=== Requirements
+
+The tool has been built with Java and there are different entry points to it, but to be able to use it there are a few requirements:
+
+- Java 11
+- In case of a Maven project you need Maven 3 at least.
+
+=== Modules
+
+The project is currently having the following modules:
+
+- <<core>>
+- <<maven-plugin>>
+- <<jbang-module>> (Not Maven Module)
+
+[#core]
+==== spring-configuration-property-documenter-core
+This Maven module contains the "core" codebase for the whole project, other modules are just entry points to this core module.
+
+[#maven-plugin]
+==== spring-configuration-property-documenter-maven-plugin
+This Maven module is a Maven plugin implementation, please check the <<Maven>> part for the available goals and configuration.
+
+[#jbang-module]
+==== jbang
+If you are not willing to use the Maven/Gradle plugin (that is coming soon), and you are familiar with JBang you can use this module where a `PropertyDocumenter` script is resides, to have a new entry point to the tool. Please read the <<JBang>> for more information.
+
+== Usage
+
+As said before the tool can be executed by multiple tools, by far probably the most convenient is going to be the Maven and Gradle plugin, but we offer another approach with https://www.jbang.dev/[JBang].
+
+=== Entry points
+
+==== <<docs/maven-plugin.adoc#header, Maven>>
+
+==== <<docs/gradle-plugin.adoc, Gradle (Coming soon)>>
+
+==== <<docs/usage-jbang.adoc#header, JBang>>
+
+=== Customization
+==== Custom templates
+
+== Installation
+
+== Contribution
