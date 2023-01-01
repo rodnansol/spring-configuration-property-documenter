@@ -160,22 +160,11 @@ As said before the tool can be executed by multiple tools, by far probably the m
 
 === Entry points
 
-==== Maven
-ifdef::env-github,backend-html5[]
-  <<docs/maven-plugin.adoc, Maven>>
-endif::[]
-ifndef::env-github,backend-html5[]
-  include::docs/maven-plugin.adoc[]
-endif::[]
+==== <<docs/maven-plugin.adoc, Maven>>
 
+==== <<docs/gradle-plugin.adoc, Gradle (Coming soon)>>
 
-==== Gradle (coming soon)
-
-include::docs/gradle-plugin.adoc[]
-
-==== JBang
-
-include::docs/usage-jbang.adoc[]
+==== <<docs/include::docs/usage-jbang.adoc, JBang>>
 
 === Customization
 ==== Custom templates
