@@ -10,9 +10,7 @@ import org.rodnansol.core.project.ProjectFactory;
 import java.io.File;
 
 /**
- * Maven goal that invokes the {@link DocumentGenerationAction} with the incoming parameters.
- * <p>
- * Users are able to customize the execution of the goal.
+ * This goal reads the `spring-configuration-metadata.json` file from any given source (input file, directory or JAR file) and generates a single document for the given module. It is good to document a single application or a single module.
  *
  * @author nandorholozsnyak
  * @since 0.1.0

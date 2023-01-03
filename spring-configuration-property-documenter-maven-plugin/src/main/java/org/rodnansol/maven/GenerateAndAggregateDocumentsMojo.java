@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Generates the documents and aggregates them into a single output file.
+ * This goal reads all the given `spring-configuration-metadata.json` files from the given/specified sources and it will be generating one single document that will contain all documentation created by the given sources. This goal is good for a multi module setup, it is able to read multiple files and aggregate them.
  *
  * @author nandorholozsnyak
  * @since 0.1.0

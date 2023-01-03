@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.List;
 
 /**
- * Aggregates the documents in the child modules.
+ * This goal reads all the given files, and it will aggregate them into one big file. It is good if you have multiple different template based documentation, and you would like to aggregate them into one. *This is not going to generate documents only aggregate the given ones, this has a different purpose than the `generate-and-aggregate-documents`
  *
  * @author nandorholozsnyak
  * @since 0.1.0
