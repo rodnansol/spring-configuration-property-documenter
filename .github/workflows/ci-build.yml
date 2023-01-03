@@ -18,14 +18,14 @@ jobs:
     name: build-and-testing
     steps:
       - uses: actions/checkout@v3
-      - name: install-java8
-        uses: actions/setup-java@v2
+      - name: install-java11
+        uses: actions/setup-java@v3
         with:
           java-version: 11
           distribution: temurin
           cache: maven
       - name: Build & Verify Project
-        run: ./mvnw clean verify
+        run: ./mvnw verify
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v3
         if: always() # always run even if the previous step fails
