@@ -1,15 +1,3 @@
-<html lang="en">
-{{> templates/partials/html/header.html}}
-<body>
-
-<h1 class="center center-text">{{mainName}}</h1>
-
-<p class="center-text"> {{mainDescription}}</p>
-{{> templates/partials/html/toc.html}}
+{{> templates/aggregated/html/header.html}}
 {{> templates/partials/html/content.html}}
-
-<h3 class="center center-text">This is a generated file, generated at: <b>{{generationDate}}</b> </h3>
-{{> templates/partials/html/toc-script.html}}
-{{> templates/partials/html/footer.html}}
-</body>
-</html>
+{{> templates/aggregated/html/footer.html}}

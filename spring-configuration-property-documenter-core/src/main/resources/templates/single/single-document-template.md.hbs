@@ -1,18 +1,3 @@
-# {{mainName}}
-
-{{#if mainDescription}}{{mainDescription}}{{/if}}
-
-## Table of contents
-{{#if subTemplateDataList}}
-{{#each subTemplateDataList}}
-* [**{{moduleName}}**](#{{moduleName}})
-{{#each propertyGroups}}  * [**{{groupName}}** - `{{type}}`](#{{groupName}})
-{{/each}}{{/each}}
-{{else}}
-{{#each propertyGroups}}* [**{{groupName}}** - `{{type}}`](#{{groupName}})
-{{/each}}
-{{/if}}
-
+{{> templates/aggregated/md/header.md}}
 {{> templates/partials/md/content.md}}
-
-This is a generated file, generated at: **{{generationDate}}**
+{{> templates/aggregated/md/footer.md}}

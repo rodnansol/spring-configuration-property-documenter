@@ -2,9 +2,12 @@
 {{mainDescription}}
 
 ## Table of contents
+{{#if subTemplateDataList}}
 {{#each subTemplateDataList}}
 * [**{{moduleName}}**](#{{moduleName}})
 {{#each propertyGroups}}  * [**{{groupName}}** - `{{type}}`](#{{groupName}})
 {{/each}}{{/each}}
-
-
+{{else}}
+{{#each propertyGroups}}* [**{{groupName}}** - `{{type}}`](#{{groupName}})
+{{/each}}
+{{/if}}
