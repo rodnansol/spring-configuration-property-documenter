@@ -1,1 +1,147 @@
+[#header]
 = Spring Configuration Property Documenter - Template Customization
+
+As written in the *README* file the core module is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine. With that we are able to create smaller files and we can render them together.
+
+If you would like to use your own templates as inputs you should first read through the following section to know which parameters you can use in your template.
+
+The provided/packaged templates can be found here:
+
+* spring-configuration-property-documenter-core/src/main/resources/templates/single
+** Contains the basic templates for a single module
+* spring-configuration-property-documenter-core/src/main/resources/templates/aggregated
+** Contains templates that could be used for multiple document aggregation
+* spring-configuration-property-documenter-core/src/main/resources/templates/partials
+** Contains the templates for the content, and for the HTML a few helper templates
+
+There are few Java classes to be discovered if you wish:
+
+- `org.rodnansol.core.generator.MainTemplateData`
+- `org.rodnansol.core.generator.SubTemplateData`
+- `org.rodnansol.core.generator.PropertyGroup`
+- `org.rodnansol.core.generator.Property`
+- `org.rodnansol.core.generator.PropertyDeprecation`
+
+.Template variables (MainTemplateData)
+|===
+|Variable |Type |Description
+
+|mainName
+|String
+|Main header name, this can be configured, most times it is the name of the project or module
+
+|propertyGroups
+|List<PropertyGroup>
+|List of the property groups that has been read and converted from the `spring-configuration-metadata.json`
+
+|subTemplateDataList
+|List<SubTemplateData>
+|If multiple file aggregation is happening than this is going to contain all the incoming module data.
+
+|mainDescription
+|String
+|Main description that is customizable
+
+|generationDate
+|LocalDateTime
+|The date time of the template generation
+
+|===
+
+.Template variables (SubTemplateData)
+|===
+|Variable |Type |Description
+
+|moduleName
+|String
+|Name of the module, in case of aggregation it can be a module name
+
+|propertyGroups
+|List<PropertyGroup>
+|List of the property groups that has been read and converted from the `spring-configuration-metadata.json`
+
+|moduleDescription
+|String
+|Module description that is customizable
+
+|generationDate
+|LocalDateTime
+|The date time of the template generation
+
+|===
+
+.Template variables (PropertyGroup)
+|===
+|Variable |Type |Description
+
+|groupName
+|String
+|Name of the group, this is basically the prefix you set in the `@ConfigurationProperties` annotation
+
+|type
+|String
+|The name of the class, if it is a nested class it will be the name of that class
+
+
+|sourceType
+|String
+|The name of the class, if it is a nested class it will be the name of that parent class
+
+|properties
+|List<Property>
+|List of the properties
+
+|parentGroup
+|PropertyGroup
+|Parent property group
+
+|childrenGroups
+|List<PropertyGroup>
+|Children property groups, in case of parent and nester class associations
+
+|===
+
+.Template variables (Property)
+|===
+|Variable |Type |Description
+
+|fqName
+|String
+|Fully qualified name ()
+
+|type
+|String
+|The Java type
+
+
+|key
+|String
+|Property key
+
+|description
+|String
+|Description of the property, read from the JavaDoc
+
+|defaultValue
+|String
+|Default value if specified
+
+|propertyDeprecation
+|PropertyDeprecation
+|If the property is marked as deprecated data about that
+
+|===
+
+.Template variables (PropertyDeprecation)
+|===
+|Variable |Type |Description
+
+|reason
+|String
+|Reason of the deprecation
+
+|replacement
+|String
+|The replacement of the specific key
+
+|===

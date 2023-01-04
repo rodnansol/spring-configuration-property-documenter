@@ -123,6 +123,9 @@ This tool will let you create:
 
 styled documents about your configuration properties.
 
+The tool is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine, if you would like to create custom templates check the <<Custom templates>> section.
+
+
 You can use our <<Maven>> plugin or our <<Gradle (coming soon)>> plugin to utilize the document generation tool.
 
 WARNING: Until the Gradle plugin is not available you can use the <<JBang>> script for your Gradle projects.
@@ -171,7 +174,7 @@ As said before the tool can be executed by multiple tools, by far probably the m
 ==== <<docs/usage-jbang.adoc#header, JBang>>
 
 === Customization
-==== Custom templates
+==== <<docs/template-customization.adoc#header, Custom templates>>
 
 == Installation
 
