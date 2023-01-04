@@ -1,5 +1,6 @@
 package org.rodnansol.maven;
 
+import com.google.common.annotations.Beta;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -18,6 +19,7 @@ import java.util.List;
  * @author nandorholozsnyak
  * @since 0.1.0
  */
+@Beta
 @Mojo(name = AggregateDocumentsMojo.AGGREGATE_DOCUMENTS)
 public class AggregateDocumentsMojo extends AbstractMojo {
 
