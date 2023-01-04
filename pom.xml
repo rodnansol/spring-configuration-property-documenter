@@ -469,8 +469,7 @@
                                     <goal>jar</goal>
                                 </goals>
                                 <configuration>
-                                    <attach>true</attach>
-                                    <failOnError>false</failOnError>
+                                    <additionalJOption>-Xdoclint:none</additionalJOption>
                                 </configuration>
                             </execution>
                         </executions>
