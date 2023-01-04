@@ -40,8 +40,10 @@ jobs:
         run: |
           mvn versions:set -DnewVersion=$RELEASE_VERSION
           mvn -Prelease deploy -DaltDeploymentRepository=local::file:./target/staging-deploy
-      - name: Run JReleaser
-        run: |
-          mvn jreleaser:full-release -Prelease
+          ./scripts/jbang-version-release.sh $RELEASE_VERSION
         env:
           RELEASE_VERSION: ${{ inputs.releaseVersion }}
+      - name: Run JReleaser - Full Release
+        run: |
+          mvn jreleaser:full-release -Prelease -N
+        

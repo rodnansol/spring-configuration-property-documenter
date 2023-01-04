@@ -59,6 +59,8 @@
         <maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
         <maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
+        <jreleaser-github-release.draft>false</jreleaser-github-release.draft>
+        <jreleaser-nexus-deploy.active>ALWAYS</jreleaser-nexus-deploy.active>
     </properties>
 
     <name>Spring Configuration Property Documenter</name>
@@ -403,11 +405,13 @@
                                         <active>ALWAYS</active>
                                         <connectTimeout>20</connectTimeout>
                                         <readTimeout>60</readTimeout>
-                                        <status>🚀 Spring Configuration Property Documenter {{projectVersion}} has been released! {{releaseNotesUrl}}</status>
+                                        <status>🚀 Spring Configuration Property Documenter {{projectVersion}} has been released! {{releaseNotesUrl}} #spring #spring-boot #maven</status>
                                     </twitter>
                                 </announce>
                                 <release>
                                     <github>
+                                        <draft>${jreleaser-github-release.draft}</draft>
+                                        <discussionCategoryName>Announcements</discussionCategoryName>
                                         <changelog>
                                             <formatted>ALWAYS</formatted>
                                             <format>- {{commitShortHash}} {{commitTitle}}</format>
@@ -426,7 +430,7 @@
                                     <maven>
                                         <nexus2>
                                             <maven-central>
-                                                <active>ALWAYS</active>
+                                                <active>${jreleaser-nexus-deploy.active}</active>
                                                 <url>${ossrh.url}/service/local</url>
                                                 <snapshotUrl>${ossrh.url}/content/repositories/snapshot</snapshotUrl>
                                                 <closeRepository>true</closeRepository>
@@ -436,6 +440,21 @@
                                         </nexus2>
                                     </maven>
                                 </deploy>
+                                <distributions>
+                                    <jbangCli>
+                                        <type>JAVA_BINARY</type>
+                                        <stereotype>CLI</stereotype>
+                                        <artifacts>
+                                            <artifact>
+                                                <path>jbang/${project.version}/PropertyDocumenter.java</path>
+                                            </artifact>
+                                        </artifacts>
+                                        <tags>
+                                            <tag>cli</tag>
+                                            <tag>jbang</tag>
+                                        </tags>
+                                    </jbangCli>
+                                </distributions>
                             </jreleaser>
                             <projectCopyright>Apache-2.0</projectCopyright>
                         </configuration>
