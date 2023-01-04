@@ -7,7 +7,7 @@ import org.rodnansol.core.generator.MetadataReader;
 import org.rodnansol.core.generator.TemplateCompiler;
 import org.rodnansol.core.generator.TemplateType;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.util.PluginUtils;
+import org.rodnansol.core.util.CoreFileUtils;
 import org.rodnansol.core.project.Project;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +74,7 @@ public class DocumentGenerationAction {
                 throw new DocumentGenerationException("Output file does not have the proper extension, requested file name:[" + outputFile + "] with requested extension:[" + extension + "]");
             }
         } else {
-            outputFile = PluginUtils.initializeFile(project.getDefaultTargetFilePath(templateType));
+            outputFile = CoreFileUtils.initializeFileWithPath(project.getDefaultTargetFilePath(templateType));
         }
     }
 

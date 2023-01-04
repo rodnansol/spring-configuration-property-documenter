@@ -9,10 +9,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
+ * Class that is able to read a jar/zip file and get a specific entry from that.
  *
+ * @author nandorholozsnyak
+ * @since 0.1.0
  */
 class JarFileMetadataInputResolver implements MetadataInputResolver {
 
@@ -20,11 +24,8 @@ class JarFileMetadataInputResolver implements MetadataInputResolver {
 
     @Override
     public InputStream resolveInputStream(Project project, File input) {
-        try (JarFile jarFile = new JarFile(input)) {
-            InputStream inputStream = jarFile.getInputStream(jarFile.getEntry(PATH_IN_JAR_FILE));
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            inputStream.transferTo(out);
-            return new ByteArrayInputStream(out.toByteArray());
+        try (ZipFile jarFile = new ZipFile(input)) {
+            return getEntry(jarFile);
         } catch (IOException e) {
             throw new DocumentGenerationException("Unable to open the jar/zip file:[" + input + "]", e);
         }
@@ -38,5 +39,16 @@ class JarFileMetadataInputResolver implements MetadataInputResolver {
 
     private boolean isJarOrZip(String extension) {
         return extension.equals("jar") || extension.equals("zip");
+    }
+
+    private ByteArrayInputStream getEntry(ZipFile zipFile) throws IOException {
+        ZipEntry entry = zipFile.getEntry(PATH_IN_JAR_FILE);
+        if (entry == null) {
+            return null;
+        }
+        InputStream inputStream = zipFile.getInputStream(entry);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        inputStream.transferTo(out);
+        return new ByteArrayInputStream(out.toByteArray());
     }
 }

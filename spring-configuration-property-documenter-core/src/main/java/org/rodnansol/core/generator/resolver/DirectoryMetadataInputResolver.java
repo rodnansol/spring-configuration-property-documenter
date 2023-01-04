@@ -10,6 +10,12 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * Class that traverses directories to find the required file.
+ *
+ * @author nandorholozsnyak
+ * @since 0.1.0
+ */
 class DirectoryMetadataInputResolver implements MetadataInputResolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DirectoryMetadataInputResolver.class);

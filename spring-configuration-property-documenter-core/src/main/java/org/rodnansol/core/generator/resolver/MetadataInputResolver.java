@@ -16,7 +16,7 @@ public interface MetadataInputResolver {
      *
      * @param project project instance.
      * @param input   input that could be a file, directory or a jar/zip file.
-     * @return resolved input stream.
+     * @return resolved input stream if the input contains the desired element, otherwise it returns null.
      */
     InputStream resolveInputStream(Project project, File input);
 

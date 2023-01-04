@@ -1,6 +1,7 @@
 package org.rodnansol.core.generator;
 
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
+import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +59,7 @@ public class AggregationDocumenter {
             .map(templateData -> templateCompiler.compileTemplate(templateType.getContentTemplate(), templateData))
             .reduce("", String::concat);
         try {
-            try (FileWriter fileWriter = new FileWriter(createAggregationCommand.getOutput())) {
+            try (FileWriter fileWriter = new FileWriter(CoreFileUtils.initializeFileWithPath(createAggregationCommand.getOutput()))) {
                 LOGGER.debug("Writing aggregated content to file:[{}]", createAggregationCommand.getOutput());
                 fileWriter.append(header)
                     .append(aggregatedContent)

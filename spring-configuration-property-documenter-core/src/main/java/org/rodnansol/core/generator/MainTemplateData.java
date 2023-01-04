@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
+ * Class representing the main template data.
+ *
  * @author nandorholozsnyak
  * @since 0.1.0
  */
@@ -19,6 +21,9 @@ public class MainTemplateData implements TemplateData {
      */
     private final List<PropertyGroup> propertyGroups;
 
+    /**
+     * List of the sub template data.
+     */
     private List<SubTemplateData> subTemplateDataList;
 
     /**
@@ -36,20 +41,10 @@ public class MainTemplateData implements TemplateData {
         this.propertyGroups = propertyGroups;
     }
 
-    /**
-     * @param header
-     * @param propertyGroups
-     * @return
-     */
     public static MainTemplateData ofMainSection(String header, List<PropertyGroup> propertyGroups) {
         return new MainTemplateData(header, propertyGroups);
     }
 
-    /**
-     * @param moduleName
-     * @param propertyGroups
-     * @return
-     */
     public List<PropertyGroup> getPropertyGroups() {
         return propertyGroups;
     }

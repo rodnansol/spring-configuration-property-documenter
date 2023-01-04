@@ -1,6 +1,7 @@
 package org.rodnansol.core.generator;
 
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
+import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +39,7 @@ public class Documenter {
         LOGGER.debug("Creating document with command:[{}]", createDocumentCommand);
         MainTemplateData mainTemplateData = createTemplateData(createDocumentCommand);
         String content = templateCompiler.compileTemplate(createDocumentCommand.getTemplate(), mainTemplateData);
-        try (FileWriter fileWriter = new FileWriter(createDocumentCommand.getOutput())) {
+        try (FileWriter fileWriter = new FileWriter(CoreFileUtils.initializeFileWithPath(createDocumentCommand.getOutput()))) {
             LOGGER.debug("Writing generated content to file:[{}]", createDocumentCommand.getOutput());
             fileWriter.write(content);
         }

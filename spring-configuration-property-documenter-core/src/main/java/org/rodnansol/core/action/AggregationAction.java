@@ -3,7 +3,7 @@ package org.rodnansol.core.action;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.rodnansol.core.generator.DocumentGenerationException;
-import org.rodnansol.core.util.PluginUtils;
+import org.rodnansol.core.util.CoreFileUtils;
 import org.rodnansol.core.project.Project;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,7 +108,7 @@ public class AggregationAction {
     }
 
     private void aggregateFiles(String aggregatedTargetFileName, List<File> files) throws DocumentGenerationException {
-        try (FileWriter fileWriter = new FileWriter(PluginUtils.initializeFile(aggregatedTargetFileName))) {
+        try (FileWriter fileWriter = new FileWriter(CoreFileUtils.initializeFileWithPath(aggregatedTargetFileName))) {
             LOGGER.info("Aggregating files:[{}] into: [{}]", files, aggregatedTargetFileName);
             for (File file : files) {
                 String content = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
@@ -122,7 +122,7 @@ public class AggregationAction {
     private Map<String, List<File>> getChildModuleBasedDocumentationsGroupedByFileExtensions() {
         return project.getModules()
             .stream()
-            .map(module -> project.getDefaultOutputFolder(module))
+            .map(project::getDefaultOutputFolder)
             .map(this::listFilesOfGivenFolder)
             .filter(Objects::nonNull)
             .flatMap(Arrays::stream)
