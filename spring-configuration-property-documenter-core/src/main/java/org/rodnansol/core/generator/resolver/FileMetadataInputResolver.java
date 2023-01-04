@@ -1,7 +1,6 @@
 package org.rodnansol.core.generator.resolver;
 
 import org.apache.commons.io.FilenameUtils;
-import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.project.Project;
 
 import java.io.File;
