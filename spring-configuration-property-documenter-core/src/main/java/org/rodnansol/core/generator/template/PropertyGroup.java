@@ -2,6 +2,7 @@ package org.rodnansol.core.generator.template;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class representing a property group.
@@ -66,11 +67,57 @@ public class PropertyGroup {
         return childrenGroups;
     }
 
-    public void addChildGroup(PropertyGroup parentGroup) {
+    /**
+     * Add a new child group.
+     *
+     * @param childGroup group to be added as a new child.
+     */
+    public void addChildGroup(PropertyGroup childGroup) {
         if (childrenGroups == null) {
             childrenGroups = new ArrayList<>();
         }
-        childrenGroups.add(parentGroup);
+        childrenGroups.add(childGroup);
     }
 
+    /**
+     * Add a new property to the property group.
+     *
+     * @param property new property.
+     */
+    public void addProperty(Property property) {
+        if (properties == null) {
+            properties = new ArrayList<>();
+        }
+        properties.add(property);
+    }
+
+    @Override
+    public String toString() {
+        return "PropertyGroup{" +
+            "groupName='" + groupName + '\'' +
+            ", type='" + type + '\'' +
+            ", sourceType='" + sourceType + '\'' +
+            ", properties=" + properties +
+            ", parentGroup=" + parentGroup +
+            ", nested=" + nested +
+            '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PropertyGroup that = (PropertyGroup) o;
+        return nested == that.nested
+            && Objects.equals(groupName, that.groupName)
+            && Objects.equals(type, that.type)
+            && Objects.equals(sourceType, that.sourceType)
+            && Objects.equals(properties, that.properties)
+            && Objects.equals(parentGroup, that.parentGroup);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(groupName, type, sourceType, properties, parentGroup, nested);
+    }
 }

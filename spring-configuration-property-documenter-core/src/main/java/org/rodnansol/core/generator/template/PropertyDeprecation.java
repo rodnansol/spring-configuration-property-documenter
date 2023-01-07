@@ -1,5 +1,7 @@
 package org.rodnansol.core.generator.template;
 
+import java.util.Objects;
+
 /**
  * Class represnting a deprecation info.
  *
@@ -22,6 +24,19 @@ public class PropertyDeprecation {
 
     public String getReplacement() {
         return replacement;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PropertyDeprecation that = (PropertyDeprecation) o;
+        return Objects.equals(reason, that.reason) && Objects.equals(replacement, that.replacement);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(reason, replacement);
     }
 
     @Override

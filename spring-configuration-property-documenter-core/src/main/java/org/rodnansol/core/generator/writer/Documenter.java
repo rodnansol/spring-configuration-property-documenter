@@ -51,7 +51,7 @@ public class Documenter {
 
     private MainTemplateData createTemplateData(CreateDocumentCommand createDocumentCommand) throws IOException {
         try (InputStream inputStream = metadataInputResolverContext.getInputStreamFromFile(createDocumentCommand.getProject(), createDocumentCommand.getMetadataInput())) {
-            List<PropertyGroup> propertyGroups = metadataReader.readPropertiesAsList(inputStream);
+            List<PropertyGroup> propertyGroups = metadataReader.readPropertiesAsPropertyGroupList(inputStream);
             MainTemplateData mainTemplateData = MainTemplateData.ofMainSection(createDocumentCommand.getName(), propertyGroups);
             mainTemplateData.setGenerationDate(LocalDateTime.now());
             mainTemplateData.setMainDescription(createDocumentCommand.getDescription());

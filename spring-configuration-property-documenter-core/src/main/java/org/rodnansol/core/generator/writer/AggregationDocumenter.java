@@ -45,7 +45,7 @@ public class AggregationDocumenter {
         for (CombinedInput entry : createAggregationCommand.getCombinedInputs()) {
             LOGGER.info("Processing entry:[{}]", entry);
             try (InputStream inputStream = metadataInputResolverContext.getInputStreamFromFile(createAggregationCommand.getProject(), entry.getInput())) {
-                List<PropertyGroup> groups = metadataReader.readPropertiesAsList(inputStream);
+                List<PropertyGroup> groups = metadataReader.readPropertiesAsPropertyGroupList(inputStream);
                 propertyGroups.addAll(groups);
                 subTemplateDataList.add(createModuleTemplateData(entry.getSectionName(), groups, entry.getDescription()));
             } catch (Exception e) {

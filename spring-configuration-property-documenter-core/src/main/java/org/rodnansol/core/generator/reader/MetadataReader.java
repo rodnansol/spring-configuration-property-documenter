@@ -3,13 +3,13 @@ package org.rodnansol.core.generator.reader;
 import org.rodnansol.core.generator.template.Property;
 import org.rodnansol.core.generator.template.PropertyDeprecation;
 import org.rodnansol.core.generator.template.PropertyGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.configurationprocessor.metadata.ConfigurationMetadata;
 import org.springframework.boot.configurationprocessor.metadata.ItemDeprecation;
 import org.springframework.boot.configurationprocessor.metadata.ItemMetadata;
 import org.springframework.boot.configurationprocessor.metadata.JsonMarshaller;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
@@ -27,49 +27,63 @@ public class MetadataReader {
 
     public static final MetadataReader INSTANCE = new MetadataReader();
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MetadataReader.class);
+
     private MetadataReader() {
     }
 
     /**
-     * @param metadataFile
-     * @return
+     * Returns the properties in a map where the key is the name of the properties key and the values is the associated properties.
+     *
+     * @param metadataStream stream containing the content of the <code>spring-configuration-metadata.json</code>.
+     * @return groups and properties converted to a Map.
+     * @since 0.1.0
      */
-    public Map<String, List<Property>> readPropertiesAsMap(File metadataFile) {
-        Objects.requireNonNull(metadataFile, "metadataFile is NULL");
+    public Map<String, List<Property>> readPropertiesAsMap(InputStream metadataStream) {
+        Objects.requireNonNull(metadataStream, "metadataStream is NULL");
         try {
-            ConfigurationMetadata configurationMetadata = new JsonMarshaller().read(new FileInputStream(metadataFile));
-            return getPropertyMap(configurationMetadata);
+            ConfigurationMetadata configurationMetadata = new JsonMarshaller().read(metadataStream);
+            Map<String, List<Property>> propertyMap = getPropertyMap(configurationMetadata);
+            LOGGER.trace("Configuration metadata contains number of properties:[{}]", propertyMap.size());
+            return propertyMap;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new MetadataConversionException("Error during converting properties to Map", e);
         }
     }
 
     /**
+     * Returns a list of {@link PropertyGroup} instances from the given input stream.
+     * <p>
+     * <b>NOTE:</b> The current implementation is a bit fuzzy, when the time comes we can come up with a more efficient solution, but right now this is the "contact" basically.
      *
-     * @param metadataStream
-     * @return
+     * @param metadataStream stream containing the content of the <code>spring-configuration-metadata.json</code>.
+     * @return groups and properties converted to a List of {@link PropertyGroup}.
+     * @since 0.1.0
      */
-    public List<PropertyGroup> readPropertiesAsList(InputStream metadataStream) {
-        Objects.requireNonNull(metadataStream, "metadataFile is NULL");
+    public List<PropertyGroup> readPropertiesAsPropertyGroupList(InputStream metadataStream) {
+        Objects.requireNonNull(metadataStream, "metadataStream is NULL");
         try {
             ConfigurationMetadata configurationMetadata = new JsonMarshaller().read(metadataStream);
             Map<String, List<Property>> propertyMap = getPropertyMap(configurationMetadata);
             Map<String, List<PropertyGroup>> propertyGroupsByType = getPropertyGroups(configurationMetadata);
             updateGroupsWithPropertiesAndAssociations(propertyMap, propertyGroupsByType);
+            LOGGER.trace("Configuration metadata contains number of group:[{}] and properties:[{}]", propertyGroupsByType.size(), propertyMap.size());
             return flattenValues(propertyGroupsByType);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new MetadataConversionException("Error during converting properties to list of ProperyGroups", e);
         }
     }
 
     private PropertyGroup setProperties(Map<String, List<Property>> propertyMap, PropertyGroup propertyGroup) {
         propertyGroup.setProperties(propertyMap.get(propertyGroup.getType()).stream()
-            .map(property -> {
-                property.setKey(property.getFqName().substring(propertyGroup.getGroupName().length() + 1));
-                return property;
-            })
+            .map(property -> updateProperty(propertyGroup, property))
             .collect(Collectors.toList()));
         return propertyGroup;
+    }
+
+    private Property updateProperty(PropertyGroup propertyGroup, Property property) {
+        property.setKey(property.getFqName().substring(propertyGroup.getGroupName().length() + 1));
+        return property;
     }
 
     private List<PropertyGroup> flattenValues(Map<String, List<PropertyGroup>> propertyGroupsByType) {
