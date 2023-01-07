@@ -1,4 +1,4 @@
-package org.rodnansol.core.generator;
+package org.rodnansol.core.generator.template;
 
 /**
  * Interface representing the ancestor for all template data types.

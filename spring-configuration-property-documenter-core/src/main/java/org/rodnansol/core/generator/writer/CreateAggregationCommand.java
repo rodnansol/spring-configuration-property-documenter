@@ -1,5 +1,6 @@
-package org.rodnansol.core.generator;
+package org.rodnansol.core.generator.writer;
 
+import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.project.Project;
 
 import java.io.File;

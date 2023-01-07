@@ -4,13 +4,14 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.rodnansol.core.generator.AggregationDocumenter;
-import org.rodnansol.core.generator.CombinedInput;
-import org.rodnansol.core.generator.CreateAggregationCommand;
-import org.rodnansol.core.generator.MetadataReader;
-import org.rodnansol.core.generator.TemplateCompiler;
-import org.rodnansol.core.generator.TemplateType;
+import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
+import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
+import org.rodnansol.core.generator.template.TemplateCompilerFactory;
+import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.writer.AggregationDocumenter;
+import org.rodnansol.core.generator.writer.CombinedInput;
+import org.rodnansol.core.generator.writer.CreateAggregationCommand;
 import org.rodnansol.core.project.ProjectFactory;
 
 import java.io.File;
@@ -71,9 +72,17 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
     @Parameter(property = "outputFile", required = true)
     File outputFile;
 
+    /**
+     * Template compiler class's fully qualified name .
+     * <p>
+     * With this option you can use your own template compiler implementation if the default {@link HandlebarsTemplateCompiler}. based one is not enough.
+     */
+    @Parameter(property = "templateCompilerName")
+    String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
+
     @Override
     public void execute() {
-        AggregationDocumenter aggregationDocumenter = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompiler.INSTANCE, MetadataInputResolverContext.INSTANCE);
+        AggregationDocumenter aggregationDocumenter = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstance(templateCompilerName), MetadataInputResolverContext.INSTANCE);
         CreateAggregationCommand createAggregationCommand = createAggregationCommand();
         aggregationDocumenter.createDocumentsAndAggregate(createAggregationCommand);
     }

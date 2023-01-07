@@ -1,5 +1,8 @@
-package org.rodnansol.core.generator;
+package org.rodnansol.core.generator.reader;
 
+import org.rodnansol.core.generator.template.Property;
+import org.rodnansol.core.generator.template.PropertyDeprecation;
+import org.rodnansol.core.generator.template.PropertyGroup;
 import org.springframework.boot.configurationprocessor.metadata.ConfigurationMetadata;
 import org.springframework.boot.configurationprocessor.metadata.ItemDeprecation;
 import org.springframework.boot.configurationprocessor.metadata.ItemMetadata;

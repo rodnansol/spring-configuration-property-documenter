@@ -1,7 +1,7 @@
 package org.rodnansol.core.generator.resolver;
 
-import org.apache.commons.io.FilenameUtils;
 import org.rodnansol.core.project.Project;
+import org.rodnansol.core.util.CoreFileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,12 +30,7 @@ class FileMetadataInputResolver implements MetadataInputResolver {
 
     @Override
     public boolean supports(File input) {
-        String extension = FilenameUtils.getExtension(input.getName());
-        return isNotJarOrZip(extension) && input.isFile();
-    }
-
-    private boolean isNotJarOrZip(String extension) {
-        return !extension.equals("jar") && !extension.equals("zip");
+        return !CoreFileUtils.isJarOrZipFile(input) && input.isFile();
     }
 
 }

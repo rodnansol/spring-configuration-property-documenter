@@ -1,6 +1,7 @@
 package org.rodnansol.core.util;
 
 
+import org.apache.commons.io.FilenameUtils;
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,17 @@ public final class CoreFileUtils {
      */
     public static File initializeFileWithPath(File targetFile) throws DocumentGenerationException {
         return initializeFileWithPath(targetFile.getPath());
+    }
+
+    /**
+     * Checks if the input is a JAR or ZIP file based on its extension.
+     *
+     * @param input input.
+     * @return <b>true</b> if the input is a JAR or ZIP file, otherwise <b>false</b>.
+     */
+    public static boolean isJarOrZipFile(File input) {
+        String extension = FilenameUtils.getExtension(input.getName());
+        return extension.equals("jar") || extension.equals("zip");
     }
 
     private static void createTheTargetFile(String targetFilePath, File outputFile) throws IOException {

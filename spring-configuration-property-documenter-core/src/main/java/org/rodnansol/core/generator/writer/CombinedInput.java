@@ -1,4 +1,4 @@
-package org.rodnansol.core.generator;
+package org.rodnansol.core.generator.writer;
 
 import java.io.File;
 import java.util.Objects;

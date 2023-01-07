@@ -1,9 +1,9 @@
 package org.rodnansol.core;
 
 import org.junit.jupiter.api.Test;
-import org.rodnansol.core.generator.MetadataReader;
-import org.rodnansol.core.generator.Property;
-import org.rodnansol.core.generator.PropertyGroup;
+import org.rodnansol.core.generator.reader.MetadataReader;
+import org.rodnansol.core.generator.template.Property;
+import org.rodnansol.core.generator.template.PropertyGroup;
 
 import java.io.File;
 import java.io.FileInputStream;

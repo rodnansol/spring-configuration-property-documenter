@@ -1,4 +1,4 @@
-package org.rodnansol.core.generator;
+package org.rodnansol.core.generator.writer;
 
 import org.rodnansol.core.project.Project;
 

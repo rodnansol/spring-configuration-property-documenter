@@ -1,4 +1,4 @@
-package org.rodnansol.core.generator;
+package org.rodnansol.core.generator.template;
 
 /**
  * Class represnting a deprecation info.

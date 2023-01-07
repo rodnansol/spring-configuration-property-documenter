@@ -2,10 +2,10 @@ package org.rodnansol.core.generator.resolver;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.rodnansol.core.generator.DocumentGenerationException;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.rodnansol.core.project.ProjectFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,12 +17,11 @@ import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class JarFileMetadataInputResolverTest {
 
     protected static final String CONTENT_IN_FILE = "Hello World";
-    private JarFileMetadataInputResolver underTest = new JarFileMetadataInputResolver();
+    private final JarFileMetadataInputResolver underTest = new JarFileMetadataInputResolver();
 
 
     @Test
@@ -51,6 +50,26 @@ class JarFileMetadataInputResolverTest {
 
         // Then
         assertThat(inputStream).isNull();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"file.zip", "file.jar"})
+    void supports_shouldReturnTrue_whenTheInputFileIsZipOrJar(String fileName) {
+        // Given
+        // When
+        boolean supports = underTest.supports(new File(fileName));
+        // Then
+        assertThat(supports).isTrue();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"file.txt", "file.xml"})
+    void supports_shouldReturnFalse_whenTheInputFileIsNotZipOrJar(String fileName) {
+        // Given
+        // When
+        boolean supports = underTest.supports(new File(fileName));
+        // Then
+        assertThat(supports).isFalse();
     }
 
     private void createJarFile(File tempJar, String pathInJarFile) throws IOException {

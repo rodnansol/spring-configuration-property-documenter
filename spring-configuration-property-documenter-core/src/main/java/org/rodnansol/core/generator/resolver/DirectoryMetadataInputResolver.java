@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * Class that traverses directories to find the required file.
+ * <p>
+ * The folders are coming from the {@link Project#getPossibleMetadataFilePaths()} method.
  *
  * @author nandorholozsnyak
  * @since 0.1.0

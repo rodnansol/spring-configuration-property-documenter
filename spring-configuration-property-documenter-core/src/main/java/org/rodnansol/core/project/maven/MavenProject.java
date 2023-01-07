@@ -1,6 +1,6 @@
 package org.rodnansol.core.project.maven;
 
-import org.rodnansol.core.generator.TemplateType;
+import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.project.Project;
 import org.rodnansol.core.project.ProjectType;
 
