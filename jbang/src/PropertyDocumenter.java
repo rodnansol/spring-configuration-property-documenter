@@ -3,16 +3,16 @@
 //DEPS info.picocli:picocli:4.7.0
 //JAVA 17
 
-import org.rodnansol.core.generator.AggregationDocumenter;
-import org.rodnansol.core.generator.CombinedInput;
-import org.rodnansol.core.generator.CreateAggregationCommand;
-import org.rodnansol.core.generator.CreateDocumentCommand;
 import org.rodnansol.core.generator.DocumentGenerationException;
-import org.rodnansol.core.generator.Documenter;
-import org.rodnansol.core.generator.MetadataReader;
-import org.rodnansol.core.generator.TemplateCompiler;
-import org.rodnansol.core.generator.TemplateType;
+import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
+import org.rodnansol.core.generator.template.TemplateCompilerFactory;
+import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.writer.AggregationDocumenter;
+import org.rodnansol.core.generator.writer.CombinedInput;
+import org.rodnansol.core.generator.writer.CreateAggregationCommand;
+import org.rodnansol.core.generator.writer.CreateDocumentCommand;
+import org.rodnansol.core.generator.writer.Documenter;
 import org.rodnansol.core.project.Project;
 import org.rodnansol.core.project.ProjectFactory;
 import org.rodnansol.core.project.ProjectType;
@@ -55,7 +55,7 @@ public class PropertyDocumenter {
     )
     static class GenerateCommand implements Runnable {
 
-        private static final Documenter DOCUMENTER = new Documenter(MetadataReader.INSTANCE, TemplateCompiler.INSTANCE, MetadataInputResolverContext.INSTANCE);
+        private static final Documenter DOCUMENTER = new Documenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultProvidedInstance(), MetadataInputResolverContext.INSTANCE);
 
         /**
          * Main header name in the aggregated output file.
@@ -142,7 +142,7 @@ public class PropertyDocumenter {
     )
     static class AggregatorCommand implements Runnable {
 
-        private static final AggregationDocumenter AGGREGATION_DOCUMENTER = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompiler.INSTANCE, MetadataInputResolverContext.INSTANCE);
+        private static final AggregationDocumenter AGGREGATION_DOCUMENTER = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultProvidedInstance(), MetadataInputResolverContext.INSTANCE);
 
         /**
          * Main header name in the aggregated output file.

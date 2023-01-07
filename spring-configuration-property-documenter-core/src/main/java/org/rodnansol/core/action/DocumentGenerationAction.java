@@ -1,14 +1,15 @@
 package org.rodnansol.core.action;
 
-import org.rodnansol.core.generator.CreateDocumentCommand;
 import org.rodnansol.core.generator.DocumentGenerationException;
-import org.rodnansol.core.generator.Documenter;
-import org.rodnansol.core.generator.MetadataReader;
-import org.rodnansol.core.generator.TemplateCompiler;
-import org.rodnansol.core.generator.TemplateType;
+import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.util.CoreFileUtils;
+import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
+import org.rodnansol.core.generator.template.TemplateCompilerFactory;
+import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.writer.CreateDocumentCommand;
+import org.rodnansol.core.generator.writer.Documenter;
 import org.rodnansol.core.project.Project;
+import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +32,7 @@ public class DocumentGenerationAction {
     private final File metadataInput;
     private String template;
     private File outputFile;
+    private String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
 
     public DocumentGenerationAction(Project project, String name, String description, String template, String type, File metadataInput, File outputFile) {
         this.project = project;
@@ -52,7 +54,7 @@ public class DocumentGenerationAction {
 
     private void generateDocument() throws DocumentGenerationException {
         try {
-            Documenter documenter = new Documenter(MetadataReader.INSTANCE, TemplateCompiler.INSTANCE, MetadataInputResolverContext.INSTANCE);
+            Documenter documenter = new Documenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstance(templateCompilerName), MetadataInputResolverContext.INSTANCE);
             CreateDocumentCommand command = new CreateDocumentCommand(project, name, metadataInput, template, outputFile);
             command.setDescription(description);
             documenter.readMetadataAndGenerateRenderedFile(command);
@@ -76,6 +78,15 @@ public class DocumentGenerationAction {
         } else {
             outputFile = CoreFileUtils.initializeFileWithPath(project.getDefaultTargetFilePath(templateType));
         }
+    }
+
+
+    public String getTemplateCompilerName() {
+        return templateCompilerName;
+    }
+
+    public void setTemplateCompilerName(String templateCompilerName) {
+        this.templateCompilerName = templateCompilerName;
     }
 
 }

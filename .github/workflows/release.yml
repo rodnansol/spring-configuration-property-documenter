@@ -39,7 +39,7 @@ jobs:
       - name: Stage Files for Release
         run: |
           mvn versions:set -DnewVersion=$RELEASE_VERSION
-          mvn -Prelease deploy -DaltDeploymentRepository=local::file:./target/staging-deploy
+          mvn -Prelease deploy -DaltDeploymentRepository=local::file:./target/staging-deploy -pl '!spring-configuration-property-documenter-report'
           ./scripts/jbang-version-release.sh $RELEASE_VERSION
         env:
           RELEASE_VERSION: ${{ inputs.releaseVersion }}

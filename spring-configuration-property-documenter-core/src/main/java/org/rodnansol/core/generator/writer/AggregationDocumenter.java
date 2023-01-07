@@ -1,5 +1,12 @@
-package org.rodnansol.core.generator;
+package org.rodnansol.core.generator.writer;
 
+import org.rodnansol.core.generator.DocumentGenerationException;
+import org.rodnansol.core.generator.template.MainTemplateData;
+import org.rodnansol.core.generator.template.PropertyGroup;
+import org.rodnansol.core.generator.template.SubTemplateData;
+import org.rodnansol.core.generator.template.TemplateCompiler;
+import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;
@@ -38,7 +45,7 @@ public class AggregationDocumenter {
         for (CombinedInput entry : createAggregationCommand.getCombinedInputs()) {
             LOGGER.info("Processing entry:[{}]", entry);
             try (InputStream inputStream = metadataInputResolverContext.getInputStreamFromFile(createAggregationCommand.getProject(), entry.getInput())) {
-                List<PropertyGroup> groups = metadataReader.readPropertiesAsList(inputStream);
+                List<PropertyGroup> groups = metadataReader.readPropertiesAsPropertyGroupList(inputStream);
                 propertyGroups.addAll(groups);
                 subTemplateDataList.add(createModuleTemplateData(entry.getSectionName(), groups, entry.getDescription()));
             } catch (Exception e) {
