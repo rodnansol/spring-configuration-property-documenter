@@ -53,8 +53,8 @@ Please use the `help` command to have more information about the tool:
 [source,log]
 ----
 ❯ jbang PropertyDocumenter.java generate --help
-Usage: <main class> generate [-hV] [-t[=<template>]] -i=<input>
-                             [-n=<documentName>] -o=<outputFile>
+Usage: <main class> generate [-hV] [-t[=<template>]] [-tc[=<templateCompiler>]]
+                             -i=<input> [-n=<documentName>] -o=<outputFile>
                              [-pt=<projectType>] [-tt=<templateType>]
 Documents the incoming input into a file.
 
@@ -75,6 +75,8 @@ Example: jbang PropertyDocumenter.java document \
 
   -t, --template[=<template>]
                         Custom template file
+      -tc, --template-compiler[=<templateCompiler>]
+                        Template's compiler fully qualified name
       -tt, --template-type=<templateType>
                         Desired template type, supported:
                         MARKDOWN, ADOC, HTML, XML
@@ -85,11 +87,11 @@ Example: jbang PropertyDocumenter.java document \
 
 ❯ jbang PropertyDocumenter.java aggregate --help
 Usage: <main class> aggregate [-hV] [-ct[=<contentTemplate>]] [-ft
-                              [=<footerTemplate>]] [-ht[=<headerTemplate>]]
-                              [-n=<mainName>] -o=<outputFile>
-                              [-pt=<projectType>] [-tt=<templateType>]
-                              -i=<inputs>... [-i=<inputs>...]...
-                              [-mn=<moduleNames>...]...
+                              [=<footerTemplate>]] [-ht[=<headerTemplate>]] [-tc
+                              [=<templateCompiler>]] [-n=<mainName>]
+                              -o=<outputFile> [-pt=<projectType>]
+                              [-tt=<templateType>] -i=<inputs>...
+                              [-i=<inputs>...]... [-mn=<moduleNames>...]...
 Aggregates the incoming inputs into one big file while.
 Please specify the module names for each input with a sequence.
 
@@ -117,11 +119,14 @@ Example: jbang PropertyDocumenter.java aggregate \
                              Type of the project,
                              currently supported: MAVEN, GRADLE
 
+      -tc, --template-compiler[=<templateCompiler>]
+                             Template's compiler fully qualified name
       -tt, --template-type=<templateType>
                              Desired template type, supported:
                              MARKDOWN, ADOC, HTML, XML
 
   -V, --version              Print version information and exit.
+
 ----
 
 

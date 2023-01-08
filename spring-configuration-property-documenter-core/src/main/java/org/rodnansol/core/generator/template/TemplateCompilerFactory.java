@@ -30,6 +30,21 @@ public class TemplateCompilerFactory {
     }
 
     /**
+     * Instantiates the incoming class by its name.
+     *
+     * @param className class to be created.
+     * @return created class.
+     * @throws IllegalStateException if the class can not be created.
+     */
+    public static TemplateCompiler getInstanceByClassName(String className) {
+        try {
+            return (TemplateCompiler) Class.forName(className).getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new IllegalStateException("Unable to construct class:[" + className + "]", e);
+        }
+    }
+
+    /**
      * Returns the default provided instance which is the {@link HandlebarsTemplateCompiler}.
      *
      * @return returns a new {@link HandlebarsTemplateCompiler} instance.

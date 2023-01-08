@@ -70,3 +70,18 @@ ${JBANG_EXECUTABLE} ../../jbang/src/PropertyDocumenter.java aggregate \
                            -ct templates/custom-content-template.md \
                            -ft templates/custom-footer-template.md \
                            -o target/custom-spring-app-aggregated-property-docs.md
+
+
+${JBANG_EXECUTABLE} ../../jbang/src/PropertyDocumenter.java generate \
+                           -n "Simple JBang Application" -i ${JAR_LOCATION} \
+                           -tt MARKDOWN \
+                           -tc "PropertyDocumenter\$CustomTemplateCompiler" \
+                           -o target/custom-compiler-spring-app-simple-property-docs.md
+
+${JBANG_EXECUTABLE} ../../jbang/src/PropertyDocumenter.java aggregate \
+                           -n "Simple JBang Application" \
+                           -mn "Spring Application example 1" -i ${JAR_LOCATION} \
+                           -mn "Spring Application example 2" -i ${JAR_LOCATION} \
+                           -tt MARKDOWN \
+                           -tc "PropertyDocumenter\$CustomTemplateCompiler" \
+                           -o target/custom-compiler-spring-app-aggregated-property-docs.md

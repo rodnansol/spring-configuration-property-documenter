@@ -6,7 +6,10 @@
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
+import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
+import org.rodnansol.core.generator.template.TemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateCompilerFactory;
+import org.rodnansol.core.generator.template.TemplateData;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.TemplateCustomizationFactory;
 import org.rodnansol.core.generator.writer.AggregationDocumenter;
@@ -56,8 +59,6 @@ public class PropertyDocumenter {
                 """
     )
     static class GenerateCommand implements Runnable {
-
-        private static final Documenter DOCUMENTER = new Documenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultProvidedInstance(), MetadataInputResolverContext.INSTANCE);
 
         /**
          * Main header name in the aggregated output file.
@@ -121,13 +122,21 @@ public class PropertyDocumenter {
                 """, arity = "1", defaultValue = "MAVEN")
         ProjectType projectType;
 
+        /**
+         * Custom template compiler.
+         *
+         * @since 0.2.1
+         */
+        @CommandLine.Option(names = {"-tc", "--template-compiler"}, description = "Template's compiler fully qualified name", arity = "0..1", defaultValue = "org.rodnansol.core.generator.template.HandlebarsTemplateCompiler")
+        String templateCompiler = HandlebarsTemplateCompiler.class.getName();
+
         @Override
         public void run() {
             Project project = ProjectFactory.ofType(new File("."), documentName, projectType);
             String singleTemplate = template != null && !template.isBlank() ? template : templateType.getSingleTemplate();
             CreateDocumentCommand createDocumentCommand = new CreateDocumentCommand(project, documentName, input, singleTemplate, outputFile, TemplateCustomizationFactory.getDefaultTemplateCustomizationByType(templateType));
             try {
-                DOCUMENTER.readMetadataAndGenerateRenderedFile(createDocumentCommand);
+                new Documenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstanceByClassName(templateCompiler), MetadataInputResolverContext.INSTANCE).readMetadataAndGenerateRenderedFile(createDocumentCommand);
             } catch (IOException e) {
                 throw new DocumentGenerationException("Error during generating the documentation, please check the logs...", e);
             }
@@ -152,8 +161,6 @@ public class PropertyDocumenter {
                 """
     )
     static class AggregatorCommand implements Runnable {
-
-        private static final AggregationDocumenter AGGREGATION_DOCUMENTER = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultProvidedInstance(), MetadataInputResolverContext.INSTANCE);
 
         /**
          * Main header name in the aggregated output file.
@@ -241,6 +248,14 @@ public class PropertyDocumenter {
         @CommandLine.Option(names = {"-ft", "--footer-template"}, description = "Custom footer template file", arity = "0..1")
         String footerTemplate;
 
+        /**
+         * Custom template compiler.
+         *
+         * @since 0.2.1
+         */
+        @CommandLine.Option(names = {"-tc", "--template-compiler"}, description = "Template's compiler fully qualified name", arity = "0..1", defaultValue = "org.rodnansol.core.generator.template.HandlebarsTemplateCompiler")
+        String templateCompiler = HandlebarsTemplateCompiler.class.getName();
+
         @Override
         public void run() {
             List<CombinedInput> combinedInputs = new ArrayList<>(inputs.size());
@@ -256,7 +271,7 @@ public class PropertyDocumenter {
                 TemplateCustomizationFactory.getDefaultTemplateCustomizationByType(templateType),
                 new File(outputFile));
             createAggregationCommand.setCustomTemplate(new CustomTemplate(headerTemplate, contentTemplate, footerTemplate));
-            AGGREGATION_DOCUMENTER.createDocumentsAndAggregate(createAggregationCommand);
+            new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstanceByClassName(templateCompiler), MetadataInputResolverContext.INSTANCE).createDocumentsAndAggregate(createAggregationCommand);
         }
 
         private String getModuleName(int i) {
@@ -267,4 +282,16 @@ public class PropertyDocumenter {
             }
         }
     }
+
+
+
+    public static class CustomTemplateCompiler implements TemplateCompiler {
+
+        @Override
+        public String compileTemplate(String s, TemplateData templateData) throws DocumentGenerationException {
+            return "Jbang based template compiler \n";
+        }
+    }
+
+
 }
