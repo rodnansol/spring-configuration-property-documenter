@@ -110,11 +110,14 @@
                                     <input>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</input>
                                 </input>
                             </inputs>
+                            <markdownCustomization>
+                                <headerEnabled>false</headerEnabled>
+                            </markdownCustomization>
                             <outputFile>target/aggregated-md.md</outputFile>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>aggregate-docs-markdown-adoc</id>
+                        <id>aggregate-docs-adoc</id>
                         <goals>
                             <goal>generate-and-aggregate-documents</goal>
                         </goals>
@@ -138,6 +141,10 @@
                                     <input>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</input>
                                 </input>
                             </inputs>
+                            <asciiDocCustomization>
+                                <headerEnabled>false</headerEnabled>
+                                <tocPlacement>LEFT</tocPlacement>
+                            </asciiDocCustomization>
                             <outputFile>target/aggregated-adoc.adoc</outputFile>
                         </configuration>
                     </execution>
@@ -166,6 +173,12 @@
                                     <input>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</input>
                                 </input>
                             </inputs>
+                            <htmlCustomization>
+                                <headerEnabled>false</headerEnabled>
+                                <backgroundColor>#30323a</backgroundColor>
+                                <textColor>#a174f4</textColor>
+                                <linkColor>#a174f4</linkColor>
+                            </htmlCustomization>
                             <outputFile>target/aggregated-html.html</outputFile>
                         </configuration>
                     </execution>

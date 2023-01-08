@@ -239,27 +239,49 @@ As we can see in the `input` tags we can define an `input` field that can be:
 ==== `generate-property-document`
 
 |===
-|Parameter name |Description |Mandatory |Default value
+|Parameter name |Description |Mandatory |Default value |Since
 
 |name
 |Main header's name
 |No (it will be inferred if not specified from the default value)
 |`${project.name}`
+|0.1.0
 
 |description
 |Description about the module that will be generated into the document
 |No (it will be inferred if not specified from the default value)
 |`${project.description}`
+|0.1.0
 
 |template
 |Template to be used during the generation, if not specified the default templates are going to be used
 |No
 |
+|0.1.0
 
 |type
 |The type of the document, basically the extension. If the `template` is not being specified the default template will be resolved based on this value.
 |No
 |*MARKDOWN*
+|0.1.0
+
+|markdownCustomization
+|Markdown customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|Default `org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization` class.
+|0.2.0
+
+|asciiDocCustomization
+|AsciiDoc customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|Default `org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization` class.
+|0.2.0
+
+|htmlCustomization
+|HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|Default `org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization` class.
+|0.2.0
 
 |metadataInput
 |Path to the metadata input:
@@ -272,56 +294,82 @@ As we can see in the `input` tags we can define an `input` field that can be:
 - A jar/zip file that contains the file within the following entry *META-INF/spring-configuration-metadata.json*
 |No
 |*target/classes/META-INF/spring-configuration-metadata.json*
+|0.1.0
 
 
 |outputFile
 |The output file's full path
 |Yes
 |
+|0.1.0
 
 |failOnError
 |If the Maven build should fail in case the document generation fails.
 |No
 |*false*
+|0.1.0
 
 |===
 
 [#generate-and-aggregate-documents]
 ==== `generate-and-aggregate-documents`
 
-[cols="1,3a,1,1"]
+[cols="1,4a,1,1,1"]
 |===
-|Parameter name |Description |Mandatory |Default value
+|Parameter name |Description |Mandatory |Default value |Since
 
 |name
 |Main header's name
 |No (it will be inferred if not specified from the default value)
 |`${project.name}`
+|0.1.0
 
 |description
 |Description about the module that will be generated into the document
 |No (it will be inferred if not specified from the default value)
 |`${project.description}`
+|0.1.0
 
 |type
 |The type of the document, basically the extension. If the `template` is not being specified the default template will be resolved based on this value.
 |No
 |*MARKDOWN*
+|0.1.0
+
+|markdownCustomization
+|Markdown customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|Default `org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization` class.
+|0.2.0
+
+|asciiDocCustomization
+|AsciiDoc customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|Default `org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization` class.
+|0.2.0
+
+|htmlCustomization
+|HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|Default `org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization` class.
+|0.2.0
 
 |inputs
 |Multiple input file
 
-[cols="1,1,1"]
+[cols="1,1,1,1"]
 !===
-!Parameter name !Description !Mandatory
+!Parameter name !Description !Mandatory !Since
 
 ! `name`
 ! Name of the module
 ! Yes
+! 0.1.0
 
 ! `description`
 ! Description of the module
 ! No
+! 0.1.0
 
 ! `input`
 ! Input file or path
@@ -336,15 +384,18 @@ As we can see in the `input` tags we can define an `input` field that can be:
 
 *META-INF/spring-configuration-metadata.json*
 ! Yes
+! 0.1.0
 
 !===
 |Yes
 |
+|0.1.0
 
 |outputFile
 |The output file's full path
 |Yes
 |
+|0.1.0
 
 |===
 

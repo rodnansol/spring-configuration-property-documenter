@@ -1,5 +1,7 @@
 package org.rodnansol.core.generator.template;
 
+import org.rodnansol.core.generator.template.customization.TemplateCustomization;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,6 +38,11 @@ public class MainTemplateData implements TemplateData {
      */
     private LocalDateTime generationDate;
 
+    /**
+     * Template customization.
+     */
+    private TemplateCustomization templateCustomization;
+
     public MainTemplateData(String mainName, List<PropertyGroup> propertyGroups) {
         this.mainName = mainName;
         this.propertyGroups = propertyGroups;
@@ -70,6 +77,22 @@ public class MainTemplateData implements TemplateData {
         this.mainDescription = mainDescription;
     }
 
+    public List<SubTemplateData> getSubTemplateDataList() {
+        return subTemplateDataList;
+    }
+
+    public void setSubTemplateDataList(List<SubTemplateData> subTemplateDataList) {
+        this.subTemplateDataList = subTemplateDataList;
+    }
+
+    public TemplateCustomization getTemplateCustomization() {
+        return templateCustomization;
+    }
+
+    public void setTemplateCustomization(TemplateCustomization templateCustomization) {
+        this.templateCustomization = templateCustomization;
+    }
+
     @Override
     public String toString() {
         return "MainTemplateData{" +
@@ -78,11 +101,5 @@ public class MainTemplateData implements TemplateData {
             '}';
     }
 
-    public List<SubTemplateData> getSubTemplateDataList() {
-        return subTemplateDataList;
-    }
 
-    public void setSubTemplateDataList(List<SubTemplateData> subTemplateDataList) {
-        this.subTemplateDataList = subTemplateDataList;
-    }
 }

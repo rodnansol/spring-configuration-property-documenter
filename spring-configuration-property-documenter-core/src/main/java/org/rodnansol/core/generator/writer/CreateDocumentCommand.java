@@ -1,5 +1,6 @@
 package org.rodnansol.core.generator.writer;
 
+import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.project.Project;
 
 import java.io.File;
@@ -16,10 +17,12 @@ public class CreateDocumentCommand {
     private final File metadataInput;
     private final String template;
     private final File output;
+    private final TemplateCustomization templateCustomization;
     private String description;
 
-    public CreateDocumentCommand(Project project, String name, File metadataInput, String template, File output) {
-        this.project = Objects.requireNonNull(project, "project is NULL");;
+    public CreateDocumentCommand(Project project, String name, File metadataInput, String template, File output, TemplateCustomization templateCustomization) {
+        this.project = Objects.requireNonNull(project, "project is NULL");
+        this.templateCustomization = Objects.requireNonNull(templateCustomization, "templateCustomization is NULL");;
         this.name = Objects.requireNonNull(name, "name is NULL");
         this.metadataInput = Objects.requireNonNull(metadataInput, "metadataStream is NULL");
         this.template = Objects.requireNonNull(template, "template is NULL");
@@ -52,5 +55,9 @@ public class CreateDocumentCommand {
 
     public Project getProject() {
         return project;
+    }
+
+    public TemplateCustomization getTemplateCustomization() {
+        return templateCustomization;
     }
 }

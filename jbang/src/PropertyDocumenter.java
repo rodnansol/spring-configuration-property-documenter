@@ -8,6 +8,7 @@ import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.generator.template.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.template.customization.TemplateCustomizationFactory;
 import org.rodnansol.core.generator.writer.AggregationDocumenter;
 import org.rodnansol.core.generator.writer.CombinedInput;
 import org.rodnansol.core.generator.writer.CreateAggregationCommand;
@@ -114,7 +115,7 @@ public class PropertyDocumenter {
         @Override
         public void run() {
             Project project = ProjectFactory.ofType(new File("."), documentName, projectType);
-            CreateDocumentCommand createDocumentCommand = new CreateDocumentCommand(project, documentName, input, templateType.findSingleTemplate(), outputFile);
+            CreateDocumentCommand createDocumentCommand = new CreateDocumentCommand(project, documentName, input, templateType.getSingleTemplate(), outputFile, TemplateCustomizationFactory.getDefaultTemplateCustomizationByType(templateType));
             try {
                 DOCUMENTER.readMetadataAndGenerateRenderedFile(createDocumentCommand);
             } catch (IOException e) {
@@ -218,6 +219,7 @@ public class PropertyDocumenter {
                 mainName,
                 combinedInputs,
                 templateType,
+                TemplateCustomizationFactory.getDefaultTemplateCustomizationByType(templateType),
                 new File(outputFile));
             AGGREGATION_DOCUMENTER.createDocumentsAndAggregate(createAggregationCommand);
         }

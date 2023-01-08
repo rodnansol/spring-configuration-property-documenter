@@ -1,13 +1,13 @@
 package org.rodnansol.core.generator.writer;
 
 import org.rodnansol.core.generator.DocumentGenerationException;
+import org.rodnansol.core.generator.reader.MetadataReader;
+import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.generator.template.MainTemplateData;
 import org.rodnansol.core.generator.template.PropertyGroup;
 import org.rodnansol.core.generator.template.SubTemplateData;
 import org.rodnansol.core.generator.template.TemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateType;
-import org.rodnansol.core.generator.reader.MetadataReader;
-import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Class aggregates the incoming inputs into one big output file.
+ *
  * @author nandorholozsnyak
  * @since 0.1.0
  */
@@ -37,6 +39,12 @@ public class AggregationDocumenter {
         this.metadataInputResolverContext = metadataInputResolverContext;
     }
 
+    /**
+     * Aggregates the incoming inputs into one big file and writes it to the disk.
+     *
+     * @param createAggregationCommand command contains necessary information for the aggregation.
+     * @throws DocumentGenerationException if the output can not be written to disk or during the template compilation any error occurs.
+     */
     public void createDocumentsAndAggregate(CreateAggregationCommand createAggregationCommand) {
         Objects.requireNonNull(createAggregationCommand, "createAggregationCommand is NULL");
         LOGGER.info("Creating documents and aggregating them based on the incoming command:[{}]", createAggregationCommand);
@@ -88,6 +96,7 @@ public class AggregationDocumenter {
         MainTemplateData mainTemplateData = new MainTemplateData(createAggregationCommand.getAggregatedDocumentHeader(), propertyGroups);
         mainTemplateData.setMainDescription(createAggregationCommand.getDescription());
         mainTemplateData.setGenerationDate(LocalDateTime.now());
+        mainTemplateData.setTemplateCustomization(createAggregationCommand.getTemplateCustomization());
         return mainTemplateData;
     }
 

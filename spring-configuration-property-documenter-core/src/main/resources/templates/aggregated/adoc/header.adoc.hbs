@@ -1,4 +1,7 @@
-= {{mainName}}
-:toc:
-
-{{#if mainDescription}}{{mainDescription}}{{/if}}
+{{#templateCustomization}}
+{{#if headerEnabled}}= {{mainName}}{{/if}}
+{{#if tableOfContentsEnabled}}:toc: {{#if tocPlacement}}{{tocPlacement.toLowerCase}}{{/if}}{{/if}}
+{{#if tocTitle}}:toc-title: {{tocTitle}}{{/if}}
+{{#if tocLevels}}:toclevels: {{tocLevels}}{{/if}}
+{{#if headerEnabled}}{{#if mainDescription}}{{mainDescription}}{{/if}}{{/if}}
+{{/templateCustomization}}

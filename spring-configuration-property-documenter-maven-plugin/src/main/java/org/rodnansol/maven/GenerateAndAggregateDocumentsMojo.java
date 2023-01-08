@@ -9,6 +9,10 @@ import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
+import org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization;
+import org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization;
+import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.generator.writer.AggregationDocumenter;
 import org.rodnansol.core.generator.writer.CombinedInput;
 import org.rodnansol.core.generator.writer.CreateAggregationCommand;
@@ -37,12 +41,16 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
 
     /**
      * Main header section name.
+     *
+     * @since 0.1.0
      */
     @Parameter(property = "name", required = true, defaultValue = "${project.name}")
     String name;
 
     /**
      * Main module description.
+     *
+     * @since 0.1.0
      */
     @Parameter(property = "description", defaultValue = "${project.description}")
     String description;
@@ -56,18 +64,48 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
      *     <li>ADOC</li>
      *     <li>HTML</li>
      * </ul>
+     *
+     * @since 0.1.0
      */
     @Parameter(property = "type", defaultValue = "MARKDOWN")
-    String type;
+    TemplateType type;
 
     /**
-     * Input files.
+     * HTML template customization object to configure the template.
+     *
+     * @since 0.2.0
+     */
+    @Parameter(property = "htmlCustomization")
+    HtmlTemplateCustomization htmlCustomization;
+
+    /**
+     * Markdown template customization object to configure the template.
+     *
+     * @since 0.2.0
+     */
+    @Parameter(property = "markdownCustomization")
+    MarkdownTemplateCustomization markdownCustomization;
+
+    /**
+     * AsciiDoc template customization object to configure the template.
+     *
+     * @since 0.2.0
+     */
+    @Parameter(property = "asciiDocCustomization")
+    AsciiDocTemplateCustomization asciiDocCustomization;
+
+    /**
+     * Inputs.
+     *
+     * @since 0.1.0
      */
     @Parameter(property = "inputs", required = true)
     List<AggregationMojoInput> inputs;
 
     /**
      * Output file.
+     *
+     * @since 0.1.0
      */
     @Parameter(property = "outputFile", required = true)
     File outputFile;
@@ -76,6 +114,8 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
      * Template compiler class's fully qualified name .
      * <p>
      * With this option you can use your own template compiler implementation if the default {@link HandlebarsTemplateCompiler}. based one is not enough.
+     *
+     * @since 0.2.0
      */
     @Parameter(property = "templateCompilerName")
     String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
@@ -89,7 +129,8 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
 
     private CreateAggregationCommand createAggregationCommand() {
         List<CombinedInput> combinedInputs = inputs.stream().map(this::mapToCombinedInput).collect(Collectors.toList());
-        CreateAggregationCommand createAggregationCommand = new CreateAggregationCommand(ProjectFactory.ofMavenProject(project.getBasedir(), name, project.getModules()), name, combinedInputs, TemplateType.valueOf(type), outputFile);
+        org.rodnansol.core.project.maven.MavenProject mavenProject = ProjectFactory.ofMavenProject(project.getBasedir(), name, project.getModules());
+        CreateAggregationCommand createAggregationCommand = new CreateAggregationCommand(mavenProject, name, combinedInputs, type, getActualTemplateCustomization(), outputFile);
         createAggregationCommand.setDescription(description);
         return createAggregationCommand;
     }
@@ -98,5 +139,17 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
         CombinedInput combinedInput = new CombinedInput(aggregationMojoInput.getInput(), aggregationMojoInput.getName());
         combinedInput.setDescription(aggregationMojoInput.getDescription());
         return combinedInput;
+    }
+
+    private TemplateCustomization getActualTemplateCustomization() {
+        switch (type) {
+            case MARKDOWN:
+                return markdownCustomization;
+            case ADOC:
+                return asciiDocCustomization;
+            case HTML:
+                return htmlCustomization;
+        }
+        throw new IllegalStateException("There is no template customization set for the current run");
     }
 }

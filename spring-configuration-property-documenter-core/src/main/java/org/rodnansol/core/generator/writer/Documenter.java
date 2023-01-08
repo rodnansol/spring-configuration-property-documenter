@@ -1,10 +1,10 @@
 package org.rodnansol.core.generator.writer;
 
+import org.rodnansol.core.generator.reader.MetadataReader;
+import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.generator.template.MainTemplateData;
 import org.rodnansol.core.generator.template.PropertyGroup;
 import org.rodnansol.core.generator.template.TemplateCompiler;
-import org.rodnansol.core.generator.reader.MetadataReader;
-import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +36,10 @@ public class Documenter {
     }
 
     /**
-     * @param createDocumentCommand
-     * @throws IOException
+     * Creates and writes a single document to disk based on the incoming command object.
+     *
+     * @param createDocumentCommand command object that contains the information for the generation process.
+     * @throws IOException if any of the I/O operation fails.
      */
     public void readMetadataAndGenerateRenderedFile(CreateDocumentCommand createDocumentCommand) throws IOException {
         LOGGER.debug("Creating document with command:[{}]", createDocumentCommand);
@@ -55,6 +57,7 @@ public class Documenter {
             MainTemplateData mainTemplateData = MainTemplateData.ofMainSection(createDocumentCommand.getName(), propertyGroups);
             mainTemplateData.setGenerationDate(LocalDateTime.now());
             mainTemplateData.setMainDescription(createDocumentCommand.getDescription());
+            mainTemplateData.setTemplateCustomization(createDocumentCommand.getTemplateCustomization());
             return mainTemplateData;
         }
     }
