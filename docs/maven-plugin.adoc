@@ -1,12 +1,26 @@
 [#header]
 = Spring Configuration Property Documenter - Maven Plugin
+ifndef::env-github[]
+:icons: font
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
 :toc:
 :toc-placement!:
 :toclevels: 4
 
+
 If you are having a Maven project where you would like to use the tool, then this documentation will guide you through all the steps you need to set it up, you can use it for a single module Maven project or a multi module Maven project, both are supported.
 
-NOTE: The multi module setup will need a "small" trick/hack to achieve the things we want.
+[WARNING]
+====
+The multimodule setup will need a "small" trick/hack to achieve the things we want.
+====
 
 toc::[]
 
@@ -238,6 +252,10 @@ As we can see in the `input` tags we can define an `input` field that can be:
 [#generate-property-document]
 ==== `generate-property-document`
 
+.Configuration
+[%collapsible%]
+====
+[cols="1,3,1,1,1"]
 |===
 |Parameter name |Description |Mandatory |Default value |Since
 
@@ -268,25 +286,33 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |markdownCustomization
 |Markdown customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization` class.
+|Default `org.rodnansol.core.generator
+.template.customization
+.MarkdownTemplateCustomization` class.
 |0.2.0
 
 |asciiDocCustomization
 |AsciiDoc customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization` class.
+|Default `org.rodnansol.core.generator
+.template.customization
+.AsciiDocTemplateCustomization` class.
 |0.2.0
 
 |htmlCustomization
 |HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization` class.
+|Default `org.rodnansol.core.generator
+.template.customization
+.HtmlTemplateCustomization` class.
 |0.2.0
 
 |xmlCustomization
 |XML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator.template.customization.XmlTemplateCustomization` class.
+|Default `org.rodnansol.core.generator
+.template.customization
+.XmlTemplateCustomization` class.
 |0.2.0
 
 |metadataInput
@@ -316,10 +342,14 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.1.0
 
 |===
+====
 
 [#generate-and-aggregate-documents]
 ==== `generate-and-aggregate-documents`
 
+.Configuration
+[%collapsible%]
+====
 [cols="1,4a,1,1,1"]
 |===
 |Parameter name |Description |Mandatory |Default value |Since
@@ -345,62 +375,39 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |markdownCustomization
 |Markdown customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization` class.
+|Default `org.rodnansol.core.generator
+.template.customization
+.MarkdownTemplateCustomization` class.
 |0.2.0
 
 |asciiDocCustomization
 |AsciiDoc customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization` class.
+|Default `org.rodnansol.core.generator
+.template.customization
+.AsciiDocTemplateCustomization` class.
 |0.2.0
 
 |htmlCustomization
 |HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization` class.
+|Default `org.rodnansol.core.generator
+.template.customization
+.HtmlTemplateCustomization` class.
 |0.2.0
 
 |xmlCustomization
 |XML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator.template.customization.XmlTemplateCustomization` class.
+|Default `org.rodnansol.core.generator
+.template.customization
+.XmlTemplateCustomization` class.
 |0.2.0
 
 |inputs
 |Multiple input file
-
-[cols="1,1,1,1"]
-!===
-!Parameter name !Description !Mandatory !Since
-
-! `name`
-! Name of the module
-! Yes
-! 0.1.0
-
-! `description`
-! Description of the module
-! No
-! 0.1.0
-
-! `input`
-! Input file or path
-
-- A path to JSON file for example:
-
-*target/classes/META-INF/spring-configuration-metadata.json*
-
-- A directory that contains the file
-
-- A jar/zip file that contains the file within the following entry:
-
-*META-INF/spring-configuration-metadata.json*
-! Yes
-! 0.1.0
-
-!===
+|<<aggregation-mojo-input,AggregationMojoInput>> below
 |Yes
-|
 |0.1.0
 
 |outputFile
@@ -411,5 +418,41 @@ As we can see in the `input` tags we can define an `input` field that can be:
 
 |===
 
+[#aggregation-mojo-input]
+.`org.rodnansol.maven.AggregationMojoInput`
+[cols="1,4,1,1"]
+|===
+|Parameter name |Description |Mandatory |Since
+
+| `name`
+| Name of the module
+| Yes
+| 0.1.0
+
+| `description`
+| Description of the module
+| No
+| 0.1.0
+
+| `input`
+| Input file or path
+
+- A path to JSON file for example:
+
+*target/classes/META-INF/spring-configuration-metadata.json*
+
+- A directory that contains the file
+
+- A jar/zip file that contains the file within the following entry:
+
+*META-INF/spring-configuration-metadata.json*
+| Yes
+| 0.1.0
+
+|===
+====
+
 [#aggregate-documents]
 ==== `aggregate-documents`
+
+WARNING: Exprimental goal, no documentation yet.

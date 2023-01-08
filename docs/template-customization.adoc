@@ -1,5 +1,15 @@
 [#header]
 = Spring Configuration Property Documenter - Template Customization
+ifndef::env-github[]
+:icons: font
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
 
 As written in the *README* file the core module is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine. With that we are able to create smaller files and we can render them together.
 
@@ -7,11 +17,11 @@ If you would like to use your own templates as inputs you should first read thro
 
 The provided/packaged templates can be found here:
 
-* spring-configuration-property-documenter-core/src/main/resources/templates/single
+* *spring-configuration-property-documenter-core/src/main/resources/templates/single*
 ** Contains the basic templates for a single module
-* spring-configuration-property-documenter-core/src/main/resources/templates/aggregated
+* *spring-configuration-property-documenter-core/src/main/resources/templates/aggregated*
 ** Contains templates that could be used for multiple document aggregation
-* spring-configuration-property-documenter-core/src/main/resources/templates/partials
+* *spring-configuration-property-documenter-core/src/main/resources/templates/partials*
 ** Contains the templates for the content, and for the HTML a few helper templates
 
 There are few Java classes to be discovered if you wish:

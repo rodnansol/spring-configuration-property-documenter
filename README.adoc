@@ -1,7 +1,18 @@
 = Spring Configuration Property Documenter
+ifndef::env-github[]
+:icons: font
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
 :toc:
 :toc-placement!:
 :toclevels: 4
+
 
 image:https://img.shields.io/maven-central/v/org.rodnansol/spring-configuration-property-documenter.svg[Maven Central]
 image:https://img.shields.io/badge/License-Apache_2.0-blue.svg[Apache 2.0]
@@ -30,6 +41,10 @@ The Spring Framework ships an annotation processing library that creates metadat
 
 After your application has this dependency during build time the annotation processor will kick in and a so called `spring-configuration-metadata.json` file will be created, that will represent your `@ConfigurationProperties` annotated classes in a JSON file format, these are metadata about your classes.
 
+.An example class and its metadata
+[%collapsible]
+====
+
 .An example configuration property class
 [source,java]
 ----
@@ -56,6 +71,11 @@ class MyProperties {
 
     private LocalDateTime dateTime = LocalDateTime.of(1995, 10, 20, 0, 1, 2, 3);
     // Getters & Setters
+
+    @DeprecatedConfigurationProperty(reason = "Because it is deprecated", replacement = "instant")
+    public Duration getDuration() {
+        return duration;
+    }
 }
 ----
 
@@ -115,6 +135,8 @@ class MyProperties {
 }
 ----
 
+====
+
 This tool is going to read and process this metadata file, and it is able to generate shiny "documentations" in different formats.
 
 This tool will let you create:
@@ -122,6 +144,7 @@ This tool will let you create:
 - *Markdown*
 - *AsciiDoc*
 - *HTML*
+- *XML*
 - _More to come..._
 
 styled documents about your configuration properties.
