@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+        xmlns="https://github.com/rodnansol/spring-configuration-property-documenter"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="https://github.com/rodnansol/spring-configuration-property-documenter"
+        version="0.2.1"
+        elementFormDefault="qualified">
+
+    <xsd:element name="configurationProperties">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="mainName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">Main module name</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="mainDescription" type="xsd:string" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">Main module description</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="tableOfContents" type="TableOfContents" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">Table of Contents</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="modules" type="Modules">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">Modules</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="generationDate" type="xsd:dateTime">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">Generation date of the document</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="TableOfContents">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">Type representing Table of Contents</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="modules" type="TableOfContentModules">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Modules</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TableOfContentModules">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">Type representing a list modules</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="module" type="TableOfContentModule" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Modules</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TableOfContentModule">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">Type representing a module</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="moduleName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Name of the module</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="moduleDescription" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Description of the module</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="propertyGroups" type="TableOfContentPropertyGroups">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Module's property groups</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Modules">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">Type representing a list modules</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="module" type="Module" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Modules</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Module">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">Type representing a module</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="moduleName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Name of the module</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="moduleDescription" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Description of the module</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="propertyGroups" type="PropertyGroups">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Module's property groups</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TableOfContentPropertyGroups">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">Type representing a list of property group</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="propertyGroup" type="TableOfContentPropertyGroup" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Property groups</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="PropertyGroups">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">Type representing a list of property group</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="propertyGroup" type="PropertyGroup" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Property groups</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TableOfContentPropertyGroup">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">Type representing a property group</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="groupName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Property group's name</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="PropertyGroup">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">Type representing a property group</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="groupName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Property group's name</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="type" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Type of the property group (most likely to be a Java class)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="properties" type="Property" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Attached properties</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Property">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">Type representing a property</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="key" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Property's key</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="type" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Type of the property (most likely to be a Java class)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="description" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Description about the property</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="defaultValue" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Property's default value if specified</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="propertyDeprecation" type="PropertyDeprecation" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">If the property is deprecated more information about that</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="PropertyDeprecation">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">Type representing a property deprecation</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="reason" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Reason of the deprecation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="replacement" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Replacement property's key</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
