@@ -4,6 +4,10 @@
 build:
    mvn -DskipTests clean install
 
+# maven build without tests
+verify:
+   mvn clean verify
+
 # Build samples
 build-samples: build
   cd samples && mvn clean install

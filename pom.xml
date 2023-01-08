@@ -12,7 +12,6 @@
         <module>spring-configuration-property-documenter-core</module>
         <module>spring-configuration-property-documenter-maven-plugin</module>
         <module>spring-configuration-property-documenter-report</module>
-        <module>samples/multi-module/custom-template-compiler</module>
     </modules>
 
     <properties>
