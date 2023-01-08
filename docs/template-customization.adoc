@@ -203,6 +203,14 @@ There are few Java classes to be discovered if you wish:
 
 |===
 
+.`org.rodnansol.core.generator.template.customization.XmlTemplateCustomization`
+[cols="1,1,4,1,1"]
+|===
+|Variable |Type |Description |Default value |Since
+
+
+|===
+
 .`org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization`
 [cols="1,1,4,2,1"]
 |===

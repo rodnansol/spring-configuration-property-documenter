@@ -11,6 +11,7 @@ import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCusto
 import org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization;
 import org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
+import org.rodnansol.core.generator.template.customization.XmlTemplateCustomization;
 import org.rodnansol.core.project.ProjectFactory;
 
 import java.io.File;
@@ -77,6 +78,14 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
     AsciiDocTemplateCustomization asciiDocCustomization;
 
     /**
+     * XML template customization object to configure the template.
+     *
+     * @since 0.2.0
+     */
+    @Parameter(property = "xmlCustomization")
+    XmlTemplateCustomization xmlCustomization;
+
+    /**
      * Type of the document.
      * <p>
      * The following template types are supported:
@@ -84,6 +93,7 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
      *     <li>MARKDOWN</li>
      *     <li>ADOC</li>
      *     <li>HTML</li>
+     *     <li>XML (Since 0.2.0)</li>
      * </ul>
      *
      * @since 0.1.0
@@ -147,7 +157,6 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
             }
         }
     }
-
     private TemplateCustomization getActualTemplateCustomization() {
         switch (type) {
             case MARKDOWN:
@@ -156,6 +165,8 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
                 return asciiDocCustomization;
             case HTML:
                 return htmlCustomization;
+            case XML:
+                return xmlCustomization;
         }
         throw new IllegalStateException("There is no template customization set for the current run");
     }

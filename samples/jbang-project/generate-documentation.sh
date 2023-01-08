@@ -19,6 +19,11 @@ ${JBANG_EXECUTABLE} ../../jbang/src/PropertyDocumenter.java generate \
                            -tt MARKDOWN \
                            -o target/spring-app-simple-property-docs.md
 
+${JBANG_EXECUTABLE} ../../jbang/src/PropertyDocumenter.java generate \
+                           -n "Simple JBang Application" -i ${JAR_LOCATION} \
+                           -tt XML \
+                           -o target/spring-app-simple-property-docs.xml
+
 
 ${JBANG_EXECUTABLE} ../../jbang/src/PropertyDocumenter.java aggregate \
                            -n "Simple JBang Application" \
@@ -41,3 +46,10 @@ ${JBANG_EXECUTABLE} ../../jbang/src/PropertyDocumenter.java aggregate \
                            -mn "Spring Application example 2" -i ${JAR_LOCATION} \
                            -tt HTML \
                            -o target/spring-app-aggregated-property-docs.html
+
+${JBANG_EXECUTABLE} ../../jbang/src/PropertyDocumenter.java aggregate \
+                           -n "Simple JBang Application" \
+                           -mn "Spring Application example 1" -i ${JAR_LOCATION} \
+                           -mn "Spring Application example 2" -i ${JAR_LOCATION} \
+                           -tt XML \
+                           -o target/spring-app-aggregated-property-docs.xml

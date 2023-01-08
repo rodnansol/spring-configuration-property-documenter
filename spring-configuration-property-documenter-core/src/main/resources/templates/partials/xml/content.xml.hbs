@@ -1,0 +1,17 @@
+        <module>
+            {{#if moduleName}}<moduleName> {{moduleName}}</moduleName>{{/if}}
+            {{#if moduleDescription}}<moduleDescription> {{moduleDescription}}</moduleDescription>{{/if}}
+            <propertyGroups>{{#each propertyGroups}}
+                    <propertyGroup>
+                        <groupName>{{groupName}}</groupName>
+                        <type>{{type}}</type>
+                        <properties>{{#each properties}}
+                            <key>{{key}}</key>
+                            <type>{{type}}</type>
+                            <description>{{description}}</description>
+                            <defaultValue>{{defaultValue}}</defaultValue>
+                            <propertyDeprecation>{{propertyDeprecation}}</propertyDeprecation>{{/each}}
+                        </properties>
+                    </propertyGroup>{{/each}}
+            </propertyGroups>
+        </module>

@@ -18,6 +18,8 @@ public class TemplateCustomizationFactory {
                 return new AsciiDocTemplateCustomization();
             case HTML:
                 return new HtmlTemplateCustomization();
+            case XML:
+                return new XmlTemplateCustomization();
         }
         throw new IllegalArgumentException("Unknown template type.");
     }
