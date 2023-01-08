@@ -1,0 +1,19 @@
+<configurationProperties>
+    {{#templateCustomization}}{{#if headerEnabled}}<mainName>{{mainName}}</mainName>
+    <mainDescription>{{mainDescription}}</mainDescription>{{/if}}{{#if tableOfContentsEnabled}}
+    <tableOfContents>
+        <modules>{{#if subTemplateDataList}}{{#each subTemplateDataList}}
+                <module>
+                    <moduleName>{{moduleName}}</moduleName>
+                    <propertyGroups>{{#each propertyGroups}}
+                            <propertyGroup>{{groupName}}</propertyGroup>{{/each}}
+                    </propertyGroups>
+                </module> {{/each}}
+        {{else}}<module>
+                    <propertyGroups>{{#each propertyGroups}}
+                            <propertyGroup>{{groupName}}</propertyGroup>{{/each}}
+                    </propertyGroups>
+                </module>{{/if}}
+        </modules>
+    </tableOfContents>{{/if}}{{/templateCustomization}}
+    <modules>

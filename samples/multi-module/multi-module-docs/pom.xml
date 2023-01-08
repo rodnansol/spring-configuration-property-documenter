@@ -182,6 +182,34 @@
                             <outputFile>target/aggregated-html.html</outputFile>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>aggregate-docs-xml</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>XML</type>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <input>../multi-module-a</input>
+                                </input>
+                                <input>
+                                    <name>Multi Module B</name>
+                                    <description>Multi Module B properties with a jar file input</description>
+                                    <input>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</input>
+                                </input>
+                                <input>
+                                    <name>Multi Module C</name>
+                                    <description>Multi Module C properties with a specific file input</description>
+                                    <input>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</input>
+                                </input>
+                            </inputs>
+                            <outputFile>target/aggregated-xml.xml</outputFile>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

@@ -64,7 +64,7 @@ Example: jbang PropertyDocumenter.java document \
 
       -tt, --template-type=<templateType>
                         Desired template type, supported:
-                        MARKDOWN, ADOC, HTML
+                        MARKDOWN, ADOC, HTML, XML
 
   -V, --version         Print version information and exit.
 
@@ -96,7 +96,7 @@ Example: jbang PropertyDocumenter.java aggregate \
 
       -tt, --template-type=<templateType>
                              Desired template type, supported:
-                             MARKDOWN, ADOC, HTML
+                             MARKDOWN, ADOC, HTML, XML
 
   -V, --version              Print version information and exit.
 

@@ -283,6 +283,12 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |Default `org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization` class.
 |0.2.0
 
+|xmlCustomization
+|XML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|Default `org.rodnansol.core.generator.template.customization.XmlTemplateCustomization` class.
+|0.2.0
+
 |metadataInput
 |Path to the metadata input:
 
@@ -352,6 +358,12 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
 |Default `org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization` class.
+|0.2.0
+
+|xmlCustomization
+|XML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|Default `org.rodnansol.core.generator.template.customization.XmlTemplateCustomization` class.
 |0.2.0
 
 |inputs

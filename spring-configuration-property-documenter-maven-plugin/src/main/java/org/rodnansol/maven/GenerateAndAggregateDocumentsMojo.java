@@ -13,6 +13,7 @@ import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCusto
 import org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization;
 import org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
+import org.rodnansol.core.generator.template.customization.XmlTemplateCustomization;
 import org.rodnansol.core.generator.writer.AggregationDocumenter;
 import org.rodnansol.core.generator.writer.CombinedInput;
 import org.rodnansol.core.generator.writer.CreateAggregationCommand;
@@ -63,6 +64,7 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
      *     <li>MARKDOWN</li>
      *     <li>ADOC</li>
      *     <li>HTML</li>
+     *     <li>XML (Since 0.2.0)</li>
      * </ul>
      *
      * @since 0.1.0
@@ -93,6 +95,14 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
      */
     @Parameter(property = "asciiDocCustomization")
     AsciiDocTemplateCustomization asciiDocCustomization;
+
+    /**
+     * XML template customization object to configure the template.
+     *
+     * @since 0.2.0
+     */
+    @Parameter(property = "xmlCustomization")
+    XmlTemplateCustomization xmlCustomization;
 
     /**
      * Inputs.
@@ -149,6 +159,8 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
                 return asciiDocCustomization;
             case HTML:
                 return htmlCustomization;
+            case XML:
+                return xmlCustomization;
         }
         throw new IllegalStateException("There is no template customization set for the current run");
     }

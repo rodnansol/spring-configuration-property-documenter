@@ -7,7 +7,9 @@ package org.rodnansol.core.generator.template;
 public enum TemplateType {
     MARKDOWN(".md", HeaderTemplateConstants.MARKDOWN, ContentTemplateConstants.MARKDOWN, FooterTemplateConstants.MARKDOWN, SingleTemplateConstants.MARKDOWN),
     ADOC(".adoc", HeaderTemplateConstants.ADOC, ContentTemplateConstants.ADOC, FooterTemplateConstants.ADOC, SingleTemplateConstants.ADOC),
-    HTML(".html", HeaderTemplateConstants.HTML, ContentTemplateConstants.HTML, FooterTemplateConstants.HTML, SingleTemplateConstants.HTML);
+    HTML(".html", HeaderTemplateConstants.HTML, ContentTemplateConstants.HTML, FooterTemplateConstants.HTML, SingleTemplateConstants.HTML),
+    XML(".xml", HeaderTemplateConstants.XML, ContentTemplateConstants.XML, FooterTemplateConstants.XML, SingleTemplateConstants.XML)
+    ;
 
     private final String extension;
     private final String headerTemplate;
@@ -49,6 +51,7 @@ public enum TemplateType {
         static final String ADOC = "templates/single/single-document-template.adoc";
         static final String MARKDOWN = "templates/single/single-document-template.md";
         static final String HTML = "templates/single/single-document-template.html";
+        static final String XML = "templates/single/single-document-template.xml";
     }
 
     static class HeaderTemplateConstants {
@@ -56,6 +59,7 @@ public enum TemplateType {
         static final String ADOC = "templates/aggregated/adoc/header.adoc";
         static final String MARKDOWN = "templates/aggregated/md/header.md";
         static final String HTML = "templates/aggregated/html/header.html";
+        static final String XML = "templates/aggregated/xml/header.xml";
     }
 
     static class ContentTemplateConstants {
@@ -63,6 +67,7 @@ public enum TemplateType {
         static final String ADOC = "templates/partials/adoc/content.adoc";
         static final String MARKDOWN = "templates/partials/md/content.md";
         static final String HTML = "templates/partials/html/content.html";
+        static final String XML = "templates/partials/xml/content.xml";
     }
 
     static class FooterTemplateConstants {
@@ -70,5 +75,6 @@ public enum TemplateType {
         static final String ADOC = "templates/aggregated/adoc/footer.adoc";
         static final String MARKDOWN = "templates/aggregated/md/footer.md";
         static final String HTML = "templates/aggregated/html/footer.html";
+        static final String XML = "templates/aggregated/xml/footer.xml";
     }
 }
