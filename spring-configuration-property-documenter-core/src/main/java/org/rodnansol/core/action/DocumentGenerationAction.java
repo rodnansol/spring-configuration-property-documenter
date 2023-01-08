@@ -82,11 +82,6 @@ public class DocumentGenerationAction {
         }
     }
 
-
-    public String getTemplateCompilerName() {
-        return templateCompilerName;
-    }
-
     public void setTemplateCompilerName(String templateCompilerName) {
         this.templateCompilerName = templateCompilerName;
     }

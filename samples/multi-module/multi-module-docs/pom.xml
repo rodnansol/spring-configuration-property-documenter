@@ -117,6 +117,40 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>aggregate-docs-custom-template-markdown</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <input>../multi-module-a</input>
+                                </input>
+                                <input>
+                                    <name>Multi Module B</name>
+                                    <description>Multi Module B properties with a jar file input</description>
+                                    <input>../multi-module-b/target/multi-module-b-999-SNAPSHOT.jar</input>
+                                </input>
+                                <input>
+                                    <name>Multi Module C</name>
+                                    <description>Multi Module C properties with a specific file input</description>
+                                    <input>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</input>
+                                </input>
+                            </inputs>
+                            <markdownCustomization>
+                                <headerEnabled>false</headerEnabled>
+                            </markdownCustomization>
+                            <headerTemplate>src/main/resources/templates/header.md</headerTemplate>
+                            <contentTemplate>src/main/resources/templates/content.md</contentTemplate>
+                            <footerTemplate>src/main/resources/templates/footer.md</footerTemplate>
+                            <outputFile>target/custom-aggregated-md.md</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>aggregate-docs-adoc</id>
                         <goals>
                             <goal>generate-and-aggregate-documents</goal>

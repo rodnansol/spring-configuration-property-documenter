@@ -4,13 +4,21 @@
 build:
    mvn -DskipTests clean install
 
+# maven build without tests
+verify:
+   mvn clean verify
+
 # Build samples
 build-samples: build
   cd samples && mvn clean install
 
-# Build samples
+# Debug samples
 debug-samples: build
   cd samples && mvnDebug clean install -X
+
+# Debug Multi Module Docs sample
+debug-multi-module-docs: build
+  cd samples/multi-module/multi-module-docs && mvnDebug clean install -X
 
 # Dry full-release
 dry-release:

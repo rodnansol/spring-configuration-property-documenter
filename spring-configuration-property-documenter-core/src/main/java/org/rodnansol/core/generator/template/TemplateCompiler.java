@@ -6,7 +6,7 @@ import org.rodnansol.core.generator.DocumentGenerationException;
  * Class that handles the template compiling.
  *
  * @author nandorholozsnyak
- * @since 0.1.0
+ * @since 0.2.0
  */
 public interface TemplateCompiler {
 

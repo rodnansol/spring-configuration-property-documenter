@@ -272,7 +272,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.1.0
 
 |template
-|Template to be used during the generation, if not specified the default templates are going to be used
+|Template to be used during the generation, if not specified the default templates are going to be used, (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
 |No
 |
 |0.1.0
@@ -286,7 +286,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |markdownCustomization
 |Markdown customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator
+|`org.rodnansol.core.generator
 .template.customization
 .MarkdownTemplateCustomization` class.
 |0.2.0
@@ -294,7 +294,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |asciiDocCustomization
 |AsciiDoc customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator
+|`org.rodnansol.core.generator
 .template.customization
 .AsciiDocTemplateCustomization` class.
 |0.2.0
@@ -302,7 +302,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |htmlCustomization
 |HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator
+|`org.rodnansol.core.generator
 .template.customization
 .HtmlTemplateCustomization` class.
 |0.2.0
@@ -310,7 +310,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |xmlCustomization
 |XML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator
+|`org.rodnansol.core.generator
 .template.customization
 .XmlTemplateCustomization` class.
 |0.2.0
@@ -328,6 +328,13 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |*target/classes/META-INF/spring-configuration-metadata.json*
 |0.1.0
 
+|templateCompilerName
+|Custom template compiler's fully qualified name
+|No
+|`org.rodnansol.core
+.generator.template
+.HandlebarsTemplateCompiler`
+|0.2.0
 
 |outputFile
 |The output file's full path
@@ -350,7 +357,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 .Configuration
 [%collapsible%]
 ====
-[cols="1,4a,1,1,1"]
+[cols="1,3,1,1,1"]
 |===
 |Parameter name |Description |Mandatory |Default value |Since
 
@@ -375,7 +382,8 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |markdownCustomization
 |Markdown customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator
+|`org.rodnansol
+.core.generator
 .template.customization
 .MarkdownTemplateCustomization` class.
 |0.2.0
@@ -383,7 +391,8 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |asciiDocCustomization
 |AsciiDoc customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator
+|`org.rodnansol
+.core.generator
 .template.customization
 .AsciiDocTemplateCustomization` class.
 |0.2.0
@@ -391,7 +400,8 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |htmlCustomization
 |HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator
+|`org.rodnansol
+.core.generator
 .template.customization
 .HtmlTemplateCustomization` class.
 |0.2.0
@@ -399,15 +409,16 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |xmlCustomization
 |XML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
 |No
-|Default `org.rodnansol.core.generator
+|`org.rodnansol
+.core.generator
 .template.customization
 .XmlTemplateCustomization` class.
 |0.2.0
 
 |inputs
-|Multiple input file
-|<<aggregation-mojo-input,AggregationMojoInput>> below
-|Yes
+|Multiple input file - Type: <<aggregation-mojo-input,AggregationMojoInput>> below
+|No
+|
 |0.1.0
 
 |outputFile
@@ -415,6 +426,32 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |Yes
 |
 |0.1.0
+
+|templateCompilerName
+|Custom template compiler's fully qualified name - For more information check the  <<template-customization#template-customizations,template customization section>>
+|No
+|`org.rodnansol.core
+.generator.template
+.HandlebarsTemplateCompiler`
+|0.2.0
+
+|headerTemplate
+|Custom header template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|No
+|
+|0.2.1
+
+|contentTemplate
+|Custom content template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|No
+|
+|0.2.1
+
+|footerTemplate
+|Custom footer template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|No
+|
+|0.2.1
 
 |===
 

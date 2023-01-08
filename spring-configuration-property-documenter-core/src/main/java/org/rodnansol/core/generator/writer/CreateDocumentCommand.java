@@ -7,6 +7,8 @@ import java.io.File;
 import java.util.Objects;
 
 /**
+ * Class representing the document creation command.
+ *
  * @author nandorholozsnyak
  * @since 0.1.0
  */

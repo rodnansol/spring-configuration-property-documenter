@@ -57,6 +57,18 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>generate-custom-markdown</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                            <template>../custom-templates/templates/custom-root-level-template.md</template>
+                            <outputFile>target/custom-root-level-template-markdown.md</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>generate-html</id>
                         <phase>process-classes</phase>
                         <goals>

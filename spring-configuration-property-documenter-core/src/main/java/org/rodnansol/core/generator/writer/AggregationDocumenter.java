@@ -1,5 +1,8 @@
 package org.rodnansol.core.generator.writer;
 
+import com.github.jknack.handlebars.internal.lang3.StringUtils;
+import com.github.jknack.handlebars.internal.lang3.tuple.ImmutablePair;
+import com.github.jknack.handlebars.internal.lang3.tuple.Pair;
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
@@ -19,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Class aggregates the incoming inputs into one big output file.
@@ -48,6 +52,11 @@ public class AggregationDocumenter {
     public void createDocumentsAndAggregate(CreateAggregationCommand createAggregationCommand) {
         Objects.requireNonNull(createAggregationCommand, "createAggregationCommand is NULL");
         LOGGER.info("Creating documents and aggregating them based on the incoming command:[{}]", createAggregationCommand);
+        Pair<List<SubTemplateData>, List<PropertyGroup>> result = createSubTemplateDataAndPropertyGroupList(createAggregationCommand);
+        createAndWriteContent(createAggregationCommand, result.getLeft(), result.getRight());
+    }
+
+    private Pair<List<SubTemplateData>, List<PropertyGroup>> createSubTemplateDataAndPropertyGroupList(CreateAggregationCommand createAggregationCommand) {
         List<SubTemplateData> subTemplateDataList = new ArrayList<>(createAggregationCommand.getCombinedInputs().size());
         List<PropertyGroup> propertyGroups = new ArrayList<>(createAggregationCommand.getCombinedInputs().size());
         for (CombinedInput entry : createAggregationCommand.getCombinedInputs()) {
@@ -60,25 +69,47 @@ public class AggregationDocumenter {
                 LOGGER.warn("Error during reading an entry:[" + entry.getInput() + "]", e);
             }
         }
-        createAndWriteContent(createAggregationCommand, subTemplateDataList, propertyGroups);
+        return new ImmutablePair<>(subTemplateDataList, propertyGroups);
     }
 
     private void createAndWriteContent(CreateAggregationCommand createAggregationCommand, List<SubTemplateData> subTemplateDataList, List<PropertyGroup> propertyGroups) {
-        TemplateType templateType = createAggregationCommand.getTemplateType();
         MainTemplateData mainTemplateData = createMainTemplateData(createAggregationCommand, propertyGroups);
         mainTemplateData.setSubTemplateDataList(subTemplateDataList);
-        String header = templateCompiler.compileTemplate(templateType.getHeaderTemplate(), mainTemplateData);
-        String footer = templateCompiler.compileTemplate(templateType.getFooterTemplate(), mainTemplateData);
-        String aggregatedContent = subTemplateDataList
+
+        Optional<CustomTemplate> optionalCustomTemplate = Optional.ofNullable(createAggregationCommand.getCustomTemplate());
+        TemplateType templateType = createAggregationCommand.getTemplateType();
+        ImmutablePair<String, String> renderedHeaderAndFooter = renderHeaderAndFooter(optionalCustomTemplate, templateType, mainTemplateData);
+        String aggregatedContent = renderContent(subTemplateDataList, optionalCustomTemplate, templateType);
+        writeRenderedSectionsToFile(createAggregationCommand, renderedHeaderAndFooter, aggregatedContent);
+    }
+
+    private ImmutablePair<String, String> renderHeaderAndFooter(Optional<CustomTemplate> optionalCustomTemplate, TemplateType templateType, MainTemplateData mainTemplateData) {
+        String headerTemplate = optionalCustomTemplate.map(CustomTemplate::getCustomHeaderTemplate).filter(StringUtils::isNotBlank).orElse(templateType.getHeaderTemplate());
+        String footerTemplate = optionalCustomTemplate.map(CustomTemplate::getCustomFooterTemplate).filter(StringUtils::isNotBlank).orElse(templateType.getFooterTemplate());
+        String header = templateCompiler.compileTemplate(headerTemplate, mainTemplateData);
+        String footer = templateCompiler.compileTemplate(footerTemplate, mainTemplateData);
+        return new ImmutablePair<>(header, footer);
+    }
+
+    private String renderContent(List<SubTemplateData> subTemplateDataList, Optional<CustomTemplate> optionalCustomTemplate, TemplateType templateType) {
+        String contentTemplate = resolveContentTemplate(templateType, optionalCustomTemplate);
+        return subTemplateDataList
             .stream()
-            .map(templateData -> templateCompiler.compileTemplate(templateType.getContentTemplate(), templateData))
+            .map(templateData -> templateCompiler.compileTemplate(contentTemplate, templateData))
             .reduce("", String::concat);
+    }
+
+    private String resolveContentTemplate(TemplateType templateType, Optional<CustomTemplate> optionalCustomTemplate) {
+        return optionalCustomTemplate.map(CustomTemplate::getCustomContentTemplate).filter(StringUtils::isNotBlank).orElse(templateType.getContentTemplate());
+    }
+
+    private void writeRenderedSectionsToFile(CreateAggregationCommand createAggregationCommand, ImmutablePair<String, String> renderedHeaderAndFooter, String aggregatedContent) {
         try {
             try (FileWriter fileWriter = new FileWriter(CoreFileUtils.initializeFileWithPath(createAggregationCommand.getOutput()))) {
                 LOGGER.debug("Writing aggregated content to file:[{}]", createAggregationCommand.getOutput());
-                fileWriter.append(header)
+                fileWriter.append(renderedHeaderAndFooter.getLeft())
                     .append(aggregatedContent)
-                    .append(footer);
+                    .append(renderedHeaderAndFooter.getRight());
             }
         } catch (IOException e) {
             throw new DocumentGenerationException("Error during writing content to file...", e);
