@@ -69,6 +69,18 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>generate-custom-markdown</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                            <template>src/main/resources/templates/custom-template.md</template>
+                            <outputFile>target/custom-markdown.md</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>generate-html</id>
                         <phase>process-classes</phase>
                         <goals>

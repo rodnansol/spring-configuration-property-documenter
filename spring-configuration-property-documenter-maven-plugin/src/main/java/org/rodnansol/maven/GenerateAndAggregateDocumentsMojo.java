@@ -17,6 +17,7 @@ import org.rodnansol.core.generator.template.customization.XmlTemplateCustomizat
 import org.rodnansol.core.generator.writer.AggregationDocumenter;
 import org.rodnansol.core.generator.writer.CombinedInput;
 import org.rodnansol.core.generator.writer.CreateAggregationCommand;
+import org.rodnansol.core.generator.writer.CustomTemplate;
 import org.rodnansol.core.project.ProjectFactory;
 
 import java.io.File;
@@ -130,6 +131,30 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
     @Parameter(property = "templateCompilerName")
     String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
 
+    /**
+     * Custom header template file.
+     *
+     * @since 0.2.1
+     */
+    @Parameter(property = "headerTemplate")
+    String headerTemplate;
+
+    /**
+     * Custom content template file.
+     *
+     * @since 0.2.1
+     */
+    @Parameter(property = "contentTemplate")
+    String contentTemplate;
+
+    /**
+     * Custom footer template file.
+     *
+     * @since 0.2.1
+     */
+    @Parameter(property = "footerTemplate")
+    String footerTemplate;
+
     @Override
     public void execute() {
         AggregationDocumenter aggregationDocumenter = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstance(templateCompilerName), MetadataInputResolverContext.INSTANCE);
@@ -142,6 +167,7 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
         org.rodnansol.core.project.maven.MavenProject mavenProject = ProjectFactory.ofMavenProject(project.getBasedir(), name, project.getModules());
         CreateAggregationCommand createAggregationCommand = new CreateAggregationCommand(mavenProject, name, combinedInputs, type, getActualTemplateCustomization(), outputFile);
         createAggregationCommand.setDescription(description);
+        createAggregationCommand.setCustomTemplate(new CustomTemplate(headerTemplate, contentTemplate, footerTemplate));
         return createAggregationCommand;
     }
 

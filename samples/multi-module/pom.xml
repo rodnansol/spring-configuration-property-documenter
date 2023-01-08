@@ -12,6 +12,7 @@
     <description>multi-module</description>
     <packaging>pom</packaging>
     <modules>
+        <module>custom-template-compiler</module>
         <module>multi-module-a</module>
         <module>multi-module-b</module>
         <module>multi-module-c</module>
@@ -20,6 +21,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.rodnansol.example</groupId>
+                <artifactId>custom-template-compiler</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.rodnansol.example</groupId>
                 <artifactId>multi-module-a</artifactId>

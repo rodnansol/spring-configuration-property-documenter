@@ -15,6 +15,11 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>org.rodnansol</groupId>
+            <artifactId>spring-configuration-property-documenter-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
@@ -37,6 +42,18 @@
                 <groupId>org.rodnansol</groupId>
                 <artifactId>spring-configuration-property-documenter-maven-plugin</artifactId>
                 <version>999-SNAPSHOT</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.rodnansol.example</groupId>
+                        <artifactId>custom-template-compiler</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.rodnansol.example</groupId>
+                        <artifactId>multi-module-c</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>generate-adoc</id>
@@ -56,6 +73,30 @@
                         </goals>
                         <configuration>
                             <type>MARKDOWN</type>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-markdown-custom-template-compiler</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                            <templateCompilerName>com.example.custom.CustomTemplateCompiler</templateCompilerName>
+                            <outputFile>target/custom-compiler-document.md</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-markdown-custom-self-template-compiler</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                            <templateCompilerName>com.example.multimodulec.CustomSelfContainedTemplateCompiler</templateCompilerName>
+                            <outputFile>target/custom-self-compiler-document.md</outputFile>
                         </configuration>
                     </execution>
                     <execution>

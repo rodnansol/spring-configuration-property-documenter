@@ -13,6 +13,7 @@ import org.rodnansol.core.generator.writer.AggregationDocumenter;
 import org.rodnansol.core.generator.writer.CombinedInput;
 import org.rodnansol.core.generator.writer.CreateAggregationCommand;
 import org.rodnansol.core.generator.writer.CreateDocumentCommand;
+import org.rodnansol.core.generator.writer.CustomTemplate;
 import org.rodnansol.core.generator.writer.Documenter;
 import org.rodnansol.core.project.Project;
 import org.rodnansol.core.project.ProjectFactory;
@@ -67,6 +68,14 @@ public class PropertyDocumenter {
         String documentName;
 
         /**
+         * Custom template file.
+         *
+         * @since 0.2.1
+         */
+        @CommandLine.Option(names = {"-t", "--template"}, description = "Custom template file", arity = "0..1")
+        String template;
+
+        /**
          * List of the inputs, they can be proper JSON files, JAR/Zip files or only directories. The script will determine what to consume.
          *
          * @since 0.1.0
@@ -115,7 +124,8 @@ public class PropertyDocumenter {
         @Override
         public void run() {
             Project project = ProjectFactory.ofType(new File("."), documentName, projectType);
-            CreateDocumentCommand createDocumentCommand = new CreateDocumentCommand(project, documentName, input, templateType.getSingleTemplate(), outputFile, TemplateCustomizationFactory.getDefaultTemplateCustomizationByType(templateType));
+            String singleTemplate = template != null && !template.isBlank() ? template : templateType.getSingleTemplate();
+            CreateDocumentCommand createDocumentCommand = new CreateDocumentCommand(project, documentName, input, singleTemplate, outputFile, TemplateCustomizationFactory.getDefaultTemplateCustomizationByType(templateType));
             try {
                 DOCUMENTER.readMetadataAndGenerateRenderedFile(createDocumentCommand);
             } catch (IOException e) {
@@ -207,6 +217,30 @@ public class PropertyDocumenter {
                 """, arity = "1", defaultValue = "MAVEN")
         ProjectType projectType;
 
+        /**
+         * Custom header template file.
+         *
+         * @since 0.2.1
+         */
+        @CommandLine.Option(names = {"-ht", "--header-template"}, description = "Custom header template file", arity = "0..1")
+        String headerTemplate;
+
+        /**
+         * Custom header template file.
+         *
+         * @since 0.2.1
+         */
+        @CommandLine.Option(names = {"-ct", "--content-template"}, description = "Custom content template file", arity = "0..1")
+        String contentTemplate;
+
+        /**
+         * Custom header template file.
+         *
+         * @since 0.2.1
+         */
+        @CommandLine.Option(names = {"-ft", "--footer-template"}, description = "Custom footer template file", arity = "0..1")
+        String footerTemplate;
+
         @Override
         public void run() {
             List<CombinedInput> combinedInputs = new ArrayList<>(inputs.size());
@@ -221,6 +255,7 @@ public class PropertyDocumenter {
                 templateType,
                 TemplateCustomizationFactory.getDefaultTemplateCustomizationByType(templateType),
                 new File(outputFile));
+            createAggregationCommand.setCustomTemplate(new CustomTemplate(headerTemplate, contentTemplate, footerTemplate));
             AGGREGATION_DOCUMENTER.createDocumentsAndAggregate(createAggregationCommand);
         }
 

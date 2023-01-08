@@ -52,10 +52,10 @@ jbang https://raw.githubusercontent.com/rodnansol/spring-configuration-property-
 Please use the `help` command to have more information about the tool:
 [source,log]
 ----
- jbang PropertyDocumenter.java generate --help
-Usage: <main class> generate [-hV] -i=<input> [-n=<documentName>]
-                             -o=<outputFile> [-pt=<projectType>]
-                             [-tt=<templateType>]
+❯ jbang PropertyDocumenter.java generate --help
+Usage: <main class> generate [-hV] [-t[=<template>]] -i=<input>
+                             [-n=<documentName>] -o=<outputFile>
+                             [-pt=<projectType>] [-tt=<templateType>]
 Documents the incoming input into a file.
 
 Example: jbang PropertyDocumenter.java document \
@@ -73,14 +73,20 @@ Example: jbang PropertyDocumenter.java document \
                         Type of the project,
                         currently supported: MAVEN, GRADLE
 
+  -t, --template[=<template>]
+                        Custom template file
       -tt, --template-type=<templateType>
                         Desired template type, supported:
                         MARKDOWN, ADOC, HTML, XML
 
   -V, --version         Print version information and exit.
 
+--------------------------------------------------------------------------
+
 ❯ jbang PropertyDocumenter.java aggregate --help
-Usage: <main class> aggregate [-hV] [-n=<mainName>] -o=<outputFile>
+Usage: <main class> aggregate [-hV] [-ct[=<contentTemplate>]] [-ft
+                              [=<footerTemplate>]] [-ht[=<headerTemplate>]]
+                              [-n=<mainName>] -o=<outputFile>
                               [-pt=<projectType>] [-tt=<templateType>]
                               -i=<inputs>... [-i=<inputs>...]...
                               [-mn=<moduleNames>...]...
@@ -95,7 +101,13 @@ Example: jbang PropertyDocumenter.java aggregate \
             -tt HTML \
             -o aggregated-property-docs.html
 
+      -ct, --content-template[=<contentTemplate>]
+                             Custom content template file
+      -ft, --footer-template[=<footerTemplate>]
+                             Custom footer template file
   -h, --help                 Show this help message and exit.
+      -ht, --header-template[=<headerTemplate>]
+                             Custom header template file
   -i, --inputs=<inputs>...   List of input files, directories or JAR files
       -mn, --module-names=<moduleNames>...
                              List of the module names
@@ -110,7 +122,6 @@ Example: jbang PropertyDocumenter.java aggregate \
                              MARKDOWN, ADOC, HTML, XML
 
   -V, --version              Print version information and exit.
-
 ----
 
 

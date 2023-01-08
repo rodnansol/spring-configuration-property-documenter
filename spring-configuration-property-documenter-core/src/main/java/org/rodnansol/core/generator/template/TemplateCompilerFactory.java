@@ -37,5 +37,4 @@ public class TemplateCompilerFactory {
     public static TemplateCompiler getDefaultProvidedInstance() {
         return new HandlebarsTemplateCompiler();
     }
-
 }

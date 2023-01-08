@@ -10,10 +10,17 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :warning-caption: :warning:
 endif::[]
+:toc:
+:toc-placement!:
+:toclevels: 4
 
 As written in the *README* file the core module is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine. With that we are able to create smaller files and we can render them together.
 
 If you would like to use your own templates as inputs you should first read through the following section to know which parameters you can use in your template.
+
+toc::[]
+
+== Default templates
 
 The provided/packaged templates can be found here:
 
@@ -23,6 +30,114 @@ The provided/packaged templates can be found here:
 ** Contains templates that could be used for multiple document aggregation
 * *spring-configuration-property-documenter-core/src/main/resources/templates/partials*
 ** Contains the templates for the content, and for the HTML a few helper templates
+
+== Custom templates
+
+You are not forced to use our templates, we can understand it is not your taste and maybe the customization options for the provided ones are not that flexible for your (for example the HTML format).
+
+By default, as written above https://jknack.github.io/handlebars.java/[Handlebars] is being used as the primary templating engine, and we are using the default settings, so if you create a template for yourself make sure you know the basic syntax and for all the templates the `.hbs` extension should be used, please check the provided templates for more information.
+
+NOTE: For a single document only one template is being used, but for the aggregated documents the tool is using multiple templates to render the final template, it is because we are compiling the header, footer and the content section after each other, and we are merging them in the end.
+
+The custom templates can be provided with the Maven and Gradle plugins as well or with <<usage-jbang#header, JBang>> if this is your preference.
+
+NOTE: Make sure you use your custom template file names with the `.hbs` extension, because Handlebars will put it to the end of the file.
+
+== Custom template compiler
+
+By default, as written above https://jknack.github.io/handlebars.java/[Handlebars] is being used as the primary templating engine, but it is fully understood if this tool does not suit your requirements, there are a lot of out there, and you might want to use that as the templating engine.
+
+*It is doable!*
+
+The tool is coming with an SPI (Service Provider Interface) extension where you can use your own `org.rodnansol.core.generator.template.TemplateCompiler` implementation and from the Maven or Gradle plugin you can set the compiler's name.
+
+TIP: It has been available since the *0.2.0* version.
+
+You only have to implement one method for now:
+
+[source,java]
+----
+public interface TemplateCompiler {
+
+    /**
+     * Compiles the template with the given template data.
+     * <p>
+     * If the template is not found an exception  must be raised.
+     *
+     * @param templatePath path to the template that the compiler can understand and work with.
+     * @param templateData template data.
+     * @return templated populated and compiled with the given template data.
+     * @throws DocumentGenerationException when the template compiler occurs an error.
+     */
+    String compileTemplate(String templatePath, TemplateData templateData) throws DocumentGenerationException;
+}
+----
+
+* `templatePath` variable is that what you can set for yourself from the Maven and Gradle plugin which should be the path to the template that must be compiled.
+* `templateData` variable is an object that is holding the converted data from the `spring-configuration-metadata.json` file. Check below for the available fields
+
+=== Register custom template compiler
+
+To register your service create a file named `org.rodnansol.core.generator.template.TemplateCompiler` under the `META-INF/services` directory and put your class's fully qualified name into the file.
+
+To make sure you have the necessary classes, at least for now, you have to add the following dependency to your project:
+
+.pom.xml
+[source,xml]
+----
+<dependency>
+    <groupId>org.rodnansol</groupId>
+    <artifactId>spring-configuration-property-documenter-core</artifactId>
+    <version>${project.version}</version>
+</dependency>
+----
+
+TIP: If this feature is going to get more visibility we will create an API module that would contain only the necessary classes to make sure your project is not polluted with a plugin dependency.
+
+[WARNING]
+The template variables are going to be the same, but if there is any compatibility issue with your compiling engine please let us know about the problem and open an issue to make sure we can handle these problems as well.
+
+.Registration example
+[%collapsible%]
+====
+.pom.xml
+[source,xml]
+----
+<plugin>
+                <groupId>org.rodnansol</groupId>
+                <artifactId>spring-configuration-property-documenter-maven-plugin</artifactId>
+                <version>999-SNAPSHOT</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.rodnansol.example</groupId>
+                        <artifactId>custom-template-compiler</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>generate-markdown-custom-template-compiler</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                            <templateCompilerName>com.example.custom.CustomTemplateCompiler</templateCompilerName>
+                            <outputFile>target/custom-compiler-document.md</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+----
+
+NOTE: Make sure you add the Maven module that contains the service registration (with the META-INF/services folder) to the plugin's dependency list, unless it will not recognize it.
+
+====
+
+TIP: For a working example please check the *samples/multi-module* directory's *multi-module-c* and *custom-template-compiler* module.
+
+== Template variables
 
 There are few Java classes to be discovered if you wish:
 
@@ -184,7 +299,7 @@ There are few Java classes to be discovered if you wish:
 |===
 
 [#template-customizations]
-== TemplateCustomization subclasses
+=== TemplateCustomization subclasses
 
 .`org.rodnansol.core.generator.template.customization.AbstractTemplateCustomization`
 [cols="1,1,4,1,1"]

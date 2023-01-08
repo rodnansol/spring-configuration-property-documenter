@@ -1,7 +1,10 @@
 package org.rodnansol.core.generator.template;
 
 import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import org.rodnansol.core.generator.DocumentGenerationException;
+import org.rodnansol.core.generator.template.handlebars.WorkingDirectoryAwareRecursiveFileTemplateLoader;
+import org.rodnansol.core.generator.template.handlebars.WorkingDirectoryProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +24,7 @@ public class HandlebarsTemplateCompiler implements TemplateCompiler {
         LOGGER.debug("Compiling template:[{}] with data:[{}]", templatePath, templatePath);
         try {
             return new Handlebars()
+                .with(new ClassPathTemplateLoader(), new WorkingDirectoryAwareRecursiveFileTemplateLoader(".", WorkingDirectoryProvider.INSTANCE))
                 .compile(templatePath)
                 .apply(templateData);
         } catch (IOException e) {
