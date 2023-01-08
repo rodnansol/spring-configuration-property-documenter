@@ -1,6 +1,20 @@
 <head>
     <title>{{mainName}}</title>
     <style>
+        {{#templateCustomization}}
+        :root {
+            --background-color: {{backgroundColor}};
+            --link-color: {{linkColor}};
+            --collapsible-hover-color: {{collapsibleHoverColor}};
+            --code-color: {{codeColor}};
+            --even-table-row-color: {{evenTableRowColor}};
+            --last-table-row-color: {{lastTableRowColor}};
+            --table-row-color: {{tableRowColor}};
+            --table-row-border-color: {{tableRowBorderColor}};
+            --text-color: {{textColor}}
+        }
+        {{/templateCustomization}}
+
         .top {
             --offset: 50px;
 
@@ -15,7 +29,7 @@
             padding: 10px;
             font-family: sans-serif;
             color: #fff;
-            background: #7db04b;
+            background: var(--background-color);
             border-radius: 100px;
             white-space: nowrap;
         }
@@ -23,6 +37,7 @@
         html,
         body {
             scroll-behavior: smooth;
+            color: var(--text-color);
         }
 
         .center {
@@ -45,8 +60,8 @@
         }
 
         .table thead tr {
-            background-color: #7db04b;
-            color: #ffffff;
+            background-color: var(--background-color);
+            color: var(--table-row-color);
             text-align: left;
         }
 
@@ -56,24 +71,24 @@
         }
 
         .table tbody tr {
-            border-bottom: 1px solid #dddddd;
+            border-bottom: 1px solid var(--table-row-border-color);
         }
 
         .table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
+            background-color: var(--even-table-row-color);
         }
 
         .table tbody tr:last-of-type {
-            border-bottom: 2px solid #009879;
+            border-bottom: 2px solid var(--last-table-row-color);
         }
 
         code {
-            background-color: #eeeeee;
+            background-color: var(--code-color);
         }
 
         .collapsible {
-            background-color: #7db04b;
-            color: white;
+            background-color: var(--background-color);
+            color: var(--text-color);
             cursor: pointer;
             padding: 18px;
             border: none;
@@ -81,11 +96,10 @@
             text-align: left;
             outline: none;
             font-size: 15px;
-
         }
 
         .active, .collapsible:hover {
-            background-color: #96d95c;
+            background-color: var(--collapsible-hover-color)
         }
 
         #toc-content {
@@ -100,9 +114,9 @@
             transition: max-height 0.5s ease-in;
         }
 
-        li a {
+        a {
             font-family: sans-serif;
-            color: black;
+            color: var(--link-color);
         }
     </style>
 </head>

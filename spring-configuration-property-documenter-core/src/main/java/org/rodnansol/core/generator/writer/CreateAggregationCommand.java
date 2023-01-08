@@ -1,6 +1,7 @@
 package org.rodnansol.core.generator.writer;
 
 import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.project.Project;
 
 import java.io.File;
@@ -17,14 +18,16 @@ public class CreateAggregationCommand {
     private final String aggregatedDocumentHeader;
     private final List<CombinedInput> combinedInputs;
     private final TemplateType templateType;
+    private final TemplateCustomization templateCustomization;
     private final File output;
     private String description;
 
-    public CreateAggregationCommand(Project project, String aggregatedDocumentHeader, List<CombinedInput> inputStreams, TemplateType templateType, File output) {
+    public CreateAggregationCommand(Project project, String aggregatedDocumentHeader, List<CombinedInput> inputStreams, TemplateType templateType, TemplateCustomization templateCustomization, File output) {
         this.project = project;
         this.aggregatedDocumentHeader = Objects.requireNonNull(aggregatedDocumentHeader, "name is NULL");
         this.combinedInputs = Objects.requireNonNull(inputStreams, "inputStreams is NULL");
         this.templateType = Objects.requireNonNull(templateType, "templateType is NULL");
+        this.templateCustomization = Objects.requireNonNull(templateCustomization, "templateCustomization is NULL");;
         this.output = Objects.requireNonNull(output, "output is NULL");
     }
 
@@ -52,6 +55,14 @@ public class CreateAggregationCommand {
         this.description = description;
     }
 
+    public Project getProject() {
+        return project;
+    }
+
+    public TemplateCustomization getTemplateCustomization() {
+        return templateCustomization;
+    }
+
     @Override
     public String toString() {
         return "CreateAggregationCommand{" +
@@ -63,7 +74,4 @@ public class CreateAggregationCommand {
             '}';
     }
 
-    public Project getProject() {
-        return project;
-    }
 }

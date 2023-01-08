@@ -5,6 +5,12 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.rodnansol.core.action.DocumentGenerationAction;
+import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
+import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
+import org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization;
+import org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization;
+import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.project.ProjectFactory;
 
 import java.io.File;
@@ -24,21 +30,51 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
 
     /**
      * Name that should be generated to the final document.
+     *
+     * @since 0.1.0
      */
     @Parameter(property = "name", defaultValue = "${project.name}")
     String name;
 
     /**
      * Description about the project.
+     *
+     * @since 0.1.0
      */
     @Parameter(property = "description", defaultValue = "${project.description}")
     String description;
 
     /**
      * The template to be used, if not specified it will be resolved by the {@link GeneratePropertyDocumentMojo#type} field.
+     *
+     * @since 0.1.0
      */
     @Parameter(property = "template")
     String template;
+
+    /**
+     * HTML template customization object to configure the template.
+     *
+     * @since 0.2.0
+     */
+    @Parameter(property = "htmlCustomization")
+    HtmlTemplateCustomization htmlCustomization;
+
+    /**
+     * Markdown template customization object to configure the template.
+     *
+     * @since 0.2.0
+     */
+    @Parameter(property = "markdownCustomization")
+    MarkdownTemplateCustomization markdownCustomization;
+
+    /**
+     * AsciiDoc template customization object to configure the template.
+     *
+     * @since 0.2.0
+     */
+    @Parameter(property = "asciiDocCustomization")
+    AsciiDocTemplateCustomization asciiDocCustomization;
 
     /**
      * Type of the document.
@@ -49,9 +85,11 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
      *     <li>ADOC</li>
      *     <li>HTML</li>
      * </ul>
+     *
+     * @since 0.1.0
      */
     @Parameter(property = "type", defaultValue = "MARKDOWN")
-    String type;
+    TemplateType type;
 
     /**
      * Metadata input that can be:
@@ -60,28 +98,47 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
      *     <li>A directory that contains the file</li>
      *     <li>A jar/zip file that contains the file within the following entry <b>META-INF/spring-configuration-metadata.json</b></li>
      * </ul>
+     *
+     * @since 0.1.0
      */
     @Parameter(property = "metadataInput", defaultValue = "target/classes/META-INF/spring-configuration-metadata.json")
     File metadataInput;
 
     /**
      * Output file.
+     *
+     * @since 0.1.0
      */
     @Parameter(property = "outputFile")
     File outputFile;
 
     /**
      * Define if the process should fail on an error or not.
+     *
+     * @since 0.1.0
      */
     @Parameter(property = "failOnError", defaultValue = "false")
     boolean failOnError;
 
+    /**
+     * Template compiler class's fully qualified name .
+     * <p>
+     * With this option you can use your own template compiler implementation if the default {@link HandlebarsTemplateCompiler}. based one is not enough.
+     *
+     * @since 0.2.0
+     */
+    @Parameter(property = "templateCompilerName")
+    String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
+
     @Override
     public void execute() {
         try {
-            new DocumentGenerationAction(
-                ProjectFactory.ofMavenProject(project.getBasedir(), project.getName(), project.getModules()), name, description, template, type, metadataInput, outputFile)
-                .execute();
+            org.rodnansol.core.project.maven.MavenProject mavenProject = ProjectFactory.ofMavenProject(project.getBasedir(), project.getName(), project.getModules());
+            DocumentGenerationAction documentGenerationAction = new DocumentGenerationAction(
+                mavenProject, name, description, getActualTemplateCustomization(),
+                template, type, metadataInput, outputFile);
+            documentGenerationAction.setTemplateCompilerName(templateCompilerName);
+            documentGenerationAction.execute();
         } catch (Exception e) {
             if (failOnError) {
                 throw new RuntimeException(e);
@@ -89,6 +146,18 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
                 getLog().warn("Error during file generation, failOnError is set to false, check the logs please....", e);
             }
         }
+    }
+
+    private TemplateCustomization getActualTemplateCustomization() {
+        switch (type) {
+            case MARKDOWN:
+                return markdownCustomization;
+            case ADOC:
+                return asciiDocCustomization;
+            case HTML:
+                return htmlCustomization;
+        }
+        throw new IllegalStateException("There is no template customization set for the current run");
     }
 
 }

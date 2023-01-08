@@ -6,6 +6,7 @@ import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.generator.writer.CreateDocumentCommand;
 import org.rodnansol.core.generator.writer.Documenter;
 import org.rodnansol.core.project.Project;
@@ -28,24 +29,25 @@ public class DocumentGenerationAction {
     private final Project project;
     private final String name;
     private final String description;
-    private final String type;
+    private final TemplateType templateType;
     private final File metadataInput;
+    private final TemplateCustomization templateCustomization;
     private String template;
     private File outputFile;
     private String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
 
-    public DocumentGenerationAction(Project project, String name, String description, String template, String type, File metadataInput, File outputFile) {
+    public DocumentGenerationAction(Project project, String name, String description, TemplateCustomization templateCustomization, String template, TemplateType templateType, File metadataInput, File outputFile) {
         this.project = project;
         this.name = name;
         this.description = description;
+        this.templateCustomization = templateCustomization;
         this.template = template;
-        this.type = type;
+        this.templateType = templateType;
         this.metadataInput = metadataInput;
         this.outputFile = outputFile;
     }
 
     public void execute() {
-        TemplateType templateType = TemplateType.valueOf(type);
         initializeTemplate(templateType);
         checkOutputFileAndCreateIfDoesNotExist(templateType);
         LOGGER.info("Creating property document file at:[{}]", outputFile);
@@ -55,7 +57,7 @@ public class DocumentGenerationAction {
     private void generateDocument() throws DocumentGenerationException {
         try {
             Documenter documenter = new Documenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstance(templateCompilerName), MetadataInputResolverContext.INSTANCE);
-            CreateDocumentCommand command = new CreateDocumentCommand(project, name, metadataInput, template, outputFile);
+            CreateDocumentCommand command = new CreateDocumentCommand(project, name, metadataInput, template, outputFile, templateCustomization);
             command.setDescription(description);
             documenter.readMetadataAndGenerateRenderedFile(command);
         } catch (IOException e) {
@@ -65,7 +67,7 @@ public class DocumentGenerationAction {
 
     private void initializeTemplate(TemplateType templateType) {
         if (template == null) {
-            template = templateType.findSingleTemplate();
+            template = templateType.getSingleTemplate();
         }
     }
 

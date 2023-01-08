@@ -5,70 +5,43 @@ package org.rodnansol.core.generator.template;
  * @since 0.1.0
  */
 public enum TemplateType {
-    MARKDOWN(".md"),
-    ADOC(".adoc"),
-    HTML(".html");
+    MARKDOWN(".md", HeaderTemplateConstants.MARKDOWN, ContentTemplateConstants.MARKDOWN, FooterTemplateConstants.MARKDOWN, SingleTemplateConstants.MARKDOWN),
+    ADOC(".adoc", HeaderTemplateConstants.ADOC, ContentTemplateConstants.ADOC, FooterTemplateConstants.ADOC, SingleTemplateConstants.ADOC),
+    HTML(".html", HeaderTemplateConstants.HTML, ContentTemplateConstants.HTML, FooterTemplateConstants.HTML, SingleTemplateConstants.HTML);
 
     private final String extension;
+    private final String headerTemplate;
+    private final String contentTemplate;
+    private final String footerTemplate;
 
-    TemplateType(String extension) {
+    private final String singleTemplate;
+
+    TemplateType(String extension, String headerTemplate, String contentTemplate, String footerTemplate, String singleTemplate) {
         this.extension = extension;
+        this.headerTemplate = headerTemplate;
+        this.contentTemplate = contentTemplate;
+        this.footerTemplate = footerTemplate;
+        this.singleTemplate = singleTemplate;
     }
 
-    public String findSingleTemplate() {
-        switch (this) {
-            case ADOC:
-                return SingleTemplateConstants.ADOC;
-            case MARKDOWN:
-                return SingleTemplateConstants.MARKDOWN;
-            case HTML:
-                return SingleTemplateConstants.HTML;
-            default:
-                throw new IllegalStateException("Unknown template type");
-        }
-    }
-
-    public String getHeaderTemplate() {
-        switch (this) {
-            case ADOC:
-                return HeaderTemplateConstants.ADOC;
-            case MARKDOWN:
-                return HeaderTemplateConstants.MARKDOWN;
-            case HTML:
-                return HeaderTemplateConstants.HTML;
-            default:
-                throw new IllegalStateException("Unknown template type");
-        }
-    }
-
-    public String getContentTemplate() {
-        switch (this) {
-            case ADOC:
-                return ContentTemplateConstants.ADOC;
-            case MARKDOWN:
-                return ContentTemplateConstants.MARKDOWN;
-            case HTML:
-                return ContentTemplateConstants.HTML;
-            default:
-                throw new IllegalStateException("Unknown template type");
-        }
-    }
-
-    public String getFooterTemplate() {
-        switch (this) {
-            case ADOC:
-                return FooterTemplateConstants.ADOC;
-            case MARKDOWN:
-                return FooterTemplateConstants.MARKDOWN;
-            case HTML:
-                return FooterTemplateConstants.HTML;
-            default:
-                throw new IllegalStateException("Unknown template type");
-        }
+    public String getSingleTemplate() {
+        return singleTemplate;
     }
 
     public String getExtension() {
         return extension;
+    }
+
+    public String getHeaderTemplate() {
+        return headerTemplate;
+    }
+
+    public String getContentTemplate() {
+        return contentTemplate;
+    }
+
+    public String getFooterTemplate() {
+        return footerTemplate;
     }
 
     static class SingleTemplateConstants {

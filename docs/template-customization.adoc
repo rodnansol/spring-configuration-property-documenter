@@ -24,124 +24,269 @@ There are few Java classes to be discovered if you wish:
 
 .Template variables (MainTemplateData)
 |===
-|Variable |Type |Description
+|Variable |Type |Description |Since
 
 |mainName
 |String
 |Main header name, this can be configured, most times it is the name of the project or module
+|0.1.0
 
 |propertyGroups
 |List<PropertyGroup>
 |List of the property groups that has been read and converted from the `spring-configuration-metadata.json`
+|0.1.0
 
 |subTemplateDataList
 |List<SubTemplateData>
 |If multiple file aggregation is happening than this is going to contain all the incoming module data.
+|0.1.0
 
 |mainDescription
 |String
 |Main description that is customizable
+|0.1.0
 
 |generationDate
 |LocalDateTime
 |The date time of the template generation
+|0.1.0
+
+|templateCustomization
+|TemplateCustomization
+|An object that can be used to customize a given template (see <<template-customizations,here>>)
+|0.2.0
 
 |===
 
 .Template variables (SubTemplateData)
 |===
-|Variable |Type |Description
+|Variable |Type |Description |Since
 
 |moduleName
 |String
 |Name of the module, in case of aggregation it can be a module name
+|0.1.0
 
 |propertyGroups
 |List<PropertyGroup>
 |List of the property groups that has been read and converted from the `spring-configuration-metadata.json`
+|0.1.0
 
 |moduleDescription
 |String
 |Module description that is customizable
+|0.1.0
 
 |generationDate
 |LocalDateTime
 |The date time of the template generation
+|0.1.0
 
 |===
 
 .Template variables (PropertyGroup)
 |===
-|Variable |Type |Description
+|Variable |Type |Description |Since
 
 |groupName
 |String
 |Name of the group, this is basically the prefix you set in the `@ConfigurationProperties` annotation
+|0.1.0
 
 |type
 |String
 |The name of the class, if it is a nested class it will be the name of that class
+|0.1.0
 
 
 |sourceType
 |String
 |The name of the class, if it is a nested class it will be the name of that parent class
+|0.1.0
 
 |properties
 |List<Property>
 |List of the properties
+|0.1.0
 
 |parentGroup
 |PropertyGroup
 |Parent property group
+|0.1.0
 
 |childrenGroups
 |List<PropertyGroup>
 |Children property groups, in case of parent and nester class associations
+|0.1.0
 
 |===
 
 .Template variables (Property)
 |===
-|Variable |Type |Description
+|Variable |Type |Description |Since
 
 |fqName
 |String
-|Fully qualified name ()
+|Fully qualified name
+|0.1.0
 
 |type
 |String
 |The Java type
-
+|0.1.0
 
 |key
 |String
 |Property key
+|0.1.0
 
 |description
 |String
 |Description of the property, read from the JavaDoc
+|0.1.0
 
 |defaultValue
 |String
 |Default value if specified
+|0.1.0
 
 |propertyDeprecation
 |PropertyDeprecation
 |If the property is marked as deprecated data about that
+|0.1.0
 
 |===
 
 .Template variables (PropertyDeprecation)
 |===
-|Variable |Type |Description
+|Variable |Type |Description |Since
 
 |reason
 |String
 |Reason of the deprecation
+|0.1.0
 
 |replacement
 |String
 |The replacement of the specific key
+|0.1.0
 
 |===
+
+[#template-customizations]
+== TemplateCustomization subclasses
+
+.`org.rodnansol.core.generator.template.customization.AbstractTemplateCustomization`
+[cols="1,1,4,1,1"]
+|===
+|Variable |Type |Description |Default value |Since
+
+|headerEnabled
+|boolean
+|Controls if the header section (main module name and main module description) should be enabled/visible or not
+|true
+|0.2.0
+
+|tableOfContentsEnabled
+|boolean
+|Controls if the "Table of contents" sections should be enabled or not
+|true
+|0.2.0
+
+|===
+
+.`org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization`
+[cols="1,1,4,1,1"]
+|===
+|Variable |Type |Description |Default value |Since
+
+
+|===
+
+.`org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization`
+[cols="1,1,4,2,1"]
+|===
+|Variable |Type |Description |Default value |Since
+
+|tocTitle
+|String
+|"Table of Contents" replacement title
+|Table of Contents
+|0.2.0
+
+|tocPlacement
+|TocPlacement (AUTO, LEFT, RIGHT)
+|"Table of Contents" placement
+|AUTO
+|0.2.0
+
+|tocLevels
+|int
+|"Table of Contents" level/depth
+|4
+|0.2.0
+
+|===
+
+.`org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization`
+[cols="1,1,4,2,1"]
+|===
+|Variable |Type |Description |Default value |Since
+
+|backgroundColor
+|String
+|Table and associated elements background color
+|#7db04b
+|0.2.0
+
+|linkColor
+|String
+|Link (<a>) text color
+|black
+|0.2.0
+
+|collapsibleHoverColor
+|String
+|Table of content based collapsible block hover color
+|#96d95c
+|0.2.0
+
+|codeColor
+|String
+|<code> section color
+|#eeeeee
+|0.2.0
+
+|evenTableRowColor
+|String
+|Even table row's color
+|#f3f3f3
+|0.2.0
+
+|lastTableRowColor
+|String
+|Last table row's color
+|#009879
+|0.2.0
+
+|tableRowColor
+|String
+|Table row color
+|#ffffff
+|0.2.0
+
+|tableRowBorderColor
+|String
+|Border color of the table rows
+|#dddddd
+|0.2.0
+
+|textColor
+|String
+|Text color
+|white
+|0.2.0
+
+|===
+
+NOTE: The full stylesheet can be found here in this file: https://github.com/rodnansol/spring-configuration-property-documenter/blob/master/spring-configuration-property-documenter-core/src/main/resources/templates/partials/html/header.html.hbs

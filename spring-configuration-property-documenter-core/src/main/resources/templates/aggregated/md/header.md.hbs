@@ -1,6 +1,8 @@
-# {{mainName}}
+{{#templateCustomization}}
+{{#if headerEnabled}}# {{mainName}}
 {{mainDescription}}
-
+{{/if}}
+{{#if tableOfContentsEnabled}}
 ## Table of contents
 {{#if subTemplateDataList}}
 {{#each subTemplateDataList}}
@@ -11,3 +13,5 @@
 {{#each propertyGroups}}* [**{{groupName}}** - `{{type}}`](#{{groupName}})
 {{/each}}
 {{/if}}
+{{/if}}
+{{/templateCustomization}}

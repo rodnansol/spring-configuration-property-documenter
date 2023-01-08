@@ -3,8 +3,8 @@ package org.rodnansol.core.action;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.rodnansol.core.generator.DocumentGenerationException;
-import org.rodnansol.core.util.CoreFileUtils;
 import org.rodnansol.core.project.Project;
+import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +21,14 @@ import java.util.stream.Collectors;
 
 /**
  * Class representing aggregation action.
+ * <p>
+ * This aggregation action can do a lot of things, if it is put into a parent module (like a parent Maven module) it can read all the child module generated files, but the only problem is the lifecycle.
+ * <p>
+ * Without defining the inputs the action will behave differently between builds because the parent modules are running first and this action can be invoked before the documents are ready to be aggregated.
+ * <p>
+ * This can be useful to use in project where the developers are explicitly defining the inputs that must be aggregated into a single output file.
+ * <p>
+ * <b>THIS IS A VERY EXPERIMENTAL CODE HERE.</b>
  *
  * @author nandorholozsnyak
  * @since 0.1.0
