@@ -1,8 +1,19 @@
 [#header]
 = Spring Configuration Property Documenter -  with JBang
+ifndef::env-github[]
+:icons: font
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
 :toc:
 :toc-placement!:
 :toclevels: 4
+
 
 https://jbang.dev[JBang] is a cool utility tool, with that you can make Java based script files that you can run with external dependencies, and because of that it is a great tool for us as well to make sure you have one additional entry point to the Spring Configuration Property Documenter tool.
 

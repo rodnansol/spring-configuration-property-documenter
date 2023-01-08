@@ -1,1 +1,11 @@
 = Coming soon!
+ifndef::env-github[]
+:icons: font
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]

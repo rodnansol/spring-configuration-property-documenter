@@ -1,4 +1,6 @@
-<configurationProperties>
+<configurationProperties  xmlns="https://github.com/rodnansol/spring-configuration-property-documenter"
+                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          xsi:schemaLocation="https://github.com/rodnansol/spring-configuration-property-documenter https://raw.githubusercontent.com/rodnansol/spring-configuration-property-documenter/master/public/schema-0.2.1.xsd">
     {{#templateCustomization}}{{#if headerEnabled}}<mainName>{{mainName}}</mainName>
     <mainDescription>{{mainDescription}}</mainDescription>{{/if}}{{#if tableOfContentsEnabled}}
     <tableOfContents>
@@ -6,12 +8,16 @@
                 <module>
                     <moduleName>{{moduleName}}</moduleName>
                     <propertyGroups>{{#each propertyGroups}}
-                            <propertyGroup>{{groupName}}</propertyGroup>{{/each}}
+                        <propertyGroup>
+                            <groupName>{{groupName}}</groupName>
+                        </propertyGroup>{{/each}}
                     </propertyGroups>
                 </module> {{/each}}
         {{else}}<module>
                     <propertyGroups>{{#each propertyGroups}}
-                            <propertyGroup>{{groupName}}</propertyGroup>{{/each}}
+                        <propertyGroup>
+                            <groupName>{{groupName}}</groupName>
+                        </propertyGroup>{{/each}}
                     </propertyGroups>
                 </module>{{/if}}
         </modules>
