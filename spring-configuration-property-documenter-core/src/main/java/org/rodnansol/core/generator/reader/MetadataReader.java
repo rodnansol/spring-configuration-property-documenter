@@ -75,9 +75,15 @@ public class MetadataReader {
     }
 
     private PropertyGroup setProperties(Map<String, List<Property>> propertyMap, PropertyGroup propertyGroup) {
-        propertyGroup.setProperties(propertyMap.get(propertyGroup.getType()).stream()
+        List<Property> properties = propertyMap.get(propertyGroup.getType());
+        if (properties == null || properties.isEmpty()) {
+            LOGGER.warn("Property group with name:[{}] is having no properties, please check if you provided the getter/setter methods. If your class is empty intentionally, please forget this warning here.", propertyGroup.getGroupName());
+            return propertyGroup;
+        }
+        List<Property> collectedProperties = properties.stream()
             .map(property -> updateProperty(propertyGroup, property))
-            .collect(Collectors.toList()));
+            .collect(Collectors.toList());
+        propertyGroup.setProperties(collectedProperties);
         return propertyGroup;
     }
 

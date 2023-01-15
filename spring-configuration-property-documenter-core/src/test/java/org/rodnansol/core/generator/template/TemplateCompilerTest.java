@@ -1,4 +1,4 @@
-package org.rodnansol.core;
+package org.rodnansol.core.generator.template;
 
 import org.rodnansol.core.generator.template.TemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateCompilerFactory;
