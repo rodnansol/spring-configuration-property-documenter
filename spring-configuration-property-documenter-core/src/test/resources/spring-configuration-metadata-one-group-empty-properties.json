@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "this.is.my",
+      "type": "com.example.springpropertysources.MyProperties",
+      "sourceType": "com.example.springpropertysources.MyProperties"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}

@@ -1,0 +1,61 @@
+{
+  "groups": [
+    {
+      "name": "this.is.my",
+      "type": "com.example.springpropertysources.MyProperties",
+      "sourceType": "com.example.springpropertysources.MyProperties"
+    },
+    {
+      "name": "this.is.my.first-level-nested-property",
+      "type": "com.example.springpropertysources.FirstLevelNestedProperty",
+      "sourceType": "com.example.springpropertysources.MyProperties",
+      "sourceMethod": "getFirstLevelNestedProperty()"
+    },
+    {
+      "name": "this.is.my.first-level-nested-property.second-level-nested-class",
+      "type": "com.example.springpropertysources.FirstLevelNestedProperty$SecondLevelNestedClass",
+      "sourceType": "com.example.springpropertysources.FirstLevelNestedProperty",
+      "sourceMethod": "getSecondLevelNestedClass()"
+    },
+    {
+      "name": "this.is.my.nested",
+      "type": "com.example.springpropertysources.TopLevelClassNestedProperty",
+      "sourceType": "com.example.springpropertysources.TopLevelClassNestedProperty"
+    }
+  ],
+  "properties": [
+    {
+      "name": "this.is.my.first-level-nested-property.desc",
+      "type": "java.lang.String",
+      "description": "Description of this thing.",
+      "sourceType": "com.example.springpropertysources.FirstLevelNestedProperty",
+      "defaultValue": "123"
+    },
+    {
+      "name": "this.is.my.first-level-nested-property.name",
+      "type": "java.lang.String",
+      "description": "Name of the custom property.",
+      "sourceType": "com.example.springpropertysources.FirstLevelNestedProperty",
+      "defaultValue": "ABC"
+    },
+    {
+      "name": "this.is.my.first-level-nested-property.second-level-nested-class.second-level-value",
+      "type": "java.lang.String",
+      "description": "Custom nested",
+      "sourceType": "com.example.springpropertysources.FirstLevelNestedProperty$SecondLevelNestedClass"
+    },
+    {
+      "name": "this.is.my.nested.nested-value",
+      "type": "java.lang.String",
+      "description": "Nested value.",
+      "sourceType": "com.example.springpropertysources.TopLevelClassNestedProperty"
+    },
+    {
+      "name": "this.is.my.variable",
+      "type": "java.lang.String",
+      "description": "This is my variable.",
+      "sourceType": "com.example.springpropertysources.MyProperties"
+    }
+  ],
+  "hints": []
+}

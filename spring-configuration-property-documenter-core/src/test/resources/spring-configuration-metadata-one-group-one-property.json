@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "name": "this.is.my",
+      "type": "com.example.springpropertysources.MyProperties",
+      "sourceType": "com.example.springpropertysources.MyProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "this.is.my.variable",
+      "type": "java.lang.String",
+      "description": "This is my variable.",
+      "sourceType": "com.example.springpropertysources.MyProperties"
+    }
+  ],
+  "hints": []
+}
