@@ -60,7 +60,7 @@ public class HtmlTemplateCustomization extends AbstractTemplateCustomization {
      * Text color.
      * @since 0.2.0
      */
-    private String textColor = "white";
+    private String textColor = "black";
 
     public String getBackgroundColor() {
         return backgroundColor;
