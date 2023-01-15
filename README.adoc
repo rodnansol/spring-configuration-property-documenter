@@ -158,6 +158,7 @@ WARNING: Until the Gradle plugin is not available you can use the <<JBang>> scri
 
 Check out the https://github.com/rodnansol/spring-configuration-property-documenter/tree/master/samples[samples] folder for the different samples.
 
+TIP: If you are using Spring with Quarkus, you can use this tool as well, please check out the Quarkus example in the *samples* folder.
 
 == Setup
 === Requirements
