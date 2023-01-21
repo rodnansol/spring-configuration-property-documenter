@@ -13,9 +13,11 @@ endif::[]
 :toc-placement!:
 :toclevels: 4
 
-
+[.text-center]
 image:https://img.shields.io/maven-central/v/org.rodnansol/spring-configuration-property-documenter.svg[Maven Central]
 image:https://img.shields.io/badge/License-Apache_2.0-blue.svg[Apache 2.0]
+image:https://img.shields.io/twitter/url/https/twitter.com/rodnansol.svg?style=social&label=Follow%20%40RodnanSol[]
+image:https://dcbadge.vercel.app/api/server/USyh6XUjvP[Discord]
 
 - Have you ever felt that you have no proper way to oversee a project because it is having a lot of customizable properties, but they are not documented, and you do not know where to start a new feature or bugfix?
 
