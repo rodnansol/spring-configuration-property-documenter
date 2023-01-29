@@ -1,6 +1,8 @@
+{{#if moduleName}}// tag::{{moduleName}}[]{{/if}}
 {{#if moduleName}}== {{moduleName}}{{/if}}
 {{#if moduleDescription}}{{moduleDescription}}{{/if}}
 {{#each propertyGroups}}
+// tag::{{groupName}}[]
 ifndef::property-group-simple-title[=== {{groupName}} +]
 ifdef::property-group-simple-title[.*_{{groupName}}_* +]
 *Class:* `{{type}}`
@@ -17,4 +19,6 @@ ifdef::property-group-simple-title[.*_{{groupName}}_* +]
 {{/each}}
 
 |===
+// end::{{groupName}}[]
 {{/each}}
+{{#if moduleName}}// end::{{moduleName}}[]{{/if}}
