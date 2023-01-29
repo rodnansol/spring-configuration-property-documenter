@@ -403,10 +403,6 @@
                                         <connectTimeout>20</connectTimeout>
                                         <readTimeout>60</readTimeout>
                                         <status>🚀 Spring Configuration Property Documenter {{projectVersion}} has been released! {{releaseNotesUrl}} #spring #springboot #maven #jbang #quarkus</status>
-                                        <discord>
-                                            <active>ALWAYS</active>
-                                            <message>🚀 Spring Configuration Property Documenter {{projectVersion}} has been released! {{releaseNotesUrl}}</message>
-                                        </discord>
                                     </twitter>
                                 </announce>
                                 <release>
