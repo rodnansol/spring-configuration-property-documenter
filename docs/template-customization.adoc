@@ -31,6 +31,97 @@ The provided/packaged templates can be found here:
 * *spring-configuration-property-documenter-core/src/main/resources/templates/partials*
 ** Contains the templates for the content, and for the HTML a few helper templates
 
+=== AsciiDoc customizations
+
+The final AsciiDoc files when they are being included, the rendered files are utilizing the following AsciiDoc related features:
+
+* https://docs.asciidoctor.org/asciidoc/latest/directives/include-tagged-regions/#tag-filtering[Tag filtering]
+*  https://docs.asciidoctor.org/asciidoc/latest/directives/ifdef-ifndef/[ifdef and ifndef Directives]
+
+==== Tag filtering
+
+Every configuration property key is wrapped in a tag, and on include any tag can be ignored, or a specific list of configuration property keys can be set to include in the main documentation
+
+.Example
+[source,adoc]
+----
+// tag::this.is.module.a[]
+=== this.is.module.a
+*Class:* `com.example.multimodulea.ModuleAProperty`
+
+[cols="2,1,3,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation
+
+|variable-a
+|java.lang.String
+|This is my variable from module A.
+|Default value for module A
+|
+
+
+|===
+// end::this.is.module.a[]
+----
+
+.Example include
+[source,adoc]
+----
+include::file.adoc[tags=my.property.key.a;my.property.key.b]
+include::file.adoc[tags=!my.property.key.a;my.property.key.b]
+----
+
+===== ifdef and ifndef Directives
+With the `ifdef` and `ifndef` directives the content of the document can be manipulated and the tool gives you the following directives to play with:
+
+* `property-group-simple-title` - Define this attribute to have the included document's header style just a simple text and not a header
+** It can be good if the configuration documentation is being included in a collapsible section
+* `property-group-discrete-heading` - Define this attribute if the included document's headers should be rendered as https://docs.asciidoctor.org/asciidoc/latest/blocks/discrete-headings/[discrete headings]
+** It can be good if the configuration documentation is being included in a collapsible section
+* If none of the attributes are configured, the typical (= based) headings will be used.
+
+.Example file
+[source,adoc]
+----
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.module.a +]
+ifdef::property-group-simple-title[.*_this.is.module.a_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.module.a
+endif::[]
+*Class:* `com.example.multimodulea.ModuleAProperty`
+
+[cols="2,1,3,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation
+
+|variable-a
+|java.lang.String
+|This is my variable from module A.
+|Default value for module A
+|
+
+
+|===
+----
+
+.Example include
+[source,adoc]
+----
+:property-group-simple-title: //<.>
+include::file.adoc[]
+:property-group-simple-title!: //<.>
+
+
+:property-group-discrete-heading: //<.>
+include::file.adoc[]
+:property-group-discrete-heading!://<.>
+----
+<1> Enable the simple titles
+<2> Disabled the simple titles to make sure another included files are not inheriting the attributes
+<3> Enable the discrete headings
+<4> Disabled the discrete headings to make sure another included files are not inheriting the attributes
+
 == Custom templates
 
 You are not forced to use our templates, we can understand it is not your taste and maybe the customization options for the provided ones are not that flexible for your (for example the HTML format).
