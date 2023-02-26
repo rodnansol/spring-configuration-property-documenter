@@ -3,8 +3,12 @@
 {{#if moduleDescription}}{{moduleDescription}}{{/if}}
 {{#each propertyGroups}}
 // tag::{{groupName}}[]
-ifndef::property-group-simple-title[=== {{groupName}} +]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== {{groupName}} +]
 ifdef::property-group-simple-title[.*_{{groupName}}_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== {{groupName}}
+endif::[]
 *Class:* `{{type}}`
 
 [cols="2,1,3,1,1"]
