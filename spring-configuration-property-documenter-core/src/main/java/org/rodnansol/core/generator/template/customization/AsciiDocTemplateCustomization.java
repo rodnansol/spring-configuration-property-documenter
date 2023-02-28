@@ -1,5 +1,7 @@
 package org.rodnansol.core.generator.template.customization;
 
+import java.util.Objects;
+
 /**
  * Class representing extra customizations for the AsciiDoc template.
  *
@@ -34,8 +36,8 @@ public class AsciiDocTemplateCustomization extends AbstractTemplateCustomization
         this.tocTitle = tocTitle;
     }
 
-    public TocPlacement getTocPlacement() {
-        return tocPlacement;
+    public String getTocPlacement() {
+        return tocPlacement.toLowerCase();
     }
 
     public void setTocPlacement(TocPlacement tocPlacement) {
@@ -60,4 +62,17 @@ public class AsciiDocTemplateCustomization extends AbstractTemplateCustomization
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        AsciiDocTemplateCustomization that = (AsciiDocTemplateCustomization) o;
+        return tocLevels == that.tocLevels && Objects.equals(tocTitle, that.tocTitle) && tocPlacement == that.tocPlacement;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), tocTitle, tocPlacement, tocLevels);
+    }
 }

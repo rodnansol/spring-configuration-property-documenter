@@ -12,6 +12,9 @@ import java.util.Objects;
  */
 public class PropertyGroup {
 
+    public static final String WITHOUT_TYPE = "Without type";
+    public static final String UNKNOWN = "Unknown";
+
     private final String groupName;
     private final String type;
     private final String sourceType;
@@ -19,12 +22,32 @@ public class PropertyGroup {
     private PropertyGroup parentGroup;
     private List<PropertyGroup> childrenGroups;
     private boolean nested;
+    private boolean unknownGroup;
 
     public PropertyGroup(String groupName, String type, String sourceType) {
         this.groupName = groupName;
         this.type = type;
         this.sourceType = sourceType;
         this.nested = !type.equals(sourceType);
+    }
+
+    public PropertyGroup(String groupName, String type, String sourceType, List<Property> properties) {
+        this.groupName = groupName;
+        this.type = type;
+        this.sourceType = sourceType;
+        this.nested = !type.equals(sourceType);
+        this.properties = properties;
+    }
+
+    /**
+     * Creates a group that has 'Unknown' type and source type.
+     *
+     * @return unknown group.
+     */
+    public static PropertyGroup createUnknownGroup() {
+        PropertyGroup propertyGroup = new PropertyGroup(WITHOUT_TYPE, UNKNOWN, UNKNOWN);
+        propertyGroup.setUnknownGroup(true);
+        return propertyGroup;
     }
 
     public String getType() {
@@ -67,16 +90,25 @@ public class PropertyGroup {
         return childrenGroups;
     }
 
+    public boolean isUnknownGroup() {
+        return unknownGroup;
+    }
+
+    public void setUnknownGroup(boolean unknownGroup) {
+        this.unknownGroup = unknownGroup;
+    }
+
     /**
      * Add a new child group.
      *
      * @param childGroup group to be added as a new child.
      */
-    public void addChildGroup(PropertyGroup childGroup) {
+    public PropertyGroup addChildGroup(PropertyGroup childGroup) {
         if (childrenGroups == null) {
             childrenGroups = new ArrayList<>();
         }
         childrenGroups.add(childGroup);
+        return this;
     }
 
     /**
@@ -84,11 +116,12 @@ public class PropertyGroup {
      *
      * @param property new property.
      */
-    public void addProperty(Property property) {
+    public PropertyGroup addProperty(Property property) {
         if (properties == null) {
             properties = new ArrayList<>();
         }
         properties.add(property);
+        return this;
     }
 
     @Override
@@ -120,4 +153,5 @@ public class PropertyGroup {
     public int hashCode() {
         return Objects.hash(groupName, type, sourceType, properties, parentGroup, nested);
     }
+
 }

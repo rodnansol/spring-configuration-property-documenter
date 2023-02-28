@@ -31,9 +31,9 @@
         <javax.servlet-api.version>4.0.0</javax.servlet-api.version>
         <swagger-models.version>2.0.0</swagger-models.version>
         <commons-io.version>2.11.0</commons-io.version>
-        <junit-bom.version>5.9.0</junit-bom.version>
-        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-        <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
+        <junit-bom.version>5.9.2</junit-bom.version>
+        <maven-surefire-plugin.version>3.0.0-M9</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M9</maven-failsafe-plugin.version>
         <mockito-core.version>4.6.1</mockito-core.version>
         <mockito-junit-jupiter.version>4.6.1</mockito-junit-jupiter.version>
         <hamcrest-all.version>1.3</hamcrest-all.version>
@@ -303,6 +303,24 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <jacoco-agent.destfile>**/jacoco.exec</jacoco-agent.destfile>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <systemPropertyVariables>
                         <jacoco-agent.destfile>**/jacoco.exec</jacoco-agent.destfile>

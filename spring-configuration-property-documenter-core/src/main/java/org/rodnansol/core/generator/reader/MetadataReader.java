@@ -11,10 +11,13 @@ import org.springframework.boot.configurationprocessor.metadata.ItemMetadata;
 import org.springframework.boot.configurationprocessor.metadata.JsonMarshaller;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -88,7 +91,12 @@ public class MetadataReader {
     }
 
     private Property updateProperty(PropertyGroup propertyGroup, Property property) {
-        property.setKey(property.getFqName().substring(propertyGroup.getGroupName().length() + 1));
+        String groupName = propertyGroup.getGroupName();
+        if(propertyGroup.isUnknownGroup()) {
+            property.setKey(property.getFqName());
+        } else {
+            property.setKey(property.getFqName().substring(groupName.length() + 1));
+        }
         return property;
     }
 
@@ -116,24 +124,34 @@ public class MetadataReader {
         return propertyEntry.getValue()
             .stream()
             .map(propertyGroup -> setProperties(propertyMap, propertyGroup))
-            .filter(PropertyGroup::isNested).collect(Collectors.toList());
+            .filter(PropertyGroup::isNested)
+            .collect(Collectors.toList());
     }
 
     private Map<String, List<PropertyGroup>> getPropertyGroups(ConfigurationMetadata configurationMetadata) {
-        return configurationMetadata.getItems()
+        Map<String, List<PropertyGroup>> propertyGroupMap = configurationMetadata.getItems()
             .stream()
             .filter(itemMetadata -> itemMetadata.isOfItemType(ItemMetadata.ItemType.GROUP))
-            .map(itemMetadata -> new PropertyGroup(itemMetadata.getName(), itemMetadata.getType(), itemMetadata.getSourceType()))
+            .map(itemMetadata -> new PropertyGroup(itemMetadata.getName(), itemMetadata.getType(), getSourceTypeOrDefault(itemMetadata)))
             .collect(Collectors.groupingBy(PropertyGroup::getSourceType, Collectors.toList()));
+        List<PropertyGroup> value = new ArrayList<>();
+        value.add(PropertyGroup.createUnknownGroup());
+        propertyGroupMap.put(PropertyGroup.UNKNOWN, value);
+        return propertyGroupMap;
     }
 
     private Map<String, List<Property>> getPropertyMap(ConfigurationMetadata configurationMetadata) {
+        Function<ItemMetadata, String> getSourceType = this::getSourceTypeOrDefault;
         return configurationMetadata.getItems()
             .stream()
             .filter(itemMetadata -> itemMetadata.isOfItemType(ItemMetadata.ItemType.PROPERTY))
-            .collect(Collectors.groupingBy(ItemMetadata::getSourceType,
+            .collect(Collectors.groupingBy(getSourceType,
                 Collectors.mapping(this::mapToProperty, Collectors.toList()))
             );
+    }
+
+    private String getSourceTypeOrDefault(ItemMetadata current) {
+        return Optional.ofNullable(current.getSourceType()).orElse(PropertyGroup.UNKNOWN);
     }
 
     private Property mapToProperty(ItemMetadata itemMetadata) {
