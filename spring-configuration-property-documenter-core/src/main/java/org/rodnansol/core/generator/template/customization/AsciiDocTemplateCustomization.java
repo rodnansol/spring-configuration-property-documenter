@@ -36,8 +36,8 @@ public class AsciiDocTemplateCustomization extends AbstractTemplateCustomization
         this.tocTitle = tocTitle;
     }
 
-    public TocPlacement getTocPlacement() {
-        return tocPlacement;
+    public String getTocPlacement() {
+        return tocPlacement.toLowerCase();
     }
 
     public void setTocPlacement(TocPlacement tocPlacement) {
