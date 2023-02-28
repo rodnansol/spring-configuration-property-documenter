@@ -1,0 +1,12 @@
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "myproduct.features.foobar.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable the foobar feature",
+      "defaultValue": true
+    }
+  ],
+  "hints": []
+}

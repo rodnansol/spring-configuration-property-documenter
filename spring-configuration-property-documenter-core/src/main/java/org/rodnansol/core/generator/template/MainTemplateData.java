@@ -4,6 +4,7 @@ import org.rodnansol.core.generator.template.customization.TemplateCustomization
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class representing the main template data.
@@ -101,5 +102,16 @@ public class MainTemplateData implements TemplateData {
             '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MainTemplateData that = (MainTemplateData) o;
+        return Objects.equals(mainName, that.mainName) && Objects.equals(propertyGroups, that.propertyGroups) && Objects.equals(subTemplateDataList, that.subTemplateDataList) && Objects.equals(mainDescription, that.mainDescription) && Objects.equals(templateCustomization, that.templateCustomization);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(mainName, propertyGroups, subTemplateDataList, mainDescription, templateCustomization);
+    }
 }

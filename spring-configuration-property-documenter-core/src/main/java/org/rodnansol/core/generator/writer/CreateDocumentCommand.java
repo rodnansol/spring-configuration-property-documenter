@@ -24,7 +24,7 @@ public class CreateDocumentCommand {
 
     public CreateDocumentCommand(Project project, String name, File metadataInput, String template, File output, TemplateCustomization templateCustomization) {
         this.project = Objects.requireNonNull(project, "project is NULL");
-        this.templateCustomization = Objects.requireNonNull(templateCustomization, "templateCustomization is NULL");;
+        this.templateCustomization = Objects.requireNonNull(templateCustomization, "templateCustomization is NULL");
         this.name = Objects.requireNonNull(name, "name is NULL");
         this.metadataInput = Objects.requireNonNull(metadataInput, "metadataStream is NULL");
         this.template = Objects.requireNonNull(template, "template is NULL");

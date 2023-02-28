@@ -31,6 +31,12 @@ class MetadataReaderTest {
         return Stream.of(
             arguments(named("Should read file and return empty property groups list when the groups and properties are empty", new ReadPropertiesAsPropertyGroupListTestCase(TEST_RESOURCES_DIRECTORY + "spring-configuration-metadata-empty-groups-and-properties.json",
                 List::of))),
+            arguments(named("Should read file and return non-empty property groups list when the groups are empty but the properties are not and properties are not having associated groups, in this case a new 'Without typ' group should appear", new ReadPropertiesAsPropertyGroupListTestCase(TEST_RESOURCES_DIRECTORY + "spring-configuration-metadata-empty-sourceType.json",
+                () -> {
+                    PropertyGroup expectedMyProperties = new PropertyGroup("Without type", "Unknown", "Unknown");
+                    expectedMyProperties.addProperty(new Property("myproduct.features.foobar.enabled", "java.lang.Boolean", "myproduct.features.foobar.enabled", "Enable the foobar feature", "true", null));
+                    return List.of(expectedMyProperties);
+                }))),
             arguments(named("Should read file and return empty property groups list when the groups and properties are empty", new ReadPropertiesAsPropertyGroupListTestCase(TEST_RESOURCES_DIRECTORY + "spring-configuration-metadata-empty-groups-and-properties.json",
                 List::of))),
             arguments(named("Should read file and return non-empty property groups list when one group is given but no associated properties are present", new ReadPropertiesAsPropertyGroupListTestCase(TEST_RESOURCES_DIRECTORY + "spring-configuration-metadata-one-group-empty-properties.json",
