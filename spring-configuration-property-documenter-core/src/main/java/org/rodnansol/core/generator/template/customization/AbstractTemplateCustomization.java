@@ -26,7 +26,7 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
     /**
      * If the 'Without type'/Unknown group should be included or not.
      *
-     * @since 0.2.5
+     * @since 0.3.0
      */
     protected boolean includeUnknownGroup = true;
 

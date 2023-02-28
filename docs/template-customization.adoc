@@ -413,7 +413,7 @@ There are few Java classes to be discovered if you wish:
 |boolean
 |Controls if the properties without any known group should be included or not. It can happen if the input metadata JSON file is missing the group association with its properties.
 |true
-|0.2.5
+|0.3.0
 
 |===
 
