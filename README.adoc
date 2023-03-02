@@ -208,3 +208,7 @@ As said before the tool can be executed by multiple tools, by far probably the m
 == Installation
 
 == Contribution
+
+== Contributors
+
+Check the list of contributors https://github.com/rodnansol/spring-configuration-property-documenter/tree/master/CONTRIBUTORS.md[here].

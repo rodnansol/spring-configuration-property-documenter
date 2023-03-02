@@ -1,0 +1,26 @@
+{
+  "projectName": "spring-configuration-property-documenter",
+  "projectOwner": "rodnansol",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "CONTRIBUTORS.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "nandorholozsnyak",
+      "name": "Nándor Holozsnyák",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11406183?v=4",
+      "profile": "https://github.com/nandorholozsnyak",
+      "contributions": [
+        "maintenance",
+        "code"
+      ]
+    }
+  ],
+  "skipCi": true,
+  "contributorsPerLine": 7
+}
