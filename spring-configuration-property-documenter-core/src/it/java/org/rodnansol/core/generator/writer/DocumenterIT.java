@@ -34,7 +34,7 @@ class DocumenterIT {
     private static final String MAIN_EXPECTED_FOLDER = "src/it/resources/it/single/";
     private static final String TEST_JSON = MAIN_EXPECTED_FOLDER + "spring-configuration-metadata-empty-sourceType.json";
 
-    @TempDir(cleanup = CleanupMode.NEVER)
+    @TempDir
     Path tempDir;
 
     Documenter underTest = new Documenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultProvidedInstance(), MetadataInputResolverContext.INSTANCE);
