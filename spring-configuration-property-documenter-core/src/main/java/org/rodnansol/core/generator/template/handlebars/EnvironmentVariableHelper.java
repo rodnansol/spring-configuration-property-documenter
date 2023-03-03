@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.source.SystemEnvironmentPrope
  * Handlebars helpers transforming property to ENV_VARIABLE
  *
  * @author allsimon
- * @since 0.3.1
+ * @since 0.4.0
  */
 public class EnvironmentVariableHelper implements Helper<String> {
 

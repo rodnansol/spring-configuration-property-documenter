@@ -6,11 +6,14 @@
                         <groupName>{{groupName}}</groupName>
                         <type>{{type}}</type>
                         <properties>{{#each properties}}
-                            <key>{{key}}</key>
-                            <type>{{type}}</type>
-                            <description>{{description}}</description>
-                            <defaultValue>{{defaultValue}}</defaultValue>
-                            <propertyDeprecation>{{propertyDeprecation}}</propertyDeprecation>{{/each}}
+                            <property>
+                                <key>{{key}}</key>
+                                <type>{{type}}</type>
+                                <description>{{description}}</description>
+                                <defaultValue>{{defaultValue}}</defaultValue>
+                                <propertyDeprecation>{{propertyDeprecation}}</propertyDeprecation>
+                                {{#include_env_format ../../this}}<environmentVariable>{{as_env fqName}}</environmentVariable>{{/include_env_format}}{{/each}}
+                            </property>
                         </properties>
                     </propertyGroup>{{/each}}
             </propertyGroups>

@@ -4,6 +4,7 @@ import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.template.handlebars.EnvironmentVariableHelper;
+import org.rodnansol.core.generator.template.handlebars.IncludeEnvironmentVariableFormatHelper;
 import org.rodnansol.core.generator.template.handlebars.WorkingDirectoryAwareRecursiveFileTemplateLoader;
 import org.rodnansol.core.generator.template.handlebars.WorkingDirectoryProvider;
 import org.slf4j.Logger;
@@ -20,9 +21,23 @@ import java.io.IOException;
 public class HandlebarsTemplateCompiler implements TemplateCompiler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HandlebarsTemplateCompiler.class);
-    private final Handlebars handlebars = new Handlebars()
-        .registerHelper("as_env", new EnvironmentVariableHelper())
-        .with(new ClassPathTemplateLoader(), new WorkingDirectoryAwareRecursiveFileTemplateLoader(".", WorkingDirectoryProvider.INSTANCE));
+
+    private final Handlebars handlebars;
+
+    public HandlebarsTemplateCompiler(Handlebars handlebars) {
+        this.handlebars = handlebars;
+    }
+
+    public HandlebarsTemplateCompiler() {
+        this(createDefaultHandlebarsInstance());
+    }
+
+    private static Handlebars createDefaultHandlebarsInstance() {
+        return new Handlebars()
+            .registerHelper("as_env", new EnvironmentVariableHelper())
+            .registerHelper("include_env_format", new IncludeEnvironmentVariableFormatHelper())
+            .with(new ClassPathTemplateLoader(), new WorkingDirectoryAwareRecursiveFileTemplateLoader(".", WorkingDirectoryProvider.INSTANCE));
+    }
 
     public String compileTemplate(String templatePath, TemplateData templateData) throws DocumentGenerationException {
         LOGGER.debug("Compiling template:[{}] with data:[{}]", templatePath, templatePath);

@@ -30,6 +30,20 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
      */
     protected boolean includeUnknownGroup = true;
 
+    /**
+     * If the properties should be converted to their environment variable representation to have a quicker way to copy and paste them.
+     *
+     * @since 0.4.0
+     */
+    protected boolean includeEnvFormat = false;
+
+    /**
+     * If the generation date should be rendered into the document or not.
+     *
+     * @since 0.4.0
+     */
+    protected boolean includeGenerationDate = true;
+
     public boolean isHeaderEnabled() {
         return headerEnabled;
     }
@@ -46,6 +60,7 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
         this.tableOfContentsEnabled = tableOfContentsEnabled;
     }
 
+    @Override
     public boolean isIncludeUnknownGroup() {
         return includeUnknownGroup;
     }
@@ -55,15 +70,33 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
     }
 
     @Override
+    public boolean isIncludeEnvFormat() {
+        return includeEnvFormat;
+    }
+
+    public void setIncludeEnvFormat(boolean includeEnvFormat) {
+        this.includeEnvFormat = includeEnvFormat;
+    }
+
+    @Override
+    public boolean isIncludeGenerationDate() {
+        return includeGenerationDate;
+    }
+
+    public void setIncludeGenerationDate(boolean includeGenerationDate) {
+        this.includeGenerationDate = includeGenerationDate;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractTemplateCustomization that = (AbstractTemplateCustomization) o;
-        return headerEnabled == that.headerEnabled && tableOfContentsEnabled == that.tableOfContentsEnabled && includeUnknownGroup == that.includeUnknownGroup;
+        return headerEnabled == that.headerEnabled && tableOfContentsEnabled == that.tableOfContentsEnabled && includeUnknownGroup == that.includeUnknownGroup && includeEnvFormat == that.includeEnvFormat;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(headerEnabled, tableOfContentsEnabled, includeUnknownGroup);
+        return Objects.hash(headerEnabled, tableOfContentsEnabled, includeUnknownGroup, includeEnvFormat);
     }
 }
