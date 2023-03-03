@@ -1,5 +1,7 @@
 package org.rodnansol.core.generator.template;
 
+import org.rodnansol.core.generator.template.customization.TemplateCustomization;
+
 /**
  * Interface representing the ancestor for all template data types.
  *
@@ -7,5 +9,19 @@ package org.rodnansol.core.generator.template;
  * @since 0.1.0
  */
 public interface TemplateData {
+
+    /**
+     * Returns the template customization data.
+     *
+     * @since 0.4.0
+     */
+    TemplateCustomization getTemplateCustomization();
+
+    /**
+     * Sets the template customization data.
+     *
+     * @since 0.4.0
+     */
+    void setTemplateCustomization(TemplateCustomization templateCustomization);
 
 }

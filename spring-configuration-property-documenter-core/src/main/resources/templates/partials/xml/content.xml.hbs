@@ -12,8 +12,8 @@
                                 <description>{{description}}</description>
                                 <defaultValue>{{defaultValue}}</defaultValue>
                                 <propertyDeprecation>{{propertyDeprecation}}</propertyDeprecation>
-                                {{#include_env_format ../../this}}<environmentVariable>{{as_env fqName}}</environmentVariable>{{/include_env_format}}{{/each}}
-                            </property>
+                                {{#include_env_format ../../this}}<environmentVariable>{{as_env fqName}}</environmentVariable>{{/include_env_format}}
+                            </property>{{/each}}
                         </properties>
                     </propertyGroup>{{/each}}
             </propertyGroups>

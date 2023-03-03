@@ -30,6 +30,7 @@
                                 <defaultValue>true</defaultValue>
                                 <propertyDeprecation></propertyDeprecation>
                                 <environmentVariable>MYPRODUCT_FEATURES_FOOBAR_ENABLED</environmentVariable>
+                            </property>
                             <property>
                                 <key>myproduct.features.foobar.number</key>
                                 <type>java.lang.Number</type>
@@ -37,6 +38,7 @@
                                 <defaultValue>12.99</defaultValue>
                                 <propertyDeprecation></propertyDeprecation>
                                 <environmentVariable>MYPRODUCT_FEATURES_FOOBAR_NUMBER</environmentVariable>
+                            </property>
                             <property>
                                 <key>myproduct.features.foobar.value</key>
                                 <type>java.lang.String</type>
