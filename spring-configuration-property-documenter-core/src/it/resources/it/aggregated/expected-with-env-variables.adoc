@@ -1,0 +1,95 @@
+
+= IT
+:toc: auto
+:toc-title: Table of Contents
+:toclevels: 4
+
+
+
+// tag::Document 1[]
+== Document 1
+
+
+// tag::Without type[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== Without type +]
+ifdef::property-group-simple-title[.*_Without type_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== Without type
+endif::[]
+*Class:* `Unknown`
+
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+|myproduct.features.foobar.enabled
+|java.lang.Boolean
+|Enable the foobar feature
+|true
+|
+|`MYPRODUCT_FEATURES_FOOBAR_ENABLED` 
+
+|myproduct.features.foobar.number
+|java.lang.Number
+|Number value
+|12.99
+|
+|`MYPRODUCT_FEATURES_FOOBAR_NUMBER` 
+
+|myproduct.features.foobar.value
+|java.lang.String
+|String value
+|Hello world
+|
+|`MYPRODUCT_FEATURES_FOOBAR_VALUE` 
+
+
+|===
+// end::Without type[]
+
+// end::Document 1[]
+// tag::Document 2[]
+== Document 2
+
+
+// tag::Without type[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== Without type +]
+ifdef::property-group-simple-title[.*_Without type_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== Without type
+endif::[]
+*Class:* `Unknown`
+
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+|myproduct.features.foobar.enabled
+|java.lang.Boolean
+|Enable the foobar feature
+|true
+|
+|`MYPRODUCT_FEATURES_FOOBAR_ENABLED` 
+
+|myproduct.features.foobar.number
+|java.lang.Number
+|Number value
+|12.99
+|
+|`MYPRODUCT_FEATURES_FOOBAR_NUMBER` 
+
+|myproduct.features.foobar.value
+|java.lang.String
+|String value
+|Hello world
+|
+|`MYPRODUCT_FEATURES_FOOBAR_VALUE` 
+
+
+|===
+// end::Without type[]
+
+// end::Document 2[]
+

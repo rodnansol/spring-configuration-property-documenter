@@ -11,6 +11,7 @@ import org.rodnansol.core.generator.template.PropertyGroup;
 import org.rodnansol.core.generator.template.SubTemplateData;
 import org.rodnansol.core.generator.template.TemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +65,7 @@ public class AggregationDocumenter {
             try (InputStream inputStream = metadataInputResolverContext.getInputStreamFromFile(createAggregationCommand.getProject(), entry.getInput())) {
                 List<PropertyGroup> groups = metadataReader.readPropertiesAsPropertyGroupList(inputStream);
                 propertyGroups.addAll(groups);
-                subTemplateDataList.add(createModuleTemplateData(entry.getSectionName(), groups, entry.getDescription()));
+                subTemplateDataList.add(createModuleTemplateData(createAggregationCommand.getTemplateCustomization(), entry.getSectionName(), groups, entry.getDescription()));
             } catch (Exception e) {
                 LOGGER.warn("Error during reading an entry:[" + entry.getInput() + "]", e);
             }
@@ -116,8 +117,9 @@ public class AggregationDocumenter {
         }
     }
 
-    private SubTemplateData createModuleTemplateData(String sectionName, List<PropertyGroup> propertyGroups, String description) {
+    private SubTemplateData createModuleTemplateData(TemplateCustomization templateCustomization, String sectionName, List<PropertyGroup> propertyGroups, String description) {
         SubTemplateData subTemplateData = new SubTemplateData(sectionName, propertyGroups);
+        subTemplateData.setTemplateCustomization(templateCustomization);
         subTemplateData.setGenerationDate(LocalDateTime.now());
         subTemplateData.setModuleDescription(description);
         return subTemplateData;

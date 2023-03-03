@@ -60,6 +60,9 @@
                         </goals>
                         <configuration>
                             <type>ADOC</type>
+                            <asciiDocCustomization>
+                                <includeEnvFormat>true</includeEnvFormat>
+                            </asciiDocCustomization>
                         </configuration>
                     </execution>
                     <execution>
@@ -70,6 +73,9 @@
                         </goals>
                         <configuration>
                             <type>MARKDOWN</type>
+                            <markdownCustomization>
+                                <includeEnvFormat>true</includeEnvFormat>
+                            </markdownCustomization>
                         </configuration>
                     </execution>
                     <execution>
@@ -80,6 +86,9 @@
                         </goals>
                         <configuration>
                             <type>HTML</type>
+                            <htmlCustomization>
+                                <includeEnvFormat>true</includeEnvFormat>
+                            </htmlCustomization>
                         </configuration>
                     </execution>
                 </executions>

@@ -12,6 +12,7 @@
                 <th>Description</th>
                 <th>Default value</th>
                 <th>Deprecation</th>
+                {{#include_env_format ../../this}}<th>Environment variable</th> {{/include_env_format}}
             </tr>
             </thead>
             <tbody>
@@ -22,6 +23,7 @@
                     <td>{{description}}</td>
                     <td>{{defaultValue}}</td>
                     <td>{{propertyDeprecation}}</td>
+                    {{#include_env_format ../../this}}<td>{{as_env fqName}}</td> {{/include_env_format}}
                 </tr>
             {{/each}}
             </tbody>

@@ -11,15 +11,16 @@ ifdef::property-group-discrete-heading[]
 endif::[]
 *Class:* `{{type}}`
 
-[cols="2,1,3,1,1"]
+[cols="2,1,3,1,1{{#include_env_format ../this}},1{{/include_env_format}}"]
 |===
-|Key |Type |Description |Default value |Deprecation
+|Key |Type |Description |Default value |Deprecation{{#include_env_format ../this}}|Environment variable {{/include_env_format}}
 {{#each properties}}
 |{{key}}
 |{{type}}
 |{{description}}
 |{{defaultValue}}
 |{{propertyDeprecation}}
+{{#include_env_format ../../this}}|`{{as_env fqName}}` {{/include_env_format}}
 {{/each}}
 
 |===

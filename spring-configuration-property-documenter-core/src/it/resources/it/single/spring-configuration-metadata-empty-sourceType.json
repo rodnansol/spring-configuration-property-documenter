@@ -1,0 +1,24 @@
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "myproduct.features.foobar.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable the foobar feature",
+      "defaultValue": true
+    },
+    {
+      "name": "myproduct.features.foobar.value",
+      "type": "java.lang.String",
+      "description": "String value",
+      "defaultValue": "Hello world"
+    },
+    {
+      "name": "myproduct.features.foobar.number",
+      "type": "java.lang.Number",
+      "description": "Number value",
+      "defaultValue": "12.99"
+    }
+  ],
+  "hints": []
+}

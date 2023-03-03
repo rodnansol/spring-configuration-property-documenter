@@ -1,0 +1,58 @@
+<configurationProperties  xmlns="https://github.com/rodnansol/spring-configuration-property-documenter"
+                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          xsi:schemaLocation="https://github.com/rodnansol/spring-configuration-property-documenter https://raw.githubusercontent.com/rodnansol/spring-configuration-property-documenter/master/public/schema-0.4.0.xsd">
+    <mainName>IT</mainName>
+    <mainDescription></mainDescription>
+    <tableOfContents>
+        <modules><module>
+                    <propertyGroups>
+                        <propertyGroup>
+                            <groupName>Without type</groupName>
+                        </propertyGroup>
+                    </propertyGroups>
+                </module>
+        </modules>
+    </tableOfContents>
+    <modules>
+
+        <module>
+            
+            
+            <propertyGroups>
+                    <propertyGroup>
+                        <groupName>Without type</groupName>
+                        <type>Unknown</type>
+                        <properties>
+                            <property>
+                                <key>myproduct.features.foobar.enabled</key>
+                                <type>java.lang.Boolean</type>
+                                <description>Enable the foobar feature</description>
+                                <defaultValue>true</defaultValue>
+                                <propertyDeprecation></propertyDeprecation>
+                                <environmentVariable>MYPRODUCT_FEATURES_FOOBAR_ENABLED</environmentVariable>
+                            </property>
+                            <property>
+                                <key>myproduct.features.foobar.number</key>
+                                <type>java.lang.Number</type>
+                                <description>Number value</description>
+                                <defaultValue>12.99</defaultValue>
+                                <propertyDeprecation></propertyDeprecation>
+                                <environmentVariable>MYPRODUCT_FEATURES_FOOBAR_NUMBER</environmentVariable>
+                            </property>
+                            <property>
+                                <key>myproduct.features.foobar.value</key>
+                                <type>java.lang.String</type>
+                                <description>String value</description>
+                                <defaultValue>Hello world</defaultValue>
+                                <propertyDeprecation></propertyDeprecation>
+                                <environmentVariable>MYPRODUCT_FEATURES_FOOBAR_VALUE</environmentVariable>
+                            </property>
+                        </properties>
+                    </propertyGroup>
+            </propertyGroups>
+        </module>
+
+    </modules>
+    
+</configurationProperties>
+

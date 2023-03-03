@@ -15,4 +15,18 @@ public interface TemplateCustomization {
      */
     boolean isIncludeUnknownGroup();
 
+    /**
+     * If the properties should be converted to their environment variable representation to have a quicker way to copy and paste them.
+     *
+     * @since 0.4.0
+     */
+    boolean isIncludeEnvFormat();
+
+    /**
+     * If the generation date should be rendered into the document or not.
+     *
+     * @since 0.4.0
+     */
+    boolean isIncludeGenerationDate();
+
 }

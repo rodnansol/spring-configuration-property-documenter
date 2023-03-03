@@ -4,8 +4,8 @@
 ### {{groupName}}
 **Class:** `{{type}}`
 
-| Key | Type | Description | Default value | Deprecation |
-|-----|------|-------------|---------------|-------------|
-{{#each properties}}|{{key}}|{{type}}|{{description}}|{{defaultValue}}|{{propertyDeprecation}}|
+| Key | Type | Description | Default value | Deprecation |{{#include_env_format ../this}} Environment variable| {{/include_env_format}}
+|-----|------|-------------|---------------|-------------|{{#include_env_format ../this}} -------------| {{/include_env_format}}
+{{#each properties}} | {{key}} | {{type}} | {{description}} | {{defaultValue}} | {{propertyDeprecation}} |{{#include_env_format ../../this}} `{{as_env fqName}}` | {{/include_env_format}}
 {{/each}}
 {{/each}}

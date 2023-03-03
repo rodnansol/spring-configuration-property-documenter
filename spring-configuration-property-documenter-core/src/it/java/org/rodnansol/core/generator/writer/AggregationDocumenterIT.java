@@ -29,22 +29,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
 @ExtendWith(MockitoExtension.class)
-class DocumenterIT {
+class AggregationDocumenterIT {
 
-    private static final String MAIN_EXPECTED_FOLDER = "src/it/resources/it/single/";
+    private static final String MAIN_EXPECTED_FOLDER = "src/it/resources/it/aggregated/";
     private static final String TEST_JSON = MAIN_EXPECTED_FOLDER + "spring-configuration-metadata-empty-sourceType.json";
 
     @TempDir
     Path tempDir;
 
-    Documenter underTest = new Documenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultProvidedInstance(), MetadataInputResolverContext.INSTANCE);
+    AggregationDocumenter underTest = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultProvidedInstance(), MetadataInputResolverContext.INSTANCE);
 
     public static Stream<TestCase> testCases() {
         return Stream.of(
             new TestCase(TEST_JSON, TemplateType.MARKDOWN, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.md", true),
             new TestCase(TEST_JSON, TemplateType.ADOC, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.adoc", true),
             new TestCase(TEST_JSON, TemplateType.HTML, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.html", true),
-            new TestCase(TEST_JSON, TemplateType.XML, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.xml", true),
+//            new TestCase(TEST_JSON, TemplateType.XML, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.xml", true),
             new TestCase(TEST_JSON, TemplateType.MARKDOWN, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.md", false),
             new TestCase(TEST_JSON, TemplateType.ADOC, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.adoc", false),
             new TestCase(TEST_JSON, TemplateType.HTML, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.html", false)
@@ -54,10 +54,10 @@ class DocumenterIT {
 
     @ParameterizedTest
     @MethodSource("testCases")
-    void readMetadataAndGenerateRenderedFile_shouldReadMetadataFileAndCreateRenderedDocument(TestCase testCase) throws IOException {
+    void createDocumentsAndAggregate_shouldReadMetadataFileAndCreateRenderedDocument(TestCase testCase) throws IOException {
         // Given
         TemplateType templateType = testCase.templateType;
-        Path resolve = tempDir.resolve("IT-output-" + testCase.includeEnvs + "-" + templateType.name() + templateType.getExtension());
+        Path resolve = tempDir.resolve("IT-output-aggregated-" + testCase.includeEnvs + "-" + templateType.name() + templateType.getExtension());
         SimpleProject project = ProjectFactory.ofSimpleProject(new File("."), "IT");
         AbstractTemplateCustomization templateCustomization = null;
         switch (templateType) {
@@ -79,10 +79,15 @@ class DocumenterIT {
         }
         templateCustomization.setIncludeEnvFormat(testCase.includeEnvs);
         templateCustomization.setIncludeGenerationDate(false);
-        CreateDocumentCommand command = new CreateDocumentCommand(project, "IT", new File(testCase.inputFile), templateType.getSingleTemplate(), resolve.toFile(), templateCustomization);
+        CreateAggregationCommand command = new CreateAggregationCommand(project, "IT",
+            List.of(
+                new CombinedInput(new File(testCase.inputFile), "Document 1"),
+                new CombinedInput(new File(testCase.inputFile), "Document 2")
+            ),
+            templateType, templateCustomization, resolve.toFile());
 
         // When
-        underTest.readMetadataAndGenerateRenderedFile(command);
+        underTest.createDocumentsAndAggregate(command);
 
         // Then
         List<String> actualFile = Files.readAllLines(resolve);

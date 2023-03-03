@@ -67,8 +67,8 @@ Every configuration property key is wrapped in a tag, and on include any tag can
 .Example include
 [source,adoc]
 ----
-include::file.adoc[tags=my.property.key.a;my.property.key.b]
-include::file.adoc[tags=!my.property.key.a;my.property.key.b]
+\include::file.adoc[tags=my.property.key.a;my.property.key.b]
+\include::file.adoc[tags=!my.property.key.a;my.property.key.b]
 ----
 
 ===== ifdef and ifndef Directives
@@ -400,20 +400,32 @@ There are few Java classes to be discovered if you wish:
 |headerEnabled
 |boolean
 |Controls if the header section (main module name and main module description) should be enabled/visible or not
-|true
+|*true*
 |0.2.0
 
 |tableOfContentsEnabled
 |boolean
 |Controls if the "Table of contents" sections should be enabled or not
-|true
+|*true*
 |0.2.0
 
 |includeUnknownGroup
 |boolean
 |Controls if the properties without any known group should be included or not. It can happen if the input metadata JSON file is missing the group association with its properties.
-|true
+|*true*
 |0.3.0
+
+|includeGenerationDate
+|boolean
+|Controls if the generation date should be rendered to the final document or not.
+|*true*
+|0.4.0
+
+|includeEnvFormat
+|boolean
+|Controls if the environment variable form of the properties should be rendered into the final document or not.
+|*false*
+|0.4.0
 
 |===
 

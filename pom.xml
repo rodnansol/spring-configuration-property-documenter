@@ -52,7 +52,7 @@
         <maven-plugin-annotations.version>3.7.0</maven-plugin-annotations.version>
         <maven-core.version>3.8.1</maven-core.version>
         <handlebars.version>4.3.0</handlebars.version>
-        <spring-boot.version>3.0.0</spring-boot.version>
+        <spring-boot.version>2.7.8</spring-boot.version>
         <maven-docck-plugin.version>1.1</maven-docck-plugin.version>
         <maven-plugin-plugin.version>3.7.0</maven-plugin-plugin.version>
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
