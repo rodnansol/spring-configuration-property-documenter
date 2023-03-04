@@ -348,6 +348,30 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |*false*
 |0.1.0
 
+|excludedGroups
+|List of groups that should be *excluded* from the final document
+|No
+|Empty list - Everything will be included
+|0.4.0
+
+|includedGroups
+|List of groups that should be *included* int the final document
+|No
+|Empty list - Everything will be included
+|0.4.0
+
+|excludedProperties
+|List of properties that should be *excluded* from the final document
+|No
+|Empty list - Everything will be included
+|0.4.0
+
+|includedProperties
+|List of properties that should be *included* int the final document
+|No
+|Empty list - Everything will be included
+|0.4.0
+
 |===
 ====
 

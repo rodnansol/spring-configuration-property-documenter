@@ -7,14 +7,12 @@ import org.apache.maven.project.MavenProject;
 import org.rodnansol.core.action.DocumentGenerationAction;
 import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateType;
-import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
-import org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization;
-import org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization;
-import org.rodnansol.core.generator.template.customization.TemplateCustomization;
-import org.rodnansol.core.generator.template.customization.XmlTemplateCustomization;
+import org.rodnansol.core.generator.template.customization.*;
 import org.rodnansol.core.project.ProjectFactory;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This goal reads the `spring-configuration-metadata.json` file from any given source (input file, directory or JAR file) and generates a single document for the given module. It is good to document a single application or a single module.
@@ -140,14 +138,43 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
     @Parameter(property = "templateCompilerName")
     String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
 
+    /**
+     * List of excluded properties.
+     *
+     * @since 0.4.0
+     */
+    @Parameter(property = "excludedProperties")
+    List<String> excludedProperties = new ArrayList<>();
+
+    /**
+     * List of included properties.
+     *
+     * @since 0.4.0
+     */
+    @Parameter(property = "includedProperties")
+    List<String> includedProperties = new ArrayList<>();
+
+    /**
+     * List of excluded groups.
+     *
+     * @since 0.4.0
+     */
+    @Parameter(property = "excludedGroups")
+    List<String> excludedGroups = new ArrayList<>();
+
+    /**
+     * List of included groups.
+     *
+     * @since 0.4.0
+     */
+    @Parameter(property = "includedGroups")
+    List<String> includedGroups = new ArrayList<>();
+
+
     @Override
     public void execute() {
         try {
-            org.rodnansol.core.project.maven.MavenProject mavenProject = ProjectFactory.ofMavenProject(project.getBasedir(), project.getName(), project.getModules());
-            DocumentGenerationAction documentGenerationAction = new DocumentGenerationAction(
-                mavenProject, name, description, getActualTemplateCustomization(),
-                template, type, metadataInput, outputFile);
-            documentGenerationAction.setTemplateCompilerName(templateCompilerName);
+            DocumentGenerationAction documentGenerationAction = setupAction();
             documentGenerationAction.execute();
         } catch (Exception e) {
             if (failOnError) {
@@ -157,6 +184,21 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
             }
         }
     }
+
+    private DocumentGenerationAction setupAction() {
+        org.rodnansol.core.project.maven.MavenProject mavenProject = ProjectFactory.ofMavenProject(project.getBasedir(), project.getName(), project.getModules());
+        DocumentGenerationAction documentGenerationAction = new DocumentGenerationAction(mavenProject, name, getActualTemplateCustomization(), type, metadataInput);
+        documentGenerationAction.setTemplateCompilerName(templateCompilerName);
+        documentGenerationAction.setDescription(description);
+        documentGenerationAction.setTemplate(template);
+        documentGenerationAction.setOutputFile(outputFile);
+        documentGenerationAction.setExcludedGroups(excludedGroups);
+        documentGenerationAction.setIncludedGroups(includedGroups);
+        documentGenerationAction.setExcludedProperties(excludedProperties);
+        documentGenerationAction.setIncludedProperties(includedProperties);
+        return documentGenerationAction;
+    }
+
     private TemplateCustomization getActualTemplateCustomization() {
         switch (type) {
             case MARKDOWN:

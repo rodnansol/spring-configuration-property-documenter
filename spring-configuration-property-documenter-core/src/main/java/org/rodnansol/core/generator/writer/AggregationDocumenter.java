@@ -37,11 +37,13 @@ public class AggregationDocumenter {
     private final MetadataReader metadataReader;
     private final TemplateCompiler templateCompiler;
     private final MetadataInputResolverContext metadataInputResolverContext;
+    private final PropertyGroupFilterService propertyGroupFilterService;
 
-    public AggregationDocumenter(MetadataReader metadataReader, TemplateCompiler templateCompiler, MetadataInputResolverContext metadataInputResolverContext) {
+    public AggregationDocumenter(MetadataReader metadataReader, TemplateCompiler templateCompiler, MetadataInputResolverContext metadataInputResolverContext, PropertyGroupFilterService propertyGroupFilterService) {
         this.metadataReader = metadataReader;
         this.templateCompiler = templateCompiler;
         this.metadataInputResolverContext = metadataInputResolverContext;
+        this.propertyGroupFilterService = propertyGroupFilterService;
     }
 
     /**
@@ -64,6 +66,7 @@ public class AggregationDocumenter {
             LOGGER.info("Processing entry:[{}]", entry);
             try (InputStream inputStream = metadataInputResolverContext.getInputStreamFromFile(createAggregationCommand.getProject(), entry.getInput())) {
                 List<PropertyGroup> groups = metadataReader.readPropertiesAsPropertyGroupList(inputStream);
+                filterGroupsAndProperties(createAggregationCommand.getTemplateCustomization(), entry, groups);
                 propertyGroups.addAll(groups);
                 subTemplateDataList.add(createModuleTemplateData(createAggregationCommand.getTemplateCustomization(), entry.getSectionName(), groups, entry.getDescription()));
             } catch (Exception e) {
@@ -71,6 +74,22 @@ public class AggregationDocumenter {
             }
         }
         return new ImmutablePair<>(subTemplateDataList, propertyGroups);
+    }
+
+    //TODO: Move it to a common place.
+    private void filterGroupsAndProperties(TemplateCustomization templateCustomization, CombinedInput entry, List<PropertyGroup> groups) {
+        try {
+            if (templateCustomization != null && !templateCustomization.isIncludeUnknownGroup()) {
+                groups.removeIf(PropertyGroup::isUnknownGroup);
+            }
+            propertyGroupFilterService.filterPropertyGroups(groups, entry.getIncludedGroups(), entry.getExcludedGroups());
+            propertyGroupFilterService.filterPropertyGroupProperties(groups, entry.getIncludedProperties(), entry.getExcludedProperties());
+            if (templateCustomization != null && !templateCustomization.isRemoveEmptyGroups()) {
+                propertyGroupFilterService.removeEmptyGroups(groups);
+            }
+        } catch (Exception e) {
+            LOGGER.warn("Error during filtering the property groups and properties, no filtering logic will be applied, please check the logs.", e);
+        }
     }
 
     private void createAndWriteContent(CreateAggregationCommand createAggregationCommand, List<SubTemplateData> subTemplateDataList, List<PropertyGroup> propertyGroups) {
