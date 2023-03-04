@@ -3,16 +3,16 @@
     {{moduleDescription}}
     {{#each propertyGroups}}
         <h2 id="{{groupName}}">{{groupName}}</h2>
-        <b>Class:</b> <code>{{type}}</code>
+        <b>{{i18n "template.class"}}:</b> <code>{{type}}</code>
         <table class="table">
             <thead>
             <tr>
-                <th>Key</th>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Default value</th>
-                <th>Deprecation</th>
-                {{#include_env_format ../../this}}<th>Environment variable</th> {{/include_env_format}}
+                <th>{{i18n "template.key"}}</th>
+                <th>{{i18n "template.type"}}</th>
+                <th>{{i18n "template.description"}}</th>
+                <th>{{i18n "template.defaultValue"}}</th>
+                <th>{{i18n "template.deprecation"}}</th>
+                {{#include_env_format ../../this}}<th>{{i18n "template.environmentVariable"}}</th> {{/include_env_format}}
             </tr>
             </thead>
             <tbody>

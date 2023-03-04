@@ -8,6 +8,8 @@ import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.generator.template.*;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
+import org.rodnansol.core.generator.writer.postprocess.PostProcessPropertyGroupsCommand;
+import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
 import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

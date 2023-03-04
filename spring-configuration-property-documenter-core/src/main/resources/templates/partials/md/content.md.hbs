@@ -2,9 +2,9 @@
 {{#if moduleDescription}}{{moduleDescription}}{{/if}}
 {{#each propertyGroups}}
 ### {{groupName}}
-**Class:** `{{type}}`
+**{{i18n "template.class"}}:** `{{type}}`
 
-| Key | Type | Description | Default value | Deprecation |{{#include_env_format ../this}} Environment variable| {{/include_env_format}}
+| {{i18n "template.key"}} | {{i18n "template.type"}} | {{i18n "template.description"}} | {{i18n "template.defaultValue"}} | {{i18n "template.deprecation"}} |{{#include_env_format ../this}} {{i18n "template.environmentVariable"}}| {{/include_env_format}}
 |-----|------|-------------|---------------|-------------|{{#include_env_format ../this}} -------------| {{/include_env_format}}
 {{#each properties}} | {{key}} | {{type}} | {{description}} | {{defaultValue}} | {{propertyDeprecation}} |{{#include_env_format ../../this}} `{{as_env fqName}}` | {{/include_env_format}}
 {{/each}}

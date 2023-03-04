@@ -18,7 +18,7 @@ import org.rodnansol.core.generator.writer.AggregationDocumenter;
 import org.rodnansol.core.generator.writer.CombinedInput;
 import org.rodnansol.core.generator.writer.CreateAggregationCommand;
 import org.rodnansol.core.generator.writer.CustomTemplate;
-import org.rodnansol.core.generator.writer.PropertyGroupFilterService;
+import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
 import org.rodnansol.core.project.ProjectFactory;
 
 import java.io.File;

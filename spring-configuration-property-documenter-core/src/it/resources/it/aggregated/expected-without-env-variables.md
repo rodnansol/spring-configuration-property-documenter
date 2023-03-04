@@ -3,7 +3,7 @@
 
 
 
-## Table of contents
+## Table of Contents
 
 
 * [**Document 1**](#Document 1)

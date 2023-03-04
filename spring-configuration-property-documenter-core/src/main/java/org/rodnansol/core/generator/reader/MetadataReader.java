@@ -3,6 +3,7 @@ package org.rodnansol.core.generator.reader;
 import org.rodnansol.core.generator.template.Property;
 import org.rodnansol.core.generator.template.PropertyDeprecation;
 import org.rodnansol.core.generator.template.PropertyGroup;
+import org.rodnansol.core.generator.template.PropertyGroupConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.configurationprocessor.metadata.ConfigurationMetadata;
@@ -136,7 +137,7 @@ public class MetadataReader {
             .collect(Collectors.groupingBy(PropertyGroup::getSourceType, Collectors.toList()));
         List<PropertyGroup> value = new ArrayList<>();
         value.add(PropertyGroup.createUnknownGroup());
-        propertyGroupMap.put(PropertyGroup.UNKNOWN, value);
+        propertyGroupMap.put(PropertyGroupConstants.UNKNOWN, value);
         return propertyGroupMap;
     }
 
@@ -151,7 +152,7 @@ public class MetadataReader {
     }
 
     private String getSourceTypeOrDefault(ItemMetadata current) {
-        return Optional.ofNullable(current.getSourceType()).orElse(PropertyGroup.UNKNOWN);
+        return Optional.ofNullable(current.getSourceType()).orElse(PropertyGroupConstants.UNKNOWN);
     }
 
     private Property mapToProperty(ItemMetadata itemMetadata) {

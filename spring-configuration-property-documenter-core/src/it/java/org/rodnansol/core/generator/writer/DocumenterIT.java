@@ -14,6 +14,7 @@ import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCusto
 import org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization;
 import org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization;
 import org.rodnansol.core.generator.template.customization.XmlTemplateCustomization;
+import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
 import org.rodnansol.core.project.ProjectFactory;
 import org.rodnansol.core.project.simple.SimpleProject;
 

@@ -6,6 +6,8 @@ import org.rodnansol.core.generator.template.MainTemplateData;
 import org.rodnansol.core.generator.template.PropertyGroup;
 import org.rodnansol.core.generator.template.TemplateCompiler;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
+import org.rodnansol.core.generator.writer.postprocess.PostProcessPropertyGroupsCommand;
+import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
 import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

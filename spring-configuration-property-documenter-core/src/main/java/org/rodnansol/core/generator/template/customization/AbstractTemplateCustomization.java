@@ -1,5 +1,7 @@
 package org.rodnansol.core.generator.template.customization;
 
+import org.rodnansol.core.generator.template.PropertyGroupConstants;
+
 import java.util.Objects;
 
 /**
@@ -9,6 +11,12 @@ import java.util.Objects;
  * @since 0.2.0
  */
 public abstract class AbstractTemplateCustomization implements TemplateCustomization {
+
+    /**
+     * Table of Contents title.
+     * @since 0.4.0
+     */
+    private String tocTitle;
 
     /**
      * If the header should be enabled or not.
@@ -31,6 +39,13 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
     protected boolean includeUnknownGroup = true;
 
     /**
+     * Returns the title for the unknown group.
+     *
+     * @since 0.4.0
+     */
+    protected String unknownGroupLocalization = PropertyGroupConstants.UNKNOWN_GROUP;
+
+    /**
      * If the properties should be converted to their environment variable representation to have a quicker way to copy and paste them.
      *
      * @since 0.4.0
@@ -50,6 +65,21 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
      * @since 0.4.0
      */
     protected boolean removeEmptyGroups = false;
+
+    /**
+     * Locale to be used during the i18n process.
+     *
+     * @since 0.4.0
+     */
+    protected String locale;
+
+    public String getTocTitle() {
+        return tocTitle;
+    }
+
+    public void setTocTitle(String tocTitle) {
+        this.tocTitle = tocTitle;
+    }
 
     public boolean isHeaderEnabled() {
         return headerEnabled;
@@ -101,6 +131,24 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
 
     public void setRemoveEmptyGroups(boolean removeEmptyGroups) {
         this.removeEmptyGroups = removeEmptyGroups;
+    }
+
+    @Override
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    @Override
+    public String getUnknownGroupLocalization() {
+        return unknownGroupLocalization;
+    }
+
+    public void setUnknownGroupLocalization(String unknownGroupLocalization) {
+        this.unknownGroupLocalization = unknownGroupLocalization;
     }
 
     @Override

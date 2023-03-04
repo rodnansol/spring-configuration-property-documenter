@@ -61,6 +61,8 @@
                         <configuration>
                             <type>ADOC</type>
                             <asciiDocCustomization>
+                                <locale>hu</locale>
+                                <unknownGroupLocalization>Random name for the Unknown group</unknownGroupLocalization>
                                 <includeEnvFormat>true</includeEnvFormat>
                             </asciiDocCustomization>
                         </configuration>

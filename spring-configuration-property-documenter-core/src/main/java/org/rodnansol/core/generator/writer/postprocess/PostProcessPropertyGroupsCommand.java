@@ -1,4 +1,4 @@
-package org.rodnansol.core.generator.writer;
+package org.rodnansol.core.generator.writer.postprocess;
 
 import org.rodnansol.core.generator.template.PropertyGroup;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
@@ -27,6 +27,18 @@ public class PostProcessPropertyGroupsCommand {
         this.includedGroups = includedGroups;
         this.excludedProperties = excludedProperties;
         this.includedProperties = includedProperties;
+    }
+
+    public static PostProcessPropertyGroupsCommand ofTemplate(TemplateCustomization templateCustomization, List<PropertyGroup> propertyGroups) {
+        return new PostProcessPropertyGroupsCommand(templateCustomization, propertyGroups, null, null, null, null);
+    }
+
+    public static PostProcessPropertyGroupsCommand ofPropertyFilter(List<PropertyGroup> propertyGroups, List<String> excludedProperties, List<String> includedProperties) {
+        return new PostProcessPropertyGroupsCommand(null, propertyGroups, null, null, excludedProperties, includedProperties);
+    }
+
+    public static PostProcessPropertyGroupsCommand ofGroupFilter(List<PropertyGroup> propertyGroups, List<String> excludedGroups, List<String> includedGroups) {
+        return new PostProcessPropertyGroupsCommand(null, propertyGroups, excludedGroups, includedGroups, null, null);
     }
 
     public TemplateCustomization getTemplateCustomization() {

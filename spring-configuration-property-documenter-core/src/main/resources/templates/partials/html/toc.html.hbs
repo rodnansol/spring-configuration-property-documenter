@@ -1,7 +1,7 @@
 {{#templateCustomization}}
 {{#if tableOfContentsEnabled}}
 <div class="center">
-    <button type="button" class="collapsible">Table of contents</button>
+    <button type="button" class="collapsible">{{#if tocTitle}}{{tocTitle}}{{else}}{{i18n "template.toc"}}{{/if}}</button>
     <div id="toc-content">
 
         {{#if subTemplateDataList}}

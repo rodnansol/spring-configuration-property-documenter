@@ -8,8 +8,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.*;
+import org.rodnansol.core.generator.template.MainTemplateData;
+import org.rodnansol.core.generator.template.Property;
+import org.rodnansol.core.generator.template.PropertyGroup;
+import org.rodnansol.core.generator.template.TemplateCompiler;
+import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
+import org.rodnansol.core.generator.writer.postprocess.PostProcessPropertyGroupsCommand;
+import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
 import org.rodnansol.core.project.ProjectFactory;
 import org.rodnansol.core.project.simple.SimpleProject;
 
@@ -17,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
