@@ -31,9 +31,10 @@ class MetadataReaderTest {
         return Stream.of(
             arguments(named("Should read file and return empty property groups list when the groups and properties are empty", new ReadPropertiesAsPropertyGroupListTestCase(TEST_RESOURCES_DIRECTORY + "spring-configuration-metadata-empty-groups-and-properties.json",
                 List::of))),
-            arguments(named("Should read file and return non-empty property groups list when the groups are empty but the properties are not and properties are not having associated groups, in this case a new 'Without typ' group should appear", new ReadPropertiesAsPropertyGroupListTestCase(TEST_RESOURCES_DIRECTORY + "spring-configuration-metadata-empty-sourceType.json",
+            arguments(named("Should read file and return non-empty property groups list when the groups are empty but the properties are not and properties are not having associated groups, in this case a new 'Unknown group' group should appear", new ReadPropertiesAsPropertyGroupListTestCase(TEST_RESOURCES_DIRECTORY + "spring-configuration-metadata-empty-sourceType.json",
                 () -> {
-                    PropertyGroup expectedMyProperties = new PropertyGroup("Without type", "Unknown", "Unknown");
+                    PropertyGroup expectedMyProperties = new PropertyGroup("Unknown group", "Unknown", "Unknown");
+                    expectedMyProperties.setUnknownGroup(true);
                     expectedMyProperties.addProperty(new Property("myproduct.features.foobar.enabled", "java.lang.Boolean", "myproduct.features.foobar.enabled", "Enable the foobar feature", "true", null));
                     return List.of(expectedMyProperties);
                 }))),
@@ -68,7 +69,7 @@ class MetadataReaderTest {
                     PropertyGroup expectedNestedProperties = new PropertyGroup("this.is.my.nested", "com.example.springpropertysources.TopLevelClassNestedProperty", "com.example.springpropertysources.TopLevelClassNestedProperty");
                     expectedNestedProperties.addProperty(new Property("this.is.my.nested.nested-value", "java.lang.String", "nested-value", "Nested value.", null, null));
 
-                    return List.of(expectedMyProperties, expectedFirstLevelNestedProperty, firstLevelNestedPropertySecondLevelNestedClass, expectedNestedProperties);
+                    return List.of(expectedMyProperties, expectedFirstLevelNestedProperty, PropertyGroup.createUnknownGroup(), firstLevelNestedPropertySecondLevelNestedClass, expectedNestedProperties);
                 }))),
             arguments(named("Should read file and return non-empty property groups list when the groups and properties are in complex relation", new ReadPropertiesAsPropertyGroupListTestCase(TEST_RESOURCES_DIRECTORY + "spring-configuration-metadata-complex.json",
                 () -> {
@@ -96,7 +97,7 @@ class MetadataReaderTest {
                     PropertyGroup expectedNestedProperties = new PropertyGroup("this.is.my.nested", "com.example.springpropertysources.TopLevelClassNestedProperty", "com.example.springpropertysources.TopLevelClassNestedProperty");
                     expectedNestedProperties.addProperty(new Property("this.is.my.nested.nested-value", "java.lang.String", "nested-value", "Nested value.", null, null));
 
-                    return List.of(expectedYourProperties, expectedMyProperties, expectedFirstLevelNestedProperty, firstLevelNestedPropertySecondLevelNestedClass, expectedNestedProperties);
+                    return List.of(expectedYourProperties, expectedMyProperties, expectedFirstLevelNestedProperty, PropertyGroup.createUnknownGroup(), firstLevelNestedPropertySecondLevelNestedClass, expectedNestedProperties);
                 })))
         );
     }

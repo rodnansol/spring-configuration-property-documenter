@@ -5,7 +5,7 @@
 
 ## Table of contents
 
-* [**Without type** - `Unknown`](#Without type)
+* [**Unknown group** - `Unknown`](#Unknown group)
 
 
 
@@ -14,7 +14,7 @@
 
 
 
-### Without type
+### Unknown group
 **Class:** `Unknown`
 
 | Key | Type | Description | Default value | Deprecation |

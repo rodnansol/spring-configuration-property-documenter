@@ -24,7 +24,7 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
     protected boolean tableOfContentsEnabled = true;
 
     /**
-     * If the 'Without type'/Unknown group should be included or not.
+     * If the 'Unknown group' should be included or not.
      *
      * @since 0.3.0
      */

@@ -11,12 +11,12 @@
 
 
 
-// tag::Without type[]
-ifndef::property-group-simple-title,property-group-discrete-heading[=== Without type +]
-ifdef::property-group-simple-title[.*_Without type_* +]
+// tag::Unknown group[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== Unknown group +]
+ifdef::property-group-simple-title[.*_Unknown group_* +]
 ifdef::property-group-discrete-heading[]
 [discrete]
-=== Without type
+=== Unknown group
 endif::[]
 *Class:* `Unknown`
 
@@ -47,7 +47,7 @@ endif::[]
 
 
 |===
-// end::Without type[]
+// end::Unknown group[]
 
 
 

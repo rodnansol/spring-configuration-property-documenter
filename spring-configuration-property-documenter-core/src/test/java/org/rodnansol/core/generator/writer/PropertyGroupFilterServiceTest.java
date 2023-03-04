@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.rodnansol.core.generator.template.Property;
 import org.rodnansol.core.generator.template.PropertyDeprecation;
 import org.rodnansol.core.generator.template.PropertyGroup;
+import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,24 +16,75 @@ class PropertyGroupFilterServiceTest {
     PropertyGroupFilterService underTest = new PropertyGroupFilterService();
 
     @Test
-    void removeEmptyGroups_shouldRemoveEmptyGroupsFromList() {
+    void removeEmptyGroupsIfNeeded_shouldRemoveEmptyGroup_whenConfigurationIsSetToTrue() {
         // Given
-        PropertyGroup propertyGroup = new PropertyGroup("this.is.my", "com.example.springpropertysources.MyProperties", "com.example.springpropertysources.MyProperties");
-        propertyGroup.addProperty(new Property("this.is.my.another-variable", "java.lang.String", "another-variable", null, "with default value", new PropertyDeprecation(null, null)));
-
-        PropertyGroup nestedPropertyGroup = new PropertyGroup("this.is.my.first-level-nested-property", "com.example.springpropertysources.FirstLevelNestedProperty", "com.example.springpropertysources.MyProperties");
-
-        List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(propertyGroup, nestedPropertyGroup));
+        AsciiDocTemplateCustomization asciiDocTemplateCustomization = new AsciiDocTemplateCustomization();
+        asciiDocTemplateCustomization.setRemoveEmptyGroups(true);
 
         // When
-        underTest.removeEmptyGroups(propertyGroups);
+        List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(
+            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test"))),
+            new PropertyGroup("Empty Test", "Type", "SourceType")
+        ));
+        underTest.removeEmptyGroupsIfNeeded(asciiDocTemplateCustomization, propertyGroups);
 
         // Then
-        PropertyGroup expectedPropertyGroup = new PropertyGroup("this.is.my", "com.example.springpropertysources.MyProperties", "com.example.springpropertysources.MyProperties");
-        expectedPropertyGroup.addProperty(new Property("this.is.my.another-variable", "java.lang.String", "another-variable", null, "with default value", new PropertyDeprecation(null, null)));
+        assertThat(propertyGroups).containsExactly(new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test"))));
+    }
 
+    @Test
+    void removeEmptyGroupsIfNeeded_shouldNotRemoveEmptyGroup_whenConfigurationIsSetToFalse() {
+        // Given
+        AsciiDocTemplateCustomization asciiDocTemplateCustomization = new AsciiDocTemplateCustomization();
+        asciiDocTemplateCustomization.setRemoveEmptyGroups(false);
 
-        assertThat(propertyGroups).containsExactly(expectedPropertyGroup);
+        // When
+        List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(
+            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test"))),
+            new PropertyGroup("Empty Test", "Type", "SourceType")
+        ));
+        underTest.removeEmptyGroupsIfNeeded(asciiDocTemplateCustomization, propertyGroups);
+
+        // Then
+        assertThat(propertyGroups).containsExactly(
+            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test"))),
+            new PropertyGroup("Empty Test", "Type", "SourceType"));
+    }
+
+    @Test
+    void removeUnknownGroupIfNeeded_shouldIncludeUnknownGroup_whenConfigurationIsSetToTrue() {
+        // Given
+        AsciiDocTemplateCustomization asciiDocTemplateCustomization = new AsciiDocTemplateCustomization();
+        asciiDocTemplateCustomization.setIncludeUnknownGroup(true);
+
+        // When
+        List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(
+            PropertyGroup.createUnknownGroup(),
+            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test")))
+        ));
+        underTest.removeUnknownGroupIfNeeded(asciiDocTemplateCustomization, propertyGroups);
+
+        // Then
+        assertThat(propertyGroups).containsExactly(PropertyGroup.createUnknownGroup(),
+            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test"))));
+    }
+
+    @Test
+    void removeUnknownGroupIfNeeded_shouldNotIncludeUnknownGroup_whenConfigurationIsSetToTrue() {
+        // Given
+        AsciiDocTemplateCustomization asciiDocTemplateCustomization = new AsciiDocTemplateCustomization();
+        asciiDocTemplateCustomization.setIncludeUnknownGroup(false);
+
+        // When
+        List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(
+            PropertyGroup.createUnknownGroup(),
+            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test")))
+        ));
+        underTest.removeUnknownGroupIfNeeded(asciiDocTemplateCustomization, propertyGroups);
+
+        // Then
+        assertThat(propertyGroups).containsExactly(
+            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test"))));
     }
 
     @Test

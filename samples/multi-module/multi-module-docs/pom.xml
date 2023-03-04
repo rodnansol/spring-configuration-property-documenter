@@ -251,7 +251,7 @@
                                         <value>spring.banner.image.invert</value>
                                     </includedProperties>
                                     <includedGroups>
-                                        <value>Without type</value>
+                                        <value>Unknown group</value>
                                     </includedGroups>
                                 </input>
                                 <input>

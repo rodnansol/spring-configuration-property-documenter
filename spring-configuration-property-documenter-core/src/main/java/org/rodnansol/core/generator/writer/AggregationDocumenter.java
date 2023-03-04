@@ -6,11 +6,7 @@ import com.github.jknack.handlebars.internal.lang3.tuple.Pair;
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.MainTemplateData;
-import org.rodnansol.core.generator.template.PropertyGroup;
-import org.rodnansol.core.generator.template.SubTemplateData;
-import org.rodnansol.core.generator.template.TemplateCompiler;
-import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.template.*;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;
@@ -76,20 +72,8 @@ public class AggregationDocumenter {
         return new ImmutablePair<>(subTemplateDataList, propertyGroups);
     }
 
-    //TODO: Move it to a common place.
     private void filterGroupsAndProperties(TemplateCustomization templateCustomization, CombinedInput entry, List<PropertyGroup> groups) {
-        try {
-            if (templateCustomization != null && !templateCustomization.isIncludeUnknownGroup()) {
-                groups.removeIf(PropertyGroup::isUnknownGroup);
-            }
-            propertyGroupFilterService.filterPropertyGroups(groups, entry.getIncludedGroups(), entry.getExcludedGroups());
-            propertyGroupFilterService.filterPropertyGroupProperties(groups, entry.getIncludedProperties(), entry.getExcludedProperties());
-            if (templateCustomization != null && !templateCustomization.isRemoveEmptyGroups()) {
-                propertyGroupFilterService.removeEmptyGroups(groups);
-            }
-        } catch (Exception e) {
-            LOGGER.warn("Error during filtering the property groups and properties, no filtering logic will be applied, please check the logs.", e);
-        }
+        propertyGroupFilterService.postProcessPropertyGroups(new PostProcessPropertyGroupsCommand(templateCustomization, groups, entry.getIncludedGroups(), entry.getExcludedGroups(), entry.getIncludedProperties(), entry.getExcludedProperties()));
     }
 
     private void createAndWriteContent(CreateAggregationCommand createAggregationCommand, List<SubTemplateData> subTemplateDataList, List<PropertyGroup> propertyGroups) {
