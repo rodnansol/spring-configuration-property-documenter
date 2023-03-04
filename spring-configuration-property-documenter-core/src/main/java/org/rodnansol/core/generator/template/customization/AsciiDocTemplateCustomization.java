@@ -11,12 +11,6 @@ import java.util.Objects;
 public class AsciiDocTemplateCustomization extends AbstractTemplateCustomization {
 
     /**
-     * Table of Contents title.
-     * @since 0.2.0
-     */
-    private String tocTitle = "Table of Contents";
-
-    /**
      * Placement of the "Table of Contents"
      * @since 0.2.0
      */
@@ -27,14 +21,6 @@ public class AsciiDocTemplateCustomization extends AbstractTemplateCustomization
      * @since 0.2.0
      */
     private int tocLevels = 4;
-
-    public String getTocTitle() {
-        return tocTitle;
-    }
-
-    public void setTocTitle(String tocTitle) {
-        this.tocTitle = tocTitle;
-    }
 
     public String getTocPlacement() {
         return tocPlacement.toLowerCase();
@@ -68,11 +54,11 @@ public class AsciiDocTemplateCustomization extends AbstractTemplateCustomization
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         AsciiDocTemplateCustomization that = (AsciiDocTemplateCustomization) o;
-        return tocLevels == that.tocLevels && Objects.equals(tocTitle, that.tocTitle) && tocPlacement == that.tocPlacement;
+        return tocLevels == that.tocLevels && tocPlacement == that.tocPlacement;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), tocTitle, tocPlacement, tocLevels);
+        return Objects.hash(super.hashCode(), tocPlacement, tocLevels);
     }
 }

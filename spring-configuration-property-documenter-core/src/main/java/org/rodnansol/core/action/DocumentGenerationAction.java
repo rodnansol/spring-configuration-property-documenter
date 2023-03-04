@@ -9,7 +9,7 @@ import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.generator.writer.CreateDocumentCommand;
 import org.rodnansol.core.generator.writer.Documenter;
-import org.rodnansol.core.generator.writer.PropertyGroupFilterService;
+import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
 import org.rodnansol.core.project.Project;
 import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;

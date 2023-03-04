@@ -1,7 +1,7 @@
 {{#templateCustomization}}
 {{#if headerEnabled}}= {{mainName}}{{/if}}
 {{#if tableOfContentsEnabled}}:toc: {{#if tocPlacement}}{{tocPlacement}}{{/if}}{{/if}}
-{{#if tocTitle}}:toc-title: {{tocTitle}}{{/if}}
+:toc-title: {{#if tocTitle}}{{tocTitle}}{{else}}{{i18n "template.toc"}}{{/if}}
 {{#if tocLevels}}:toclevels: {{tocLevels}}{{/if}}
 
 {{#if headerEnabled}}{{#if mainDescription}}{{mainDescription}}{{/if}}{{/if}}

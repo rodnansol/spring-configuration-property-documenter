@@ -1,129 +1,19 @@
-package org.rodnansol.core.generator.writer;
+package org.rodnansol.core.generator.writer.postprocess;
 
 import org.junit.jupiter.api.Test;
 import org.rodnansol.core.generator.template.Property;
 import org.rodnansol.core.generator.template.PropertyDeprecation;
 import org.rodnansol.core.generator.template.PropertyGroup;
-import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class PropertyGroupFilterServiceTest {
+class IncludeExcludePropertyPostProcessorTest {
 
-    PropertyGroupFilterService underTest = new PropertyGroupFilterService();
+    IncludeExcludePropertyPostProcessor underTest = new IncludeExcludePropertyPostProcessor();
 
-    @Test
-    void removeEmptyGroupsIfNeeded_shouldRemoveEmptyGroup_whenConfigurationIsSetToTrue() {
-        // Given
-        AsciiDocTemplateCustomization asciiDocTemplateCustomization = new AsciiDocTemplateCustomization();
-        asciiDocTemplateCustomization.setRemoveEmptyGroups(true);
-
-        // When
-        List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(
-            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test"))),
-            new PropertyGroup("Empty Test", "Type", "SourceType")
-        ));
-        underTest.removeEmptyGroupsIfNeeded(asciiDocTemplateCustomization, propertyGroups);
-
-        // Then
-        assertThat(propertyGroups).containsExactly(new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test"))));
-    }
-
-    @Test
-    void removeEmptyGroupsIfNeeded_shouldNotRemoveEmptyGroup_whenConfigurationIsSetToFalse() {
-        // Given
-        AsciiDocTemplateCustomization asciiDocTemplateCustomization = new AsciiDocTemplateCustomization();
-        asciiDocTemplateCustomization.setRemoveEmptyGroups(false);
-
-        // When
-        List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(
-            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test"))),
-            new PropertyGroup("Empty Test", "Type", "SourceType")
-        ));
-        underTest.removeEmptyGroupsIfNeeded(asciiDocTemplateCustomization, propertyGroups);
-
-        // Then
-        assertThat(propertyGroups).containsExactly(
-            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test"))),
-            new PropertyGroup("Empty Test", "Type", "SourceType"));
-    }
-
-    @Test
-    void removeUnknownGroupIfNeeded_shouldIncludeUnknownGroup_whenConfigurationIsSetToTrue() {
-        // Given
-        AsciiDocTemplateCustomization asciiDocTemplateCustomization = new AsciiDocTemplateCustomization();
-        asciiDocTemplateCustomization.setIncludeUnknownGroup(true);
-
-        // When
-        List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(
-            PropertyGroup.createUnknownGroup(),
-            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test")))
-        ));
-        underTest.removeUnknownGroupIfNeeded(asciiDocTemplateCustomization, propertyGroups);
-
-        // Then
-        assertThat(propertyGroups).containsExactly(PropertyGroup.createUnknownGroup(),
-            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test"))));
-    }
-
-    @Test
-    void removeUnknownGroupIfNeeded_shouldNotIncludeUnknownGroup_whenConfigurationIsSetToTrue() {
-        // Given
-        AsciiDocTemplateCustomization asciiDocTemplateCustomization = new AsciiDocTemplateCustomization();
-        asciiDocTemplateCustomization.setIncludeUnknownGroup(false);
-
-        // When
-        List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(
-            PropertyGroup.createUnknownGroup(),
-            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test")))
-        ));
-        underTest.removeUnknownGroupIfNeeded(asciiDocTemplateCustomization, propertyGroups);
-
-        // Then
-        assertThat(propertyGroups).containsExactly(
-            new PropertyGroup("Not Empty Test", "Type", "SourceType", List.of(new Property("fqName", "test"))));
-    }
-
-    @Test
-    void filterPropertyGroups_shouldRemoveTheNonIncludedGroups_whenIncludeListIsGiven() {
-        // Given
-        PropertyGroup propertyGroup = new PropertyGroup("this.is.my", "com.example.springpropertysources.MyProperties", "com.example.springpropertysources.MyProperties");
-
-        PropertyGroup nestedPropertyGroup = new PropertyGroup("this.is.my.first-level-nested-property", "com.example.springpropertysources.FirstLevelNestedProperty", "com.example.springpropertysources.MyProperties");
-
-        List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(propertyGroup, nestedPropertyGroup));
-
-        // When
-        underTest.filterPropertyGroups(propertyGroups, List.of("this.is.my"), List.of());
-
-        // Then
-        PropertyGroup expectedPropertyGroup = new PropertyGroup("this.is.my", "com.example.springpropertysources.MyProperties", "com.example.springpropertysources.MyProperties");
-
-
-        assertThat(propertyGroups).containsExactly(expectedPropertyGroup);
-    }
-
-    @Test
-    void filterPropertyGroups_shouldRemoveTheExcludedGroups_whenExcludeListIsGiven() {
-        // Given
-        PropertyGroup propertyGroup = new PropertyGroup("this.is.my", "com.example.springpropertysources.MyProperties", "com.example.springpropertysources.MyProperties");
-
-        PropertyGroup nestedPropertyGroup = new PropertyGroup("this.is.my.first-level-nested-property", "com.example.springpropertysources.FirstLevelNestedProperty", "com.example.springpropertysources.MyProperties");
-
-        List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(propertyGroup, nestedPropertyGroup));
-
-        // When
-        underTest.filterPropertyGroups(propertyGroups, List.of(), List.of("this.is.my"));
-
-        // Then
-
-        PropertyGroup expectedNestedProperyGroup = new PropertyGroup("this.is.my.first-level-nested-property", "com.example.springpropertysources.FirstLevelNestedProperty", "com.example.springpropertysources.MyProperties");
-
-        assertThat(propertyGroups).containsExactly(expectedNestedProperyGroup);
-    }
 
     @Test
     void filterPropertyGroupProperties_shouldRemoveTheNonIncludedProperties_whenIncludeListIsGiven() {
@@ -145,7 +35,7 @@ class PropertyGroupFilterServiceTest {
         List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(propertyGroup, nestedPropertyGroup));
 
         // When
-        underTest.filterPropertyGroupProperties(propertyGroups, List.of("this.is.my.another-variable", "this.is.my.instant", "this.is.my.first-level-nested-property.name"), List.of());
+        underTest.postProcess(PostProcessPropertyGroupsCommand.ofPropertyFilter(propertyGroups, List.of(), List.of("this.is.my.another-variable", "this.is.my.instant", "this.is.my.first-level-nested-property.name")));
 
         // Then
         PropertyGroup expectedPropertyGroup = new PropertyGroup("this.is.my", "com.example.springpropertysources.MyProperties", "com.example.springpropertysources.MyProperties");
@@ -180,7 +70,7 @@ class PropertyGroupFilterServiceTest {
         List<PropertyGroup> propertyGroups = new ArrayList<>(List.of(propertyGroup, nestedPropertyGroup));
 
         // When
-        underTest.filterPropertyGroupProperties(propertyGroups, List.of(), List.of("this.is.my.another-variable", "this.is.my.instant", "this.is.my.first-level-nested-property.name"));
+        underTest.postProcess(PostProcessPropertyGroupsCommand.ofPropertyFilter(propertyGroups, List.of("this.is.my.another-variable", "this.is.my.instant", "this.is.my.first-level-nested-property.name"), List.of()));
 
         // Then
         PropertyGroup expectedPropertyGroup = new PropertyGroup("this.is.my", "com.example.springpropertysources.MyProperties", "com.example.springpropertysources.MyProperties");

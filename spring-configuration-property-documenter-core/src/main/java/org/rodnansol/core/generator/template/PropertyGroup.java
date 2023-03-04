@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static org.rodnansol.core.generator.template.PropertyGroupConstants.UNKNOWN;
+import static org.rodnansol.core.generator.template.PropertyGroupConstants.UNKNOWN_GROUP;
+
 /**
  * Class representing a property group.
  *
@@ -12,10 +15,7 @@ import java.util.Objects;
  */
 public class PropertyGroup {
 
-    public static final String UNKNOWN_GROUP = "Unknown group";
-    public static final String UNKNOWN = "Unknown";
-
-    private final String groupName;
+    private String groupName;
     private final String type;
     private final String sourceType;
     private List<Property> properties;
@@ -48,6 +48,10 @@ public class PropertyGroup {
         PropertyGroup propertyGroup = new PropertyGroup(UNKNOWN_GROUP, UNKNOWN, UNKNOWN);
         propertyGroup.setUnknownGroup(true);
         return propertyGroup;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public String getType() {

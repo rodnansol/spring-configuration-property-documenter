@@ -3,7 +3,7 @@
 
 
 
-## Table of contents
+## Table of Contents
 
 * [**Unknown group** - `Unknown`](#Unknown group)
 

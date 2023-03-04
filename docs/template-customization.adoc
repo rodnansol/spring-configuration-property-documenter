@@ -405,7 +405,7 @@ There are few Java classes to be discovered if you wish:
 
 |tableOfContentsEnabled
 |boolean
-|Controls if the "Table of contents" sections should be enabled or not
+|Controls if the "Table of Contents" sections should be enabled or not
 |*true*
 |0.2.0
 
@@ -414,6 +414,12 @@ There are few Java classes to be discovered if you wish:
 |Controls if the properties without any known group should be included or not. It can happen if the input metadata JSON file is missing the group association with its properties.
 |*true*
 |0.3.0
+
+|unknownGroupLocalization
+|String
+|Overwrites the name of the `Unknown group`
+|*Unknown group*
+|0.4.0
 
 |includeGenerationDate
 |boolean
@@ -431,6 +437,18 @@ There are few Java classes to be discovered if you wish:
 |boolean
 |Controls if the empty property groups should be removed from the final document or not.
 |*false*
+|0.4.0
+
+|tocTitle
+|String
+|'Table of Contents' section's title. By default it is coming from the `messages.properties`
+|
+|0.4.0
+
+|locale
+|String
+|Set's the locale of the final document. - It will be converted to Locale with the `Locale.forLanguageTag` method.
+|JVM's default locale.
 |0.4.0
 
 |===
@@ -455,12 +473,6 @@ There are few Java classes to be discovered if you wish:
 [cols="1,1,4,2,1"]
 |===
 |Variable |Type |Description |Default value |Since
-
-|tocTitle
-|String
-|"Table of Contents" replacement title
-|Table of Contents
-|0.2.0
 
 |tocPlacement
 |TocPlacement (AUTO, LEFT, RIGHT)
@@ -538,3 +550,66 @@ There are few Java classes to be discovered if you wish:
 |===
 
 NOTE: The full stylesheet can be found here in this file: https://github.com/rodnansol/spring-configuration-property-documenter/blob/master/spring-configuration-property-documenter-core/src/main/resources/templates/partials/html/header.html.hbs
+
+=== i18n resources
+
+The following languages are supported, feel free to open new pull requests for additional languages.
+
+* English
+* Hungarian
+
+The default file can be found here: `spring-configuration-property-documenter-core/src/main/resources/messages.properties`
+
+.The following keys are available in your custom templates
+[cols="1,1,1"]
+|===
+|Key |Description |Since
+
+|toc
+|Title for the `Table of Contents` section
+|0.4.0
+
+|generationDate
+|Localization for the generation date footer value
+|0.4.0
+
+|backToTop
+|Localization for the back to top section in the HTML template
+|0.4.0
+
+|class
+|Localization for the class field
+|0.4.0
+
+|key
+|Localization for the key field
+|0.4.0
+
+|type
+|Localization for the type field
+|0.4.0
+
+|description
+|Localization for the description field
+|0.4.0
+
+|defaultValue
+|Localization for the default value field
+|0.4.0
+
+|deprecation
+|Localization for the deprecation field
+|0.4.0
+
+|environmentVariable
+|Localization for the environmentVariable field
+|0.4.0
+
+|===
+
+It's the default content:
+
+[source,properties]
+----
+include::../spring-configuration-property-documenter-core/src/main/resources/messages.properties[]
+----

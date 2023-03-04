@@ -3,7 +3,7 @@
 {{mainDescription}}
 {{/if}}
 {{#if tableOfContentsEnabled}}
-## Table of contents
+## {{#if tocTitle}}{{tocTitle}}{{else}}{{i18n "template.toc"}}{{/if}}
 {{#if subTemplateDataList}}
 {{#each subTemplateDataList}}
 * [**{{moduleName}}**](#{{moduleName}})
