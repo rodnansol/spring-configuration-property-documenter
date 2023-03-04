@@ -8,12 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.MainTemplateData;
-import org.rodnansol.core.generator.template.Property;
-import org.rodnansol.core.generator.template.PropertyGroup;
-import org.rodnansol.core.generator.template.TemplateCompiler;
-import org.rodnansol.core.generator.template.TemplateData;
-import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.template.*;
 import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
 import org.rodnansol.core.project.ProjectFactory;
 import org.rodnansol.core.project.simple.SimpleProject;
@@ -51,6 +46,9 @@ class DocumenterTest {
     @Mock
     MetadataInputResolverContext metadataInputResolverContext;
 
+    @Mock
+    PropertyGroupFilterService propertyGroupFilterService;
+
     @InjectMocks
     Documenter underTest;
 
@@ -61,62 +59,41 @@ class DocumenterTest {
         File inputFile = new File("input-file");
         File output = tempDir.resolve("output-file").toFile();
         String singleTemplate = TemplateType.ADOC.getSingleTemplate();
-        CreateDocumentCommand command = new CreateDocumentCommand(project, TEST, inputFile, singleTemplate, output, new AsciiDocTemplateCustomization());
-        command.setDescription(TEST_DESCRIPTION);
+        CreateDocumentCommand command = getCreateDocumentCommand(project, inputFile, output, singleTemplate);
 
         // When
+        List<PropertyGroup> propertyGroups = List.of(
+            PropertyGroup.createUnknownGroup()
+                .addProperty(new Property("org.rodnansol.unknown-type", "java.lang.String")),
+            new PropertyGroup("group1", "type", "sourceType", List.of(new Property("org.rodnansol.value", "java.lang.String"))),
+            new PropertyGroup("group2", "type", "sourceType", List.of(new Property("org.rodnansol.another-value", "java.lang.String")))
+        );
         when(metadataInputResolverContext.getInputStreamFromFile(project, inputFile)).thenReturn(inputStream);
-        when(metadataReader.readPropertiesAsPropertyGroupList(inputStream)).thenReturn(List.of(
-            PropertyGroup.createUnknownGroup()
-                .addProperty(new Property("org.rodnansol.unknown-type", "java.lang.String")),
-            new PropertyGroup("group1", "type", "sourceType", List.of(new Property("org.rodnansol.value", "java.lang.String"))),
-            new PropertyGroup("group2", "type", "sourceType", List.of(new Property("org.rodnansol.another-value", "java.lang.String")))
-        ));
-        when(templateCompiler.compileTemplate(eq(singleTemplate),any())).thenReturn("Hello World");
-        underTest.readMetadataAndGenerateRenderedFile(command);
-
-        // Then
-        MainTemplateData expectedTemplateData = new MainTemplateData(TEST,List.of(
-            PropertyGroup.createUnknownGroup()
-                .addProperty(new Property("org.rodnansol.unknown-type", "java.lang.String")),
-            new PropertyGroup("group1", "type", "sourceType", List.of(new Property("org.rodnansol.value", "java.lang.String"))),
-            new PropertyGroup("group2", "type", "sourceType", List.of(new Property("org.rodnansol.another-value", "java.lang.String")))
-        ));
-        expectedTemplateData.setTemplateCustomization(new AsciiDocTemplateCustomization());
-        expectedTemplateData.setMainDescription(TEST_DESCRIPTION);
-        verify(templateCompiler).compileTemplate(singleTemplate, expectedTemplateData);
-    }
-
-    @Test
-    void readMetadataAndGenerateRenderedFile_shouldWriteContentToFileButSkipUnknownGroups_whenUnknownGroupIsIgnored() throws IOException {
-        // Given
-        SimpleProject project = ProjectFactory.ofSimpleProject(new File("."), TEST);
-        File inputFile = new File("input-file");
-        File output = tempDir.resolve("output-file").toFile();
-        String singleTemplate = TemplateType.ADOC.getSingleTemplate();
-        AsciiDocTemplateCustomization templateCustomization = new AsciiDocTemplateCustomization();
-        templateCustomization.setIncludeUnknownGroup(false);
-        CreateDocumentCommand command = new CreateDocumentCommand(project, TEST, inputFile, singleTemplate, output, templateCustomization);
-        command.setDescription(TEST_DESCRIPTION);
-
-        // When
-        when(metadataInputResolverContext.getInputStreamFromFile(project, inputFile)).thenReturn(inputStream);
-        when(metadataReader.readPropertiesAsPropertyGroupList(inputStream)).thenReturn(new ArrayList<>(List.of(
-            PropertyGroup.createUnknownGroup()
-                .addProperty(new Property("org.rodnansol.unknown-type", "java.lang.String")),
-            new PropertyGroup("group1", "type", "sourceType", List.of(new Property("org.rodnansol.value", "java.lang.String"))),
-            new PropertyGroup("group2", "type", "sourceType", List.of(new Property("org.rodnansol.another-value", "java.lang.String")))
-        )));
-        when(templateCompiler.compileTemplate(eq(singleTemplate),any())).thenReturn("Hello World");
+        when(metadataReader.readPropertiesAsPropertyGroupList(inputStream)).thenReturn(propertyGroups);
+        when(templateCompiler.compileTemplate(eq(singleTemplate), any())).thenReturn("Hello World");
         underTest.readMetadataAndGenerateRenderedFile(command);
 
         // Then
         MainTemplateData expectedTemplateData = new MainTemplateData(TEST, List.of(
+            PropertyGroup.createUnknownGroup()
+                .addProperty(new Property("org.rodnansol.unknown-type", "java.lang.String")),
             new PropertyGroup("group1", "type", "sourceType", List.of(new Property("org.rodnansol.value", "java.lang.String"))),
             new PropertyGroup("group2", "type", "sourceType", List.of(new Property("org.rodnansol.another-value", "java.lang.String")))
         ));
-        expectedTemplateData.setTemplateCustomization(templateCustomization);
+        AsciiDocTemplateCustomization expectedTemplateCustomization = new AsciiDocTemplateCustomization();
+        expectedTemplateData.setTemplateCustomization(expectedTemplateCustomization);
         expectedTemplateData.setMainDescription(TEST_DESCRIPTION);
+        verify(propertyGroupFilterService).postProcessPropertyGroups(new PostProcessPropertyGroupsCommand(expectedTemplateCustomization,propertyGroups, List.of("excluded-group"), List.of("included-group"),List.of("excluded-property"),List.of("included-property")));
         verify(templateCompiler).compileTemplate(singleTemplate, expectedTemplateData);
+    }
+
+    private CreateDocumentCommand getCreateDocumentCommand(SimpleProject project, File inputFile, File output, String singleTemplate) {
+        CreateDocumentCommand command = new CreateDocumentCommand(project, TEST, inputFile, singleTemplate, output, new AsciiDocTemplateCustomization());
+        command.setDescription(TEST_DESCRIPTION);
+        command.setIncludedGroups(List.of("included-group"));
+        command.setExcludedGroups(List.of("excluded-group"));
+        command.setIncludedProperties(List.of("included-property"));
+        command.setExcludedProperties(List.of("excluded-property"));
+        return command;
     }
 }

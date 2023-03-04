@@ -29,4 +29,11 @@ public interface TemplateCustomization {
      */
     boolean isIncludeGenerationDate();
 
+    /**
+     * If empty groups must be removed from the final document or not.
+     *
+     * @since 0.4.0
+     */
+    boolean isRemoveEmptyGroups();
+
 }

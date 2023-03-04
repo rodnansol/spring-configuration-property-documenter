@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public class PropertyGroup {
 
-    public static final String WITHOUT_TYPE = "Without type";
+    public static final String UNKNOWN_GROUP = "Unknown group";
     public static final String UNKNOWN = "Unknown";
 
     private final String groupName;
@@ -22,7 +22,7 @@ public class PropertyGroup {
     private PropertyGroup parentGroup;
     private List<PropertyGroup> childrenGroups;
     private boolean nested;
-    private boolean unknownGroup;
+    private boolean unknownGroup = false;
 
     public PropertyGroup(String groupName, String type, String sourceType) {
         this.groupName = groupName;
@@ -45,7 +45,7 @@ public class PropertyGroup {
      * @return unknown group.
      */
     public static PropertyGroup createUnknownGroup() {
-        PropertyGroup propertyGroup = new PropertyGroup(WITHOUT_TYPE, UNKNOWN, UNKNOWN);
+        PropertyGroup propertyGroup = new PropertyGroup(UNKNOWN_GROUP, UNKNOWN, UNKNOWN);
         propertyGroup.setUnknownGroup(true);
         return propertyGroup;
     }
@@ -133,6 +133,7 @@ public class PropertyGroup {
             ", properties=" + properties +
             ", parentGroup=" + parentGroup +
             ", nested=" + nested +
+            ", unknownGroup=" + unknownGroup +
             '}';
     }
 
@@ -142,6 +143,7 @@ public class PropertyGroup {
         if (o == null || getClass() != o.getClass()) return false;
         PropertyGroup that = (PropertyGroup) o;
         return nested == that.nested
+            && unknownGroup == that.unknownGroup
             && Objects.equals(groupName, that.groupName)
             && Objects.equals(type, that.type)
             && Objects.equals(sourceType, that.sourceType)
@@ -151,7 +153,6 @@ public class PropertyGroup {
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupName, type, sourceType, properties, parentGroup, nested);
+        return Objects.hash(groupName, type, sourceType, properties, parentGroup, nested, unknownGroup);
     }
-
 }

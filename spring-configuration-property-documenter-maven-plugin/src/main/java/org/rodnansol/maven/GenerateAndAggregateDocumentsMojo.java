@@ -18,6 +18,7 @@ import org.rodnansol.core.generator.writer.AggregationDocumenter;
 import org.rodnansol.core.generator.writer.CombinedInput;
 import org.rodnansol.core.generator.writer.CreateAggregationCommand;
 import org.rodnansol.core.generator.writer.CustomTemplate;
+import org.rodnansol.core.generator.writer.PropertyGroupFilterService;
 import org.rodnansol.core.project.ProjectFactory;
 
 import java.io.File;
@@ -106,7 +107,7 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
     XmlTemplateCustomization xmlCustomization;
 
     /**
-     * Inputs.
+     * Input files and additional configuration.
      *
      * @since 0.1.0
      */
@@ -157,7 +158,7 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
 
     @Override
     public void execute() {
-        AggregationDocumenter aggregationDocumenter = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstance(templateCompilerName), MetadataInputResolverContext.INSTANCE);
+        AggregationDocumenter aggregationDocumenter = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstance(templateCompilerName), MetadataInputResolverContext.INSTANCE, PropertyGroupFilterService.INSTANCE);
         CreateAggregationCommand createAggregationCommand = createAggregationCommand();
         aggregationDocumenter.createDocumentsAndAggregate(createAggregationCommand);
     }
@@ -174,6 +175,10 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
     private CombinedInput mapToCombinedInput(AggregationMojoInput aggregationMojoInput) {
         CombinedInput combinedInput = new CombinedInput(aggregationMojoInput.getInput(), aggregationMojoInput.getName());
         combinedInput.setDescription(aggregationMojoInput.getDescription());
+        combinedInput.setExcludedGroups(aggregationMojoInput.getExcludedGroups());
+        combinedInput.setIncludedGroups(aggregationMojoInput.getIncludedGroups());
+        combinedInput.setIncludedProperties(aggregationMojoInput.getIncludedProperties());
+        combinedInput.setExcludedProperties(aggregationMojoInput.getExcludedProperties());
         return combinedInput;
     }
 

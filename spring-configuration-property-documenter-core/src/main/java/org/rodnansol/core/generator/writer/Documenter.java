@@ -29,11 +29,13 @@ public class Documenter {
     private final MetadataReader metadataReader;
     private final TemplateCompiler templateCompiler;
     private final MetadataInputResolverContext metadataInputResolverContext;
+    private final PropertyGroupFilterService propertyGroupFilterService;
 
-    public Documenter(MetadataReader metadataReader, TemplateCompiler templateCompiler, MetadataInputResolverContext metadataInputResolverContext) {
+    public Documenter(MetadataReader metadataReader, TemplateCompiler templateCompiler, MetadataInputResolverContext metadataInputResolverContext, PropertyGroupFilterService propertyGroupFilterService) {
         this.metadataReader = metadataReader;
         this.templateCompiler = templateCompiler;
         this.metadataInputResolverContext = metadataInputResolverContext;
+        this.propertyGroupFilterService = propertyGroupFilterService;
     }
 
     /**
@@ -56,15 +58,17 @@ public class Documenter {
         try (InputStream inputStream = metadataInputResolverContext.getInputStreamFromFile(createDocumentCommand.getProject(), createDocumentCommand.getMetadataInput())) {
             List<PropertyGroup> propertyGroups = metadataReader.readPropertiesAsPropertyGroupList(inputStream);
             TemplateCustomization templateCustomization = createDocumentCommand.getTemplateCustomization();
-            if(!templateCustomization.isIncludeUnknownGroup()) {
-                propertyGroups.removeIf(PropertyGroup::isUnknownGroup);
-            }
+            filterGroupsAndProperties(createDocumentCommand, propertyGroups, templateCustomization);
             MainTemplateData mainTemplateData = MainTemplateData.ofMainSection(createDocumentCommand.getName(), propertyGroups);
             mainTemplateData.setGenerationDate(LocalDateTime.now());
             mainTemplateData.setMainDescription(createDocumentCommand.getDescription());
             mainTemplateData.setTemplateCustomization(templateCustomization);
             return mainTemplateData;
         }
+    }
+
+    private void filterGroupsAndProperties(CreateDocumentCommand createDocumentCommand, List<PropertyGroup> propertyGroups, TemplateCustomization templateCustomization) {
+        propertyGroupFilterService.postProcessPropertyGroups(new PostProcessPropertyGroupsCommand(templateCustomization, propertyGroups, createDocumentCommand.getExcludedGroups(), createDocumentCommand.getIncludedGroups(), createDocumentCommand.getExcludedProperties(), createDocumentCommand.getIncludedProperties()));
     }
 
 }

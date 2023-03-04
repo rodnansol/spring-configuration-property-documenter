@@ -24,7 +24,7 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
     protected boolean tableOfContentsEnabled = true;
 
     /**
-     * If the 'Without type'/Unknown group should be included or not.
+     * If the 'Unknown group' should be included or not.
      *
      * @since 0.3.0
      */
@@ -43,6 +43,13 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
      * @since 0.4.0
      */
     protected boolean includeGenerationDate = true;
+
+    /**
+     * If empty groups must be removed from the final document or not.
+     *
+     * @since 0.4.0
+     */
+    protected boolean removeEmptyGroups = false;
 
     public boolean isHeaderEnabled() {
         return headerEnabled;
@@ -85,6 +92,15 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
 
     public void setIncludeGenerationDate(boolean includeGenerationDate) {
         this.includeGenerationDate = includeGenerationDate;
+    }
+
+    @Override
+    public boolean isRemoveEmptyGroups() {
+        return removeEmptyGroups;
+    }
+
+    public void setRemoveEmptyGroups(boolean removeEmptyGroups) {
+        this.removeEmptyGroups = removeEmptyGroups;
     }
 
     @Override

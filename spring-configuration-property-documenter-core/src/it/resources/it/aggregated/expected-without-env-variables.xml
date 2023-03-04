@@ -9,7 +9,7 @@
                 <moduleName>Document 1</moduleName>
                 <propertyGroups>
                     <propertyGroup>
-                        <groupName>Without type</groupName>
+                        <groupName>Unknown group</groupName>
                     </propertyGroup>
                 </propertyGroups>
             </module>
@@ -17,7 +17,7 @@
                 <moduleName>Document 2</moduleName>
                 <propertyGroups>
                     <propertyGroup>
-                        <groupName>Without type</groupName>
+                        <groupName>Unknown group</groupName>
                     </propertyGroup>
                 </propertyGroups>
             </module>
@@ -30,7 +30,7 @@
 
             <propertyGroups>
                 <propertyGroup>
-                    <groupName>Without type</groupName>
+                    <groupName>Unknown group</groupName>
                     <type>Unknown</type>
                     <properties>
                         <property>
@@ -66,7 +66,7 @@
 
             <propertyGroups>
                 <propertyGroup>
-                    <groupName>Without type</groupName>
+                    <groupName>Unknown group</groupName>
                     <type>Unknown</type>
                     <properties>
                         <property>

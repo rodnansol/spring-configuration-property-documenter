@@ -4,6 +4,7 @@ import org.rodnansol.core.generator.template.customization.TemplateCustomization
 import org.rodnansol.core.project.Project;
 
 import java.io.File;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,6 +22,10 @@ public class CreateDocumentCommand {
     private final File output;
     private final TemplateCustomization templateCustomization;
     private String description;
+    private List<String> excludedGroups;
+    private List<String> includedGroups;
+    private List<String> excludedProperties;
+    private List<String> includedProperties;
 
     public CreateDocumentCommand(Project project, String name, File metadataInput, String template, File output, TemplateCustomization templateCustomization) {
         this.project = Objects.requireNonNull(project, "project is NULL");
@@ -61,5 +66,37 @@ public class CreateDocumentCommand {
 
     public TemplateCustomization getTemplateCustomization() {
         return templateCustomization;
+    }
+
+    public List<String> getExcludedProperties() {
+        return excludedProperties;
+    }
+
+    public void setExcludedProperties(List<String> excludedProperties) {
+        this.excludedProperties = excludedProperties;
+    }
+
+    public List<String> getIncludedProperties() {
+        return includedProperties;
+    }
+
+    public void setIncludedProperties(List<String> includedProperties) {
+        this.includedProperties = includedProperties;
+    }
+
+    public List<String> getExcludedGroups() {
+        return excludedGroups;
+    }
+
+    public void setExcludedGroups(List<String> excludedGroups) {
+        this.excludedGroups = excludedGroups;
+    }
+
+    public List<String> getIncludedGroups() {
+        return includedGroups;
+    }
+
+    public void setIncludedGroups(List<String> includedGroups) {
+        this.includedGroups = includedGroups;
     }
 }

@@ -7,10 +7,10 @@
 
 
 * [**Document 1**](#Document 1)
-  * [**Without type** - `Unknown`](#Without type)
+  * [**Unknown group** - `Unknown`](#Unknown group)
 
 * [**Document 2**](#Document 2)
-  * [**Without type** - `Unknown`](#Without type)
+  * [**Unknown group** - `Unknown`](#Unknown group)
 
 
 
@@ -18,7 +18,7 @@
 ## Document 1
 
 
-### Without type
+### Unknown group
 **Class:** `Unknown`
 
 | Key | Type | Description | Default value | Deprecation | Environment variable| 
@@ -31,7 +31,7 @@
 ## Document 2
 
 
-### Without type
+### Unknown group
 **Class:** `Unknown`
 
 | Key | Type | Description | Default value | Deprecation | Environment variable| 

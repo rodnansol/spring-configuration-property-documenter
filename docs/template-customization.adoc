@@ -427,6 +427,12 @@ There are few Java classes to be discovered if you wish:
 |*false*
 |0.4.0
 
+|removeEmptyGroups
+|boolean
+|Controls if the empty property groups should be removed from the final document or not.
+|*false*
+|0.4.0
+
 |===
 
 .`org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization`

@@ -6,11 +6,7 @@ import com.github.jknack.handlebars.internal.lang3.tuple.Pair;
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.MainTemplateData;
-import org.rodnansol.core.generator.template.PropertyGroup;
-import org.rodnansol.core.generator.template.SubTemplateData;
-import org.rodnansol.core.generator.template.TemplateCompiler;
-import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.template.*;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.util.CoreFileUtils;
 import org.slf4j.Logger;
@@ -37,11 +33,13 @@ public class AggregationDocumenter {
     private final MetadataReader metadataReader;
     private final TemplateCompiler templateCompiler;
     private final MetadataInputResolverContext metadataInputResolverContext;
+    private final PropertyGroupFilterService propertyGroupFilterService;
 
-    public AggregationDocumenter(MetadataReader metadataReader, TemplateCompiler templateCompiler, MetadataInputResolverContext metadataInputResolverContext) {
+    public AggregationDocumenter(MetadataReader metadataReader, TemplateCompiler templateCompiler, MetadataInputResolverContext metadataInputResolverContext, PropertyGroupFilterService propertyGroupFilterService) {
         this.metadataReader = metadataReader;
         this.templateCompiler = templateCompiler;
         this.metadataInputResolverContext = metadataInputResolverContext;
+        this.propertyGroupFilterService = propertyGroupFilterService;
     }
 
     /**
@@ -64,6 +62,7 @@ public class AggregationDocumenter {
             LOGGER.info("Processing entry:[{}]", entry);
             try (InputStream inputStream = metadataInputResolverContext.getInputStreamFromFile(createAggregationCommand.getProject(), entry.getInput())) {
                 List<PropertyGroup> groups = metadataReader.readPropertiesAsPropertyGroupList(inputStream);
+                filterGroupsAndProperties(createAggregationCommand.getTemplateCustomization(), entry, groups);
                 propertyGroups.addAll(groups);
                 subTemplateDataList.add(createModuleTemplateData(createAggregationCommand.getTemplateCustomization(), entry.getSectionName(), groups, entry.getDescription()));
             } catch (Exception e) {
@@ -71,6 +70,10 @@ public class AggregationDocumenter {
             }
         }
         return new ImmutablePair<>(subTemplateDataList, propertyGroups);
+    }
+
+    private void filterGroupsAndProperties(TemplateCustomization templateCustomization, CombinedInput entry, List<PropertyGroup> groups) {
+        propertyGroupFilterService.postProcessPropertyGroups(new PostProcessPropertyGroupsCommand(templateCustomization, groups, entry.getIncludedGroups(), entry.getExcludedGroups(), entry.getIncludedProperties(), entry.getExcludedProperties()));
     }
 
     private void createAndWriteContent(CreateAggregationCommand createAggregationCommand, List<SubTemplateData> subTemplateDataList, List<PropertyGroup> propertyGroups) {
