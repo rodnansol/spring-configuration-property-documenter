@@ -205,9 +205,30 @@ As said before the tool can be executed by multiple tools, by far probably the m
 === Customization
 ==== <<docs/template-customization.adoc#header, Custom templates>>
 
-== Installation
-
 == Contribution
+
+=== Fork
+
+Please fork the project if you would like to contribute.
+
+=== How to build the project?
+
+The project requires at least Java 11, if sdkman is installed on your machine `sdk e` command could be used in the terminal to set up the required Java version.
+
+- To build the project just run: `mvn verify`
+- If you want to build the samples run: `mvn install` and then `mvn package -f samples/pom.xml`
+
+=== Code formatter
+
+The project contains a `.editorconfig` file, and it should be utilized as well.
+
+During build time Checkstyle checks the conventions.
+
+=== Commit messages
+
+The commit messages are based on the **conventional-commits**, please apply those rules.
+
+Learn more link:https://www.conventionalcommits.org[here].
 
 == Contributors
 
