@@ -1,0 +1,4 @@
+rootProject.name = 'spring-configuration-property-documenter-gradle-plugin'
+include 'samples-gradle'
+findProject(':samples-gradle')?.name = 'samples-gradle'
+
