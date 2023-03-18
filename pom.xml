@@ -11,6 +11,7 @@
     <modules>
         <module>spring-configuration-property-documenter-core</module>
         <module>spring-configuration-property-documenter-maven-plugin</module>
+        <module>spring-configuration-property-documenter-gradle-plugin</module>
         <module>spring-configuration-property-documenter-report</module>
     </modules>
 

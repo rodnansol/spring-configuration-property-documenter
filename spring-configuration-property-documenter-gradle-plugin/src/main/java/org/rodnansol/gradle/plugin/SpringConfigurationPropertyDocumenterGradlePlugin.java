@@ -1,7 +1,8 @@
-package org.rodnansol.gradle;
+package org.rodnansol.gradle.plugin;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.rodnansol.gradle.GenerateAndAggregateDocumentsMojo;
 
 import java.util.stream.Collectors;
 

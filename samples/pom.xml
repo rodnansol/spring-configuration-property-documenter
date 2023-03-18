@@ -12,6 +12,7 @@
         <module>single-module</module>
         <module>multi-module</module>
         <module>quarkus-spring-boot-single-module</module>
+        <module>kotlin-example</module>
     </modules>
 
     <dependencyManagement>

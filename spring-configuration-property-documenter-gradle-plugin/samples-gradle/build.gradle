@@ -3,20 +3,21 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'org.rodnansol.gradle:spring-configuration-property-documenter-gradle-plugin:999-SNAPSHOT'
+        classpath 'org.rodnansol:spring-configuration-property-documenter-gradle-plugin:999-SNAPSHOT'
     }
 }
 
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.0.4'
+    id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.1.0'
 }
 
-group 'org.rodnansol.samples.gralde'
+group 'org.rodnansol.samples.gradle'
 version '999-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -26,11 +27,10 @@ configurations {
     }
 }
 
-apply plugin: 'spring-configuration-property-documenter-gradle-plugin'
+apply plugin: 'org.rodnansol.spring-configuration-property-documenter'
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.rodnansol:spring-configuration-property-documenter-core:0.3.0'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
