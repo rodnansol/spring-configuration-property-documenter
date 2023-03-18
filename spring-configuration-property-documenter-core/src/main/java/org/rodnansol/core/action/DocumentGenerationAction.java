@@ -46,9 +46,9 @@ public class DocumentGenerationAction {
     public DocumentGenerationAction(Project project, String name, TemplateCustomization templateCustomization, TemplateType templateType, File metadataInput) {
         this.project = Objects.requireNonNull(project, "project is NULL");
         this.name = Objects.requireNonNull(name, "name is NULL");
-        this.templateCustomization = Objects.requireNonNull(templateCustomization);
-        this.templateType = Objects.requireNonNull(templateType);
-        this.metadataInput = Objects.requireNonNull(metadataInput);
+        this.templateCustomization = Objects.requireNonNull(templateCustomization, "templateCustomization is NULL");
+        this.templateType = Objects.requireNonNull(templateType,"templateType is NULL");
+        this.metadataInput = Objects.requireNonNull(metadataInput,"metadataInput is NULL");
     }
 
     /**

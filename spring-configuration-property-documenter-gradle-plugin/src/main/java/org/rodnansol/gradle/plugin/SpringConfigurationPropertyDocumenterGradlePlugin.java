@@ -3,9 +3,17 @@ package org.rodnansol.gradle.plugin;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.rodnansol.gradle.GenerateAndAggregateDocumentsMojo;
+import org.rodnansol.gradle.tasks.GenerateDocumentTask;
 
 import java.util.stream.Collectors;
 
+/**
+ *
+ *
+ * @author nandorholozsnyak
+ * @author thkadir
+ * @since 0.5.0
+ */
 public class SpringConfigurationPropertyDocumenterGradlePlugin implements Plugin<Project> {
 
     @Override
@@ -19,6 +27,10 @@ public class SpringConfigurationPropertyDocumenterGradlePlugin implements Plugin
             .map(p -> p.getPath())
             .collect(Collectors.toList()));
         generateAndAggregateDocumentsMojo.setDescription(project.getDescription());
+
+        project.getTasks().register("generateDocument", GenerateDocumentTask.class, generateDocumentTask -> {
+            System.out.println("Running");
+        });
 
         project.task("generate")
             .doLast(task -> {

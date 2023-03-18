@@ -41,3 +41,10 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.named("generateDocument") {
+    documentName = "Hello World"
+    metadataInput = new File("build/classes/java/main/META-INF/spring-configuration-metadata.json")
+    outputFile = new File("build/config-prop.adoc")
+    type = "ADOC"
+}

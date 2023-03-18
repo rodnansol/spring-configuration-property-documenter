@@ -29,6 +29,10 @@
             <id>gradle</id>
             <url>https://repo.gradle.org/gradle/libs-releases-local/</url>
         </repository>
+        <repository>
+            <id>google</id>
+            <url>https://maven.google.com/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -41,6 +45,18 @@
             <artifactId>spring-boot</artifactId>
             <scope>compile</scope>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.android.tools.build</groupId>-->
+        <!--            <artifactId>gradle-api</artifactId>-->
+        <!--            <version>7.1.1</version>-->
+        <!--            <scope>provided</scope>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.android.tools.build</groupId>-->
+        <!--            <artifactId>gradle</artifactId>-->
+        <!--            <version>7.1.1</version>-->
+        <!--            <scope>provided</scope>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
@@ -50,6 +66,12 @@
         <dependency>
             <groupId>org.gradle</groupId>
             <artifactId>gradle-core-api</artifactId>
+            <version>6.1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.gradle</groupId>
+            <artifactId>gradle-model-core</artifactId>
             <version>6.1.1</version>
             <scope>provided</scope>
         </dependency>
