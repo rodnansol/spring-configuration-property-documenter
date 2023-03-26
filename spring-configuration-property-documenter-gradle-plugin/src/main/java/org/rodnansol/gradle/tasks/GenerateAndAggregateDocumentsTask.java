@@ -43,8 +43,9 @@ import java.util.stream.Collectors;
 public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GenerateAndAggregateDocumentsTask.class);
+
     /**
-     * List of the metadata input files.
+     * List of the metadata inputs.
      *
      * @since 0.5.0
      */
@@ -57,7 +58,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
      * @since 0.5.0
      */
     @Input
-    @Option(option = "name", description = "Name/header of the generated document")
+    @Option(option = "documentName", description = "Name/header of the generated document")
     private String documentName;
 
     /**
@@ -67,7 +68,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
      */
     @Input
     @Optional
-    @Option(option = "description", description = "Description")
+    @Option(option = "documentDescription", description = "Description")
     private String documentDescription;
 
     /**

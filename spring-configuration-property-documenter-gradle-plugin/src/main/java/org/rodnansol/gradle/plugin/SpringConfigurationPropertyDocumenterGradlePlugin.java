@@ -3,7 +3,7 @@ package org.rodnansol.gradle.plugin;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.rodnansol.gradle.tasks.GenerateAndAggregateDocumentsTask;
-import org.rodnansol.gradle.tasks.GenerateDocumentTask;
+import org.rodnansol.gradle.tasks.GeneratePropertyDocumentTask;
 
 /**
  * Class representing the Gradle plugin setup.
@@ -16,7 +16,7 @@ public class SpringConfigurationPropertyDocumenterGradlePlugin implements Plugin
 
     @Override
     public void apply(Project project) {
-        project.getTasks().register("generateDocument", GenerateDocumentTask.class, generateDocumentTask -> {
+        project.getTasks().register("generatePropertyDocument", GeneratePropertyDocumentTask.class, generatePropertyDocumentTask -> {
         });
         project.getTasks().register("generateAndAggregateDocuments", GenerateAndAggregateDocumentsTask.class, generateAndAggregateDocumentsTask -> {
         });

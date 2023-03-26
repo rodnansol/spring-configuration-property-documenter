@@ -25,11 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Task to generate a single document.
+ *
  * @author nandorholozsnyak
  * @author tkhadiradeo
  * @since 0.5.0
  */
-public abstract class GenerateDocumentTask extends ConventionTask {
+public abstract class GeneratePropertyDocumentTask extends ConventionTask {
 
     /**
      * Name that should be generated to the final document.
@@ -37,7 +39,7 @@ public abstract class GenerateDocumentTask extends ConventionTask {
      * @since 0.5.0
      */
     @Input
-    @Option(option = "name", description = "Name/header of the generated document")
+    @Option(option = "documentName", description = "Name/header of the generated document")
     private String documentName;
     /**
      * Description about the project.
@@ -46,7 +48,7 @@ public abstract class GenerateDocumentTask extends ConventionTask {
      */
     @Input
     @Optional
-    @Option(option = "description", description = "Description")
+    @Option(option = "documentDescription", description = "Description")
     private String documentDescription;
     /**
      * The template to be used.
@@ -165,7 +167,6 @@ public abstract class GenerateDocumentTask extends ConventionTask {
      *
      * @since 0.5.0
      */
-//    @Input
     private HtmlTemplateCustomization htmlCustomization = new HtmlTemplateCustomization();
 
     /**

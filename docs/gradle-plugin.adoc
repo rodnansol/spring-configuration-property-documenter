@@ -1,4 +1,5 @@
-= Coming soon!
+[#header]
+= Spring Configuration Property Documenter - Gradle Plugin
 ifndef::env-github[]
 :icons: font
 endif::[]
@@ -9,3 +10,526 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :warning-caption: :warning:
 endif::[]
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+
+[sidebar]
+With the release of the *0.5.0* version the tool now can be used within Gradle projects as well.
+
+toc::[]
+
+[NOTE]
+====
+The plugin is built with *Java 11* and *Gradle 6.1.1* API, make sure requirements are met.
+====
+
+The plugin is built like the Maven plugin, it has the same functionalities, but in the Gradle world.
+
+In this documentation the usage is being show, and the samples can be checked in the `samples/gradle` folder from the root.
+
+== Available tasks
+
+The plugin provides the users 2 tasks:
+
+- `generatePropertyDocument` - Generates a single property document
+- `generateAndAggregateDocuments` - Generates and aggregates documents from different sources (folder, exact file, JAR/ZIP file)
+
+== Setup
+=== Single module / Single project
+
+.gradle.build
+[source,groovy]
+----
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'org.rodnansol:spring-configuration-property-documenter-gradle-plugin:<latest-version>' // <.>
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.8'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+apply plugin: 'org.rodnansol.spring-configuration-property-documenter' // <.>
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor' // <.>
+}
+
+
+group 'org.rodnansol.samples.gradle'
+version '999-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+tasks.register('generateAdoc') { // <.>
+    dependsOn generatePropertyDocument { //<.>
+        documentName = "Single Module" // <.>
+        documentDescription = "This is a document about the configuration properties in my application"
+        type = "ADOC" // <.>
+        metadataInput = file("build/classes/java/main/META-INF/spring-configuration-metadata.json") // <.>
+        outputFile = file("build/config-prop.adoc") // <.>
+        excludedProperties = ["properties-to-exclude"]
+        excludedGroups = ["property-groups-to-exclude"]
+        includedProperties = ["properties-to-include"]
+        includedGroups = ["property-groups-to-include"]
+        templateCompilerName = "your-own-template-compiler"
+        asciiDocCustomization { // <.>
+            includeEnvFormat = true
+            unknownGroupLocalization = "Renamed unknown group"
+            tocLevels = 3
+        }
+    }
+}
+
+----
+<1> Define the `spring-configuration-property-documenter-gradle-plugin` in your buildscript
+<2> Apply the plugin to make sure the tasks will be available
+<3> Add the `org.springframework.boot:spring-boot-configuration-processor` to the dependencies to make sure the `spring-configuration-metadata.json` file wil be generated.
+<4> Register an alias under any custom name to make sure the `generatePropertyDocument` task can be customized - This can be setup as a top level task too.
+<5> Mark the new named task to be dependent on the `generatePropertyDocument`
+<6> Set the name of the document
+<7> Set the type of the document - *MARKDOWN*, *ADOC*, *HTML*, *XML*
+<8> Specify the metadata input file, it is optional if not specified it will be read from the following path: `build/classes/java/main/META-INF/spring-configuration-metadata.json`
+<9> Specify the output file, it is optional, if not specified the default output path will be: `build/property-docs/<modules-name>-property-docs.<template-extension>`
+<10> Apply any customization to the document - Please check out the available configuration properties <<template-customization#template-customizations,here>>
+
+Available customization blocks:
+
+* *asciiDocCustomization*
+* *markdownCustomization*
+* *htmlCustomization*
+* *xmlCustomization*
+
+Run the task to generate the documentation: `gradle build generateAdoc`
+
+Or run them in two separate commands:
+
+* `gradle build`
+* `gradle generateAdoc`
+
+
+The generated file will be placed to `build/property-docs/<modules-name>-property-docs.<template-extension>` if the `outputFile` attribute is not specified
+
+=== Multi-module / Multiple sub projects
+
+Multi-module setups are working as well, and to set up the aggregation is easier in Gradle than in Maven. Maven needs an extra module to make sure the aggregation goal/tasks runs after every metadata input file is generated, with Gradle we do not have to do it, we just have to create a task / or configure a top level task, and specify the metadata inputs.
+
+[source,text]
+----
+│ parent
+├── gradle-multi-module-a
+│   ...
+│   └── build.gradle
+├── gradle-multi-module-b
+│   ...
+│   └── build.gradle
+├── ...
+├── build.gradle
+└── settings.gradle
+----
+
+.Parent gradle.build
+[source,groovy]
+----
+import org.rodnansol.gradle.tasks.AggregationInput
+
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'org.rodnansol:spring-configuration-property-documenter-gradle-plugin:<latest-version>' //<.>
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+apply plugin: 'org.rodnansol.spring-configuration-property-documenter' //<.>
+
+group 'org.rodnansol.samples.gradle'
+version '999-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+
+tasks.register('aggregateAdocWithImperative') { //<.>
+    dependsOn generateAndAggregateDocuments {
+        documentName = "Hello World" //<.>
+        type = "ADOC"
+
+        //<.>
+        def moduleA = new AggregationInput()
+        moduleA.name = "Module A document"
+        moduleA.input = new File("gradle-multi-module-a")
+        metadataInputs.add(moduleA)
+
+        def moduleB = new AggregationInput()
+        moduleB.name = "Module B document"
+        moduleB.input = new File("gradle-multi-module-b")
+        metadataInputs.add(moduleB)
+
+        outputFile = new File("build/property-docs/aggregated-adoc.adoc") //<.>
+        asciiDocCustomization { //<.>
+            includeEnvFormat = true
+            unknownGroupLocalization = "Renamed unknown group"
+            tocLevels = 3
+
+        }
+    }
+}
+
+tasks.register('aggregateAdocWithDsl') { //<.>
+    dependsOn generateAndAggregateDocuments {
+        documentName = "Hello World"
+        type = "ADOC"
+
+        metadataInputs { //<.>
+            metadata { //<.>
+                name = "Module A" //<.>
+                input = file("gradle-multi-module-a") //<.>
+            }
+            metadata {
+                name = "Module B"
+                input = file("gradle-multi-module-b")
+            }
+            metadata {
+                name = "Sprint Boot 2.7.8 - Include Groups and Lists"
+                description = "Sprint Boot 2.7.8 related properties with inclusions"
+                input = file(System.getProperty("user.home") + "/.m2/repository/org/springframework/boot/spring-boot/2.7.8/spring-boot-2.7.8.jar")
+                includedProperties = ["logging.charset.console", "spring.banner.image.invert"] //<.>
+                includedGroups = ["Unknown group"]
+            }
+            metadata {
+                name = "Sprint Boot 2.7.8 - Exclude Groups and Lists"
+                description = "Sprint Boot 2.7.8 related properties with exclusions"
+                input = file(System.getProperty("user.home") + "/.m2/repository/org/springframework/boot/spring-boot/2.7.8/spring-boot-2.7.8.jar")
+                excludedProperties = ["logging.charset.console", "spring.banner.image.invert"]
+                excludedGroups = ["spring.jta.atomikos.datasource"]
+            }
+        }
+
+        outputFile = new File("build/property-docs/aggregated-adoc.adoc") //<.>
+        asciiDocCustomization { //<.>
+            includeEnvFormat = true
+            unknownGroupLocalization = "Renamed unknown group"
+            tocLevels = 3
+
+        }
+    }
+}
+----
+<1> Define the `spring-configuration-property-documenter-gradle-plugin` in your buildscript
+<2> Apply the plugin to make sure the tasks will be available
+<3> Create an alias for the `generateAndAggregateDocuments` under any name
+<4> Set the name and type of the document
+<5> Specify the input files via an imperative way (if this is the preferred way)
+<6> In case of aggregation the `outputFile` is mandatory
+<7> Apply customizations if needed
+<8> DSL based example
+<9> Use the `metadataInputs` key to specify the input files (folder, specific file, JAR/ZIP file)
+<10> Specify multiple inputs if needed
+<11> Specify the name of the section in the final aggregated document
+<12> Specify the input
+<13> Specify exclude or include lists if needed
+<14> `outputFile` file is mandatory in this case
+<15> Apply customizations if needed
+
+NOTE: To make sure the subprojects are providing the required `spring-configuration-metadata.json` the `org.springframework.boot:spring-boot-configuration-processor` dependency must be declared as an `annotationProcessor`.
+
+Run the task to generate the documentation: `gradle build aggregateAdocWithDsl`
+
+Or run them in two separate commands:
+
+* `gradle build`
+* `gradle aggregateAdocWithDsl`
+
+== Available tasks and configurations
+
+=== Configuration
+
+[#generate-property-document]
+==== `GeneratePropertyDocumentTask`
+
+.Configuration
+[%collapsible%]
+====
+[cols="1,3,1,1,1"]
+|===
+|Parameter name |Description |Mandatory |Default value |Since
+
+|documentName
+|Main header's name
+|Yes
+|
+|0.5.0
+
+|documentDescription
+|Description about the module that will be generated into the document
+|No
+|
+|0.5.0
+
+|template
+|Template to be used during the generation, if not specified the default templates are going to be used, (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|No
+|
+|0.5.0
+
+|type
+|The type of the document, basically the extension. If the `template` is not being specified the default template will be resolved based on this value.
+|Yes
+|
+|0.5.0
+
+|markdownCustomization
+|Markdown customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|`org.rodnansol.core.generator
+.template.customization
+.MarkdownTemplateCustomization` class.
+|0.5.0
+
+|asciiDocCustomization
+|AsciiDoc customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|`org.rodnansol.core.generator
+.template.customization
+.AsciiDocTemplateCustomization` class.
+|0.5.0
+
+|htmlCustomization
+|HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|`org.rodnansol.core.generator
+.template.customization
+.HtmlTemplateCustomization` class.
+|0.5.0
+
+|xmlCustomization
+|XML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|`org.rodnansol.core.generator
+.template.customization
+.XmlTemplateCustomization` class.
+|0.5.0
+
+|metadataInput
+|Path to the metadata input:
+
+- A path to JSON file for example:
+*target/classes/META-INF/spring-configuration-metadata.json*
+
+- A directory that contains the file
+
+- A jar/zip file that contains the file within the following entry *META-INF/spring-configuration-metadata.json*
+|No
+|*target/classes/META-INF/spring-configuration-metadata.json*
+|0.5.0
+
+|templateCompilerName
+|Custom template compiler's fully qualified name
+|No
+|`org.rodnansol.core
+.generator.template
+.HandlebarsTemplateCompiler`
+|0.5.0
+
+|outputFile
+|The output file's full path
+|No
+|
+|0.5.0
+
+|failOnError
+|If the Maven build should fail in case the document generation fails.
+|No
+|*false*
+|0.5.0
+
+|excludedGroups
+|List of groups that should be *excluded* from the final document
+|No
+|Empty list - Everything will be included
+|0.5.0
+
+|includedGroups
+|List of groups that should be *included* int the final document
+|No
+|Empty list - Everything will be included
+|0.5.0
+
+|excludedProperties
+|List of properties that should be *excluded* from the final document
+|No
+|Empty list - Everything will be included
+|0.5.0
+
+|includedProperties
+|List of properties that should be *included* int the final document
+|No
+|Empty list - Everything will be included
+|0.5.0
+
+|===
+====
+
+[#generate-and-aggregate-documents]
+==== `GenerateAndAggregateDocumentsTask`
+
+.Configuration
+[%collapsible%]
+====
+[cols="1,3,1,1,1"]
+|===
+|Parameter name |Description |Mandatory |Default value |Since
+
+|documentName
+|Main header's name
+|Yes
+|
+|0.5.0
+
+|documentDescription
+|Description about the module that will be generated into the document
+|No
+|
+|0.5.0
+
+|type
+|The type of the document, basically the extension. If the `template` is not being specified the default template will be resolved based on this value.
+|Yes
+|
+|0.5.0
+
+|markdownCustomization
+|Markdown customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|`org.rodnansol
+.core.generator
+.template.customization
+.MarkdownTemplateCustomization` class.
+|0.5.0
+
+|asciiDocCustomization
+|AsciiDoc customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|`org.rodnansol
+.core.generator
+.template.customization
+.AsciiDocTemplateCustomization` class.
+|0.5.0
+
+|htmlCustomization
+|HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|`org.rodnansol
+.core.generator
+.template.customization
+.HtmlTemplateCustomization` class.
+|0.5.0
+
+|xmlCustomization
+|XML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|No
+|`org.rodnansol
+.core.generator
+.template.customization
+.XmlTemplateCustomization` class.
+|0.5.0
+
+|metadataInputs
+|Multiple input file - Type: <<aggregation-input,AggregationInput>> below
+|Yes
+|
+|0.5.0
+
+|outputFile
+|The output file's full path
+|Yes
+|
+|0.5.0
+
+|templateCompilerName
+|Custom template compiler's fully qualified name - For more information check the  <<template-customization#template-customizations,template customization section>>
+|No
+|`org.rodnansol.core
+.generator.template
+.HandlebarsTemplateCompiler`
+|0.5.0
+
+|headerTemplate
+|Custom header template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|No
+|
+|0.5.0
+
+|contentTemplate
+|Custom content template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|No
+|
+|0.5.0
+
+|footerTemplate
+|Custom footer template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|No
+|
+|0.5.0
+
+|===
+
+[#aggregation-input]
+.`org.rodnansol.gradle.tasks.AggregationInput`
+[cols="1,4,1,1"]
+|===
+|Parameter name |Description |Mandatory |Since
+
+| `name`
+| Name of the module
+| Yes
+| 0.5.0
+
+| `description`
+| Description of the module
+| No
+| 0.5.0
+
+| `input`
+| Input file or path
+
+- A path to JSON file for example:
+
+*target/classes/META-INF/spring-configuration-metadata.json*
+
+- A directory that contains the file
+
+- A jar/zip file that contains the file within the following entry:
+
+*META-INF/spring-configuration-metadata.json*
+| Yes
+| 0.5.0
+
+|===
+====

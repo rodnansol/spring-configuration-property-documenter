@@ -141,4 +141,17 @@ public class AggregationInput implements Serializable {
     public void setIncludedGroups(List<String> includedGroups) {
         this.includedGroups = includedGroups;
     }
+
+    @Override
+    public String toString() {
+        return "AggregationInput{" +
+            "excludedProperties=" + excludedProperties +
+            ", includedProperties=" + includedProperties +
+            ", excludedGroups=" + excludedGroups +
+            ", includedGroups=" + includedGroups +
+            ", name='" + name + '\'' +
+            ", description='" + description + '\'' +
+            ", input=" + input +
+            '}';
+    }
 }

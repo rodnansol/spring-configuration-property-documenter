@@ -63,6 +63,9 @@
         <maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
         <jreleaser-github-release.draft>false</jreleaser-github-release.draft>
         <jreleaser-nexus-deploy.active>ALWAYS</jreleaser-nexus-deploy.active>
+        <groovy.version>4.0.10</groovy.version>
+        <gradle.version>6.1.1</gradle.version>
+        <javax.inject.version>1</javax.inject.version>
     </properties>
 
     <name>Spring Configuration Property Documenter</name>
@@ -161,6 +164,66 @@
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j-api.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>${groovy.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.gradle</groupId>
+                <artifactId>gradle-core-api</artifactId>
+                <version>${gradle.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.gradle</groupId>
+                <artifactId>gradle-model-core</artifactId>
+                <version>${gradle.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.gradle</groupId>
+                <artifactId>gradle-logging</artifactId>
+                <version>${gradle.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.gradle</groupId>
+                <artifactId>gradle-language-java</artifactId>
+                <version>${gradle.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.gradle</groupId>
+                <artifactId>gradle-core</artifactId>
+                <version>${gradle.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.gradle</groupId>
+                <artifactId>gradle-base-services</artifactId>
+                <version>${gradle.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.gradle</groupId>
+                <artifactId>gradle-base-services-groovy</artifactId>
+                <version>${gradle.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.gradle</groupId>
+                <artifactId>gradle-plugins</artifactId>
+                <version>${gradle.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>${javax.inject.version}</version>
             </dependency>
 
             <dependency>

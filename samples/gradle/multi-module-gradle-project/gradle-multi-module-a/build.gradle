@@ -32,29 +32,33 @@ apply plugin: 'org.rodnansol.spring-configuration-property-documenter'
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
-tasks.register('generateAdoc') {
-    dependsOn generateDocument {
-        documentName = "Hello World"
-        type = "ADOC"
-        asciiDocCustomization {
-            includeEnvFormat = true
-            unknownGroupLocalization = "Renamed unknown group"
-            tocLevels = 3
-        }
+generatePropertyDocument {
+    documentName = "Hello World"
+    type = "ADOC"
+    asciiDocCustomization {
+        includeEnvFormat = true
+        unknownGroupLocalization = "Renamed unknown group"
+        tocLevels = 3
     }
 }
 
+//tasks.register('generateAdoc') {
+//    dependsOn generatePropertyDocument {
+//        documentName = "Hello World"
+//        type = "ADOC"
+//        asciiDocCustomization {
+//            includeEnvFormat = true
+//            unknownGroupLocalization = "Renamed unknown group"
+//            tocLevels = 3
+//        }
+//    }
+//}
+
 tasks.register('generateMarkdown') {
-    dependsOn generateDocument {
+    dependsOn generatePropertyDocument {
         documentName = "Hello World"
         type = "MARKDOWN"
         markdownCustomization {
@@ -65,7 +69,7 @@ tasks.register('generateMarkdown') {
 }
 
 tasks.register('generateHtml') {
-    dependsOn generateDocument {
+    dependsOn generatePropertyDocument {
         documentName = "Hello World"
         type = "HTML"
         htmlCustomization {
@@ -76,7 +80,7 @@ tasks.register('generateHtml') {
 }
 
 tasks.register('generateXml') {
-    dependsOn generateDocument {
+    dependsOn generatePropertyDocument {
         documentName = "Hello World"
         type = "XML"
         xmlCustomization {

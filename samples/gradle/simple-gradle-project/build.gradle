@@ -32,9 +32,7 @@ apply plugin: 'org.rodnansol.spring-configuration-property-documenter'
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
@@ -42,9 +40,8 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-tasks.named("generateDocument") {
+tasks.named("generatePropertyDocument") {
     documentName = "Hello World"
     metadataInput = new File("build/classes/java/main/META-INF/spring-configuration-metadata.json")
-    outputFile = new File("build/config-prop.adoc")
     type = "ADOC"
 }

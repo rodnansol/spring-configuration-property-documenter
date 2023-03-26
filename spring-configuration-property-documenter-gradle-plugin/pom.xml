@@ -36,76 +36,54 @@
             <artifactId>spring-boot</artifactId>
             <scope>compile</scope>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.android.tools.build</groupId>-->
-        <!--            <artifactId>gradle-api</artifactId>-->
-        <!--            <version>7.1.1</version>-->
-        <!--            <scope>provided</scope>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.android.tools.build</groupId>-->
-        <!--            <artifactId>gradle</artifactId>-->
-        <!--            <version>7.1.1</version>-->
-        <!--            <scope>provided</scope>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>4.0.10</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.gradle</groupId>
             <artifactId>gradle-core-api</artifactId>
-            <version>6.1.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.gradle</groupId>
             <artifactId>gradle-model-core</artifactId>
-            <version>6.1.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.gradle</groupId>
             <artifactId>gradle-logging</artifactId>
-            <version>6.1.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.gradle</groupId>
             <artifactId>gradle-language-java</artifactId>
-            <version>6.1.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.gradle</groupId>
             <artifactId>gradle-core</artifactId>
-            <version>6.1.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.gradle</groupId>
             <artifactId>gradle-base-services</artifactId>
-            <version>6.1.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.gradle</groupId>
             <artifactId>gradle-base-services-groovy</artifactId>
-            <version>6.1.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.gradle</groupId>
             <artifactId>gradle-plugins</artifactId>
-            <version>6.1.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
-            <version>1</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -123,13 +101,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-
-        </plugins>
-
-    </build>
 
     <profiles>
         <profile>

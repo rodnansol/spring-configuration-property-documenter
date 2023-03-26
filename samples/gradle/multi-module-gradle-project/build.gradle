@@ -13,6 +13,8 @@ plugins {
     id 'java'
 }
 
+apply plugin: 'org.rodnansol.spring-configuration-property-documenter'
+
 group 'org.rodnansol.samples.gradle'
 version '999-SNAPSHOT'
 
@@ -22,22 +24,35 @@ repositories {
 }
 
 
-apply plugin: 'org.rodnansol.spring-configuration-property-documenter'
-
-tasks.register('aggregateAdoc') {
+tasks.register('aggregateAdocWithImperative') {
     dependsOn generateAndAggregateDocuments {
         documentName = "Hello World"
         type = "ADOC"
 
-//        def moduleA = new AggregationInput()
-//        moduleA.name = "Module A document"
-//        moduleA.input = new File("gradle-multi-module-a")
-//        metadataInputs.add(moduleA)
-//
-//        def moduleB = new AggregationInput()
-//        moduleB.name = "Module B document"
-//        moduleB.input = new File("gradle-multi-module-b")
-//        metadataInputs.add(moduleB)
+        def moduleA = new AggregationInput()
+        moduleA.name = "Module A document"
+        moduleA.input = new File("gradle-multi-module-a")
+        metadataInputs.add(moduleA)
+
+        def moduleB = new AggregationInput()
+        moduleB.name = "Module B document"
+        moduleB.input = new File("gradle-multi-module-b")
+        metadataInputs.add(moduleB)
+
+        outputFile = new File("build/property-docs/aggregated-adoc.adoc")
+        asciiDocCustomization {
+            includeEnvFormat = true
+            unknownGroupLocalization = "Renamed unknown group"
+            tocLevels = 3
+
+        }
+    }
+}
+
+tasks.register('aggregateAdocWithDsl') {
+    dependsOn generateAndAggregateDocuments {
+        documentName = "Hello World"
+        type = "ADOC"
 
         metadataInputs {
             metadata {
@@ -52,14 +67,14 @@ tasks.register('aggregateAdoc') {
                 name = "Sprint Boot 2.7.8 - Include Groups and Lists"
                 description = "Sprint Boot 2.7.8 related properties with inclusions"
                 input = file(System.getProperty("user.home") + "/.m2/repository/org/springframework/boot/spring-boot/2.7.8/spring-boot-2.7.8.jar")
-                includedProperties = ["logging.charset.console","spring.banner.image.invert"]
+                includedProperties = ["logging.charset.console", "spring.banner.image.invert"]
                 includedGroups = ["Unknown group"]
             }
             metadata {
                 name = "Sprint Boot 2.7.8 - Exclude Groups and Lists"
                 description = "Sprint Boot 2.7.8 related properties with exclusions"
                 input = file(System.getProperty("user.home") + "/.m2/repository/org/springframework/boot/spring-boot/2.7.8/spring-boot-2.7.8.jar")
-                excludedProperties = ["logging.charset.console","spring.banner.image.invert"]
+                excludedProperties = ["logging.charset.console", "spring.banner.image.invert"]
                 excludedGroups = ["spring.jta.atomikos.datasource"]
             }
         }
@@ -92,7 +107,7 @@ tasks.register('aggregateMarkdown') {
                 name = "Sprint Boot 2.7.8 - Exclude Groups and Lists"
                 description = "Sprint Boot 2.7.8 related properties with exclusions"
                 input = file(System.getProperty("user.home") + "/.m2/repository/org/springframework/boot/spring-boot/2.7.8/spring-boot-2.7.8.jar")
-                excludedProperties = ["logging.charset.console","spring.banner.image.invert"]
+                excludedProperties = ["logging.charset.console", "spring.banner.image.invert"]
                 excludedGroups = ["spring.jta.atomikos.datasource"]
             }
         }
@@ -101,39 +116,6 @@ tasks.register('aggregateMarkdown') {
         markdownCustomization {
             includeEnvFormat = true
             unknownGroupLocalization = "Renamed unknown group in Markdown"
-        }
-    }
-}
-
-tasks.register('generateMarkdown') {
-    dependsOn generateDocument {
-        documentName = "Hello World"
-        type = "MARKDOWN"
-        markdownCustomization {
-            includeEnvFormat = true
-            includeGenerationDate = true
-        }
-    }
-}
-
-tasks.register('generateHtml') {
-    dependsOn generateDocument {
-        documentName = "Hello World"
-        type = "HTML"
-        htmlCustomization {
-            includeEnvFormat = true
-            unknownGroupLocalization = "Renamed unknown group in HTML"
-        }
-    }
-}
-
-tasks.register('generateXml') {
-    dependsOn generateDocument {
-        documentName = "Hello World"
-        type = "XML"
-        xmlCustomization {
-            includeEnvFormat = true
-            unknownGroupLocalization = "Renamed unknown group in HTML"
         }
     }
 }
