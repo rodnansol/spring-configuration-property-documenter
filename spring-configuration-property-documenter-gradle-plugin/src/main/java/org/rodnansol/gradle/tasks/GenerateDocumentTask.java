@@ -1,8 +1,8 @@
 package org.rodnansol.gradle.tasks;
 
+import groovy.lang.Closure;
 import org.gradle.api.Project;
 import org.gradle.api.internal.ConventionTask;
-import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.Optional;
@@ -26,6 +26,7 @@ import java.util.List;
 
 /**
  * @author nandorholozsnyak
+ * @author tkhadiradeo
  * @since 0.5.0
  */
 public abstract class GenerateDocumentTask extends ConventionTask {
@@ -36,9 +37,8 @@ public abstract class GenerateDocumentTask extends ConventionTask {
      * @since 0.5.0
      */
     @Input
-    @Option(option = "name", description = "Input file name")
+    @Option(option = "name", description = "Name/header of the generated document")
     private String documentName;
-
     /**
      * Description about the project.
      *
@@ -48,17 +48,15 @@ public abstract class GenerateDocumentTask extends ConventionTask {
     @Optional
     @Option(option = "description", description = "Description")
     private String documentDescription;
-
     /**
-     * The template to be used, if not specified it will be resolved by the {@link GeneratePropertyDocumentMojo#type} field.
+     * The template to be used.
      *
      * @since 0.5.0
      */
     @Input
     @Optional
-    @Option(option = "template", description = "Description")
+    @Option(option = "template", description = "Template file's path")
     private String template;
-
     /**
      * Type of the document.
      * <p>
@@ -73,9 +71,8 @@ public abstract class GenerateDocumentTask extends ConventionTask {
      * @since 0.5.0
      */
     @Input
-    @Option(option = "type", description = "Description")
+    @Option(option = "type", description = "Type of the final rendered document")
     private String type;
-
     /**
      * Metadata input that can be:
      * <ul>
@@ -84,143 +81,124 @@ public abstract class GenerateDocumentTask extends ConventionTask {
      *     <li>A jar/zip file that contains the file within the following entry <b>META-INF/spring-configuration-metadata.json</b></li>
      * </ul>
      *
-     * @since 0.1.0
+     * @since 0.5.0
      */
     @InputFile
-    @Option(option = "metadataInput", description = "Description")
-    private File metadataInput;
-
+    @Optional
+    @Option(option = "metadataInput", description = "Metadata input file")
+    private File metadataInput = new File("build/classes/java/main/META-INF/spring-configuration-metadata.json");
     /**
      * Output file.
      *
-     * @since 0.1.0
+     * @since 0.5.0
      */
     @OutputFile
-    @Option(option = "outputFile", description = "Description")
+    @Optional
+    @Option(option = "outputFile", description = "Output file")
     private File outputFile;
-
     /**
      * Define if the process should fail on an error or not.
      *
-     * @since 0.1.0
+     * @since 0.5.0
      */
     @Input
     @Optional
-    @Option(option = "failOnError", description = "Description")
-    private boolean failOnError;
-
+    @Option(option = "failOnError", description = "Fail on error or not")
+    private boolean failOnError = false;
     /**
      * Template compiler class's fully qualified name .
      * <p>
      * With this option you can use your own template compiler implementation if the default {@link HandlebarsTemplateCompiler}. based one is not enough.
      *
-     * @since 0.2.0
+     * @since 0.5.0
      */
     @Input
     @Optional
-    @Option(option = "templateCompilerName", description = "Description")
+    @Option(option = "templateCompilerName", description = "Name of the template compiler, by default Handlebars will be used")
     private String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
-
     /**
      * List of excluded properties.
      *
-     * @since 0.4.0
+     * @since 0.5.0
      */
     @Input
     @Optional
-    @Option(option = "excludedProperties", description = "Description")
+    @Option(option = "excludedProperties", description = "List of excluded properties")
     private List<String> excludedProperties = new ArrayList<>();
-
     /**
      * List of included properties.
      *
-     * @since 0.4.0
+     * @since 0.5.0
      */
     @Input
     @Optional
-    @Option(option = "includedProperties", description = "Description")
+    @Option(option = "includedProperties", description = "List of included properties")
     private List<String> includedProperties = new ArrayList<>();
-
     /**
      * List of excluded groups.
      *
-     * @since 0.4.0
+     * @since 0.5.0
      */
     @Input
     @Optional
-    @Option(option = "excludedGroups", description = "Description")
+    @Option(option = "excludedGroups", description = "List of excluded groups")
     private List<String> excludedGroups = new ArrayList<>();
-
     /**
      * List of included groups.
      *
-     * @since 0.4.0
+     * @since 0.5.0
      */
     @Input
     @Optional
-    @Option(option = "includedGroups", description = "Description")
+    @Option(option = "includedGroups", description = "List of included groups")
     private List<String> includedGroups = new ArrayList<>();
-
-
-    /**
-     * HTML template customization object to configure the template.
-     *
-     * @since 0.2.0
-     */
-    @Input
-    @Optional
-    @Option(option = "htmlCustomization", description = "Description")
-    public abstract Property<HtmlTemplateCustomization> getHtmlCustomization();
-
-    /**
-     * Markdown template customization object to configure the template.
-     *
-     * @since 0.2.0
-     */
-    @Input
-    @Optional
-    @Option(option = "markdownCustomization", description = "Description")
-    public abstract Property<MarkdownTemplateCustomization> getMarkdownCustomization();
 
     /**
      * AsciiDoc template customization object to configure the template.
      *
-     * @since 0.2.0
+     * @since 0.5.0
      */
-    @Input
-    @Optional
-    @Option(option = "asciiDocCustomization", description = "Description")
-    public abstract Property<AsciiDocTemplateCustomization> getAsciiDocCustomization();
+    private AsciiDocTemplateCustomization asciiDocCustomization = new AsciiDocTemplateCustomization();
+
+    /**
+     * HTML template customization object to configure the template.
+     *
+     * @since 0.5.0
+     */
+//    @Input
+    private HtmlTemplateCustomization htmlCustomization = new HtmlTemplateCustomization();
+
+    /**
+     * Markdown template customization object to configure the template.
+     *
+     * @since 0.5.0
+     */
+    private MarkdownTemplateCustomization markdownCustomization = new MarkdownTemplateCustomization();
 
     /**
      * XML template customization object to configure the template.
      *
-     * @since 0.2.0
+     * @since 0.5.0
      */
-    @Input
-    @Optional
-    @Option(option = "xmlCustomization", description = "Description")
-    public abstract Property<XmlTemplateCustomization> getXmlCustomization();
+    private XmlTemplateCustomization xmlCustomization = new XmlTemplateCustomization();
 
     @TaskAction
     public void execute() {
         try {
-            System.out.println(this);
+            getLogger().info("Generating document based on task configuration:[{}]", this);
             DocumentGenerationAction documentGenerationAction = setupAction();
-            System.out.println("Running action...");
             documentGenerationAction.execute();
         } catch (Exception e) {
             if (failOnError) {
                 throw new RuntimeException(e);
             } else {
-                System.err.println("Error during file generation, failOnError is set to false, check the logs please....: " + e);
+                getLogger().error("Error during file generation, failOnError is set to false, check the logs: {} ", e);
             }
         }
     }
 
     private DocumentGenerationAction setupAction() {
         Project project = getProject();
-        System.out.println("Project:" + project);
         GradleProject gradleProject = ProjectFactory.ofGradleProject(project.getProjectDir(), project.getName(), List.of());
         DocumentGenerationAction documentGenerationAction = new DocumentGenerationAction(gradleProject, documentName, getActualTemplateCustomization(), TemplateType.valueOf(type), metadataInput);
         documentGenerationAction.setTemplateCompilerName(templateCompilerName);
@@ -237,13 +215,13 @@ public abstract class GenerateDocumentTask extends ConventionTask {
     private TemplateCustomization getActualTemplateCustomization() {
         switch (TemplateType.valueOf(type)) {
             case MARKDOWN:
-                return getMarkdownCustomization().getOrElse(new MarkdownTemplateCustomization());
+                return markdownCustomization;
             case ADOC:
-                return getAsciiDocCustomization().getOrElse(new AsciiDocTemplateCustomization());
+                return asciiDocCustomization;
             case HTML:
-                return getHtmlCustomization().getOrElse(new HtmlTemplateCustomization());
+                return htmlCustomization;
             case XML:
-                return getXmlCustomization().getOrElse(new XmlTemplateCustomization());
+                return xmlCustomization;
         }
         throw new IllegalStateException("There is no template customization set for the current run");
     }
@@ -359,6 +337,47 @@ public abstract class GenerateDocumentTask extends ConventionTask {
             ", includedProperties=" + includedProperties +
             ", excludedGroups=" + excludedGroups +
             ", includedGroups=" + includedGroups +
+            ", asciiDocCustomization=" + asciiDocCustomization +
+            ", htmlCustomization=" + htmlCustomization +
+            ", markdownCustomization=" + markdownCustomization +
+            ", xmlCustomization=" + xmlCustomization +
             "} " + super.toString();
     }
+
+    /**
+     * Customize the Markdown template.
+     */
+    public void markdownCustomization(Closure closure) {
+        closure.setResolveStrategy(Closure.DELEGATE_FIRST);
+        closure.setDelegate(markdownCustomization);
+        closure.call();
+    }
+
+    /**
+     * Customize the AsciiDoc template.
+     */
+    public void asciiDocCustomization(Closure closure) {
+        closure.setResolveStrategy(Closure.DELEGATE_FIRST);
+        closure.setDelegate(asciiDocCustomization);
+        closure.call();
+    }
+
+    /**
+     * Customize the HTML template.
+     */
+    public void htmlCustomization(Closure closure) {
+        closure.setResolveStrategy(Closure.DELEGATE_FIRST);
+        closure.setDelegate(htmlCustomization);
+        closure.call();
+    }
+
+    /**
+     * Customize the XML template.
+     */
+    public void xmlCustomization(Closure closure) {
+        closure.setResolveStrategy(Closure.DELEGATE_FIRST);
+        closure.setDelegate(xmlCustomization);
+        closure.call();
+    }
+
 }

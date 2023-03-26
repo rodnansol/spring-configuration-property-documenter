@@ -18,22 +18,13 @@
     </properties>
 
     <name>Spring Configuration Property Documenter - Gradle Plugin</name>
+    <description>Gradle plugin module for the Spring Configuration Property Documenter</description>
+    <url>https://github.com/rodnansol/spring-configuration-property-documenter</url>
 
     <organization>
         <name>Rodnan Sol</name>
         <url>https://www.rodnansol.org/</url>
     </organization>
-
-    <repositories>
-        <repository>
-            <id>gradle</id>
-            <url>https://repo.gradle.org/gradle/libs-releases-local/</url>
-        </repository>
-        <repository>
-            <id>google</id>
-            <url>https://maven.google.com/</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
@@ -112,6 +103,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
@@ -132,6 +128,23 @@
         <plugins>
 
         </plugins>
+
     </build>
+
+    <profiles>
+        <profile>
+            <id>build</id>
+            <repositories>
+                <repository>
+                    <id>gradle</id>
+                    <url>https://repo.gradle.org/gradle/libs-releases-local/</url>
+                </repository>
+                <repository>
+                    <id>google</id>
+                    <url>https://maven.google.com/</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
 
 </project>

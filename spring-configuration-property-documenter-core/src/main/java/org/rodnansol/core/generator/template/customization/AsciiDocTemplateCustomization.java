@@ -61,4 +61,20 @@ public class AsciiDocTemplateCustomization extends AbstractTemplateCustomization
     public int hashCode() {
         return Objects.hash(super.hashCode(), tocPlacement, tocLevels);
     }
+
+    @Override
+    public String toString() {
+        return "AsciiDocTemplateCustomization{" +
+            "tocPlacement=" + tocPlacement +
+            ", tocLevels=" + tocLevels +
+            ", headerEnabled=" + headerEnabled +
+            ", tableOfContentsEnabled=" + tableOfContentsEnabled +
+            ", includeUnknownGroup=" + includeUnknownGroup +
+            ", unknownGroupLocalization='" + unknownGroupLocalization + '\'' +
+            ", includeEnvFormat=" + includeEnvFormat +
+            ", includeGenerationDate=" + includeGenerationDate +
+            ", removeEmptyGroups=" + removeEmptyGroups +
+            ", locale='" + locale + '\'' +
+            "} " + super.toString();
+    }
 }

@@ -2,6 +2,7 @@ package org.rodnansol.core.generator.template.customization;
 
 import org.rodnansol.core.generator.template.PropertyGroupConstants;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Objects;
  * @author nandorholozsnyak
  * @since 0.2.0
  */
-public abstract class AbstractTemplateCustomization implements TemplateCustomization {
+public abstract class AbstractTemplateCustomization implements TemplateCustomization, Serializable {
 
     /**
      * Table of Contents title.
