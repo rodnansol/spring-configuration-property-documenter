@@ -74,8 +74,8 @@ public class AggregationDocumenter {
         return new ImmutablePair<>(subTemplateDataList, propertyGroups);
     }
 
-    private void filterGroupsAndProperties(TemplateCustomization templateCustomization, CombinedInput entry, List<PropertyGroup> groups) {
-        propertyGroupFilterService.postProcessPropertyGroups(new PostProcessPropertyGroupsCommand(templateCustomization, groups, entry.getIncludedGroups(), entry.getExcludedGroups(), entry.getIncludedProperties(), entry.getExcludedProperties()));
+    void filterGroupsAndProperties(TemplateCustomization templateCustomization, CombinedInput entry, List<PropertyGroup> groups) {
+        propertyGroupFilterService.postProcessPropertyGroups(new PostProcessPropertyGroupsCommand(templateCustomization, groups, entry.getExcludedGroups(), entry.getIncludedGroups(), entry.getExcludedProperties(), entry.getIncludedProperties()));
     }
 
     private void createAndWriteContent(CreateAggregationCommand createAggregationCommand, List<SubTemplateData> subTemplateDataList, List<PropertyGroup> propertyGroups) {
