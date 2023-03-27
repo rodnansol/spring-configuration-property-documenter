@@ -5,6 +5,7 @@ import org.gradle.api.Project;
 import org.gradle.api.internal.ConventionTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
@@ -160,6 +161,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
      *
      * @since 0.5.0
      */
+    @Internal
     private AsciiDocTemplateCustomization asciiDocCustomization = new AsciiDocTemplateCustomization();
 
     /**
@@ -167,6 +169,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
      *
      * @since 0.5.0
      */
+    @Internal
     private HtmlTemplateCustomization htmlCustomization = new HtmlTemplateCustomization();
 
     /**
@@ -174,6 +177,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
      *
      * @since 0.5.0
      */
+    @Internal
     private MarkdownTemplateCustomization markdownCustomization = new MarkdownTemplateCustomization();
 
     /**
@@ -181,6 +185,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
      *
      * @since 0.5.0
      */
+    @Internal
     private XmlTemplateCustomization xmlCustomization = new XmlTemplateCustomization();
 
     @TaskAction
@@ -321,6 +326,22 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
 
     public void setIncludedGroups(List<String> includedGroups) {
         this.includedGroups = includedGroups;
+    }
+
+    public AsciiDocTemplateCustomization getAsciiDocCustomization() {
+        return asciiDocCustomization;
+    }
+
+    public HtmlTemplateCustomization getHtmlCustomization() {
+        return htmlCustomization;
+    }
+
+    public MarkdownTemplateCustomization getMarkdownCustomization() {
+        return markdownCustomization;
+    }
+
+    public XmlTemplateCustomization getXmlCustomization() {
+        return xmlCustomization;
     }
 
     @Override

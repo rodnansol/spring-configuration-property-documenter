@@ -3,6 +3,7 @@ package org.rodnansol.gradle.tasks;
 import groovy.lang.Closure;
 import org.gradle.api.internal.ConventionTask;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
@@ -94,6 +95,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
      *
      * @since 0.5.0
      */
+    @Internal
     private HtmlTemplateCustomization htmlCustomization = new HtmlTemplateCustomization();
 
     /**
@@ -101,6 +103,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
      *
      * @since 0.5.0
      */
+    @Internal
     private MarkdownTemplateCustomization markdownCustomization = new MarkdownTemplateCustomization();
 
     /**
@@ -108,6 +111,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
      *
      * @since 0.5.0
      */
+    @Internal
     private AsciiDocTemplateCustomization asciiDocCustomization = new AsciiDocTemplateCustomization();
 
     /**
@@ -115,6 +119,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
      *
      * @since 0.5.0
      */
+    @Internal
     private XmlTemplateCustomization xmlCustomization = new XmlTemplateCustomization();
 
     /**
@@ -303,6 +308,10 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
 
     public void setFooterTemplate(String footerTemplate) {
         this.footerTemplate = footerTemplate;
+    }
+
+    public List<AggregationInput> getMetadataInputs() {
+        return metadataInputs;
     }
 
     /**
