@@ -19,6 +19,8 @@
     </properties>
 
     <name>Spring Configuration Property Documenter - Maven Plugin</name>
+    <description>Mave plugin module for the Spring Configuration Property Documenter</description>
+    <url>https://github.com/rodnansol/spring-configuration-property-documenter</url>
 
     <organization>
         <name>Rodnan Sol</name>

@@ -1,0 +1,91 @@
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'org.rodnansol:spring-configuration-property-documenter-gradle-plugin:999-SNAPSHOT'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.10'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group 'org.rodnansol.samples.gradle'
+version '999-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+apply plugin: 'org.rodnansol.spring-configuration-property-documenter'
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+}
+
+generatePropertyDocument {
+    documentName = "Hello World"
+    type = "ADOC"
+    asciiDocCustomization {
+        includeEnvFormat = true
+        unknownGroupLocalization = "Renamed unknown group"
+        tocLevels = 3
+    }
+}
+
+//tasks.register('generateAdoc') {
+//    dependsOn generatePropertyDocument {
+//        documentName = "Hello World"
+//        type = "ADOC"
+//        asciiDocCustomization {
+//            includeEnvFormat = true
+//            unknownGroupLocalization = "Renamed unknown group"
+//            tocLevels = 3
+//        }
+//    }
+//}
+
+tasks.register('generateMarkdown') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "MARKDOWN"
+        markdownCustomization {
+            includeEnvFormat = true
+            includeGenerationDate = true
+        }
+    }
+}
+
+tasks.register('generateHtml') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "HTML"
+        htmlCustomization {
+            includeEnvFormat = true
+            unknownGroupLocalization = "Renamed unknown group in HTML"
+        }
+    }
+}
+
+tasks.register('generateXml') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "XML"
+        xmlCustomization {
+            includeEnvFormat = true
+            unknownGroupLocalization = "Renamed unknown group in HTML"
+        }
+    }
+}

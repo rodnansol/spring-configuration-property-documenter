@@ -15,11 +15,16 @@ endif::[]
 :toclevels: 4
 
 
-If you are having a Maven project where you would like to use the tool, then this documentation will guide you through all the steps you need to set it up, you can use it for a single module Maven project or a multi module Maven project, both are supported.
+If you are having a Maven project where you would like to use the tool, then this documentation will guide you through all the steps you need to set it up, you can use it for a single module Maven project or a multi-module Maven project, both are supported.
+
+[NOTE]
+====
+The plugin is built with *Java 11* and *Maven 3.8.1* API, make sure requirements are met.
+====
 
 [WARNING]
 ====
-The multimodule setup will need a "small" trick/hack to achieve the things we want.
+The multi-module setup will need a "small" trick/hack to achieve the things we want.
 ====
 
 toc::[]
@@ -86,7 +91,7 @@ Spring's annotation processor will kick in the `compile` phase, and because of t
 
 In this example 3 files are going to be created with different extensions (Markdown, AsciiDoc, HTML).
 
-=== Multi module
+=== Multi-module
 Bigger projects are going to be containing multiple Maven modules and the plugin is also prepared for those cases as well, we can generate the document for each module, and we are going to be able to aggregate them. There are two supported options right now.
 
 For these cases we have to introduce a new module that will contain all the other modules as its dependencies, with this "trick" we can ensure that the plugin will be invoked at the end of the Maven build and all the required resources (the `spring-configuration-metadata.json` files) will be already generated (without those it will be really hard to generate the final docucment).

@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'org.rodnansol:spring-configuration-property-documenter-gradle-plugin:999-SNAPSHOT'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.8'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group 'org.rodnansol.samples.gradle'
+version '999-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+apply plugin: 'org.rodnansol.spring-configuration-property-documenter'
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.named("generatePropertyDocument") {
+    documentName = "Hello World"
+    metadataInput = new File("build/classes/java/main/META-INF/spring-configuration-metadata.json")
+    type = "ADOC"
+}

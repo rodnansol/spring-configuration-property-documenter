@@ -1,0 +1,9 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+    }
+}
+include 'gradle-multi-module-a'
+include 'gradle-multi-module-b'
+
