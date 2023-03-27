@@ -346,7 +346,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
     }
 
     /**
-     * Customize the Markdown template.
+     * DSL entry point for the {@link GeneratePropertyDocumentTask#markdownCustomization} field.
      */
     public void markdownCustomization(Closure closure) {
         closure.setResolveStrategy(Closure.DELEGATE_FIRST);
@@ -355,7 +355,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
     }
 
     /**
-     * Customize the AsciiDoc template.
+     * DSL entry point for the {@link GeneratePropertyDocumentTask#asciiDocCustomization} field.
      */
     public void asciiDocCustomization(Closure closure) {
         closure.setResolveStrategy(Closure.DELEGATE_FIRST);
@@ -364,7 +364,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
     }
 
     /**
-     * Customize the HTML template.
+     * DSL entry point for the {@link GeneratePropertyDocumentTask#htmlCustomization} field.
      */
     public void htmlCustomization(Closure closure) {
         closure.setResolveStrategy(Closure.DELEGATE_FIRST);
@@ -373,7 +373,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
     }
 
     /**
-     * Customize the XML template.
+     * DSL entry point for the {@link GeneratePropertyDocumentTask#xmlCustomization} field.
      */
     public void xmlCustomization(Closure closure) {
         closure.setResolveStrategy(Closure.DELEGATE_FIRST);

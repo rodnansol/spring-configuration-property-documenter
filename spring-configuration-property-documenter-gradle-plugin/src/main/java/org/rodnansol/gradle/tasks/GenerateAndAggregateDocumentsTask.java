@@ -23,6 +23,7 @@ import org.rodnansol.core.generator.writer.CreateAggregationCommand;
 import org.rodnansol.core.generator.writer.CustomTemplate;
 import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
 import org.rodnansol.core.project.ProjectFactory;
+import org.rodnansol.core.project.gradle.GradleProject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -177,7 +178,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
 
     private CreateAggregationCommand createAggregationCommand() {
         List<CombinedInput> combinedInputs = metadataInputs == null ? new ArrayList<>() : metadataInputs.stream().map(this::mapToCombinedInput).collect(Collectors.toList());
-        org.rodnansol.core.project.gradle.GradleProject gradleProject = ProjectFactory.ofGradleProject(getProject().getProjectDir(), documentName, List.of());
+        GradleProject gradleProject = ProjectFactory.ofGradleProject(getProject().getProjectDir(), documentName, List.of());
         CreateAggregationCommand createAggregationCommand = new CreateAggregationCommand(gradleProject, documentName, combinedInputs, type, getActualTemplateCustomization(), outputFile);
         createAggregationCommand.setDescription(documentDescription);
         createAggregationCommand.setCustomTemplate(new CustomTemplate(headerTemplate, contentTemplate, footerTemplate));
@@ -304,6 +305,9 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
         this.footerTemplate = footerTemplate;
     }
 
+    /**
+     * DSL entry point for the {@link GenerateAndAggregateDocumentsTask#markdownCustomization} field.
+     */
     public void markdownCustomization(Closure closure) {
         closure.setResolveStrategy(Closure.DELEGATE_FIRST);
         closure.setDelegate(markdownCustomization);
@@ -311,7 +315,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
     }
 
     /**
-     * Customize the AsciiDoc template.
+     * DSL entry point for the {@link GenerateAndAggregateDocumentsTask#asciiDocCustomization} field.
      */
     public void asciiDocCustomization(Closure closure) {
         closure.setResolveStrategy(Closure.DELEGATE_FIRST);
@@ -320,7 +324,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
     }
 
     /**
-     * Customize the HTML template.
+     * DSL entry point for the {@link GenerateAndAggregateDocumentsTask#htmlCustomization} field.
      */
     public void htmlCustomization(Closure closure) {
         closure.setResolveStrategy(Closure.DELEGATE_FIRST);
@@ -329,7 +333,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
     }
 
     /**
-     * Customize the XML template.
+     * DSL entry point for the {@link GenerateAndAggregateDocumentsTask#xmlCustomization} field.
      */
     public void xmlCustomization(Closure closure) {
         closure.setResolveStrategy(Closure.DELEGATE_FIRST);
@@ -337,6 +341,9 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
         closure.call();
     }
 
+    /**
+     * DSL entry point for the {@link GenerateAndAggregateDocumentsTask#metadataInputs} field.
+     */
     public void metadataInputs(Closure closure) {
         metadataInputs = new ArrayList<>();
         closure.setDelegate(new AggregationInputBuilder());

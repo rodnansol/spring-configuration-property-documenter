@@ -154,7 +154,7 @@ styled documents about your configuration properties.
 The tool is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine, if you would like to create custom templates check the <<Custom templates>> section.
 
 
-You can use our <<Maven>> plugin or our <<Gradle (coming soon)>> plugin to utilize the document generation tool.
+You can use our <<Maven>> plugin or our <<Gradle>> plugin to utilize the document generation tool.
 
 WARNING: Until the Gradle plugin is not available you can use the <<JBang>> script for your Gradle projects.
 
@@ -177,6 +177,7 @@ The project is currently having the following modules:
 - <<core>>
 - <<maven-plugin>>
 - <<jbang-module>> (Not Maven Module)
+- <<gradle-plugin>>
 
 [#core]
 ==== spring-configuration-property-documenter-core
@@ -190,6 +191,10 @@ This Maven module is a Maven plugin implementation, please check the <<Maven>> p
 ==== jbang
 If you are not willing to use the Maven/Gradle plugin (that is coming soon), and you are familiar with JBang you can use this module where a `PropertyDocumenter` script is resides, to have a new entry point to the tool. Please read the <<JBang>> for more information.
 
+[#gradle-plugin]
+==== spring-configuration-property-documenter-gradle-plugin
+This Maven module is a Gradle plugin implementation, please check the <<Gradle>> part for the available goals and configuration.
+
 == Usage
 
 As said before the tool can be executed by multiple tools, by far probably the most convenient is going to be the Maven and Gradle plugin, but we offer another approach with https://www.jbang.dev/[JBang].
@@ -198,7 +203,7 @@ As said before the tool can be executed by multiple tools, by far probably the m
 
 ==== <<docs/maven-plugin.adoc#header, Maven>>
 
-==== <<docs/gradle-plugin.adoc, Gradle (Coming soon)>>
+==== <<docs/gradle-plugin.adoc#header, Gradle>>
 
 ==== <<docs/usage-jbang.adoc#header, JBang>>
 

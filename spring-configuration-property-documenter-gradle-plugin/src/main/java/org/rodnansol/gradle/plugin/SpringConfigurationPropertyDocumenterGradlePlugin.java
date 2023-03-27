@@ -7,6 +7,8 @@ import org.rodnansol.gradle.tasks.GeneratePropertyDocumentTask;
 
 /**
  * Class representing the Gradle plugin setup.
+ * <p>
+ * It registers the available tasks.
  *
  * @author nandorholozsnyak
  * @author thkadir
