@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "Verifying project before committing"
+./mvnw clean verify

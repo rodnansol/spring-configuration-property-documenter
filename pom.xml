@@ -41,7 +41,7 @@
         <junit-jupiter-params.version>5.8.1</junit-jupiter-params.version>
         <editorconfig-maven-plugin.version>0.1.1</editorconfig-maven-plugin.version>
         <jreleaser-maven-plugin.version>1.5.1</jreleaser-maven-plugin.version>
-        <git-build-hook-maven-plugin.version>3.3.0</git-build-hook-maven-plugin.version>
+        <git-build-hook-maven-plugin.version>3.4.1</git-build-hook-maven-plugin.version>
         <maven-release-plugin.version>3.0.0-M6</maven-release-plugin.version>
         <maven-checkstyle-plugin.version>3.2.0</maven-checkstyle-plugin.version>
         <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>

@@ -3,7 +3,6 @@ package org.rodnansol.gradle.tasks;
 import groovy.lang.Closure;
 import org.gradle.api.Project;
 import org.gradle.api.internal.ConventionTask;
-import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.Internal;
