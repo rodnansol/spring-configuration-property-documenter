@@ -5,7 +5,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.rodnansol.core.action.DocumentGenerationAction;
-import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
+import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.*;
 import org.rodnansol.core.project.ProjectFactory;

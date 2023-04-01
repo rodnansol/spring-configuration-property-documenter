@@ -40,8 +40,49 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-tasks.named("generatePropertyDocument") {
-    documentName = "Hello World"
-    metadataInput = new File("build/classes/java/main/META-INF/spring-configuration-metadata.json")
-    type = "ADOC"
+tasks.register('generateAdoc') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "ADOC"
+        asciiDocCustomization {
+            contentCustomization {
+                includeEnvFormat = true
+                includeClass = false
+                includeDeprecation = false
+                includeDescription = false
+            }
+            unknownGroupLocalization = "Renamed unknown group"
+            tocLevels = 3
+        }
+    }
+}
+
+tasks.register('generateMarkdown') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "MARKDOWN"
+        markdownCustomization {
+            includeGenerationDate = true
+        }
+    }
+}
+
+tasks.register('generateHtml') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "HTML"
+        htmlCustomization {
+            unknownGroupLocalization = "Renamed unknown group in HTML"
+        }
+    }
+}
+
+tasks.register('generateXml') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "XML"
+        xmlCustomization {
+            unknownGroupLocalization = "Renamed unknown group in HTML"
+        }
+    }
 }

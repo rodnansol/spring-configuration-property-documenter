@@ -1,5 +1,7 @@
 package org.rodnansol.core.generator.template.customization;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 /**
  * Class represents a template customization object.
  *
@@ -56,5 +58,20 @@ public interface TemplateCustomization {
      * @since 0.4.0
      */
     String getLocale();
+
+    /**
+     * Returns the template content customization.
+     *
+     * @since 0.6.0
+     */
+    @NonNull
+    ContentCustomization getContentCustomization();
+
+    /**
+     * Sets the template content customization.
+     *
+     * @since 0.6.0
+     */
+    void setContentCustomization(@NonNull ContentCustomization contentCustomization);
 
 }

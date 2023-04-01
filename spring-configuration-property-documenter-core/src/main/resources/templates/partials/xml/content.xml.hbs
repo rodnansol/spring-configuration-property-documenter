@@ -12,7 +12,7 @@
                                 <description>{{description}}</description>
                                 <defaultValue>{{defaultValue}}</defaultValue>
                                 <propertyDeprecation>{{propertyDeprecation}}</propertyDeprecation>
-                                {{#include_env_format ../../this}}<environmentVariable>{{as_env fqName}}</environmentVariable>{{/include_env_format}}
+                                {{#is_included "envFormat"}}<environmentVariable>{{as_env fqName}}</environmentVariable>{{/is_included}}
                             </property>{{/each}}
                         </properties>
                     </propertyGroup>{{/each}}

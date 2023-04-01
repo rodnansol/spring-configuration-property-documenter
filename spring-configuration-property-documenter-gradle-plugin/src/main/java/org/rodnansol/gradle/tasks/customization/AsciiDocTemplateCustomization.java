@@ -1,4 +1,4 @@
-package org.rodnansol.core.generator.template.customization;
+package org.rodnansol.gradle.tasks.customization;
 
 import java.util.Objects;
 
@@ -6,24 +6,24 @@ import java.util.Objects;
  * Class representing extra customizations for the AsciiDoc template.
  *
  * @author nandorholozsnyak
- * @since 0.2.0
+ * @since 0.6.0
  */
 public class AsciiDocTemplateCustomization extends AbstractTemplateCustomization {
 
     /**
      * Placement of the "Table of Contents"
-     * @since 0.2.0
+     * @since 0.6.0
      */
     private TocPlacement tocPlacement = TocPlacement.AUTO;
 
     /**
      * Table of contents levels.
-     * @since 0.2.0
+     * @since 0.6.0
      */
     private int tocLevels = 4;
 
-    public String getTocPlacement() {
-        return tocPlacement.toLowerCase();
+    public TocPlacement getTocPlacement() {
+        return tocPlacement;
     }
 
     public void setTocPlacement(TocPlacement tocPlacement) {

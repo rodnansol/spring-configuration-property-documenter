@@ -109,12 +109,12 @@ endif::[]
 [source,adoc]
 ----
 :property-group-simple-title: //<.>
-include::file.adoc[]
+\include::file.adoc[]
 :property-group-simple-title!: //<.>
 
 
 :property-group-discrete-heading: //<.>
-include::file.adoc[]
+\include::file.adoc[]
 :property-group-discrete-heading!://<.>
 ----
 <1> Enable the simple titles
@@ -148,6 +148,8 @@ You only have to implement one method for now:
 
 [source,java]
 ----
+import org.rodnansol.core.generator.DocumentGenerationException;
+
 public interface TemplateCompiler {
 
     /**

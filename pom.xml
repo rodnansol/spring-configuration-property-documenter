@@ -66,6 +66,8 @@
         <groovy.version>4.0.10</groovy.version>
         <gradle.version>6.1.1</gradle.version>
         <javax.inject.version>1</javax.inject.version>
+        <spotbugs-annotations.version>4.7.3</spotbugs-annotations.version>
+        <mapstruct.version>1.5.3.Final</mapstruct.version>
     </properties>
 
     <name>Spring Configuration Property Documenter</name>
@@ -135,6 +137,17 @@
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-annotations</artifactId>
+                <version>${spotbugs-annotations.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.apache.maven</groupId>
@@ -332,6 +345,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

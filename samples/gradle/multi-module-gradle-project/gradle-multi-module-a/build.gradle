@@ -35,27 +35,17 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 }
 
-generatePropertyDocument {
-    documentName = "Hello World"
-    type = "ADOC"
-    asciiDocCustomization {
-        includeEnvFormat = true
-        unknownGroupLocalization = "Renamed unknown group"
-        tocLevels = 3
+tasks.register('generateAdoc') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "ADOC"
+        asciiDocCustomization {
+            includeEnvFormat = true
+            unknownGroupLocalization = "Renamed unknown group"
+            tocLevels = 3
+        }
     }
 }
-
-//tasks.register('generateAdoc') {
-//    dependsOn generatePropertyDocument {
-//        documentName = "Hello World"
-//        type = "ADOC"
-//        asciiDocCustomization {
-//            includeEnvFormat = true
-//            unknownGroupLocalization = "Renamed unknown group"
-//            tocLevels = 3
-//        }
-//    }
-//}
 
 tasks.register('generateMarkdown') {
     dependsOn generatePropertyDocument {

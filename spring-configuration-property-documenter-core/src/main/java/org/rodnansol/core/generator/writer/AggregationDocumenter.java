@@ -6,7 +6,11 @@ import com.github.jknack.handlebars.internal.lang3.tuple.Pair;
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.*;
+import org.rodnansol.core.generator.template.MainTemplateData;
+import org.rodnansol.core.generator.template.PropertyGroup;
+import org.rodnansol.core.generator.template.SubTemplateData;
+import org.rodnansol.core.generator.template.TemplateCompiler;
+import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.generator.writer.postprocess.PostProcessPropertyGroupsCommand;
 import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
@@ -54,7 +58,12 @@ public class AggregationDocumenter {
         Objects.requireNonNull(createAggregationCommand, "createAggregationCommand is NULL");
         LOGGER.info("Creating documents and aggregating them based on the incoming command:[{}]", createAggregationCommand);
         Pair<List<SubTemplateData>, List<PropertyGroup>> result = createSubTemplateDataAndPropertyGroupList(createAggregationCommand);
-        createAndWriteContent(createAggregationCommand, result.getLeft(), result.getRight());
+        try {
+            templateCompiler.getMemoryStore().addItemToMemory("templateCustomization", createAggregationCommand.getTemplateCustomization());
+            createAndWriteContent(createAggregationCommand, result.getLeft(), result.getRight());
+        } finally {
+            templateCompiler.getMemoryStore().resetMemory();
+        }
     }
 
     private Pair<List<SubTemplateData>, List<PropertyGroup>> createSubTemplateDataAndPropertyGroupList(CreateAggregationCommand createAggregationCommand) {

@@ -1,5 +1,7 @@
 package org.rodnansol.core.generator.template;
 
+import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
+
 import java.util.ServiceLoader;
 
 /**

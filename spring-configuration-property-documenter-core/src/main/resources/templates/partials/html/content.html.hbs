@@ -3,27 +3,27 @@
     {{moduleDescription}}
     {{#each propertyGroups}}
         <h2 id="{{groupName}}">{{groupName}}</h2>
-        <b>{{i18n "template.class"}}:</b> <code>{{type}}</code>
+        {{#is_included "class"}}<b>{{i18n "template.class"}}:</b> <code>{{type}}</code>{{/is_included}}
         <table class="table">
             <thead>
             <tr>
-                <th>{{i18n "template.key"}}</th>
-                <th>{{i18n "template.type"}}</th>
-                <th>{{i18n "template.description"}}</th>
-                <th>{{i18n "template.defaultValue"}}</th>
-                <th>{{i18n "template.deprecation"}}</th>
-                {{#include_env_format ../../this}}<th>{{i18n "template.environmentVariable"}}</th> {{/include_env_format}}
+                {{#is_included "key"}}<th>{{i18n "template.key"}}</th>{{/is_included}}
+                {{#is_included "type"}}<th>{{i18n "template.type"}}</th>{{/is_included}}
+                {{#is_included "description"}}<th>{{i18n "template.description"}}</th>{{/is_included}}
+                {{#is_included "defaultValue"}}<th>{{i18n "template.defaultValue"}}</th>{{/is_included}}
+                {{#is_included "deprecation"}}<th>{{i18n "template.deprecation"}}</th>{{/is_included}}
+                {{#is_included "envFormat"}}<th>{{i18n "template.environmentVariable"}}</th> {{/is_included}}
             </tr>
             </thead>
             <tbody>
             {{#each properties}}
                 <tr>
-                    <td>{{key}}</td>
-                    <td>{{type}}</td>
-                    <td>{{description}}</td>
-                    <td>{{defaultValue}}</td>
-                    <td>{{propertyDeprecation}}</td>
-                    {{#include_env_format ../../this}}<td>{{as_env fqName}}</td> {{/include_env_format}}
+                    {{#is_included "key"}}<td>{{key}}</td>{{/is_included}}
+                    {{#is_included "type"}}<td>{{type}}</td>{{/is_included}}
+                    {{#is_included "description"}}<td>{{description}}</td>{{/is_included}}
+                    {{#is_included "defaultValue"}}<td>{{defaultValue}}</td>{{/is_included}}
+                    {{#is_included "deprecation"}}<td>{{propertyDeprecation}}</td>{{/is_included}}
+                    {{#is_included "envFormat"}}<td>{{as_env fqName}}</td> {{/is_included}}
                 </tr>
             {{/each}}
             </tbody>
