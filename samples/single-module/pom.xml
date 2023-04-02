@@ -94,7 +94,9 @@
                         <configuration>
                             <type>ADOC</type>
                             <asciiDocCustomization>
-                                <includeEnvFormat>true</includeEnvFormat>
+                                <contentCustomization>
+                                    <includeEnvFormat>true</includeEnvFormat>
+                                </contentCustomization>
                             </asciiDocCustomization>
                             <includedProperties>
                                 <value>this.is.a.bean.configuration.configuration-value</value>
@@ -111,7 +113,9 @@
                         <configuration>
                             <type>ADOC</type>
                             <asciiDocCustomization>
-                                <includeEnvFormat>true</includeEnvFormat>
+                                <contentCustomization>
+                                    <includeEnvFormat>true</includeEnvFormat>
+                                </contentCustomization>
                             </asciiDocCustomization>
                             <excludedProperties>
                                 <value>this.is.a.bean.configuration.configuration-value</value>
@@ -128,7 +132,9 @@
                         <configuration>
                             <type>ADOC</type>
                             <asciiDocCustomization>
-                                <includeEnvFormat>true</includeEnvFormat>
+                                <contentCustomization>
+                                    <includeEnvFormat>true</includeEnvFormat>
+                                </contentCustomization>
                             </asciiDocCustomization>
                             <includedGroups>
                                 <value>this.is.my</value>
@@ -145,7 +151,9 @@
                         <configuration>
                             <type>ADOC</type>
                             <asciiDocCustomization>
-                                <includeEnvFormat>true</includeEnvFormat>
+                                <contentCustomization>
+                                    <includeEnvFormat>true</includeEnvFormat>
+                                </contentCustomization>
                             </asciiDocCustomization>
                             <excludedGroups>
                                 <value>this.is.my</value>
@@ -162,7 +170,9 @@
                         <configuration>
                             <type>MARKDOWN</type>
                             <markdownCustomization>
-                                <includeEnvFormat>true</includeEnvFormat>
+                                <contentCustomization>
+                                    <includeEnvFormat>true</includeEnvFormat>
+                                </contentCustomization>
                             </markdownCustomization>
                         </configuration>
                     </execution>

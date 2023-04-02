@@ -92,7 +92,9 @@ tasks.register('generateAdoc') { // <.>
         includedGroups = ["property-groups-to-include"]
         templateCompilerName = "your-own-template-compiler"
         asciiDocCustomization { // <.>
-            includeEnvFormat = true
+            contentCustomization {
+                includeEnvFormat = true
+            }
             unknownGroupLocalization = "Renamed unknown group"
             tocLevels = 3
         }
@@ -193,7 +195,9 @@ tasks.register('aggregateAdocWithImperative') { //<.>
 
         outputFile = new File("build/property-docs/aggregated-adoc.adoc") //<.>
         asciiDocCustomization { //<.>
-            includeEnvFormat = true
+            contentCustomization {
+                includeEnvFormat = true
+            }
             unknownGroupLocalization = "Renamed unknown group"
             tocLevels = 3
 
@@ -233,7 +237,9 @@ tasks.register('aggregateAdocWithDsl') { //<.>
 
         outputFile = new File("build/property-docs/aggregated-adoc.adoc") //<.>
         asciiDocCustomization { //<.>
-            includeEnvFormat = true
+            contentCustomization {
+                includeEnvFormat = true
+            }
             unknownGroupLocalization = "Renamed unknown group"
             tocLevels = 3
 

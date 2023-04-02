@@ -19,8 +19,8 @@ import java.util.Objects;
  * <p>
  * Implementation is using custom helpers:
  * <ul>
- *     <li>include_env_format - Determines if the environment variable format should be included or not</li>
  *     <li>as_env - Converts the property key to its environment variable format.</li>
+ *     <li>is_included - Checks if the given parameters should be rendered in the final document or not.</li>
  * </ul>
  *
  * @author nandorholozsnyak
@@ -30,7 +30,6 @@ public class HandlebarsTemplateCompiler implements TemplateCompiler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HandlebarsTemplateCompiler.class);
     private static final String HELPER_AS_ENV = "as_env";
-    private static final String HELPER_INCLUDE_ENV_FORMAT = "include_env_format";
     private static final String HELPER_IS_INCLUDED = "is_included";
     private final Handlebars handlebars;
     private final I18nHelper i18nHelper;
@@ -47,7 +46,6 @@ public class HandlebarsTemplateCompiler implements TemplateCompiler {
     private static Handlebars createDefaultHandlebarsInstance() {
         return new Handlebars()
             .registerHelper(HELPER_AS_ENV, new EnvironmentVariableHelper())
-            .registerHelper(HELPER_INCLUDE_ENV_FORMAT, new IncludeEnvironmentVariableFormatHelper())
             .registerHelper(HELPER_IS_INCLUDED, new IsIncludedHelper(ThreadLocalTemplateCompilerStore.INSTANCE))
             .with(new ClassPathTemplateLoader(), new WorkingDirectoryAwareRecursiveFileTemplateLoader(".", WorkingDirectoryProvider.INSTANCE));
     }

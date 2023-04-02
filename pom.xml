@@ -112,6 +112,11 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.rodnansol</groupId>
+                <artifactId>spring-configuration-property-documenter-gradle-plugin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson-databind.version}</version>
@@ -516,7 +521,6 @@
                                         <discussionCategoryName>Announcements</discussionCategoryName>
                                         <changelog>
                                             <formatted>ALWAYS</formatted>
-                                            <format>- {{commitShortHash}} {{commitTitle}}</format>
                                             <preset>conventional-commits</preset>
                                             <contributors>
                                                 <format>- {{contributorName}}</format>

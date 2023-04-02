@@ -13,3 +13,207 @@ endif::[]
 :toc:
 :toc-placement!:
 :toclevels: 4
+
+
+== 0.5.1 -> 0.6.0
+
+=== Including environment format
+
+Header appearance in the tables are now customizable, and to make sure the environment variable is also following the same configuration way the older configuration in the Maven and Gradle plugins are not going to work.
+
+A new level of configuration is introduced, it can be configured with the `contentCustomization` key in Maven and in Gradle.
+
+==== Maven
+.Till 0.5.1
+[source,xml]
+----
+<execution>
+    <id>generate-adoc</id>
+    <phase>process-classes</phase>
+    <goals>
+        <goal>generate-property-document</goal>
+    </goals>
+    <configuration>
+        <type>TYPE</type>
+        <asciiDocCustomization>
+            <markdownCustomization>
+                <includeEnvFormat>true</includeEnvFormat>
+            </markdownCustomization>
+            <htmlCustomization>
+                <includeEnvFormat>true</includeEnvFormat>
+            </htmlCustomization>
+            <xmlCustomization>
+                <includeEnvFormat>true</includeEnvFormat>
+            </xmlCustomization>
+            <asciiDocCustomization>
+                <includeEnvFormat>true</includeEnvFormat>
+            </asciiDocCustomization>
+        </asciiDocCustomization>
+    </configuration>
+</execution>
+
+----
+
+.From 0.6.0
+[source,xml]
+----
+<execution>
+    <id>generate-adoc</id>
+    <phase>process-classes</phase>
+    <goals>
+        <goal>generate-property-document</goal>
+    </goals>
+    <configuration>
+        <type>TYPE</type>
+        <asciiDocCustomization>
+            <markdownCustomization>
+                <contentCustomization>
+                    <includeEnvFormat>true</includeEnvFormat>
+                </contentCustomization>
+            </markdownCustomization>
+            <htmlCustomization>
+                <contentCustomization>
+                    <includeEnvFormat>true</includeEnvFormat>
+                </contentCustomization>
+            </htmlCustomization>
+            <xmlCustomization>
+                <contentCustomization>
+                    <includeEnvFormat>true</includeEnvFormat>
+                </contentCustomization>
+            </xmlCustomization>
+            <asciiDocCustomization>
+                <contentCustomization>
+                    <includeEnvFormat>true</includeEnvFormat>
+                </contentCustomization>
+            </asciiDocCustomization>
+        </asciiDocCustomization>
+    </configuration>
+</execution>
+----
+
+==== Gradle
+.Till 0.5.1
+[source,groovy]
+----
+tasks.register('generateAdoc') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "ADOC"
+        asciiDocCustomization {
+            includeEnvFormat = true
+        }
+    }
+}
+
+tasks.register('generateMarkdown') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "MARKDOWN"
+        markdownCustomization {
+            includeEnvFormat = true
+        }
+    }
+}
+
+tasks.register('generateHtml') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "HTML"
+        htmlCustomization {
+            includeEnvFormat = true
+        }
+    }
+}
+
+tasks.register('generateXml') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "XML"
+        xmlCustomization {
+            includeEnvFormat = true
+        }
+    }
+}
+----
+
+.From 0.6.0
+[source,groovy]
+----
+tasks.register('generateAdoc') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "ADOC"
+        asciiDocCustomization {
+            contentCustomization {
+                includeEnvFormat = true
+            }
+        }
+    }
+}
+
+tasks.register('generateMarkdown') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "MARKDOWN"
+        markdownCustomization {
+            contentCustomization {
+                includeEnvFormat = true
+            }
+        }
+    }
+}
+
+tasks.register('generateHtml') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "HTML"
+        htmlCustomization {
+            contentCustomization {
+                includeEnvFormat = true
+            }
+        }
+    }
+}
+
+tasks.register('generateXml') {
+    dependsOn generatePropertyDocument {
+        documentName = "Hello World"
+        type = "XML"
+        xmlCustomization {
+            contentCustomization {
+                includeEnvFormat = true
+            }
+        }
+    }
+}
+----
+
+== 0.5.0 -> 0.5.1
+No changes required.
+
+== 0.4.0 -> 0.5.0
+No changes required.
+
+== 0.3.0 -> 0.4.0
+No changes required.
+
+== 0.2.4 -> 0.3.0
+No changes required.
+
+== 0.2.3 -> 0.2.4
+No changes required.
+
+== 0.2.2 -> 0.2.3
+No changes required.
+
+== 0.2.1 -> 0.2.2
+No changes required.
+
+== 0.2.0 -> 0.2.1
+No changes required.
+
+== 0.1.1 -> 0.2.0
+No changes required.
+
+== 0.1.0 -> 0.1.1
+No changes required.
