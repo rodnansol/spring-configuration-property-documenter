@@ -1,4 +1,4 @@
-package org.rodnansol.core.generator.template.customization;
+package org.rodnansol.gradle.tasks.customization;
 
 import java.util.Objects;
 
@@ -6,61 +6,61 @@ import java.util.Objects;
  * Class representing HTML customizations.
  *
  * @author nandorholozsnyak
- * @since 0.2.0
+ * @since 0.6.0
  */
 public class HtmlTemplateCustomization extends AbstractTemplateCustomization {
 
     /**
      * Background color.
-     * @since 0.2.0
+     * @since 0.6.0
      */
     private String backgroundColor = "#7db04b";
 
     /**
      * Link color.
-     * @since 0.2.0
+     * @since 0.6.0
      */
     private String linkColor = "black";
 
     /**
      * Collapsible hover color.
-     * @since 0.2.0
+     * @since 0.6.0
      */
     private String collapsibleHoverColor = "#96d95c";
 
     /**
      * Code color.
-     * @since 0.2.0
+     * @since 0.6.0
      */
     private String codeColor = "#eeeeee";
 
     /**
      * Even table row color.
-     * @since 0.2.0
+     * @since 0.6.0
      */
     private String evenTableRowColor = "#f3f3f3";
 
     /**
      * Last table row color.
-     * @since 0.2.0
+     * @since 0.6.0
      */
     private String lastTableRowColor = "#009879";
 
     /**
      * Table row color.
-     * @since 0.2.0
+     * @since 0.6.0
      */
     private String tableRowColor = "#ffffff";
 
     /**
      * Table row border color.
-     * @since 0.2.0
+     * @since 0.6.0
      */
     private String tableRowBorderColor = "#dddddd";
 
     /**
      * Text color.
-     * @since 0.2.0
+     * @since 0.6.0
      */
     private String textColor = "black";
 

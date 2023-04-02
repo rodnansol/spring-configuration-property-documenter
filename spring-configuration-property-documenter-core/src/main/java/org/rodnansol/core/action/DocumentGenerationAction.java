@@ -3,7 +3,7 @@ package org.rodnansol.core.action;
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
+import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;

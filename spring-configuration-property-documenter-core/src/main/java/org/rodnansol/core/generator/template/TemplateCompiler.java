@@ -1,5 +1,6 @@
 package org.rodnansol.core.generator.template;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import org.rodnansol.core.generator.DocumentGenerationException;
 
 /**
@@ -21,4 +22,14 @@ public interface TemplateCompiler {
      * @throws DocumentGenerationException when the template compiler occurs an error.
      */
     String compileTemplate(String templatePath, TemplateData templateData) throws DocumentGenerationException;
+
+    /**
+     * Returns the associated memory store.
+     *
+     * @since 0.6.0
+     */
+    @NonNull
+    default TemplateCompilerMemoryStore getMemoryStore() {
+        return ThreadLocalTemplateCompilerStore.INSTANCE;
+    }
 }

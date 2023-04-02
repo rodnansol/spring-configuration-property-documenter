@@ -5,6 +5,7 @@ import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.generator.template.MainTemplateData;
 import org.rodnansol.core.generator.template.PropertyGroup;
 import org.rodnansol.core.generator.template.TemplateCompiler;
+import org.rodnansol.core.generator.template.TemplateCompilerMemoryStoreConstants;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.generator.writer.postprocess.PostProcessPropertyGroupsCommand;
 import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
@@ -47,13 +48,22 @@ public class Documenter {
      * @throws IOException if any of the I/O operation fails.
      */
     public void readMetadataAndGenerateRenderedFile(CreateDocumentCommand createDocumentCommand) throws IOException {
-        LOGGER.debug("Creating document with command:[{}]", createDocumentCommand);
-        MainTemplateData mainTemplateData = createTemplateData(createDocumentCommand);
-        String content = templateCompiler.compileTemplate(createDocumentCommand.getTemplate(), mainTemplateData);
-        try (FileWriter fileWriter = new FileWriter(CoreFileUtils.initializeFileWithPath(createDocumentCommand.getOutput()))) {
-            LOGGER.debug("Writing generated content to file:[{}]", createDocumentCommand.getOutput());
-            fileWriter.write(content);
+        try {
+            LOGGER.debug("Creating document with command:[{}]", createDocumentCommand);
+            MainTemplateData mainTemplateData = createTemplateData(createDocumentCommand);
+            setupMemoryStore(mainTemplateData);
+            String content = templateCompiler.compileTemplate(createDocumentCommand.getTemplate(), mainTemplateData);
+            try (FileWriter fileWriter = new FileWriter(CoreFileUtils.initializeFileWithPath(createDocumentCommand.getOutput()))) {
+                LOGGER.debug("Writing generated content to file:[{}]", createDocumentCommand.getOutput());
+                fileWriter.write(content);
+            }
+        } finally {
+            templateCompiler.getMemoryStore().resetMemory();
         }
+    }
+
+    private void setupMemoryStore(MainTemplateData mainTemplateData) {
+        templateCompiler.getMemoryStore().addItemToMemory(TemplateCompilerMemoryStoreConstants.TEMPLATE_CUSTOMIZATION, mainTemplateData.getTemplateCustomization());
     }
 
     private MainTemplateData createTemplateData(CreateDocumentCommand createDocumentCommand) throws IOException {

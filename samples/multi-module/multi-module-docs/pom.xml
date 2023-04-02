@@ -88,7 +88,9 @@
                             </inputs>
                             <markdownCustomization>
                                 <headerEnabled>false</headerEnabled>
-                                <includeEnvFormat>true</includeEnvFormat>
+                                <contentCustomization>
+                                    <includeEnvFormat>true</includeEnvFormat>
+                                </contentCustomization>
                             </markdownCustomization>
                             <outputFile>target/aggregated-md.md</outputFile>
                         </configuration>
@@ -120,7 +122,9 @@
                             </inputs>
                             <markdownCustomization>
                                 <headerEnabled>false</headerEnabled>
-                                <includeEnvFormat>true</includeEnvFormat>
+                                <contentCustomization>
+                                    <includeEnvFormat>true</includeEnvFormat>
+                                </contentCustomization>
                             </markdownCustomization>
                             <headerTemplate>src/main/resources/templates/header.md</headerTemplate>
                             <contentTemplate>src/main/resources/templates/content.md</contentTemplate>
@@ -156,7 +160,9 @@
                             <asciiDocCustomization>
                                 <headerEnabled>false</headerEnabled>
                                 <tocPlacement>LEFT</tocPlacement>
-                                <includeEnvFormat>true</includeEnvFormat>
+                                <contentCustomization>
+                                    <includeEnvFormat>true</includeEnvFormat>
+                                </contentCustomization>
                             </asciiDocCustomization>
                             <outputFile>target/aggregated-adoc.adoc</outputFile>
                         </configuration>
@@ -191,7 +197,9 @@
                                 <backgroundColor>#30323a</backgroundColor>
                                 <textColor>#a174f4</textColor>
                                 <linkColor>#a174f4</linkColor>
-                                <includeEnvFormat>true</includeEnvFormat>
+                                <contentCustomization>
+                                    <includeEnvFormat>true</includeEnvFormat>
+                                </contentCustomization>
                             </htmlCustomization>
                             <outputFile>target/aggregated-html.html</outputFile>
                         </configuration>
@@ -223,7 +231,9 @@
                             </inputs>
                             <outputFile>target/aggregated-xml.xml</outputFile>
                             <xmlCustomization>
-                                <includeEnvFormat>true</includeEnvFormat>
+                                <contentCustomization>
+                                    <includeEnvFormat>true</includeEnvFormat>
+                                </contentCustomization>
                             </xmlCustomization>
                         </configuration>
                     </execution>

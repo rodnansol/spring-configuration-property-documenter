@@ -20,6 +20,25 @@ If you would like to use your own templates as inputs you should first read thro
 
 toc::[]
 
+== Handlebars template compiler
+
+By default, the tool depends on the Handlebars 3rd party library to put life into the templates.
+
+With that said, Handlerbars supports custom helpers, and there are a few helpers, those can be used in any <<_custom_templates, custom template>>.
+
+Helpers:
+
+* `as_env` - (`org.rodnansol.core.generator.template.handlebars.EnvironmentVariableHelper`) - Renders the parameter property to its environment variable form.
+* `is_included` - (`org.rodnansol.core.generator.template.handlebars.IsIncludedHelper`) - Checks if a given property can be rendred into the document or not.
+** These can be configured with <<content-customization,this object>> - Keys it can handle:
+*** class
+*** key
+*** type
+*** description
+*** defaultValue
+*** deprecation
+*** envFormat
+
 == Default templates
 
 The provided/packaged templates can be found here:
@@ -109,12 +128,12 @@ endif::[]
 [source,adoc]
 ----
 :property-group-simple-title: //<.>
-include::file.adoc[]
+\include::file.adoc[]
 :property-group-simple-title!: //<.>
 
 
 :property-group-discrete-heading: //<.>
-include::file.adoc[]
+\include::file.adoc[]
 :property-group-discrete-heading!://<.>
 ----
 <1> Enable the simple titles
@@ -148,6 +167,17 @@ You only have to implement one method for now:
 
 [source,java]
 ----
+package org.rodnansol.core.generator.template;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
+import org.rodnansol.core.generator.DocumentGenerationException;
+
+/**
+ * Class that handles the template compiling.
+ *
+ * @author nandorholozsnyak
+ * @since 0.2.0
+ */
 public interface TemplateCompiler {
 
     /**
@@ -161,7 +191,18 @@ public interface TemplateCompiler {
      * @throws DocumentGenerationException when the template compiler occurs an error.
      */
     String compileTemplate(String templatePath, TemplateData templateData) throws DocumentGenerationException;
+
+    /**
+     * Returns the associated memory store.
+     *
+     * @since 0.6.0
+     */
+    @NonNull
+    default TemplateCompilerMemoryStore getMemoryStore() {
+        return ThreadLocalTemplateCompilerStore.INSTANCE;
+    }
 }
+
 ----
 
 * `templatePath` variable is that what you can set for yourself from the Maven and Gradle plugin which should be the path to the template that must be compiled.
@@ -427,12 +468,6 @@ There are few Java classes to be discovered if you wish:
 |*true*
 |0.4.0
 
-|includeEnvFormat
-|boolean
-|Controls if the environment variable form of the properties should be rendered into the final document or not.
-|*false*
-|0.4.0
-
 |removeEmptyGroups
 |boolean
 |Controls if the empty property groups should be removed from the final document or not.
@@ -441,7 +476,7 @@ There are few Java classes to be discovered if you wish:
 
 |tocTitle
 |String
-|'Table of Contents' section's title. By default it is coming from the `messages.properties`
+|'Table of Contents' section's title. By default, it is coming from the `messages.properties`
 |
 |0.4.0
 
@@ -450,6 +485,62 @@ There are few Java classes to be discovered if you wish:
 |Set's the locale of the final document. - It will be converted to Locale with the `Locale.forLanguageTag` method.
 |JVM's default locale.
 |0.4.0
+
+|contentCustomization
+|<<content-customization,ContentCustomization>>
+|Configures the customization for the content (tables, property groups and properties)
+|Check defaults below.
+|0.6.0
+
+|===
+
+[#content-customization]
+.`org.rodnansol.core.generator.template.customization.ContentCustomization`
+[cols="1,1,4,1,1"]
+|===
+|Variable |Type |Description |Default value |Since
+
+|includeClass
+|boolean
+|Controls if the property group's *class* should be rendered or not in the final document.
+|*true*
+|0.6.0
+
+|includeKey
+|boolean
+|Controls if the property's *key* should be rendered or not in the final document.
+|*true*
+|0.6.0
+
+|includeType
+|boolean
+|Controls if the property's *type* should be rendered or not in the final document.
+|*true*
+|0.6.0
+
+|includeDescription
+|String
+|Controls if the property's *description* should be rendered or not in the final document.
+|*true*
+|0.6.0
+
+|includeDefaultValue
+|boolean
+|Controls if the property's *default value* should be rendered or not in the final document.
+|*true*
+|0.6.0
+
+|includeDeprecation
+|boolean
+|Controls if the property's *deprecation* should be rendered or not in the final document.
+|*true*
+|0.6.0
+
+|includeEnvFormat
+|boolean
+|Controls if the environment variable form of the properties should be rendered into the final document or not.
+|*false*
+|0.6.0
 
 |===
 

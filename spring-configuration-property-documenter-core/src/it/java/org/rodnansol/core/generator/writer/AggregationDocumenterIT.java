@@ -31,6 +31,7 @@ import static org.assertj.core.api.Assertions.fail;
 @ExtendWith(MockitoExtension.class)
 class AggregationDocumenterIT {
 
+    protected static final SimpleProject PROJECT = ProjectFactory.ofSimpleProject(new File("."), "IT");
     private static final String MAIN_EXPECTED_FOLDER = "src/it/resources/it/aggregated/";
     private static final String TEST_JSON = MAIN_EXPECTED_FOLDER + "spring-configuration-metadata-empty-sourceType.json";
 
@@ -39,26 +40,61 @@ class AggregationDocumenterIT {
 
     AggregationDocumenter underTest = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultProvidedInstance(), MetadataInputResolverContext.INSTANCE, PropertyGroupFilterService.INSTANCE);
 
-    public static Stream<TestCase> testCases() {
+    public static Stream<TestCase> noEnvFormatCases() {
         return Stream.of(
-            new TestCase(TEST_JSON, TemplateType.MARKDOWN, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.md", true),
-            new TestCase(TEST_JSON, TemplateType.ADOC, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.adoc", true),
-            new TestCase(TEST_JSON, TemplateType.HTML, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.html", true),
-//            new TestCase(TEST_JSON, TemplateType.XML, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.xml", true),
-            new TestCase(TEST_JSON, TemplateType.MARKDOWN, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.md", false),
-            new TestCase(TEST_JSON, TemplateType.ADOC, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.adoc", false),
-            new TestCase(TEST_JSON, TemplateType.HTML, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.html", false)
-//            new TestCase(TEST_JSON, TemplateType.XML, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.xml", false)
+            new TestCase(TEST_JSON, TemplateType.MARKDOWN, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.md"),
+            new TestCase(TEST_JSON, TemplateType.ADOC, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.adoc"),
+            new TestCase(TEST_JSON, TemplateType.HTML, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.html")
+        );
+    }
+
+    public static Stream<TestCase> envFormatCases() {
+        return Stream.of(
+            new TestCase(TEST_JSON, TemplateType.MARKDOWN, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.md"),
+            new TestCase(TEST_JSON, TemplateType.ADOC, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.adoc"),
+            new TestCase(TEST_JSON, TemplateType.HTML, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.html")
         );
     }
 
     @ParameterizedTest
-    @MethodSource("testCases")
-    void createDocumentsAndAggregate_shouldReadMetadataFileAndCreateRenderedDocument(TestCase testCase) throws IOException {
+    @MethodSource("noEnvFormatCases")
+    void readMetadataAndGenerateRenderedFile_shouldNotRenderEnvironmentFormatIntoFinalFile_whenEnvironmentFormatIsDisabled(TestCase testCase) throws IOException {
         // Given
         TemplateType templateType = testCase.templateType;
-        Path resolve = tempDir.resolve("IT-output-aggregated-" + testCase.includeEnvs + "-" + templateType.name() + templateType.getExtension());
-        SimpleProject project = ProjectFactory.ofSimpleProject(new File("."), "IT");
+        Path resolve = tempDir.resolve("IT-output-aggregated-without-env-format-" + templateType.name() + templateType.getExtension());
+        AbstractTemplateCustomization templateCustomization = getTemplateCustomization(templateType);
+        templateCustomization.getContentCustomization().setIncludeEnvFormat(false);
+        CreateAggregationCommand command = getCreateAggregationCommand(testCase, templateType, resolve, templateCustomization);
+
+        // When
+        underTest.createDocumentsAndAggregate(command);
+
+        // Then
+        List<String> actualFile = Files.readAllLines(resolve);
+        List<String> expectedFile = Files.readAllLines(Path.of(testCase.expectedFile));
+        assertThat(actualFile).containsExactlyElementsOf(expectedFile);
+    }
+
+    @ParameterizedTest
+    @MethodSource("envFormatCases")
+    void readMetadataAndGenerateRenderedFile_shouldRenderEnvironmentFormatIntoFinalFile_whenEnvironmentFormatIsEnabled(TestCase testCase) throws IOException {
+        // Given
+        TemplateType templateType = testCase.templateType;
+        Path resolve = tempDir.resolve("IT-output-aggregated-with-env-format-" + templateType.name() + templateType.getExtension());
+        AbstractTemplateCustomization templateCustomization = getTemplateCustomization(templateType);
+        templateCustomization.getContentCustomization().setIncludeEnvFormat(true);
+        CreateAggregationCommand command = getCreateAggregationCommand(testCase, templateType, resolve, templateCustomization);
+
+        // When
+        underTest.createDocumentsAndAggregate(command);
+
+        // Then
+        List<String> actualFile = Files.readAllLines(resolve);
+        List<String> expectedFile = Files.readAllLines(Path.of(testCase.expectedFile));
+        assertThat(actualFile).containsExactlyElementsOf(expectedFile);
+    }
+
+    private AbstractTemplateCustomization getTemplateCustomization(TemplateType templateType) {
         AbstractTemplateCustomization templateCustomization = null;
         switch (templateType) {
             case MARKDOWN:
@@ -77,23 +113,19 @@ class AggregationDocumenterIT {
                 fail("Unknown template type");
                 break;
         }
-        templateCustomization.setIncludeEnvFormat(testCase.includeEnvs);
         templateCustomization.setIncludeGenerationDate(false);
-        CreateAggregationCommand command = new CreateAggregationCommand(project, "IT",
+        return templateCustomization;
+    }
+
+    private CreateAggregationCommand getCreateAggregationCommand(TestCase testCase, TemplateType templateType, Path resolve, AbstractTemplateCustomization templateCustomization) {
+        return new CreateAggregationCommand(PROJECT, "IT",
             List.of(
                 new CombinedInput(new File(testCase.inputFile), "Document 1"),
                 new CombinedInput(new File(testCase.inputFile), "Document 2")
             ),
             templateType, templateCustomization, resolve.toFile());
-
-        // When
-        underTest.createDocumentsAndAggregate(command);
-
-        // Then
-        List<String> actualFile = Files.readAllLines(resolve);
-        List<String> expectedFile = Files.readAllLines(Path.of(testCase.expectedFile));
-        assertThat(actualFile).containsExactlyElementsOf(expectedFile);
     }
+
 
     static class TestCase {
 
@@ -101,22 +133,18 @@ class AggregationDocumenterIT {
         final TemplateType templateType;
         final String expectedFile;
 
-        final boolean includeEnvs;
-
-        public TestCase(String inputFile, TemplateType templateType, String expectedFile, boolean includeEnvs) {
+        public TestCase(String inputFile, TemplateType templateType, String expectedFile) {
             this.inputFile = inputFile;
             this.templateType = templateType;
             this.expectedFile = expectedFile;
-            this.includeEnvs = includeEnvs;
         }
 
         @Override
         public String toString() {
             return "TestCase{" +
-                "inputFile='" + inputFile + '\'' +
-                ", templateType=" + templateType +
+                "templateType=" + templateType +
                 ", expectedFile='" + expectedFile + '\'' +
-                ", includeEnvs=" + includeEnvs +
+                ", inputFile='" + inputFile + '\'' +
                 '}';
         }
     }

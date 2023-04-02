@@ -6,7 +6,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
+import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;

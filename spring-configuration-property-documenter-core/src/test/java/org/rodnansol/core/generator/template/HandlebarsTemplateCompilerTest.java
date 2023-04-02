@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
+import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,7 +46,6 @@ class HandlebarsTemplateCompilerTest {
         MainTemplateData templateData = new MainTemplateData("Test", List.of());
         templateData.setTemplateCustomization(templateCustomization);
         when(handlebars.compile(TEMPLATE)).thenReturn(template);
-        when(handlebars.<String>helper("i18n")).thenReturn(i18nHelper);
         when(template.apply(templateData)).thenReturn(FINAL_DOCUMENT);
 
         // When

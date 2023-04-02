@@ -42,3 +42,6 @@ build/
 
 ## Gradle ##
 .gradle/
+
+## Docs outpus ##
+docs/*.html

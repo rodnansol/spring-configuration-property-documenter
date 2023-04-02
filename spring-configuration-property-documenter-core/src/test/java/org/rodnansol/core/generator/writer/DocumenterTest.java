@@ -12,6 +12,7 @@ import org.rodnansol.core.generator.template.MainTemplateData;
 import org.rodnansol.core.generator.template.Property;
 import org.rodnansol.core.generator.template.PropertyGroup;
 import org.rodnansol.core.generator.template.TemplateCompiler;
+import org.rodnansol.core.generator.template.TemplateCompilerMemoryStore;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
 import org.rodnansol.core.generator.writer.postprocess.PostProcessPropertyGroupsCommand;
@@ -27,6 +28,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -76,6 +78,7 @@ class DocumenterTest {
         when(metadataInputResolverContext.getInputStreamFromFile(project, inputFile)).thenReturn(inputStream);
         when(metadataReader.readPropertiesAsPropertyGroupList(inputStream)).thenReturn(propertyGroups);
         when(templateCompiler.compileTemplate(eq(singleTemplate), any())).thenReturn("Hello World");
+        when(templateCompiler.getMemoryStore()).thenReturn(mock(TemplateCompilerMemoryStore.class));
         underTest.readMetadataAndGenerateRenderedFile(command);
 
         // Then

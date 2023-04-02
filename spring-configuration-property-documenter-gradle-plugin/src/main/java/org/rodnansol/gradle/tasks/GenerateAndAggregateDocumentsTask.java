@@ -8,16 +8,13 @@ import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.options.Option;
+import org.mapstruct.factory.Mappers;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.TemplateType;
-import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
-import org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization;
-import org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
-import org.rodnansol.core.generator.template.customization.XmlTemplateCustomization;
+import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
 import org.rodnansol.core.generator.writer.AggregationDocumenter;
 import org.rodnansol.core.generator.writer.CombinedInput;
 import org.rodnansol.core.generator.writer.CreateAggregationCommand;
@@ -25,6 +22,11 @@ import org.rodnansol.core.generator.writer.CustomTemplate;
 import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
 import org.rodnansol.core.project.ProjectFactory;
 import org.rodnansol.core.project.gradle.GradleProject;
+import org.rodnansol.gradle.tasks.customization.AsciiDocTemplateCustomization;
+import org.rodnansol.gradle.tasks.customization.HtmlTemplateCustomization;
+import org.rodnansol.gradle.tasks.customization.MarkdownTemplateCustomization;
+import org.rodnansol.gradle.tasks.customization.TemplateCustomizationMapper;
+import org.rodnansol.gradle.tasks.customization.XmlTemplateCustomization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +47,8 @@ import java.util.stream.Collectors;
 public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GenerateAndAggregateDocumentsTask.class);
+    private static final TemplateCustomizationMapper TEMPLATE_CUSTOMIZATION_MAPPER = Mappers.getMapper(TemplateCustomizationMapper.class);
+    private static final AggregationInputMapper AGGREGATION_INPUT_MAPPER = Mappers.getMapper(AggregationInputMapper.class);
 
     /**
      * List of the metadata inputs.
@@ -191,25 +195,19 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
     }
 
     private CombinedInput mapToCombinedInput(AggregationInput aggregationInput) {
-        CombinedInput combinedInput = new CombinedInput(aggregationInput.getInput(), aggregationInput.getName());
-        combinedInput.setDescription(aggregationInput.getDescription());
-        combinedInput.setExcludedGroups(aggregationInput.getExcludedGroups());
-        combinedInput.setIncludedGroups(aggregationInput.getIncludedGroups());
-        combinedInput.setIncludedProperties(aggregationInput.getIncludedProperties());
-        combinedInput.setExcludedProperties(aggregationInput.getExcludedProperties());
-        return combinedInput;
+        return AGGREGATION_INPUT_MAPPER.toCombinedInput(aggregationInput);
     }
 
     private TemplateCustomization getActualTemplateCustomization() {
         switch (type) {
             case MARKDOWN:
-                return markdownCustomization;
+                return TEMPLATE_CUSTOMIZATION_MAPPER.toMarkdown(markdownCustomization);
             case ADOC:
-                return asciiDocCustomization;
+                return TEMPLATE_CUSTOMIZATION_MAPPER.toAsciiDoc(asciiDocCustomization);
             case HTML:
-                return htmlCustomization;
+                return TEMPLATE_CUSTOMIZATION_MAPPER.toHtml(htmlCustomization);
             case XML:
-                return xmlCustomization;
+                return TEMPLATE_CUSTOMIZATION_MAPPER.toXml(xmlCustomization);
         }
         throw new IllegalStateException("There is no template customization set for the current run");
     }

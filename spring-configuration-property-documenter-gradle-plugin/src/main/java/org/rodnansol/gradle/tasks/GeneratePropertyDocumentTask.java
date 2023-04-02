@@ -10,16 +10,18 @@ import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.options.Option;
+import org.mapstruct.factory.Mappers;
 import org.rodnansol.core.action.DocumentGenerationAction;
-import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateType;
-import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
-import org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization;
-import org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
-import org.rodnansol.core.generator.template.customization.XmlTemplateCustomization;
+import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
 import org.rodnansol.core.project.ProjectFactory;
 import org.rodnansol.core.project.gradle.GradleProject;
+import org.rodnansol.gradle.tasks.customization.AsciiDocTemplateCustomization;
+import org.rodnansol.gradle.tasks.customization.HtmlTemplateCustomization;
+import org.rodnansol.gradle.tasks.customization.MarkdownTemplateCustomization;
+import org.rodnansol.gradle.tasks.customization.TemplateCustomizationMapper;
+import org.rodnansol.gradle.tasks.customization.XmlTemplateCustomization;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ import java.util.List;
  */
 public abstract class GeneratePropertyDocumentTask extends ConventionTask {
 
+    private static final TemplateCustomizationMapper TEMPLATE_CUSTOMIZATION_MAPPER = Mappers.getMapper(TemplateCustomizationMapper.class);
     /**
      * Name that should be generated to the final document.
      *
@@ -75,7 +78,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
      */
     @Input
     @Option(option = "type", description = "Type of the final rendered document")
-    private String type;
+    private TemplateType type;
     /**
      * Metadata input that can be:
      * <ul>
@@ -107,7 +110,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
     @Input
     @Optional
     @Option(option = "failOnError", description = "Fail on error or not")
-    private boolean failOnError = false;
+    private boolean failOnError = true;
     /**
      * Template compiler class's fully qualified name .
      * <p>
@@ -206,7 +209,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
     private DocumentGenerationAction setupAction() {
         Project project = getProject();
         GradleProject gradleProject = ProjectFactory.ofGradleProject(project.getProjectDir(), project.getName(), List.of());
-        DocumentGenerationAction documentGenerationAction = new DocumentGenerationAction(gradleProject, documentName, getActualTemplateCustomization(), TemplateType.valueOf(type), metadataInput);
+        DocumentGenerationAction documentGenerationAction = new DocumentGenerationAction(gradleProject, documentName, getActualTemplateCustomization(), type, metadataInput);
         documentGenerationAction.setTemplateCompilerName(templateCompilerName);
         documentGenerationAction.setDescription(documentDescription);
         documentGenerationAction.setTemplate(template);
@@ -219,15 +222,15 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
     }
 
     private TemplateCustomization getActualTemplateCustomization() {
-        switch (TemplateType.valueOf(type)) {
+        switch (type) {
             case MARKDOWN:
-                return markdownCustomization;
+                return TEMPLATE_CUSTOMIZATION_MAPPER.toMarkdown(markdownCustomization);
             case ADOC:
-                return asciiDocCustomization;
+                return TEMPLATE_CUSTOMIZATION_MAPPER.toAsciiDoc(asciiDocCustomization);
             case HTML:
-                return htmlCustomization;
+                return TEMPLATE_CUSTOMIZATION_MAPPER.toHtml(htmlCustomization);
             case XML:
-                return xmlCustomization;
+                return TEMPLATE_CUSTOMIZATION_MAPPER.toXml(xmlCustomization);
         }
         throw new IllegalStateException("There is no template customization set for the current run");
     }
@@ -256,11 +259,11 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
         this.template = template;
     }
 
-    public String getType() {
+    public TemplateType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TemplateType type) {
         this.type = type;
     }
 

@@ -31,6 +31,7 @@ import static org.assertj.core.api.Assertions.fail;
 @ExtendWith(MockitoExtension.class)
 class DocumenterIT {
 
+    protected static final SimpleProject PROJECT = ProjectFactory.ofSimpleProject(new File("."), "IT");
     private static final String MAIN_EXPECTED_FOLDER = "src/it/resources/it/single/";
     private static final String TEST_JSON = MAIN_EXPECTED_FOLDER + "spring-configuration-metadata-empty-sourceType.json";
 
@@ -39,26 +40,64 @@ class DocumenterIT {
 
     Documenter underTest = new Documenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultProvidedInstance(), MetadataInputResolverContext.INSTANCE, PropertyGroupFilterService.INSTANCE);
 
-    public static Stream<TestCase> testCases() {
+    public static Stream<TestCase> noEnvFormatCases() {
         return Stream.of(
-            new TestCase(TEST_JSON, TemplateType.MARKDOWN, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.md", true),
-            new TestCase(TEST_JSON, TemplateType.ADOC, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.adoc", true),
-            new TestCase(TEST_JSON, TemplateType.HTML, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.html", true),
-            new TestCase(TEST_JSON, TemplateType.XML, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.xml", true),
-            new TestCase(TEST_JSON, TemplateType.MARKDOWN, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.md", false),
-            new TestCase(TEST_JSON, TemplateType.ADOC, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.adoc", false),
-            new TestCase(TEST_JSON, TemplateType.HTML, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.html", false)
+            new TestCase(TEST_JSON, TemplateType.MARKDOWN, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.md"),
+            new TestCase(TEST_JSON, TemplateType.ADOC, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.adoc"),
+            new TestCase(TEST_JSON, TemplateType.HTML, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.html")
 //            new TestCase(TEST_JSON, TemplateType.XML, MAIN_EXPECTED_FOLDER + "expected-without-env-variables.xml", false)
         );
     }
 
+    public static Stream<TestCase> envFormatCases() {
+        return Stream.of(
+            new TestCase(TEST_JSON, TemplateType.MARKDOWN, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.md"),
+            new TestCase(TEST_JSON, TemplateType.ADOC, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.adoc"),
+            new TestCase(TEST_JSON, TemplateType.HTML, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.html"),
+            new TestCase(TEST_JSON, TemplateType.XML, MAIN_EXPECTED_FOLDER + "expected-with-env-variables.xml")
+        );
+    }
+
     @ParameterizedTest
-    @MethodSource("testCases")
-    void readMetadataAndGenerateRenderedFile_shouldReadMetadataFileAndCreateRenderedDocument(TestCase testCase) throws IOException {
+    @MethodSource("noEnvFormatCases")
+    void readMetadataAndGenerateRenderedFile_shouldNotRenderEnvironmentFormatIntoFinalFile_whenEnvironmentFormatIsDisabled(TestCase testCase) throws IOException {
         // Given
         TemplateType templateType = testCase.templateType;
-        Path resolve = tempDir.resolve("IT-output-" + testCase.includeEnvs + "-" + templateType.name() + templateType.getExtension());
-        SimpleProject project = ProjectFactory.ofSimpleProject(new File("."), "IT");
+        Path resolve = tempDir.resolve("IT-output-without-env-format-" + templateType.name() + templateType.getExtension());
+        AbstractTemplateCustomization templateCustomization = getTemplateCustomization(templateType);
+        templateCustomization.getContentCustomization().setIncludeEnvFormat(false);
+        CreateDocumentCommand command = new CreateDocumentCommand(PROJECT, "IT", new File(testCase.inputFile), templateType.getSingleTemplate(), resolve.toFile(), templateCustomization);
+
+        // When
+        underTest.readMetadataAndGenerateRenderedFile(command);
+
+        // Then
+        List<String> actualFile = Files.readAllLines(resolve);
+        List<String> expectedFile = Files.readAllLines(Path.of(testCase.expectedFile));
+        assertThat(actualFile).containsExactlyElementsOf(expectedFile);
+    }
+
+    @ParameterizedTest
+    @MethodSource("envFormatCases")
+    void readMetadataAndGenerateRenderedFile_shouldRenderEnvironmentFormatIntoFinalFile_whenEnvironmentFormatIsEnabled(TestCase testCase) throws IOException {
+        // Given
+        TemplateType templateType = testCase.templateType;
+        Path resolve = tempDir.resolve("IT-output-with-env-" + templateType.name() + templateType.getExtension());
+        AbstractTemplateCustomization templateCustomization = getTemplateCustomization(templateType);
+        templateCustomization.getContentCustomization().setIncludeEnvFormat(true);
+
+        CreateDocumentCommand command = new CreateDocumentCommand(PROJECT, "IT", new File(testCase.inputFile), templateType.getSingleTemplate(), resolve.toFile(), templateCustomization);
+
+        // When
+        underTest.readMetadataAndGenerateRenderedFile(command);
+
+        // Then
+        List<String> actualFile = Files.readAllLines(resolve);
+        List<String> expectedFile = Files.readAllLines(Path.of(testCase.expectedFile));
+        assertThat(actualFile).containsExactlyElementsOf(expectedFile);
+    }
+
+    private static AbstractTemplateCustomization getTemplateCustomization(TemplateType templateType) {
         AbstractTemplateCustomization templateCustomization = null;
         switch (templateType) {
             case MARKDOWN:
@@ -77,17 +116,8 @@ class DocumenterIT {
                 fail("Unknown template type");
                 break;
         }
-        templateCustomization.setIncludeEnvFormat(testCase.includeEnvs);
         templateCustomization.setIncludeGenerationDate(false);
-        CreateDocumentCommand command = new CreateDocumentCommand(project, "IT", new File(testCase.inputFile), templateType.getSingleTemplate(), resolve.toFile(), templateCustomization);
-
-        // When
-        underTest.readMetadataAndGenerateRenderedFile(command);
-
-        // Then
-        List<String> actualFile = Files.readAllLines(resolve);
-        List<String> expectedFile = Files.readAllLines(Path.of(testCase.expectedFile));
-        assertThat(actualFile).containsExactlyElementsOf(expectedFile);
+        return templateCustomization;
     }
 
     static class TestCase {
@@ -96,22 +126,18 @@ class DocumenterIT {
         final TemplateType templateType;
         final String expectedFile;
 
-        final boolean includeEnvs;
-
-        public TestCase(String inputFile, TemplateType templateType, String expectedFile, boolean includeEnvs) {
+        public TestCase(String inputFile, TemplateType templateType, String expectedFile) {
             this.inputFile = inputFile;
             this.templateType = templateType;
             this.expectedFile = expectedFile;
-            this.includeEnvs = includeEnvs;
         }
 
         @Override
         public String toString() {
             return "TestCase{" +
-                "inputFile='" + inputFile + '\'' +
-                ", templateType=" + templateType +
+                " templateType=" + templateType +
                 ", expectedFile='" + expectedFile + '\'' +
-                ", includeEnvs=" + includeEnvs +
+                ", inputFile='" + inputFile + '\'' +
                 '}';
         }
     }
