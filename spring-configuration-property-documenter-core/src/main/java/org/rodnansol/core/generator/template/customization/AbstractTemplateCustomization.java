@@ -16,12 +16,14 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
 
     /**
      * Table of Contents title.
+     *
      * @since 0.4.0
      */
     protected String tocTitle;
 
     /**
      * If the header should be enabled or not.
+     *
      * @since 0.2.0
      */
     protected boolean headerEnabled = true;
@@ -78,9 +80,19 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
 
     /**
      * Field storing customization options for the content template.
+     *
      * @since 0.6.0
      */
     protected ContentCustomization contentCustomization = new ContentCustomization();
+
+    /**
+     * Controls if the template should be rendered in compact mode or not.
+     * <p>
+     * By default, for backward compatibility the compact mode is turned off.
+     *
+     * @since 0.6.0
+     */
+    protected boolean compactMode = false;
 
     public String getTocTitle() {
         return tocTitle;
@@ -172,16 +184,25 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
     }
 
     @Override
+    public boolean isCompactMode() {
+        return compactMode;
+    }
+
+    public void setCompactMode(boolean compactMode) {
+        this.compactMode = compactMode;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractTemplateCustomization that = (AbstractTemplateCustomization) o;
-        return headerEnabled == that.headerEnabled && tableOfContentsEnabled == that.tableOfContentsEnabled && includeUnknownGroup == that.includeUnknownGroup && includeGenerationDate == that.includeGenerationDate && removeEmptyGroups == that.removeEmptyGroups && Objects.equals(tocTitle, that.tocTitle) && Objects.equals(unknownGroupLocalization, that.unknownGroupLocalization) && Objects.equals(locale, that.locale) && Objects.equals(contentCustomization, that.contentCustomization);
+        return headerEnabled == that.headerEnabled && tableOfContentsEnabled == that.tableOfContentsEnabled && includeUnknownGroup == that.includeUnknownGroup && includeEnvFormat == that.includeEnvFormat && includeGenerationDate == that.includeGenerationDate && removeEmptyGroups == that.removeEmptyGroups && compactMode == that.compactMode && Objects.equals(tocTitle, that.tocTitle) && Objects.equals(unknownGroupLocalization, that.unknownGroupLocalization) && Objects.equals(locale, that.locale) && Objects.equals(contentCustomization, that.contentCustomization);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tocTitle, headerEnabled, tableOfContentsEnabled, includeUnknownGroup, unknownGroupLocalization, includeGenerationDate, removeEmptyGroups, locale, contentCustomization);
+        return Objects.hash(tocTitle, headerEnabled, tableOfContentsEnabled, includeUnknownGroup, unknownGroupLocalization, includeEnvFormat, includeGenerationDate, removeEmptyGroups, locale, contentCustomization, compactMode);
     }
 
     @Override
@@ -192,10 +213,12 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
             ", tableOfContentsEnabled=" + tableOfContentsEnabled +
             ", includeUnknownGroup=" + includeUnknownGroup +
             ", unknownGroupLocalization='" + unknownGroupLocalization + '\'' +
+            ", includeEnvFormat=" + includeEnvFormat +
             ", includeGenerationDate=" + includeGenerationDate +
             ", removeEmptyGroups=" + removeEmptyGroups +
             ", locale='" + locale + '\'' +
             ", contentCustomization=" + contentCustomization +
+            ", compactMode=" + compactMode +
             '}';
     }
 }

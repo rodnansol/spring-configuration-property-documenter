@@ -31,6 +31,7 @@ public class HandlebarsTemplateCompiler implements TemplateCompiler {
     private static final Logger LOGGER = LoggerFactory.getLogger(HandlebarsTemplateCompiler.class);
     private static final String HELPER_AS_ENV = "as_env";
     private static final String HELPER_IS_INCLUDED = "is_included";
+    private static final String HELPER_IS_COMPACT_MODE = "is_compact_mode";
     private final Handlebars handlebars;
     private final I18nHelper i18nHelper;
 
@@ -47,6 +48,7 @@ public class HandlebarsTemplateCompiler implements TemplateCompiler {
         return new Handlebars()
             .registerHelper(HELPER_AS_ENV, new EnvironmentVariableHelper())
             .registerHelper(HELPER_IS_INCLUDED, new IsIncludedHelper(ThreadLocalTemplateCompilerStore.INSTANCE))
+            .registerHelper(HELPER_IS_COMPACT_MODE, new IsCompactModeHelper(ThreadLocalTemplateCompilerStore.INSTANCE))
             .with(new ClassPathTemplateLoader(), new WorkingDirectoryAwareRecursiveFileTemplateLoader(".", WorkingDirectoryProvider.INSTANCE));
     }
 

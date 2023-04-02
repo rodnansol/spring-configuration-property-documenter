@@ -1,0 +1,11 @@
+{{#templateCustomization}}
+{{#if headerEnabled}}= {{mainName}}{{/if}}
+{{#if tableOfContentsEnabled}}:toc: {{#if tocPlacement}}{{tocPlacement}}{{/if}}{{/if}}
+:toc-title: {{#if tocTitle}}{{tocTitle}}{{else}}{{i18n "template.toc"}}{{/if}}
+{{#if tocLevels}}:toclevels: {{tocLevels}}{{/if}}
+
+{{#if headerEnabled}}{{#if mainDescription}}{{mainDescription}}{{/if}}{{/if}}
+{{/templateCustomization}}
+[cols="{{#is_included "key"}}2{{/is_included}}{{#is_included "type"}},1{{/is_included}}{{#is_included "description"}},3{{/is_included}}{{#is_included "defaultValue"}},1{{/is_included}}{{#is_included "deprecation"}},1{{/is_included}}{{#is_included "envFormat"}},1{{/is_included}}"]
+|===
+{{#is_included "key"}}|{{i18n "template.key"}}{{/is_included}} {{#is_included "type"}}|{{i18n "template.type"}}{{/is_included}} {{#is_included "description"}}|{{i18n "template.description"}}{{/is_included}} {{#is_included "defaultValue"}}|{{i18n "template.defaultValue"}}{{/is_included}} {{#is_included "deprecation"}}|{{i18n "template.deprecation"}}{{/is_included}}{{#is_included "envFormat"}}|{{i18n "template.environmentVariable"}} {{/is_included}}

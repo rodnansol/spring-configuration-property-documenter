@@ -1,0 +1,19 @@
+{{#templateCustomization}}
+{{#if headerEnabled}}# {{mainName}}
+{{mainDescription}}
+{{/if}}
+{{#if tableOfContentsEnabled}}
+## {{#if tocTitle}}{{tocTitle}}{{else}}{{i18n "template.toc"}}{{/if}}
+{{#if subTemplateDataList}}
+{{#each subTemplateDataList}}
+* [**{{moduleName}}**](#{{moduleName}})
+{{#each propertyGroups}}  * [**{{groupName}}** - `{{type}}`](#{{groupName}})
+{{/each}}{{/each}}
+{{else}}
+{{#each propertyGroups}}* [**{{groupName}}** - `{{type}}`](#{{groupName}})
+{{/each}}
+{{/if}}
+{{/if}}
+{{/templateCustomization}}
+|{{#is_included "key"}}{{i18n "template.key"}}|{{/is_included}}{{#is_included "type"}}{{i18n "template.type"}}|{{/is_included}}{{#is_included "description"}}{{i18n "template.description"}}|{{/is_included}}{{#is_included "defaultValue"}}{{i18n "template.defaultValue"}}|{{/is_included}}{{#is_included "deprecation"}}{{i18n "template.deprecation"}}|{{/is_included}}{{#is_included "envFormat"}}{{i18n "template.environmentVariable"}} |{{/is_included}}
+|{{#is_included "key"}}---|{{/is_included}}{{#is_included "type"}}----|{{/is_included}}{{#is_included "description"}}-----------|{{/is_included}}{{#is_included "defaultValue"}}-------------|{{/is_included}}{{#is_included "deprecation"}}-----------|{{/is_included}}{{#is_included "envFormat"}}----------------------|{{/is_included}}

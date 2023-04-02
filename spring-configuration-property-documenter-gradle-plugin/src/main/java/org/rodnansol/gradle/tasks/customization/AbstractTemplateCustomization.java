@@ -78,6 +78,15 @@ public abstract class AbstractTemplateCustomization implements Serializable {
      */
     protected ContentCustomization contentCustomization = new ContentCustomization();
 
+    /**
+     * Controls if the template should be rendered in compact mode or not.
+     * <p>
+     * By default, for backward compatibility the compact mode is turned off.
+     *
+     * @since 0.6.0
+     */
+    protected boolean compactMode = false;
+
     public String getTocTitle() {
         return tocTitle;
     }
@@ -151,6 +160,14 @@ public abstract class AbstractTemplateCustomization implements Serializable {
         this.contentCustomization = contentCustomization;
     }
 
+    public boolean isCompactMode() {
+        return compactMode;
+    }
+
+    public void setCompactMode(boolean compactMode) {
+        this.compactMode = compactMode;
+    }
+
     /**
      * DSL entry point for the {@link AbstractTemplateCustomization#contentCustomization} field.
      */
@@ -165,12 +182,12 @@ public abstract class AbstractTemplateCustomization implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractTemplateCustomization that = (AbstractTemplateCustomization) o;
-        return headerEnabled == that.headerEnabled && tableOfContentsEnabled == that.tableOfContentsEnabled && includeUnknownGroup == that.includeUnknownGroup && includeGenerationDate == that.includeGenerationDate && removeEmptyGroups == that.removeEmptyGroups && Objects.equals(tocTitle, that.tocTitle) && Objects.equals(unknownGroupLocalization, that.unknownGroupLocalization) && Objects.equals(locale, that.locale) && Objects.equals(contentCustomization, that.contentCustomization);
+        return headerEnabled == that.headerEnabled && tableOfContentsEnabled == that.tableOfContentsEnabled && includeUnknownGroup == that.includeUnknownGroup && includeGenerationDate == that.includeGenerationDate && removeEmptyGroups == that.removeEmptyGroups && compactMode == that.compactMode && Objects.equals(tocTitle, that.tocTitle) && Objects.equals(unknownGroupLocalization, that.unknownGroupLocalization) && Objects.equals(locale, that.locale) && Objects.equals(contentCustomization, that.contentCustomization);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tocTitle, headerEnabled, tableOfContentsEnabled, includeUnknownGroup, unknownGroupLocalization, includeGenerationDate, removeEmptyGroups, locale, contentCustomization);
+        return Objects.hash(tocTitle, headerEnabled, tableOfContentsEnabled, includeUnknownGroup, unknownGroupLocalization, includeGenerationDate, removeEmptyGroups, locale, contentCustomization, compactMode);
     }
 
     @Override
@@ -185,6 +202,7 @@ public abstract class AbstractTemplateCustomization implements Serializable {
             ", removeEmptyGroups=" + removeEmptyGroups +
             ", locale='" + locale + '\'' +
             ", contentCustomization=" + contentCustomization +
+            ", compactMode=" + compactMode +
             '}';
     }
 }

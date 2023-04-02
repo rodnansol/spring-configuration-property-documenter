@@ -1,0 +1,12 @@
+            {{#each propertyGroups}}
+            {{#each properties}}
+                <tr>
+                    {{#is_included "key"}}<td>{{fqName}}</td>{{/is_included}}
+                    {{#is_included "type"}}<td>{{type}}</td>{{/is_included}}
+                    {{#is_included "description"}}<td>{{description}}</td>{{/is_included}}
+                    {{#is_included "defaultValue"}}<td>{{defaultValue}}</td>{{/is_included}}
+                    {{#is_included "deprecation"}}<td>{{propertyDeprecation}}</td>{{/is_included}}
+                    {{#is_included "envFormat"}}<td>{{as_env fqName}}</td> {{/is_included}}
+                </tr>
+            {{/each}}
+            {{/each}}

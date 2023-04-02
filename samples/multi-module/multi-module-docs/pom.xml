@@ -287,6 +287,59 @@
                             <outputFile>target/include-and-exclude-list-based-document.adoc</outputFile>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>aggregate-docs-markdown-with-spring-boot-related-configurations-in-compact-mode</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>ADOC</type>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <input>../multi-module-a</input>
+                                </input>
+                                <input>
+                                    <name>Sprint Boot 2.7.8 - Include Groups and Lists</name>
+                                    <description>Sprint Boot 2.7.8 related properties with inclusions</description>
+                                    <input>${user.home}/.m2/repository/org/springframework/boot/spring-boot/2.7.8/spring-boot-2.7.8.jar</input>
+                                    <includedProperties>
+                                        <value>logging.charset.console</value>
+                                        <value>logging.file</value>
+                                        <value>spring.banner.image.invert</value>
+                                    </includedProperties>
+                                    <includedGroups>
+                                        <value>Unknown group</value>
+                                    </includedGroups>
+                                </input>
+                                <input>
+                                    <name>Sprint Boot 2.7.8 - Exclude Groups and Lists</name>
+                                    <description>Sprint Boot 2.7.8 related properties with exclusions</description>
+                                    <input>${user.home}/.m2/repository/org/springframework/boot/spring-boot/2.7.8/spring-boot-2.7.8.jar</input>
+                                    <excludedProperties>
+                                        <value>logging.charset.console</value>
+                                        <value>logging.file</value>
+                                        <value>spring.banner.image.invert</value>
+                                    </excludedProperties>
+                                    <excludedGroups>
+                                        <value>spring.jta.atomikos.datasource</value>
+                                        <value>spring.jta.atomikos.properties</value>
+                                    </excludedGroups>
+                                </input>
+                                <input>
+                                    <name>Multi Module C</name>
+                                    <description>Multi Module C properties with a specific file input</description>
+                                    <input>../multi-module-c/target/classes/META-INF/spring-configuration-metadata.json</input>
+                                </input>
+                            </inputs>
+                            <asciiDocCustomization>
+                                <compactMode>true</compactMode>
+                            </asciiDocCustomization>
+                            <outputFile>target/compact-include-and-exclude-list-based-document.adoc</outputFile>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

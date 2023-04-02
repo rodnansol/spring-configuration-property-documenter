@@ -74,4 +74,13 @@ public interface TemplateCustomization {
      */
     void setContentCustomization(@NonNull ContentCustomization contentCustomization);
 
+    /**
+     * Controls if the template should be rendered in compact mode or not.
+     * <p>
+     * By default, for backward compatibility the compact mode is turned off.
+     *
+     * @since 0.6.0
+     */
+    boolean isCompactMode();
+
 }

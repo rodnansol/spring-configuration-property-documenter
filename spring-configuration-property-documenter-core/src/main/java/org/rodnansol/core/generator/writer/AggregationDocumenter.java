@@ -10,6 +10,7 @@ import org.rodnansol.core.generator.template.MainTemplateData;
 import org.rodnansol.core.generator.template.PropertyGroup;
 import org.rodnansol.core.generator.template.SubTemplateData;
 import org.rodnansol.core.generator.template.TemplateCompiler;
+import org.rodnansol.core.generator.template.TemplateCompilerMemoryStoreConstants;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.generator.writer.postprocess.PostProcessPropertyGroupsCommand;
@@ -59,7 +60,7 @@ public class AggregationDocumenter {
         LOGGER.info("Creating documents and aggregating them based on the incoming command:[{}]", createAggregationCommand);
         Pair<List<SubTemplateData>, List<PropertyGroup>> result = createSubTemplateDataAndPropertyGroupList(createAggregationCommand);
         try {
-            templateCompiler.getMemoryStore().addItemToMemory("templateCustomization", createAggregationCommand.getTemplateCustomization());
+            templateCompiler.getMemoryStore().addItemToMemory(TemplateCompilerMemoryStoreConstants.TEMPLATE_CUSTOMIZATION, createAggregationCommand.getTemplateCustomization());
             createAndWriteContent(createAggregationCommand, result.getLeft(), result.getRight());
         } finally {
             templateCompiler.getMemoryStore().resetMemory();
@@ -94,7 +95,7 @@ public class AggregationDocumenter {
         Optional<CustomTemplate> optionalCustomTemplate = Optional.ofNullable(createAggregationCommand.getCustomTemplate());
         TemplateType templateType = createAggregationCommand.getTemplateType();
         ImmutablePair<String, String> renderedHeaderAndFooter = renderHeaderAndFooter(optionalCustomTemplate, templateType, mainTemplateData);
-        String aggregatedContent = renderContent(subTemplateDataList, optionalCustomTemplate, templateType);
+        String aggregatedContent = renderContent(createAggregationCommand.getTemplateCustomization(), subTemplateDataList, optionalCustomTemplate, templateType);
         writeRenderedSectionsToFile(createAggregationCommand, renderedHeaderAndFooter, aggregatedContent);
     }
 
@@ -106,16 +107,21 @@ public class AggregationDocumenter {
         return new ImmutablePair<>(header, footer);
     }
 
-    private String renderContent(List<SubTemplateData> subTemplateDataList, Optional<CustomTemplate> optionalCustomTemplate, TemplateType templateType) {
-        String contentTemplate = resolveContentTemplate(templateType, optionalCustomTemplate);
+    private String renderContent(TemplateCustomization templateCustomization, List<SubTemplateData> subTemplateDataList, Optional<CustomTemplate> optionalCustomTemplate, TemplateType templateType) {
+        String contentTemplate = resolveContentTemplate(templateCustomization, templateType, optionalCustomTemplate);
         return subTemplateDataList
             .stream()
             .map(templateData -> templateCompiler.compileTemplate(contentTemplate, templateData))
             .reduce("", String::concat);
     }
 
-    private String resolveContentTemplate(TemplateType templateType, Optional<CustomTemplate> optionalCustomTemplate) {
-        return optionalCustomTemplate.map(CustomTemplate::getCustomContentTemplate).filter(StringUtils::isNotBlank).orElse(templateType.getContentTemplate());
+    private String resolveContentTemplate(TemplateCustomization templateCustomization, TemplateType templateType, Optional<CustomTemplate> optionalCustomTemplate) {
+        return optionalCustomTemplate.map(CustomTemplate::getCustomContentTemplate).filter(StringUtils::isNotBlank)
+            .orElse(getContentTemplate(templateCustomization, templateType));
+    }
+
+    private String getContentTemplate(TemplateCustomization templateCustomization, TemplateType templateType) {
+        return templateCustomization.isCompactMode() ? templateType.getCompactContentTemplate() : templateType.getContentTemplate();
     }
 
     private void writeRenderedSectionsToFile(CreateAggregationCommand createAggregationCommand, ImmutablePair<String, String> renderedHeaderAndFooter, String aggregatedContent) {

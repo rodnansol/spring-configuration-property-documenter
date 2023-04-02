@@ -2,6 +2,7 @@ package org.rodnansol.core.generator.template.handlebars;
 
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
+import org.rodnansol.core.generator.template.TemplateCompilerMemoryStoreConstants;
 import org.rodnansol.core.generator.template.ThreadLocalTemplateCompilerStore;
 import org.rodnansol.core.generator.template.customization.ContentCustomization;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
@@ -14,7 +15,7 @@ import static java.util.Map.entry;
 import static java.util.Map.ofEntries;
 
 /**
- * Helper that reads the
+ * Helper that decides whether a property should be rendered or not.
  *
  * @author nandorholozsnyak
  * @since 0.6.0
@@ -39,7 +40,7 @@ public class IsIncludedHelper implements Helper<String> {
 
     @Override
     public Object apply(String context, Options options) throws IOException {
-        TemplateCustomization templateCustomization = threadLocalTemplateCompilerStore.getItem("templateCustomization");
+        TemplateCustomization templateCustomization = threadLocalTemplateCompilerStore.getItem(TemplateCompilerMemoryStoreConstants.TEMPLATE_CUSTOMIZATION);
         if (templateCustomization != null && FUNCTION_MAP.get(context).apply(templateCustomization.getContentCustomization())) {
             return options.fn(context);
         }
