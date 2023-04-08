@@ -38,8 +38,6 @@ To make sure these goals could be achieved proper requirements and documents are
 
 Developers like to automatize most of their "boring" tasks and creating documentation is a good candidate for this one, if the code itself contains enough information to make it as the "official" documentation, then why shouldn't we utilize tools that achieve these goals?
 
-Read the docs at https://rodnansol.github.io/[Rodnan Sol] website or open the *docs* folder.
-
 === Project
 The Spring Framework ships an annotation processing library that creates metadata from the classes thar are annotation with the `@ConfigurationProperties` annotation. This library is called `spring-boot-configuration-processor` and you can read more about it here: https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html[Configuration Metadata].
 
@@ -153,16 +151,43 @@ This tool will let you create:
 
 styled documents about your configuration properties.
 
-The tool is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine, if you would like to create custom templates check the <<Custom templates>> section.
+The tool is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine, if you would like to create custom templates check the xref:page$template-customization.adoc[] section.
 
 
-You can use our <<Maven>> plugin or our <<Gradle>> plugin to utilize the document generation tool.
+You can use our xref:page$maven-plugin.adoc[Maven] plugin or our xref:page$gradle-plugin.adoc[Gradle] plugin to utilize the document generation tool.
 
-WARNING: Until the Gradle plugin is not available you can use the <<JBang>> script for your Gradle projects.
 
 Check out the https://github.com/rodnansol/spring-configuration-property-documenter/tree/master/samples[samples] folder for the different samples.
 
 TIP: If you are using Spring with Quarkus, you can use this tool as well, please check out the Quarkus example in the *samples* folder.
+
+==== Results
+[%collapsible]
+.AsciiDoc
+====
+image::image$asciidoc-result.png[]
+image::image$asciidoc-result-2.png[]
+====
+
+[%collapsible]
+.Markdown
+====
+image::image$markdown-result.png[]
+====
+
+[%collapsible]
+.HTML
+====
+image::image$html-result.png[]
+====
+
+[%collapsible]
+.XML
+====
+image::image$xml-result.png[]
+====
+
+
 
 == Setup
 === Requirements
@@ -187,15 +212,15 @@ This Maven module contains the "core" codebase for the whole project, other modu
 
 [#maven-plugin]
 ==== spring-configuration-property-documenter-maven-plugin
-This Maven module is a Maven plugin implementation, please check the <<Maven>> part for the available goals and configuration.
+This Maven module is a Maven plugin implementation, please check the xref:page$maven-plugin.adoc[] part for the available goals and configuration.
 
 [#jbang-module]
 ==== jbang
-If you are not willing to use the Maven/Gradle plugin (that is coming soon), and you are familiar with JBang you can use this module where a `PropertyDocumenter` script is resides, to have a new entry point to the tool. Please read the <<JBang>> for more information.
+If you are not willing to use the Maven/Gradle plugin (that is coming soon), and you are familiar with JBang you can use this module where a `PropertyDocumenter` script is resides, to have a new entry point to the tool. Please read the xref:page$usage-jbang.adoc[] for more information.
 
 [#gradle-plugin]
 ==== spring-configuration-property-documenter-gradle-plugin
-This Maven module is a Gradle plugin implementation, please check the <<Gradle>> part for the available goals and configuration.
+This Maven module is a Gradle plugin implementation, please check the xref:page$gradle-plugin.adoc[] part for the available goals and configuration.
 
 == Usage
 
@@ -203,14 +228,12 @@ As said before the tool can be executed by multiple tools, by far probably the m
 
 === Entry points
 
-==== <<docs/maven-plugin.adoc#header, Maven>>
-
-==== <<docs/gradle-plugin.adoc#header, Gradle>>
-
-==== <<docs/usage-jbang.adoc#header, JBang>>
+* xref:page$maven-plugin.adoc[]
+* xref:page$gradle-plugin.adoc[]
+* xref:page$usage-jbang.adoc[]
 
 === Customization
-==== <<docs/template-customization.adoc#header, Custom templates>>
+*  xref:page$template-customization.adoc[]
 
 == Contribution
 

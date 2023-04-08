@@ -1,5 +1,5 @@
 [#header]
-= Spring Configuration Property Documenter - Migrations
+= Migrations
 ifndef::env-github[]
 :icons: font
 endif::[]

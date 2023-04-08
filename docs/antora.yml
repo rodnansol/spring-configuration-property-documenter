@@ -1,0 +1,7 @@
+name: spring-configuration-property-documenter
+title: Spring Configuration Property Documenter
+version: latest
+nav:
+  - modules/ROOT/nav.adoc
+  - modules/bears/nav.adoc
+  - modules/get-started/nav.adoc
