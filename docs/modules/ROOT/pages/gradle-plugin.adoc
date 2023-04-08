@@ -1,5 +1,5 @@
 [#header]
-= Spring Configuration Property Documenter - Gradle Plugin
+= Gradle Plugin
 ifndef::env-github[]
 :icons: font
 endif::[]
@@ -111,7 +111,7 @@ tasks.register('generateAdoc') { // <.>
 <7> Set the type of the document - *MARKDOWN*, *ADOC*, *HTML*, *XML*
 <8> Specify the metadata input file, it is optional if not specified it will be read from the following path: `build/classes/java/main/META-INF/spring-configuration-metadata.json`
 <9> Specify the output file, it is optional, if not specified the default output path will be: `build/property-docs/<modules-name>-property-docs.<template-extension>`
-<10> Apply any customization to the document - Please check out the available configuration properties <<template-customization#template-customizations,here>>
+<10> Apply any customization to the document - Please check out the available configuration properties <<template-customization.adoc#template-customizations,here>>
 
 Available customization blocks:
 
@@ -299,7 +299,7 @@ Or run them in two separate commands:
 |0.5.0
 
 |template
-|Template to be used during the generation, if not specified the default templates are going to be used, (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|Template to be used during the generation, if not specified the default templates are going to be used, (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization.adoc#template-customizations,template customization section>>
 |No
 |
 |0.5.0
@@ -311,7 +311,7 @@ Or run them in two separate commands:
 |0.5.0
 
 |markdownCustomization
-|Markdown customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|Markdown customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol.core.generator
 .template.customization
@@ -319,7 +319,7 @@ Or run them in two separate commands:
 |0.5.0
 
 |asciiDocCustomization
-|AsciiDoc customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|AsciiDoc customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol.core.generator
 .template.customization
@@ -327,7 +327,7 @@ Or run them in two separate commands:
 |0.5.0
 
 |htmlCustomization
-|HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|HTML customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol.core.generator
 .template.customization
@@ -335,7 +335,7 @@ Or run them in two separate commands:
 |0.5.0
 
 |xmlCustomization
-|XML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|XML customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol.core.generator
 .template.customization
@@ -431,7 +431,7 @@ Or run them in two separate commands:
 |0.5.0
 
 |markdownCustomization
-|Markdown customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|Markdown customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol
 .core.generator
@@ -440,7 +440,7 @@ Or run them in two separate commands:
 |0.5.0
 
 |asciiDocCustomization
-|AsciiDoc customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|AsciiDoc customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol
 .core.generator
@@ -449,7 +449,7 @@ Or run them in two separate commands:
 |0.5.0
 
 |htmlCustomization
-|HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|HTML customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol
 .core.generator
@@ -458,7 +458,7 @@ Or run them in two separate commands:
 |0.5.0
 
 |xmlCustomization
-|XML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|XML customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol
 .core.generator
@@ -479,7 +479,7 @@ Or run them in two separate commands:
 |0.5.0
 
 |templateCompilerName
-|Custom template compiler's fully qualified name - For more information check the  <<template-customization#template-customizations,template customization section>>
+|Custom template compiler's fully qualified name - For more information check the  <<template-customization.adoc#template-customizations,template customization section>>
 |No
 |`org.rodnansol.core
 .generator.template
@@ -487,19 +487,19 @@ Or run them in two separate commands:
 |0.5.0
 
 |headerTemplate
-|Custom header template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|Custom header template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization.adoc#template-customizations,template customization section>>
 |No
 |
 |0.5.0
 
 |contentTemplate
-|Custom content template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|Custom content template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization.adoc#template-customizations,template customization section>>
 |No
 |
 |0.5.0
 
 |footerTemplate
-|Custom footer template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|Custom footer template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization.adoc#template-customizations,template customization section>>
 |No
 |
 |0.5.0

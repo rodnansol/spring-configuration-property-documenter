@@ -82,3 +82,6 @@ snapshot-release:
 
 only-snapshot-release:
   mvn jreleaser:deploy -Prelease -N -Djreleaser-nexus-deploy.active=SNAPSHOT -X
+
+generate-antora:
+  antora local-playbook.yml

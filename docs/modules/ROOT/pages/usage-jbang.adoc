@@ -1,5 +1,5 @@
 [#header]
-= Spring Configuration Property Documenter -  with JBang
+= JBang usage
 ifndef::env-github[]
 :icons: font
 endif::[]

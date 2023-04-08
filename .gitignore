@@ -45,3 +45,4 @@ build/
 
 ## Docs outpus ##
 docs/*.html
+!build/site/.nojekyll

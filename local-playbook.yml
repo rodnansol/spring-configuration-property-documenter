@@ -1,0 +1,21 @@
+site:
+  title: Rodnan Sol
+  url: http://rodnansol.org
+  start_page: spring-configuration-property-documenter::index.adoc[]
+content:
+  sources:
+    - url: ./
+      branches: HEAD
+      start_path: docs
+ui:
+  bundle:
+    url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
+  supplemental_files:
+    - path: ui.yml
+      contents: |
+        static_files:
+        - .nojekyll
+    - path: .nojekyll
+antora:
+  extensions:
+    - '@antora/lunr-extension'

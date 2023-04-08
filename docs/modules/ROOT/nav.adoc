@@ -1,0 +1,12 @@
+* xref:index.adoc[Homepage]
+
+.Plugins / Usage
+* xref:maven-plugin.adoc[]
+* xref:gradle-plugin.adoc[]
+* xref:usage-jbang.adoc[]
+
+.Customization
+* xref:template-customization.adoc[]
+
+.Migration guides
+* xref:migrations.adoc[]

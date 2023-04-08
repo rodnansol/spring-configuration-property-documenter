@@ -1,5 +1,5 @@
 [#header]
-= Spring Configuration Property Documenter - Template Customization
+= Template Customization
 ifndef::env-github[]
 :icons: font
 endif::[]
@@ -149,7 +149,7 @@ By default, as written above https://jknack.github.io/handlebars.java/[Handlebar
 
 NOTE: For a single document only one template is being used, but for the aggregated documents the tool is using multiple templates to render the final template, it is because we are compiling the header, footer and the content section after each other, and we are merging them in the end.
 
-The custom templates can be provided with the Maven and Gradle plugins as well or with <<usage-jbang#header, JBang>> if this is your preference.
+The custom templates can be provided with the Maven and Gradle plugins as well or with <<usage-jbang.adoc#header, JBang>> if this is your preference.
 
 NOTE: Make sure you use your custom template file names with the `.hbs` extension, because Handlebars will put it to the end of the file.
 
@@ -434,7 +434,7 @@ There are few Java classes to be discovered if you wish:
 === TemplateCustomization subclasses
 
 .`org.rodnansol.core.generator.template.customization.AbstractTemplateCustomization`
-[cols="1,1,4,1,1"]
+[cols="2,1,3,1,1"]
 |===
 |Variable |Type |Description |Default value |Since
 
@@ -496,7 +496,7 @@ There are few Java classes to be discovered if you wish:
 
 [#content-customization]
 .`org.rodnansol.core.generator.template.customization.ContentCustomization`
-[cols="1,1,4,1,1"]
+[cols="2,1,3,1,1"]
 |===
 |Variable |Type |Description |Default value |Since
 
@@ -561,7 +561,7 @@ There are few Java classes to be discovered if you wish:
 |===
 
 .`org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization`
-[cols="1,1,4,2,1"]
+[cols="2,1,3,2,1"]
 |===
 |Variable |Type |Description |Default value |Since
 
@@ -580,7 +580,7 @@ There are few Java classes to be discovered if you wish:
 |===
 
 .`org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization`
-[cols="1,1,4,2,1"]
+[cols="2,1,3,2,1"]
 |===
 |Variable |Type |Description |Default value |Since
 
@@ -702,5 +702,5 @@ It's the default content:
 
 [source,properties]
 ----
-include::../spring-configuration-property-documenter-core/src/main/resources/messages.properties[]
+include::example$spring-configuration-property-documenter-core/src/main/resources/messages.properties[]
 ----

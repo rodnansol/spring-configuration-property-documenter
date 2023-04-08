@@ -1,5 +1,5 @@
 [#header]
-= Spring Configuration Property Documenter - Maven Plugin
+= Maven Plugin
 ifndef::env-github[]
 :icons: font
 endif::[]
@@ -98,7 +98,7 @@ For these cases we have to introduce a new module that will contain all the othe
 
 Check the diagram below:
 
-image::img/multi-module-maven-setup.png[Multi module Maven example]
+image::multi-module-maven-setup.png[Multi module Maven example]
 
 // [graphviz]
 // ....
@@ -277,7 +277,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.1.0
 
 |template
-|Template to be used during the generation, if not specified the default templates are going to be used, (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|Template to be used during the generation, if not specified the default templates are going to be used, (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization.adoc#template-customizations,template customization section>>
 |No
 |
 |0.1.0
@@ -289,7 +289,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.1.0
 
 |markdownCustomization
-|Markdown customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|Markdown customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol.core.generator
 .template.customization
@@ -297,7 +297,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.2.0
 
 |asciiDocCustomization
-|AsciiDoc customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|AsciiDoc customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol.core.generator
 .template.customization
@@ -305,7 +305,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.2.0
 
 |htmlCustomization
-|HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|HTML customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol.core.generator
 .template.customization
@@ -313,7 +313,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.2.0
 
 |xmlCustomization
-|XML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|XML customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol.core.generator
 .template.customization
@@ -409,7 +409,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.1.0
 
 |markdownCustomization
-|Markdown customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|Markdown customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol
 .core.generator
@@ -418,7 +418,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.2.0
 
 |asciiDocCustomization
-|AsciiDoc customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|AsciiDoc customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol
 .core.generator
@@ -427,7 +427,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.2.0
 
 |htmlCustomization
-|HTML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|HTML customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol
 .core.generator
@@ -436,7 +436,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.2.0
 
 |xmlCustomization
-|XML customization configurations. For more information check the class or <<template-customization#template-customizations,this>>.
+|XML customization configurations. For more information check the class or <<template-customization.adoc#template-customizations,this>>.
 |No
 |`org.rodnansol
 .core.generator
@@ -457,7 +457,7 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.1.0
 
 |templateCompilerName
-|Custom template compiler's fully qualified name - For more information check the  <<template-customization#template-customizations,template customization section>>
+|Custom template compiler's fully qualified name - For more information check the  <<template-customization.adoc#template-customizations,template customization section>>
 |No
 |`org.rodnansol.core
 .generator.template
@@ -465,19 +465,19 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |0.2.0
 
 |headerTemplate
-|Custom header template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|Custom header template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization.adoc#template-customizations,template customization section>>
 |No
 |
 |0.2.1
 
 |contentTemplate
-|Custom content template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|Custom content template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization.adoc#template-customizations,template customization section>>
 |No
 |
 |0.2.1
 
 |footerTemplate
-|Custom footer template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization#template-customizations,template customization section>>
+|Custom footer template file's path (by default the file's name must end with `.hbs` but in this property the `.hbs` extension must be omitted) - For more information check the  <<template-customization.adoc#template-customizations,template customization section>>
 |No
 |
 |0.2.1
