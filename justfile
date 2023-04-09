@@ -85,3 +85,6 @@ only-snapshot-release:
 
 generate-antora:
   antora local-playbook.yml
+
+generate-antora:
+  antora local-playbook.yml
