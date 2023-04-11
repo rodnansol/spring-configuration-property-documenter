@@ -2,7 +2,6 @@
 ## Table of Contents
 * [**Unknown group** - `Unknown`](#Unknown group)
 
-
 ### Unknown group
 **Class:** `Unknown`
 

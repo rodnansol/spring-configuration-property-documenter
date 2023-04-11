@@ -1,5 +1,6 @@
 package org.rodnansol.core.generator.writer;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -56,8 +57,17 @@ class AggregationDocumenterIT {
         );
     }
 
+    public static Stream<TestCase> compactModeCases() {
+        return Stream.of(
+            new TestCase(TEST_JSON, TemplateType.MARKDOWN, MAIN_EXPECTED_FOLDER + "expected-compact-mode.md"),
+            new TestCase(TEST_JSON, TemplateType.ADOC, MAIN_EXPECTED_FOLDER + "expected-compact-mode.adoc"),
+            new TestCase(TEST_JSON, TemplateType.HTML, MAIN_EXPECTED_FOLDER + "expected-compact-mode.html")
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("noEnvFormatCases")
+    @DisplayName("Should NOT include environment variable format when disabled")
     void readMetadataAndGenerateRenderedFile_shouldNotRenderEnvironmentFormatIntoFinalFile_whenEnvironmentFormatIsDisabled(TestCase testCase) throws IOException {
         // Given
         TemplateType templateType = testCase.templateType;
@@ -75,12 +85,31 @@ class AggregationDocumenterIT {
 
     @ParameterizedTest
     @MethodSource("envFormatCases")
+    @DisplayName("Should include environment variable format when enabled")
     void readMetadataAndGenerateRenderedFile_shouldRenderEnvironmentFormatIntoFinalFile_whenEnvironmentFormatIsEnabled(TestCase testCase) throws IOException {
         // Given
         TemplateType templateType = testCase.templateType;
         Path resolve = tempDir.resolve("IT-output-aggregated-with-env-format-" + templateType.name() + templateType.getExtension());
         AbstractTemplateCustomization templateCustomization = getTemplateCustomization(templateType);
         templateCustomization.getContentCustomization().setIncludeEnvFormat(true);
+        CreateAggregationCommand command = getCreateAggregationCommand(testCase, templateType, resolve, templateCustomization);
+
+        // When
+        underTest.createDocumentsAndAggregate(command);
+
+        // Then
+        assertThat(resolve).hasSameTextualContentAs(Path.of(testCase.expectedFile));
+    }
+
+    @ParameterizedTest
+    @MethodSource("compactModeCases")
+    @DisplayName("Should render document in compact mode when compact mode is enabled")
+    void readMetadataAndGenerateRenderedFile_shouldReturnDocumentInCompactMode_whenCompactModeIsEnabled(TestCase testCase) throws IOException {
+        // Given
+        TemplateType templateType = testCase.templateType;
+        Path resolve = tempDir.resolve("IT-output-aggregated-compact-mode-" + templateType.name() + templateType.getExtension());
+        AbstractTemplateCustomization templateCustomization = getTemplateCustomization(templateType);
+        templateCustomization.setCompactMode(true);
         CreateAggregationCommand command = getCreateAggregationCommand(testCase, templateType, resolve, templateCustomization);
 
         // When

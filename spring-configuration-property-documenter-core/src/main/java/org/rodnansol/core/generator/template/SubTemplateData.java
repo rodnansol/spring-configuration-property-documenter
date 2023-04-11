@@ -61,6 +61,7 @@ public class SubTemplateData implements TemplateData {
         this.templateCustomization = templateCustomization;
     }
 
+    @Override
     public List<Property> getAggregatedProperties() {
         return propertyGroups.stream()
             .flatMap(groups -> groups.getProperties().stream())

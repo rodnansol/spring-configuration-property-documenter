@@ -5,6 +5,7 @@ import org.rodnansol.core.generator.template.customization.TemplateCustomization
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Class representing the main template data.
@@ -92,6 +93,13 @@ public class MainTemplateData implements TemplateData {
 
     public void setTemplateCustomization(TemplateCustomization templateCustomization) {
         this.templateCustomization = templateCustomization;
+    }
+
+    @Override
+    public List<Property> getAggregatedProperties() {
+        return propertyGroups.stream()
+            .flatMap(groups -> groups.getProperties().stream())
+            .collect(Collectors.toList());
     }
 
     @Override
