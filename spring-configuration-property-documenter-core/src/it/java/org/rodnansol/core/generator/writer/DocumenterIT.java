@@ -1,5 +1,6 @@
 package org.rodnansol.core.generator.writer;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,6 +18,7 @@ import org.rodnansol.core.generator.template.customization.XmlTemplateCustomizat
 import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
 import org.rodnansol.core.project.ProjectFactory;
 import org.rodnansol.core.project.simple.SimpleProject;
+import org.springframework.util.FileSystemUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,9 +74,7 @@ class DocumenterIT {
         underTest.readMetadataAndGenerateRenderedFile(command);
 
         // Then
-        List<String> actualFile = Files.readAllLines(resolve);
-        List<String> expectedFile = Files.readAllLines(Path.of(testCase.expectedFile));
-        assertThat(actualFile).containsExactlyElementsOf(expectedFile);
+        assertThat(resolve).hasSameTextualContentAs(Path.of(testCase.expectedFile));
     }
 
     @ParameterizedTest
@@ -92,9 +92,7 @@ class DocumenterIT {
         underTest.readMetadataAndGenerateRenderedFile(command);
 
         // Then
-        List<String> actualFile = Files.readAllLines(resolve);
-        List<String> expectedFile = Files.readAllLines(Path.of(testCase.expectedFile));
-        assertThat(actualFile).containsExactlyElementsOf(expectedFile);
+        assertThat(resolve).hasSameTextualContentAs(Path.of(testCase.expectedFile));
     }
 
     private static AbstractTemplateCustomization getTemplateCustomization(TemplateType templateType) {

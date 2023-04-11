@@ -3,9 +3,8 @@
 <body>
 {{#templateCustomization}}
 {{#if headerEnabled}}
-<h1 class="center center-text">{{mainName}}</h1>
-<p class="center-text"> {{mainDescription}}</p>
+{{#if mainName}}<h1 class="center center-text">{{mainName}}</h1>{{/if}}
+{{#if mainDescription}}<p class="center-text"> {{mainDescription}}</p>{{/if}}
 {{/if}}
-{{/templateCustomization}}
 {{> templates/partials/html/toc.html}}
-
+{{/templateCustomization}}

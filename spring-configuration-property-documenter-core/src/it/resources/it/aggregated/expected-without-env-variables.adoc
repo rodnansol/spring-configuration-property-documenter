@@ -1,15 +1,9 @@
-
 = IT
 :toc: auto
 :toc-title: Table of Contents
 :toclevels: 4
-
-
-
 // tag::Document 1[]
 == Document 1
-
-
 // tag::Unknown group[]
 ifndef::property-group-simple-title,property-group-discrete-heading[=== Unknown group +]
 ifdef::property-group-simple-title[.*_Unknown group_* +]
@@ -18,7 +12,6 @@ ifdef::property-group-discrete-heading[]
 === Unknown group
 endif::[]
 *Class:* `Unknown`
-
 [cols="2,1,3,1,1"]
 |===
 |Key |Type |Description |Default value |Deprecation
@@ -29,13 +22,11 @@ endif::[]
 |true
 |
 
-
 |myproduct.features.foobar.number
 |java.lang.Number
 |Number value
 |12.99
 |
-
 
 |myproduct.features.foobar.value
 |java.lang.String
@@ -44,15 +35,11 @@ endif::[]
 |
 
 
-
 |===
 // end::Unknown group[]
-
 // end::Document 1[]
 // tag::Document 2[]
 == Document 2
-
-
 // tag::Unknown group[]
 ifndef::property-group-simple-title,property-group-discrete-heading[=== Unknown group +]
 ifdef::property-group-simple-title[.*_Unknown group_* +]
@@ -61,7 +48,6 @@ ifdef::property-group-discrete-heading[]
 === Unknown group
 endif::[]
 *Class:* `Unknown`
-
 [cols="2,1,3,1,1"]
 |===
 |Key |Type |Description |Default value |Deprecation
@@ -72,13 +58,11 @@ endif::[]
 |true
 |
 
-
 |myproduct.features.foobar.number
 |java.lang.Number
 |Number value
 |12.99
 |
-
 
 |myproduct.features.foobar.value
 |java.lang.String
@@ -87,9 +71,6 @@ endif::[]
 |
 
 
-
 |===
 // end::Unknown group[]
-
 // end::Document 2[]
-

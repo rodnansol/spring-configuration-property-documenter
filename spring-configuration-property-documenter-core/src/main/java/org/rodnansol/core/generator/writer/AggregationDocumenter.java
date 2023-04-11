@@ -116,8 +116,9 @@ public class AggregationDocumenter {
     }
 
     private String resolveContentTemplate(TemplateCustomization templateCustomization, TemplateType templateType, Optional<CustomTemplate> optionalCustomTemplate) {
-        return optionalCustomTemplate.map(CustomTemplate::getCustomContentTemplate).filter(StringUtils::isNotBlank)
-            .orElse(getContentTemplate(templateCustomization, templateType));
+        return optionalCustomTemplate.map(CustomTemplate::getCustomContentTemplate)
+            .filter(StringUtils::isNotBlank)
+            .orElseGet(() -> getContentTemplate(templateCustomization, templateType));
     }
 
     private String getContentTemplate(TemplateCustomization templateCustomization, TemplateType templateType) {

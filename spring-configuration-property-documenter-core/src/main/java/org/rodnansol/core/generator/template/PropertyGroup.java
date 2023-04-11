@@ -25,10 +25,7 @@ public class PropertyGroup {
     private boolean unknownGroup = false;
 
     public PropertyGroup(String groupName, String type, String sourceType) {
-        this.groupName = groupName;
-        this.type = type;
-        this.sourceType = sourceType;
-        this.nested = !type.equals(sourceType);
+        this(groupName,type,sourceType,new ArrayList<>());
     }
 
     public PropertyGroup(String groupName, String type, String sourceType, List<Property> properties) {
@@ -36,7 +33,7 @@ public class PropertyGroup {
         this.type = type;
         this.sourceType = sourceType;
         this.nested = !type.equals(sourceType);
-        this.properties = properties;
+        this.properties = Objects.requireNonNull(properties,"properties is NULL");
     }
 
     /**

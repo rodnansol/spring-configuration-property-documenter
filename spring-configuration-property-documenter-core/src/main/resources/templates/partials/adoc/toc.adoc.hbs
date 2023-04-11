@@ -1,0 +1,9 @@
+{{#if tableOfContentsEnabled ~}}
+{{#if tocPlacement ~}}
+:toc: {{tocPlacement}}
+{{/if ~}}
+:toc-title: {{#if tocTitle}}{{tocTitle}}{{else}}{{i18n "template.toc"}}{{/if}}
+{{#if tocLevels ~}}
+:toclevels: {{tocLevels}}
+{{/if ~}}
+{{/if ~}}

@@ -70,9 +70,7 @@ class AggregationDocumenterIT {
         underTest.createDocumentsAndAggregate(command);
 
         // Then
-        List<String> actualFile = Files.readAllLines(resolve);
-        List<String> expectedFile = Files.readAllLines(Path.of(testCase.expectedFile));
-        assertThat(actualFile).containsExactlyElementsOf(expectedFile);
+        assertThat(resolve).hasSameTextualContentAs(Path.of(testCase.expectedFile));
     }
 
     @ParameterizedTest
@@ -89,9 +87,7 @@ class AggregationDocumenterIT {
         underTest.createDocumentsAndAggregate(command);
 
         // Then
-        List<String> actualFile = Files.readAllLines(resolve);
-        List<String> expectedFile = Files.readAllLines(Path.of(testCase.expectedFile));
-        assertThat(actualFile).containsExactlyElementsOf(expectedFile);
+        assertThat(resolve).hasSameTextualContentAs(Path.of(testCase.expectedFile));
     }
 
     private AbstractTemplateCustomization getTemplateCustomization(TemplateType templateType) {

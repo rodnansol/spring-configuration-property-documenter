@@ -4,6 +4,8 @@ import org.rodnansol.core.generator.template.customization.TemplateCustomization
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Class representing a sub template data.
@@ -22,7 +24,7 @@ public class SubTemplateData implements TemplateData {
 
     public SubTemplateData(String moduleName, List<PropertyGroup> propertyGroups) {
         this.moduleName = moduleName;
-        this.propertyGroups = propertyGroups;
+        this.propertyGroups = Objects.requireNonNull(propertyGroups,"propertyGroups is NULL");
     }
 
     public String getModuleName() {
@@ -57,6 +59,12 @@ public class SubTemplateData implements TemplateData {
     @Override
     public void setTemplateCustomization(TemplateCustomization templateCustomization) {
         this.templateCustomization = templateCustomization;
+    }
+
+    public List<Property> getAggregatedProperties() {
+        return propertyGroups.stream()
+            .flatMap(groups -> groups.getProperties().stream())
+            .collect(Collectors.toList());
     }
 
     @Override

@@ -74,13 +74,13 @@ public class CombinedInput {
     @Override
     public String toString() {
         return "CombinedInput{" +
-            "input=" + input +
-            ", sectionName='" + sectionName + '\'' +
-            ", description='" + description + '\'' +
-            ", excludedProperties=" + excludedProperties +
-            ", includedProperties=" + includedProperties +
-            ", excludedGroups=" + excludedGroups +
-            ", includedGroups=" + includedGroups +
+            "input=" + input + '\n' +
+            ", sectionName='" + sectionName + '\'' + '\n' +
+            ", description='" + description + '\'' + '\n' +
+            ", excludedProperties=" + excludedProperties + '\n' +
+            ", includedProperties=" + includedProperties + '\n' +
+            ", excludedGroups=" + excludedGroups + '\n' +
+            ", includedGroups=" + includedGroups + '\n' +
             '}';
     }
 }

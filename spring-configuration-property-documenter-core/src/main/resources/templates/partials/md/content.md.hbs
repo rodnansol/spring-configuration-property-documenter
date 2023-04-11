@@ -1,11 +1,16 @@
-{{#if moduleName}}## {{moduleName}}{{/if}}
-{{#if moduleDescription}}{{moduleDescription}}{{/if}}
-{{#each propertyGroups}}
+{{#if moduleName ~}}
+## {{moduleName}}
+{{/if ~}}
+{{#if moduleDescription~}}
+{{moduleDescription}}
+{{/if~}}
+{{#each propertyGroups~}}
 ### {{groupName}}
-{{#is_included "class"}}**{{i18n "template.class"}}:** `{{type}}`{{/is_included}}
-
-|{{#is_included "key"}}{{i18n "template.key"}}|{{/is_included}}{{#is_included "type"}}{{i18n "template.type"}}|{{/is_included}}{{#is_included "description"}}{{i18n "template.description"}}|{{/is_included}}{{#is_included "defaultValue"}}{{i18n "template.defaultValue"}}|{{/is_included}}{{#is_included "deprecation"}}{{i18n "template.deprecation"}}|{{/is_included}}{{#is_included "envFormat"}}{{i18n "template.environmentVariable"}} |{{/is_included}}
-|{{#is_included "key"}}---|{{/is_included}}{{#is_included "type"}}----|{{/is_included}}{{#is_included "description"}}-----------|{{/is_included}}{{#is_included "defaultValue"}}-------------|{{/is_included}}{{#is_included "deprecation"}}-----------|{{/is_included}}{{#is_included "envFormat"}}----------------------|{{/is_included}}
-{{#each properties}}| {{#is_included "key"}}{{key}}|{{/is_included}} {{#is_included "type"}}{{type}}|{{/is_included}} {{#is_included "description"}}{{description}}|{{/is_included}} {{#is_included "defaultValue"}}{{defaultValue}}|{{/is_included}} {{#is_included "deprecation"}}{{propertyDeprecation}}|{{/is_included}} {{#is_included "envFormat"}}`{{as_env fqName}}`|{{/is_included}}
-{{/each}}
+{{#is_included "class" ~}}
+**{{i18n "template.class"}}:** `{{type}}`
+{{/is_included}}
+{{> templates/partials/md/content-table-header.md}}
+{{#each properties ~}}
+| {{#is_included "key"}}{{key}}|{{/is_included}} {{#is_included "type"}}{{type}}|{{/is_included}} {{#is_included "description"}}{{description}}|{{/is_included}} {{#is_included "defaultValue"}}{{defaultValue}}|{{/is_included}} {{#is_included "deprecation"}}{{propertyDeprecation}}|{{/is_included}} {{#is_included "envFormat"}}`{{as_env fqName}}`|{{/is_included}}
+{{/each ~}}
 {{/each}}

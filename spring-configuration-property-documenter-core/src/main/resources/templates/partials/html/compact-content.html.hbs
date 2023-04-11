@@ -1,12 +1,30 @@
-            {{#each propertyGroups}}
-            {{#each properties}}
-                <tr>
-                    {{#is_included "key"}}<td>{{fqName}}</td>{{/is_included}}
-                    {{#is_included "type"}}<td>{{type}}</td>{{/is_included}}
-                    {{#is_included "description"}}<td>{{description}}</td>{{/is_included}}
-                    {{#is_included "defaultValue"}}<td>{{defaultValue}}</td>{{/is_included}}
-                    {{#is_included "deprecation"}}<td>{{propertyDeprecation}}</td>{{/is_included}}
-                    {{#is_included "envFormat"}}<td>{{as_env fqName}}</td> {{/is_included}}
-                </tr>
-            {{/each}}
-            {{/each}}
+<div class="center">
+    <table class="table">
+        {{> templates/partials/html/content-table-header.html}}
+        <tbody>
+        {{#each aggregatedProperties ~}}
+            <tr>
+                {{#is_included "key" ~}}
+                <td>{{fqName}}</td>
+                {{/is_included ~}}
+                {{#is_included "type" ~}}
+                <td>{{type}}</td>
+                {{/is_included ~}}
+                {{#is_included "description" ~}}
+                <td>{{description}}</td>
+                {{/is_included ~}}
+                {{#is_included "defaultValue" ~}}
+                <td>{{defaultValue}}</td>
+                {{/is_included ~}}
+                {{#is_included "deprecation" ~}}
+                <td>{{propertyDeprecation}}</td>
+                {{/is_included ~}}
+                {{#is_included "envFormat" ~}}
+                <td>{{as_env fqName}}</td>
+                {{/is_included ~}}
+            </tr>
+        {{/each ~}}
+        </tbody>
+    </table>
+    <hr>
+</div>

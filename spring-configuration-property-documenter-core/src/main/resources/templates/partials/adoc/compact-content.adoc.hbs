@@ -1,7 +1,20 @@
-{{#each propertyGroups}}{{#each properties}}
-{{#is_included "key"}}|{{fqName}}{{/is_included}}
-{{#is_included "type"}}|{{type}}{{/is_included}}
-{{#is_included "description"}}|{{description}}{{/is_included}}
-{{#is_included "defaultValue"}}|{{defaultValue}}{{/is_included}}
-{{#is_included "deprecation"}}|{{propertyDeprecation}}{{/is_included}}
-{{#is_included "envFormat"}}|`{{as_env fqName}}` {{/is_included}}{{/each}}{{/each}}
+{{#each aggregatedProperties ~}}
+{{#is_included "key" ~}}
+|{{fqName}}
+{{/is_included ~}}
+{{#is_included "type" ~}}
+|{{type}}
+{{/is_included ~}}
+{{#is_included "description" ~}}
+|{{description}}
+{{/is_included ~}}
+{{#is_included "defaultValue" ~}}
+|{{defaultValue}}
+{{/is_included ~}}
+{{#is_included "deprecation" ~}}
+|{{propertyDeprecation}}
+{{/is_included ~}}
+{{#is_included "envFormat" ~}}
+|`{{as_env fqName}}`
+{{/is_included ~}}
+{{/each ~}}

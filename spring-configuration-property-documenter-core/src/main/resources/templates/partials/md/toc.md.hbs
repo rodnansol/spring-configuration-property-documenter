@@ -1,0 +1,15 @@
+{{#if tableOfContentsEnabled ~}}
+## {{#if tocTitle}}{{tocTitle}}{{else}}{{i18n "template.toc"}}{{/if}}
+{{#if subTemplateDataList ~}}
+{{#each subTemplateDataList ~}}
+* [**{{moduleName}}**](#{{moduleName}})
+{{~#each propertyGroups}}
+  * [**{{groupName}}** - `{{type}}`](#{{groupName}})
+{{/each ~}}
+{{/each ~}}
+{{else ~}}
+{{#each propertyGroups ~}}
+* [**{{groupName}}** - `{{type}}`](#{{groupName}})
+{{/each ~}}
+{{/if ~}}
+{{/if ~}}

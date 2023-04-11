@@ -76,15 +76,15 @@ public class CreateAggregationCommand {
 
     @Override
     public String toString() {
-        return "CreateAggregationCommand{" +
-            "project=" + project +
-            ", aggregatedDocumentHeader='" + aggregatedDocumentHeader + '\'' +
-            ", combinedInputs=" + combinedInputs +
-            ", templateType=" + templateType +
-            ", templateCustomization=" + templateCustomization +
-            ", output=" + output +
-            ", description='" + description + '\'' +
-            ", customTemplate=" + customTemplate +
+        return "CreateAggregationCommand{ \n" +
+            "project=" + project + '\n' +
+            ", aggregatedDocumentHeader='" + aggregatedDocumentHeader + '\'' + '\n' +
+            ", combinedInputs=" + combinedInputs + '\n' +
+            ", templateType=" + templateType + '\n' +
+            ", templateCustomization=" + templateCustomization + '\n' +
+            ", output=" + output + '\n' +
+            ", description='" + description + '\'' + '\n' +
+            ", customTemplate=" + customTemplate + '\n' +
             '}';
     }
 }
