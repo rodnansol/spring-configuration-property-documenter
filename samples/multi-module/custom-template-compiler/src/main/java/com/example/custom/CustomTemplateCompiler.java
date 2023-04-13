@@ -1,8 +1,8 @@
 package com.example.custom;
 
 import org.rodnansol.core.generator.DocumentGenerationException;
-import org.rodnansol.core.generator.template.TemplateCompiler;
-import org.rodnansol.core.generator.template.TemplateData;
+import org.rodnansol.core.generator.template.compiler.TemplateCompiler;
+import org.rodnansol.core.generator.template.data.TemplateData;
 
 public class CustomTemplateCompiler implements TemplateCompiler {
 

@@ -1,10 +1,12 @@
-package org.rodnansol.core.generator.template;
+package org.rodnansol.core.generator.template.compiler;
 
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.rodnansol.core.generator.template.compiler.TemplateCompiler;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerFactory;
 
 import java.util.stream.Stream;
 
@@ -14,8 +16,8 @@ class TemplateCompilerFactoryTest {
 
     static Stream<Arguments> validClassNameSource() {
         return Stream.of(
-            Arguments.of("org.rodnansol.core.generator.template.TestCompiler", "TestCompiler Template"),
-            Arguments.of("org.rodnansol.core.generator.template.AnotherTestCompiler", "Another Test Compiler Template")
+            Arguments.of("org.rodnansol.core.generator.template.compiler.TestCompiler", "TestCompiler Template"),
+            Arguments.of("org.rodnansol.core.generator.template.compiler.AnotherTestCompiler", "Another Test Compiler Template")
         );
     }
 

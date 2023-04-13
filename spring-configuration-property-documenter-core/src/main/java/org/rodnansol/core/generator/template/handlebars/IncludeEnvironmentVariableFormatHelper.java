@@ -2,7 +2,7 @@ package org.rodnansol.core.generator.template.handlebars;
 
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
-import org.rodnansol.core.generator.template.TemplateData;
+import org.rodnansol.core.generator.template.data.TemplateData;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author nandorholozsnyak
  * @since 0.4.0
  */
-public class IncludeEnvironmentVariableFormatHelper implements Helper<TemplateData> {
+class IncludeEnvironmentVariableFormatHelper implements Helper<TemplateData> {
 
     @Override
     public Object apply(TemplateData context, Options options) throws IOException {

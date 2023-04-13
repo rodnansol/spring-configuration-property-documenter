@@ -1,6 +1,7 @@
 package org.rodnansol.core.generator.template.customization;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
+import org.rodnansol.core.generator.template.TemplateMode;
 
 /**
  * Class represents a template customization object.
@@ -81,6 +82,6 @@ public interface TemplateCustomization {
      *
      * @since 0.6.0
      */
-    boolean isCompactMode();
+    TemplateMode getTemplateMode();
 
 }

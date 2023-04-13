@@ -1,4 +1,4 @@
-package org.rodnansol.core.generator.template;
+package org.rodnansol.core.generator.template.compiler;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
 

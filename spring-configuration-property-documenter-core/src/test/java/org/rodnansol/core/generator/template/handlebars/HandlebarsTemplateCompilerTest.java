@@ -1,4 +1,4 @@
-package org.rodnansol.core.generator.template;
+package org.rodnansol.core.generator.template.handlebars;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
+import org.rodnansol.core.generator.template.data.MainTemplateData;
 import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
 
 import java.io.IOException;

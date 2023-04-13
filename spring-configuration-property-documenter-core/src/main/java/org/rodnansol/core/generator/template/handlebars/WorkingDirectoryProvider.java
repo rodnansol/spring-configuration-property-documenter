@@ -9,7 +9,7 @@ import java.nio.file.Paths;
  * @author nandorholozsnyak
  * @since 0.2.1
  */
-public class WorkingDirectoryProvider {
+class WorkingDirectoryProvider {
 
     public static final WorkingDirectoryProvider INSTANCE = new WorkingDirectoryProvider();
 

@@ -4,9 +4,9 @@ import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.helper.I18nHelper;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import org.rodnansol.core.generator.DocumentGenerationException;
-import org.rodnansol.core.generator.template.TemplateCompiler;
-import org.rodnansol.core.generator.template.TemplateData;
-import org.rodnansol.core.generator.template.ThreadLocalTemplateCompilerStore;
+import org.rodnansol.core.generator.template.compiler.TemplateCompiler;
+import org.rodnansol.core.generator.template.data.TemplateData;
+import org.rodnansol.core.generator.template.compiler.ThreadLocalTemplateCompilerStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +21,7 @@ import java.util.Objects;
  * <ul>
  *     <li>as_env - Converts the property key to its environment variable format.</li>
  *     <li>is_included - Checks if the given parameters should be rendered in the final document or not.</li>
+ *     <li>is_compact_mode - Checks if the incoming template customization has the compact mode enabled or not.</li>
  * </ul>
  *
  * @author nandorholozsnyak

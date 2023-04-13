@@ -1,7 +1,7 @@
 package org.rodnansol.core.generator.writer.postprocess;
 
-import org.rodnansol.core.generator.template.PropertyGroup;
-import org.rodnansol.core.generator.template.PropertyGroupConstants;
+import org.rodnansol.core.generator.template.data.PropertyGroup;
+import org.rodnansol.core.generator.template.data.PropertyGroupConstants;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

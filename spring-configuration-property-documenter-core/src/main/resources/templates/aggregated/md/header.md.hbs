@@ -1,14 +1,1 @@
-{{#templateCustomization ~}}
-{{#if headerEnabled ~}}
-{{#if mainName ~}}
-# {{mainName}}
-{{/if ~}}
-{{#if mainDescription ~}}
-{{mainDescription}}
-{{/if ~}}
-{{/if ~}}
-{{> templates/partials/md/toc.md}}
-{{/templateCustomization~}}
-{{#is_compact_mode ~}}
-{{> templates/partials/md/content-table-header.md ~}}
-{{/is_compact_mode ~}}
+{{> templates/partials/md/main-header.md ~}}

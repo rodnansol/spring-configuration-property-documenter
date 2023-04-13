@@ -2,8 +2,9 @@ package org.rodnansol.core.generator.template.handlebars;
 
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
-import org.rodnansol.core.generator.template.TemplateCompilerMemoryStoreConstants;
-import org.rodnansol.core.generator.template.ThreadLocalTemplateCompilerStore;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerMemoryStoreConstants;
+import org.rodnansol.core.generator.template.TemplateMode;
+import org.rodnansol.core.generator.template.compiler.ThreadLocalTemplateCompilerStore;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.io.IOException;
  * @author nandorholozsnyak
  * @since 0.6.0
  */
-public class IsCompactModeHelper implements Helper<Object> {
+class IsCompactModeHelper implements Helper<Object> {
 
     private final ThreadLocalTemplateCompilerStore threadLocalTemplateCompilerStore;
 
@@ -25,7 +26,7 @@ public class IsCompactModeHelper implements Helper<Object> {
     @Override
     public Object apply(Object context, Options options) throws IOException {
         TemplateCustomization templateCustomization = threadLocalTemplateCompilerStore.getItem(TemplateCompilerMemoryStoreConstants.TEMPLATE_CUSTOMIZATION);
-        if (templateCustomization != null && templateCustomization.isCompactMode()) {
+        if (templateCustomization != null && templateCustomization.getTemplateMode() == TemplateMode.COMPACT) {
             return options.fn(context);
         }
         return options.inverse(context);

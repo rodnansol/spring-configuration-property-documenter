@@ -1,7 +1,8 @@
-package org.rodnansol.core.generator.template;
+package org.rodnansol.core.generator.template.compiler;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import org.rodnansol.core.generator.DocumentGenerationException;
+import org.rodnansol.core.generator.template.data.TemplateData;
 
 /**
  * Class that handles the template compiling.

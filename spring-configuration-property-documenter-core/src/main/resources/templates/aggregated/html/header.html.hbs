@@ -1,13 +1,1 @@
-<html lang="en">
-{{> templates/partials/html/header.html}}
-<body>
-{{#templateCustomization}}
-{{#if headerEnabled}}
-{{#if mainName}}<h1 class="center center-text">{{mainName}}</h1>{{/if}}
-{{#if mainDescription}}<p class="center-text"> {{mainDescription}}</p>{{/if}}
-{{/if}}
-{{> templates/partials/html/toc.html}}
-{{/templateCustomization}}
-{{#is_compact_mode ~}}
-{{> templates/partials/html/compact-table-header.html}}
-{{/is_compact_mode}}
+{{> templates/partials/html/main-header.html}}

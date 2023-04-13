@@ -8,11 +8,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.MainTemplateData;
-import org.rodnansol.core.generator.template.Property;
-import org.rodnansol.core.generator.template.PropertyGroup;
-import org.rodnansol.core.generator.template.TemplateCompiler;
-import org.rodnansol.core.generator.template.TemplateCompilerMemoryStore;
+import org.rodnansol.core.generator.template.data.MainTemplateData;
+import org.rodnansol.core.generator.template.data.Property;
+import org.rodnansol.core.generator.template.data.PropertyGroup;
+import org.rodnansol.core.generator.template.compiler.TemplateCompiler;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerMemoryStore;
+import org.rodnansol.core.generator.template.TemplateMode;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
 import org.rodnansol.core.generator.writer.postprocess.PostProcessPropertyGroupsCommand;
@@ -65,7 +66,7 @@ class DocumenterTest {
         SimpleProject project = ProjectFactory.ofSimpleProject(new File("."), TEST);
         File inputFile = new File("input-file");
         File output = tempDir.resolve("output-file").toFile();
-        String singleTemplate = TemplateType.ADOC.getSingleTemplate();
+        String singleTemplate = TemplateType.ADOC.getSingleTemplate(TemplateMode.STANDARD);
         CreateDocumentCommand command = getCreateDocumentCommand(project, inputFile, output, singleTemplate);
 
         // When

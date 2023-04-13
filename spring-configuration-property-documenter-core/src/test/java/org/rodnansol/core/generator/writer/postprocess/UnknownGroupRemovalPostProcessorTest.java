@@ -1,8 +1,8 @@
 package org.rodnansol.core.generator.writer.postprocess;
 
 import org.junit.jupiter.api.Test;
-import org.rodnansol.core.generator.template.Property;
-import org.rodnansol.core.generator.template.PropertyGroup;
+import org.rodnansol.core.generator.template.data.Property;
+import org.rodnansol.core.generator.template.data.PropertyGroup;
 import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
 
 import java.util.ArrayList;

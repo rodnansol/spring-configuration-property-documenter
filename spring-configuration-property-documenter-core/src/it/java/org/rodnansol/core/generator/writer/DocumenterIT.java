@@ -1,6 +1,5 @@
 package org.rodnansol.core.generator.writer;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
@@ -9,7 +8,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.TemplateCompilerFactory;
+import org.rodnansol.core.generator.template.TemplateMode;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.AbstractTemplateCustomization;
 import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
@@ -19,13 +19,10 @@ import org.rodnansol.core.generator.template.customization.XmlTemplateCustomizat
 import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
 import org.rodnansol.core.project.ProjectFactory;
 import org.rodnansol.core.project.simple.SimpleProject;
-import org.springframework.util.FileSystemUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,9 +31,11 @@ import static org.assertj.core.api.Assertions.fail;
 @ExtendWith(MockitoExtension.class)
 class DocumenterIT {
 
-    protected static final SimpleProject PROJECT = ProjectFactory.ofSimpleProject(new File("."), "IT");
+    protected static final String TEST_DOCUMENT_HEADER = "IT";
+    protected static final SimpleProject PROJECT = ProjectFactory.ofSimpleProject(new File("."), TEST_DOCUMENT_HEADER);
     private static final String MAIN_EXPECTED_FOLDER = "src/it/resources/it/single/";
     private static final String TEST_JSON = MAIN_EXPECTED_FOLDER + "spring-configuration-metadata-empty-sourceType.json";
+    protected static final String TEST_DESCRIPTION = "This is a test description";
 
     @TempDir
     Path tempDir;
@@ -78,8 +77,8 @@ class DocumenterIT {
         Path resolve = tempDir.resolve("IT-output-without-env-format-" + templateType.name() + templateType.getExtension());
         AbstractTemplateCustomization templateCustomization = getTemplateCustomization(templateType);
         templateCustomization.getContentCustomization().setIncludeEnvFormat(false);
-        CreateDocumentCommand command = new CreateDocumentCommand(PROJECT, "IT", new File(testCase.inputFile), templateType.getSingleTemplate(), resolve.toFile(), templateCustomization);
-
+        CreateDocumentCommand command = new CreateDocumentCommand(PROJECT, TEST_DOCUMENT_HEADER, new File(testCase.inputFile), templateType.getSingleTemplate(templateCustomization.getTemplateMode()), resolve.toFile(), templateCustomization);
+        command.setDescription(TEST_DESCRIPTION);
         // When
         underTest.readMetadataAndGenerateRenderedFile(command);
 
@@ -97,8 +96,8 @@ class DocumenterIT {
         AbstractTemplateCustomization templateCustomization = getTemplateCustomization(templateType);
         templateCustomization.getContentCustomization().setIncludeEnvFormat(true);
 
-        CreateDocumentCommand command = new CreateDocumentCommand(PROJECT, "IT", new File(testCase.inputFile), templateType.getSingleTemplate(), resolve.toFile(), templateCustomization);
-
+        CreateDocumentCommand command = new CreateDocumentCommand(PROJECT, TEST_DOCUMENT_HEADER, new File(testCase.inputFile), templateType.getSingleTemplate(templateCustomization.getTemplateMode()), resolve.toFile(), templateCustomization);
+        command.setDescription(TEST_DESCRIPTION);
         // When
         underTest.readMetadataAndGenerateRenderedFile(command);
 
@@ -114,9 +113,9 @@ class DocumenterIT {
         TemplateType templateType = testCase.templateType;
         Path resolve = tempDir.resolve("IT-output-compact-mode-" + templateType.name() + templateType.getExtension());
         AbstractTemplateCustomization templateCustomization = getTemplateCustomization(templateType);
-        templateCustomization.setCompactMode(true);
-        CreateDocumentCommand command = new CreateDocumentCommand(PROJECT, "IT", new File(testCase.inputFile), templateType.getSingleTemplate(), resolve.toFile(), templateCustomization);
-
+        templateCustomization.setTemplateMode(TemplateMode.COMPACT);
+        CreateDocumentCommand command = new CreateDocumentCommand(PROJECT, TEST_DOCUMENT_HEADER, new File(testCase.inputFile), templateType.getSingleTemplate(templateCustomization.getTemplateMode()), resolve.toFile(), templateCustomization);
+        command.setDescription(TEST_DESCRIPTION);
         // When
         underTest.readMetadataAndGenerateRenderedFile(command);
 

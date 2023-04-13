@@ -4,7 +4,7 @@ import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
-import org.rodnansol.core.generator.template.TemplateCompilerFactory;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.generator.writer.CreateDocumentCommand;
@@ -78,7 +78,7 @@ public class DocumentGenerationAction {
 
     private void initializeTemplate(TemplateType templateType) {
         if (template == null) {
-            template = templateType.getSingleTemplate();
+            template = templateType.getSingleTemplate(templateCustomization.getTemplateMode());
         }
     }
 

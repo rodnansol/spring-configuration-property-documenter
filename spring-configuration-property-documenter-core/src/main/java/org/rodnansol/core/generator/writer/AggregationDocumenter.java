@@ -6,11 +6,11 @@ import com.github.jknack.handlebars.internal.lang3.tuple.Pair;
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.MainTemplateData;
-import org.rodnansol.core.generator.template.PropertyGroup;
-import org.rodnansol.core.generator.template.SubTemplateData;
-import org.rodnansol.core.generator.template.TemplateCompiler;
-import org.rodnansol.core.generator.template.TemplateCompilerMemoryStoreConstants;
+import org.rodnansol.core.generator.template.data.MainTemplateData;
+import org.rodnansol.core.generator.template.data.PropertyGroup;
+import org.rodnansol.core.generator.template.data.SubTemplateData;
+import org.rodnansol.core.generator.template.compiler.TemplateCompiler;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerMemoryStoreConstants;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.generator.writer.postprocess.PostProcessPropertyGroupsCommand;
@@ -91,38 +91,23 @@ public class AggregationDocumenter {
     private void createAndWriteContent(CreateAggregationCommand createAggregationCommand, List<SubTemplateData> subTemplateDataList, List<PropertyGroup> propertyGroups) {
         MainTemplateData mainTemplateData = createMainTemplateData(createAggregationCommand, propertyGroups);
         mainTemplateData.setSubTemplateDataList(subTemplateDataList);
-
-        Optional<CustomTemplate> optionalCustomTemplate = Optional.ofNullable(createAggregationCommand.getCustomTemplate());
-        TemplateType templateType = createAggregationCommand.getTemplateType();
-        ImmutablePair<String, String> renderedHeaderAndFooter = renderHeaderAndFooter(optionalCustomTemplate, templateType, mainTemplateData);
-        String aggregatedContent = renderContent(createAggregationCommand.getTemplateCustomization(), subTemplateDataList, optionalCustomTemplate, templateType);
+        ResolvedTemplate resolvedTemplate = new ResolvedTemplate(createAggregationCommand);
+        ImmutablePair<String, String> renderedHeaderAndFooter = renderHeaderAndFooter(resolvedTemplate, mainTemplateData);
+        String aggregatedContent = renderContent(resolvedTemplate, subTemplateDataList);
         writeRenderedSectionsToFile(createAggregationCommand, renderedHeaderAndFooter, aggregatedContent);
     }
 
-    private ImmutablePair<String, String> renderHeaderAndFooter(Optional<CustomTemplate> optionalCustomTemplate, TemplateType templateType, MainTemplateData mainTemplateData) {
-        String headerTemplate = optionalCustomTemplate.map(CustomTemplate::getCustomHeaderTemplate).filter(StringUtils::isNotBlank).orElse(templateType.getHeaderTemplate());
-        String footerTemplate = optionalCustomTemplate.map(CustomTemplate::getCustomFooterTemplate).filter(StringUtils::isNotBlank).orElse(templateType.getFooterTemplate());
-        String header = templateCompiler.compileTemplate(headerTemplate, mainTemplateData);
-        String footer = templateCompiler.compileTemplate(footerTemplate, mainTemplateData);
+    private ImmutablePair<String, String> renderHeaderAndFooter(ResolvedTemplate resolvedTemplate, MainTemplateData mainTemplateData) {
+        String header = templateCompiler.compileTemplate(resolvedTemplate.getHeaderTemplate(), mainTemplateData);
+        String footer = templateCompiler.compileTemplate(resolvedTemplate.getFooterTemplate(), mainTemplateData);
         return new ImmutablePair<>(header, footer);
     }
 
-    private String renderContent(TemplateCustomization templateCustomization, List<SubTemplateData> subTemplateDataList, Optional<CustomTemplate> optionalCustomTemplate, TemplateType templateType) {
-        String contentTemplate = resolveContentTemplate(templateCustomization, templateType, optionalCustomTemplate);
+    private String renderContent(ResolvedTemplate resolvedTemplate, List<SubTemplateData> subTemplateDataList) {
         return subTemplateDataList
             .stream()
-            .map(templateData -> templateCompiler.compileTemplate(contentTemplate, templateData))
+            .map(templateData -> templateCompiler.compileTemplate(resolvedTemplate.getContentTemplate(), templateData))
             .reduce("", String::concat);
-    }
-
-    private String resolveContentTemplate(TemplateCustomization templateCustomization, TemplateType templateType, Optional<CustomTemplate> optionalCustomTemplate) {
-        return optionalCustomTemplate.map(CustomTemplate::getCustomContentTemplate)
-            .filter(StringUtils::isNotBlank)
-            .orElseGet(() -> getContentTemplate(templateCustomization, templateType));
-    }
-
-    private String getContentTemplate(TemplateCustomization templateCustomization, TemplateType templateType) {
-        return templateCustomization.isCompactMode() ? templateType.getCompactContentTemplate() : templateType.getContentTemplate();
     }
 
     private void writeRenderedSectionsToFile(CreateAggregationCommand createAggregationCommand, ImmutablePair<String, String> renderedHeaderAndFooter, String aggregatedContent) {
@@ -138,11 +123,11 @@ public class AggregationDocumenter {
         }
     }
 
-    private SubTemplateData createModuleTemplateData(TemplateCustomization templateCustomization, String sectionName, List<PropertyGroup> propertyGroups, String description) {
+    private SubTemplateData createModuleTemplateData(TemplateCustomization templateCustomization, String sectionName, List<PropertyGroup> propertyGroups, String moduleDescription) {
         SubTemplateData subTemplateData = new SubTemplateData(sectionName, propertyGroups);
         subTemplateData.setTemplateCustomization(templateCustomization);
         subTemplateData.setGenerationDate(LocalDateTime.now());
-        subTemplateData.setModuleDescription(description);
+        subTemplateData.setModuleDescription(moduleDescription);
         return subTemplateData;
     }
 
@@ -152,6 +137,40 @@ public class AggregationDocumenter {
         mainTemplateData.setGenerationDate(LocalDateTime.now());
         mainTemplateData.setTemplateCustomization(createAggregationCommand.getTemplateCustomization());
         return mainTemplateData;
+    }
+
+    static class ResolvedTemplate {
+        private final String headerTemplate;
+        private final String contentTemplate;
+        private final String footerTemplate;
+
+        public ResolvedTemplate(CreateAggregationCommand createAggregationCommand) {
+            Optional<CustomTemplate> optionalCustomTemplate = Optional.ofNullable(createAggregationCommand.getCustomTemplate());
+            TemplateCustomization templateCustomization = createAggregationCommand.getTemplateCustomization();
+            TemplateType templateType = createAggregationCommand.getTemplateType();
+            this.headerTemplate = optionalCustomTemplate.map(CustomTemplate::getCustomHeaderTemplate)
+                .filter(StringUtils::isNotBlank)
+                .orElseGet(() -> templateType.getHeaderTemplate(templateCustomization.getTemplateMode()));
+            this.footerTemplate = optionalCustomTemplate.map(CustomTemplate::getCustomFooterTemplate)
+                .filter(StringUtils::isNotBlank)
+                .orElseGet(() -> templateType.getFooterTemplate(templateCustomization.getTemplateMode()));
+            this.contentTemplate = optionalCustomTemplate
+                .map(CustomTemplate::getCustomContentTemplate)
+                .filter(StringUtils::isNotBlank)
+                .orElseGet(() -> templateType.getContentTemplate(createAggregationCommand.getTemplateCustomization().getTemplateMode()));
+        }
+
+        public String getHeaderTemplate() {
+            return headerTemplate;
+        }
+
+        public String getContentTemplate() {
+            return contentTemplate;
+        }
+
+        public String getFooterTemplate() {
+            return footerTemplate;
+        }
     }
 
 }

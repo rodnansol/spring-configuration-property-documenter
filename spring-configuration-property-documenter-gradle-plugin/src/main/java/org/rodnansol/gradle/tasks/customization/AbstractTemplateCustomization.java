@@ -2,7 +2,7 @@ package org.rodnansol.gradle.tasks.customization;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import groovy.lang.Closure;
-import org.rodnansol.core.generator.template.PropertyGroupConstants;
+import org.rodnansol.core.generator.template.data.PropertyGroupConstants;
 
 import java.io.Serializable;
 import java.util.Objects;

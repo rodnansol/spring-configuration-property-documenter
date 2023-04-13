@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.source.SystemEnvironmentPrope
  * @author allsimon
  * @since 0.4.0
  */
-public class EnvironmentVariableHelper implements Helper<String> {
+class EnvironmentVariableHelper implements Helper<String> {
 
     @Override
     public Object apply(String context, Options options) {

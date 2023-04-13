@@ -1,11 +1,11 @@
-package org.rodnansol.core.generator.template;
+package org.rodnansol.core.generator.template.data;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static org.rodnansol.core.generator.template.PropertyGroupConstants.UNKNOWN;
-import static org.rodnansol.core.generator.template.PropertyGroupConstants.UNKNOWN_GROUP;
+import static org.rodnansol.core.generator.template.data.PropertyGroupConstants.UNKNOWN;
+import static org.rodnansol.core.generator.template.data.PropertyGroupConstants.UNKNOWN_GROUP;
 
 /**
  * Class representing a property group.

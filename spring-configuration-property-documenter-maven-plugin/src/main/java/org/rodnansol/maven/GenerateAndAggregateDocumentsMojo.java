@@ -7,7 +7,7 @@ import org.apache.maven.project.MavenProject;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
-import org.rodnansol.core.generator.template.TemplateCompilerFactory;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
 import org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization;
@@ -173,8 +173,7 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
     }
 
     private CombinedInput mapToCombinedInput(AggregationMojoInput aggregationMojoInput) {
-        CombinedInput combinedInput = new CombinedInput(aggregationMojoInput.getInput(), aggregationMojoInput.getName());
-        combinedInput.setDescription(aggregationMojoInput.getDescription());
+        CombinedInput combinedInput = new CombinedInput(aggregationMojoInput.getInput(), aggregationMojoInput.getName(), aggregationMojoInput.getDescription());
         combinedInput.setExcludedGroups(aggregationMojoInput.getExcludedGroups());
         combinedInput.setIncludedGroups(aggregationMojoInput.getIncludedGroups());
         combinedInput.setIncludedProperties(aggregationMojoInput.getIncludedProperties());

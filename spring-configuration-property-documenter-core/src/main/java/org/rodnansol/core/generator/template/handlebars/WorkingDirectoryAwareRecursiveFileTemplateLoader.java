@@ -18,7 +18,7 @@ import java.util.Collection;
  * @author nandorholozsnyak
  * @since 0.2.1
  */
-public class WorkingDirectoryAwareRecursiveFileTemplateLoader extends FileTemplateLoader {
+class WorkingDirectoryAwareRecursiveFileTemplateLoader extends FileTemplateLoader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkingDirectoryAwareRecursiveFileTemplateLoader.class);
 

@@ -1,4 +1,4 @@
-package org.rodnansol.core.generator.template;
+package org.rodnansol.core.generator.template.data;
 
 /**
  * Class grouping constants together for the property groups.

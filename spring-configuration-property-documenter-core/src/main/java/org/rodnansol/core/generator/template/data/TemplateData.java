@@ -1,4 +1,4 @@
-package org.rodnansol.core.generator.template;
+package org.rodnansol.core.generator.template.data;
 
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 

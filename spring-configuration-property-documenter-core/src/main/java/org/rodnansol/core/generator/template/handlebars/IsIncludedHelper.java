@@ -2,8 +2,8 @@ package org.rodnansol.core.generator.template.handlebars;
 
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
-import org.rodnansol.core.generator.template.TemplateCompilerMemoryStoreConstants;
-import org.rodnansol.core.generator.template.ThreadLocalTemplateCompilerStore;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerMemoryStoreConstants;
+import org.rodnansol.core.generator.template.compiler.ThreadLocalTemplateCompilerStore;
 import org.rodnansol.core.generator.template.customization.ContentCustomization;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 
@@ -20,7 +20,7 @@ import static java.util.Map.ofEntries;
  * @author nandorholozsnyak
  * @since 0.6.0
  */
-public class IsIncludedHelper implements Helper<String> {
+class IsIncludedHelper implements Helper<String> {
 
     private static final Map<Object, Function<ContentCustomization, Boolean>> FUNCTION_MAP = ofEntries(
         entry("class", ContentCustomization::isIncludeClass),

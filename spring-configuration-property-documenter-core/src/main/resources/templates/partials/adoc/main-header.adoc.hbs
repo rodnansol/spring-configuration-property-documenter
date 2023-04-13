@@ -1,0 +1,13 @@
+{{#templateCustomization ~}}
+{{#if headerEnabled ~}}
+{{~#if mainName ~}}
+= {{mainName}}
+{{~/if~}}
+{{~/if}}
+{{> templates/partials/adoc/toc.adoc}}
+{{~#if headerEnabled~}}
+{{~#if mainDescription}}
+{{mainDescription}}
+{{/if~}}
+{{/if}}
+{{/templateCustomization}}
