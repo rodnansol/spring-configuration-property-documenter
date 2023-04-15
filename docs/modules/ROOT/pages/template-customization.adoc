@@ -14,7 +14,7 @@ endif::[]
 :toc-placement!:
 :toclevels: 4
 
-As written in the *README* file the core module is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine. With that we are able to create smaller files and we can render them together.
+As written in the *README* file the core module is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine. With that we are able to create smaller files, and we can render them together.
 
 If you would like to use your own templates as inputs you should first read through the following section to know which parameters you can use in your template.
 
@@ -24,12 +24,13 @@ toc::[]
 
 By default, the tool depends on the Handlebars 3rd party library to put life into the templates.
 
-With that said, Handlerbars supports custom helpers, and there are a few helpers, those can be used in any <<_custom_templates, custom template>>.
+With that said, Handlerbars supports custom helpers, and there are a few helpers, those can be used in any xref:custom-templates[custom template].
 
 Helpers:
 
 * `as_env` - (`org.rodnansol.core.generator.template.handlebars.EnvironmentVariableHelper`) - Renders the parameter property to its environment variable form.
 * `is_included` - (`org.rodnansol.core.generator.template.handlebars.IsIncludedHelper`) - Checks if a given property can be rendred into the document or not.
+* `is_compact_mode` - (`org.rodnansol.core.generator.template.handlebars.IsCompactModeHelper`) - Shows if the template mode is set to *COMPACT* or not.
 ** These can be configured with <<content-customization,this object>> - Keys it can handle:
 *** class
 *** key
@@ -49,6 +50,61 @@ The provided/packaged templates can be found here:
 ** Contains templates that could be used for multiple document aggregation
 * *spring-configuration-property-documenter-core/src/main/resources/templates/partials*
 ** Contains the templates for the content, and for the HTML a few helper templates
+
+[#template-modes]
+=== Template modes
+
+[sidebar]
+With the release of the *0.6.0* version the tool now supports different templates modes, the default and fallback option is called *STANDARD*
+
+With the template mode setting you can set how your template should look like, right now this customization option just selects different template for the different sections.
+
+Available modes:
+
+- *Standard* - Default mode where the property group based properties are separated by the groups, and they are listed in different tables.
+- *Compact* - All the properties from the available property groups are shown in one just one table, no grouping by property groups.
+** *In this case the keys will be shown with their fully qualified name*.
+
+Check the xref:template-customizations[template customizations] for the setting.
+
+==== Examples
+
+===== Standard
+
+:property-group-discrete-heading:
+[%collapsible]
+.AsciiDoc
+====
+include::example$template-mode/single-module-example-property-docs.adoc[]
+
+====
+:property-group-discrete-heading!:
+
+[%collapsible]
+.Markdown
+====
+image::image$standard-document-md.png[]
+
+====
+
+===== Compact
+
+:property-group-discrete-heading:
+[%collapsible]
+.AsciiDoc
+====
+include::example$template-mode/compact-mode.adoc[]
+
+====
+:property-group-discrete-heading!:
+
+[%collapsible]
+.Markdown
+====
+image::image$compact-document-md.png[]
+
+====
+
 
 === AsciiDoc customizations
 
@@ -141,6 +197,7 @@ endif::[]
 <3> Enable the discrete headings
 <4> Disabled the discrete headings to make sure another included files are not inheriting the attributes
 
+[#custom-templates]
 == Custom templates
 
 You are not forced to use our templates, we can understand it is not your taste and maybe the customization options for the provided ones are not that flexible for your (for example the HTML format).
@@ -490,6 +547,12 @@ There are few Java classes to be discovered if you wish:
 |<<content-customization,ContentCustomization>>
 |Configures the customization for the content (tables, property groups and properties)
 |Check defaults below.
+|0.6.0
+
+|templateMode
+|STANDARD or COMPACT
+|Sets the template mode. Read more about xref:template-modes[here]
+|STANDARD
 |0.6.0
 
 |===

@@ -1,0 +1,67 @@
+= single-module-example
+:toc: auto
+:toc-title: Table of Contents
+:toclevels: 4
+
+
+
+// tag::this.is.my[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my +]
+ifdef::property-group-simple-title[.*_this.is.my_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my
+endif::[]
+*Class:* `org.rodnansol.MyProperties`
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+
+|another-variable
+|java.lang.String
+|
+|with default value
+|Reason: null, use for replacement: null
+|`THIS_IS_MY_ANOTHERVARIABLE`
+
+|date
+|java.time.LocalDate
+|
+|
+|
+|`THIS_IS_MY_DATE`
+
+|date-time
+|java.time.LocalDateTime
+|
+|
+|
+|`THIS_IS_MY_DATETIME`
+
+|duration
+|java.time.Duration
+|A duration.
+|2d
+|Reason: Because it is deprecated, use for replacement: instant
+|`THIS_IS_MY_DURATION`
+
+|instant
+|java.time.Instant
+|
+|123
+|
+|`THIS_IS_MY_INSTANT`
+
+|variable
+|java.lang.String
+|This is my variable.
+|
+|
+|`THIS_IS_MY_VARIABLE`
+
+
+|===
+// end::this.is.my[]
+
+

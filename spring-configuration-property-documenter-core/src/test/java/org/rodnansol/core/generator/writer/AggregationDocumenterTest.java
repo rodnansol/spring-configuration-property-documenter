@@ -7,8 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.PropertyGroup;
-import org.rodnansol.core.generator.template.TemplateCompiler;
+import org.rodnansol.core.generator.template.data.PropertyGroup;
+import org.rodnansol.core.generator.template.compiler.TemplateCompiler;
 import org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization;
 import org.rodnansol.core.generator.writer.postprocess.PostProcessPropertyGroupsCommand;
 import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
@@ -38,7 +38,7 @@ class AggregationDocumenterTest {
     void filterGroupsAndProperties_shouldCallPropertyGroupFilterService() {
         // Given
         MarkdownTemplateCustomization templateCustomization = new MarkdownTemplateCustomization();
-        CombinedInput combinedInput = new CombinedInput(file, "testSection");
+        CombinedInput combinedInput = new CombinedInput(file, "testSection", "testDescription");
         combinedInput.setExcludedGroups(List.of("excluded-group"));
         combinedInput.setExcludedProperties(List.of("excluded-property"));
         combinedInput.setIncludedGroups(List.of("included-group"));

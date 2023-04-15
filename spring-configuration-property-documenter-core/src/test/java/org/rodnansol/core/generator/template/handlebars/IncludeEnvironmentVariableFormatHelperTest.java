@@ -4,13 +4,12 @@ import com.github.jknack.handlebars.Options;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.rodnansol.core.generator.template.MainTemplateData;
+import org.rodnansol.core.generator.template.data.MainTemplateData;
 import org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 

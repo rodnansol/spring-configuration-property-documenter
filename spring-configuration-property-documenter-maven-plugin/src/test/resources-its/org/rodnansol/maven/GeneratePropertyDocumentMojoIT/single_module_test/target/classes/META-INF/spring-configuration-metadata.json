@@ -1,0 +1,120 @@
+{
+  "groups": [
+    {
+      "name": "this.is.a.bean.configuration",
+      "type": "org.rodnansol.PropertiesForConfiguration",
+      "sourceType": "org.rodnansol.MyConfiguration",
+      "sourceMethod": "propertiesForConfiguration()"
+    },
+    {
+      "name": "this.is.my",
+      "type": "org.rodnansol.MyProperties",
+      "sourceType": "org.rodnansol.MyProperties"
+    },
+    {
+      "name": "this.is.my.first-level-nested-property",
+      "type": "org.rodnansol.FirstLevelNestedProperty",
+      "sourceType": "org.rodnansol.MyProperties",
+      "sourceMethod": "getFirstLevelNestedProperty()"
+    },
+    {
+      "name": "this.is.my.first-level-nested-property.second-level-nested-class",
+      "type": "org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass",
+      "sourceType": "org.rodnansol.FirstLevelNestedProperty",
+      "sourceMethod": "getSecondLevelNestedClass()"
+    },
+    {
+      "name": "this.is.my.nested",
+      "type": "org.rodnansol.TopLevelClassNestedProperty",
+      "sourceType": "org.rodnansol.TopLevelClassNestedProperty"
+    },
+    {
+      "name": "this.is.your",
+      "type": "org.rodnansol.YourProperties",
+      "sourceType": "org.rodnansol.YourProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "this.is.a.bean.configuration.configuration-value",
+      "type": "java.lang.String",
+      "description": "A field inside a class that is not property by default by within a Configuration class.",
+      "sourceType": "org.rodnansol.PropertiesForConfiguration"
+    },
+    {
+      "name": "this.is.my.date",
+      "type": "java.time.LocalDate",
+      "sourceType": "org.rodnansol.MyProperties"
+    },
+    {
+      "name": "this.is.my.date-time",
+      "type": "java.time.LocalDateTime",
+      "sourceType": "org.rodnansol.MyProperties"
+    },
+    {
+      "name": "this.is.my.first-level-nested-property.desc",
+      "type": "java.lang.String",
+      "description": "Description of this thing.",
+      "sourceType": "org.rodnansol.FirstLevelNestedProperty",
+      "defaultValue": "123"
+    },
+    {
+      "name": "this.is.my.first-level-nested-property.name",
+      "type": "java.lang.String",
+      "description": "Name of the custom property.",
+      "sourceType": "org.rodnansol.FirstLevelNestedProperty",
+      "defaultValue": "ABC"
+    },
+    {
+      "name": "this.is.my.first-level-nested-property.second-level-nested-class.second-level-value",
+      "type": "java.lang.String",
+      "description": "Custom nested",
+      "sourceType": "org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass"
+    },
+    {
+      "name": "this.is.my.instant",
+      "type": "java.time.Instant",
+      "sourceType": "org.rodnansol.MyProperties",
+      "defaultValue": 123
+    },
+    {
+      "name": "this.is.my.nested.nested-value",
+      "type": "java.lang.String",
+      "description": "Nested value.",
+      "sourceType": "org.rodnansol.TopLevelClassNestedProperty"
+    },
+    {
+      "name": "this.is.my.variable",
+      "type": "java.lang.String",
+      "description": "This is my variable.",
+      "sourceType": "org.rodnansol.MyProperties"
+    },
+    {
+      "name": "this.is.your.property",
+      "type": "java.lang.String",
+      "description": "This is YOUR property.",
+      "sourceType": "org.rodnansol.YourProperties"
+    },
+    {
+      "name": "this.is.my.another-variable",
+      "type": "java.lang.String",
+      "sourceType": "org.rodnansol.MyProperties",
+      "defaultValue": "with default value",
+      "deprecated": true,
+      "deprecation": {}
+    },
+    {
+      "name": "this.is.my.duration",
+      "type": "java.time.Duration",
+      "description": "A duration.",
+      "sourceType": "org.rodnansol.MyProperties",
+      "defaultValue": "2d",
+      "deprecated": true,
+      "deprecation": {
+        "reason": "Because it is deprecated",
+        "replacement": "instant"
+      }
+    }
+  ],
+  "hints": []
+}

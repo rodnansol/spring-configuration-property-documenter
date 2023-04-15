@@ -1,9 +1,9 @@
 package org.rodnansol.core.generator.writer.postprocess;
 
 import org.junit.jupiter.api.Test;
-import org.rodnansol.core.generator.template.Property;
-import org.rodnansol.core.generator.template.PropertyDeprecation;
-import org.rodnansol.core.generator.template.PropertyGroup;
+import org.rodnansol.core.generator.template.data.Property;
+import org.rodnansol.core.generator.template.data.PropertyDeprecation;
+import org.rodnansol.core.generator.template.data.PropertyGroup;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,10 +6,11 @@
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.HandlebarsTemplateCompiler;
-import org.rodnansol.core.generator.template.TemplateCompiler;
-import org.rodnansol.core.generator.template.TemplateCompilerFactory;
-import org.rodnansol.core.generator.template.TemplateData;
+import org.rodnansol.core.generator.template.TemplateMode;
+import org.rodnansol.core.generator.template.compiler.TemplateCompiler;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerFactory;
+import org.rodnansol.core.generator.template.customization.TemplateCustomization;
+import org.rodnansol.core.generator.template.data.TemplateData;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.TemplateCustomizationFactory;
 import org.rodnansol.core.generator.writer.AggregationDocumenter;
@@ -18,6 +19,7 @@ import org.rodnansol.core.generator.writer.CreateAggregationCommand;
 import org.rodnansol.core.generator.writer.CreateDocumentCommand;
 import org.rodnansol.core.generator.writer.CustomTemplate;
 import org.rodnansol.core.generator.writer.Documenter;
+import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
 import org.rodnansol.core.project.Project;
 import org.rodnansol.core.project.ProjectFactory;
 import org.rodnansol.core.project.ProjectType;
@@ -38,7 +40,7 @@ import java.util.List;
     })
 public class PropertyDocumenter {
 
-    protected static final String VERSION = "0.1.0";
+    protected static final String VERSION = "0.6.0";
 
     public static void main(String... args) {
         int exitCode = new CommandLine(new PropertyDocumenter()).execute(args);
@@ -47,7 +49,7 @@ public class PropertyDocumenter {
 
     @CommandLine.Command(name = "generate",
         mixinStandardHelpOptions = true,
-        version = "PropertyDocumenter 0.1",
+        version = "PropertyDocumenter 0.6.0",
         description =
             """
                 Documents the incoming input into a file.
@@ -128,15 +130,32 @@ public class PropertyDocumenter {
          * @since 0.2.1
          */
         @CommandLine.Option(names = {"-tc", "--template-compiler"}, description = "Template's compiler fully qualified name", arity = "0..1", defaultValue = "org.rodnansol.core.generator.template.HandlebarsTemplateCompiler")
-        String templateCompiler = HandlebarsTemplateCompiler.class.getName();
+        String templateCompiler = TemplateCompilerFactory.getDefaultCompilerName();
+
+        /**
+         * Mode of the template. Currently supported:
+         *
+         * <ul>
+         *     <li>STANDARD</li>
+         *     <li>COMPACT</li>
+         * </ul>
+         *
+         * @since 0.6.0
+         */
+        @CommandLine.Option(names = {"-tm", "--template-mode"},
+            description = """
+                Mode of the template.
+                Currently supported: STANDARD, COMPACT
+                """, arity = "1", defaultValue = "STANDARD")
+        TemplateMode templateMode = TemplateMode.STANDARD;
 
         @Override
         public void run() {
             Project project = ProjectFactory.ofType(new File("."), documentName, projectType);
-            String singleTemplate = template != null && !template.isBlank() ? template : templateType.getSingleTemplate();
+            String singleTemplate = template != null && !template.isBlank() ? template : templateType.getSingleTemplate(templateMode);
             CreateDocumentCommand createDocumentCommand = new CreateDocumentCommand(project, documentName, input, singleTemplate, outputFile, TemplateCustomizationFactory.getDefaultTemplateCustomizationByType(templateType));
             try {
-                new Documenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstanceByClassName(templateCompiler), MetadataInputResolverContext.INSTANCE).readMetadataAndGenerateRenderedFile(createDocumentCommand);
+                new Documenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstanceByClassName(templateCompiler), MetadataInputResolverContext.INSTANCE, PropertyGroupFilterService.INSTANCE).readMetadataAndGenerateRenderedFile(createDocumentCommand);
             } catch (IOException e) {
                 throw new DocumentGenerationException("Error during generating the documentation, please check the logs...", e);
             }
@@ -145,7 +164,7 @@ public class PropertyDocumenter {
 
     @CommandLine.Command(name = "aggregate",
         mixinStandardHelpOptions = true,
-        version = "PropertyDocumenter 0.1",
+        version = "PropertyDocumenter 0.6.0",
         description =
             """
                 Aggregates the incoming inputs into one big file while.
@@ -254,24 +273,43 @@ public class PropertyDocumenter {
          * @since 0.2.1
          */
         @CommandLine.Option(names = {"-tc", "--template-compiler"}, description = "Template's compiler fully qualified name", arity = "0..1", defaultValue = "org.rodnansol.core.generator.template.HandlebarsTemplateCompiler")
-        String templateCompiler = HandlebarsTemplateCompiler.class.getName();
+        String templateCompiler = TemplateCompilerFactory.getDefaultCompilerName();
+
+        /**
+         * Mode of the template. Currently supported:
+         *
+         * <ul>
+         *     <li>STANDARD</li>
+         *     <li>COMPACT</li>
+         * </ul>
+         *
+         * @since 0.6.0
+         */
+        @CommandLine.Option(names = {"-tm", "--template-mode"},
+            description = """
+                Mode of the template.
+                Currently supported: STANDARD, COMPACT
+                """, arity = "1", defaultValue = "STANDARD")
+        TemplateMode templateMode = TemplateMode.STANDARD;
 
         @Override
         public void run() {
             List<CombinedInput> combinedInputs = new ArrayList<>(inputs.size());
             for (int i = 0; i < inputs.size(); i++) {
                 String input = inputs.get(i);
-                combinedInputs.add(new CombinedInput(new File(input), getModuleName(i)));
+                combinedInputs.add(new CombinedInput(new File(input), getModuleName(i), ""));
             }
             Project project = ProjectFactory.ofType(new File("."), mainName, projectType);
+            TemplateCustomization templateCustomization = TemplateCustomizationFactory.getDefaultTemplateCustomizationByType(templateType);
+            templateCustomization.setTemplateMode(templateMode);
             CreateAggregationCommand createAggregationCommand = new CreateAggregationCommand(project,
                 mainName,
                 combinedInputs,
                 templateType,
-                TemplateCustomizationFactory.getDefaultTemplateCustomizationByType(templateType),
+                templateCustomization,
                 new File(outputFile));
             createAggregationCommand.setCustomTemplate(new CustomTemplate(headerTemplate, contentTemplate, footerTemplate));
-            new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstanceByClassName(templateCompiler), MetadataInputResolverContext.INSTANCE).createDocumentsAndAggregate(createAggregationCommand);
+            new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstanceByClassName(templateCompiler), MetadataInputResolverContext.INSTANCE, PropertyGroupFilterService.INSTANCE).createDocumentsAndAggregate(createAggregationCommand);
         }
 
         private String getModuleName(int i) {

@@ -70,6 +70,20 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>generate-compact-adoc</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>ADOC</type>
+                            <asciiDocCustomization>
+                                <compactMode>true</compactMode>
+                            </asciiDocCustomization>
+                            <outputFile>target/compact-mode.adoc</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>generate-adoc</id>
                         <phase>process-classes</phase>
                         <goals>
@@ -194,6 +208,20 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>generate-compact-markdown</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                            <markdownCustomization>
+                                <compactMode>true</compactMode>
+                            </markdownCustomization>
+                            <outputFile>target/compact-mode.md</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>generate-html</id>
                         <phase>process-classes</phase>
                         <goals>
@@ -223,6 +251,20 @@
                                 </contentCustomization>
                             </htmlCustomization>
                             <outputFile>target/without-type-and-deprecation.html</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-compact-html</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <type>HTML</type>
+                            <htmlCustomization>
+                                <compactMode>true</compactMode>
+                            </htmlCustomization>
+                            <outputFile>target/compact-mode.html</outputFile>
                         </configuration>
                     </execution>
                 </executions>

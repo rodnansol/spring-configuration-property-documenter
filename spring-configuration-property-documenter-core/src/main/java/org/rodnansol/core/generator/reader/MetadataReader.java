@@ -1,9 +1,9 @@
 package org.rodnansol.core.generator.reader;
 
-import org.rodnansol.core.generator.template.Property;
-import org.rodnansol.core.generator.template.PropertyDeprecation;
-import org.rodnansol.core.generator.template.PropertyGroup;
-import org.rodnansol.core.generator.template.PropertyGroupConstants;
+import org.rodnansol.core.generator.template.data.Property;
+import org.rodnansol.core.generator.template.data.PropertyDeprecation;
+import org.rodnansol.core.generator.template.data.PropertyGroup;
+import org.rodnansol.core.generator.template.data.PropertyGroupConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.configurationprocessor.metadata.ConfigurationMetadata;

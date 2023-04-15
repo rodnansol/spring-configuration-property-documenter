@@ -1,0 +1,175 @@
+= single-module-example
+:toc: auto
+:toc-title: Table of Contents
+:toclevels: 4
+
+
+
+// tag::Unknown group[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== Unknown group +]
+ifdef::property-group-simple-title[.*_Unknown group_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== Unknown group
+endif::[]
+*Class:* `Unknown`
+[cols="2,3,1"]
+|===
+|Key  |Description |Default value 
+
+
+
+|===
+// end::Unknown group[]
+
+// tag::this.is.your[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.your +]
+ifdef::property-group-simple-title[.*_this.is.your_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.your
+endif::[]
+*Class:* `org.rodnansol.YourProperties`
+[cols="2,3,1"]
+|===
+|Key  |Description |Default value 
+
+
+|property
+|This is YOUR property.
+|
+
+
+|===
+// end::this.is.your[]
+
+// tag::this.is.a.bean.configuration[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.a.bean.configuration +]
+ifdef::property-group-simple-title[.*_this.is.a.bean.configuration_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.a.bean.configuration
+endif::[]
+*Class:* `org.rodnansol.PropertiesForConfiguration`
+[cols="2,3,1"]
+|===
+|Key  |Description |Default value 
+
+
+|configuration-value
+|A field inside a class that is not property by default by within a Configuration class.
+|
+
+
+|===
+// end::this.is.a.bean.configuration[]
+
+// tag::this.is.my.nested[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.nested +]
+ifdef::property-group-simple-title[.*_this.is.my.nested_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my.nested
+endif::[]
+*Class:* `org.rodnansol.TopLevelClassNestedProperty`
+[cols="2,3,1"]
+|===
+|Key  |Description |Default value 
+
+
+|nested-value
+|Nested value.
+|
+
+
+|===
+// end::this.is.my.nested[]
+
+// tag::this.is.my.first-level-nested-property.second-level-nested-class[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.first-level-nested-property.second-level-nested-class +]
+ifdef::property-group-simple-title[.*_this.is.my.first-level-nested-property.second-level-nested-class_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my.first-level-nested-property.second-level-nested-class
+endif::[]
+*Class:* `org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass`
+[cols="2,3,1"]
+|===
+|Key  |Description |Default value 
+
+
+|second-level-value
+|Custom nested
+|
+
+
+|===
+// end::this.is.my.first-level-nested-property.second-level-nested-class[]
+
+// tag::this.is.my[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my +]
+ifdef::property-group-simple-title[.*_this.is.my_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my
+endif::[]
+*Class:* `org.rodnansol.MyProperties`
+[cols="2,3,1"]
+|===
+|Key  |Description |Default value 
+
+
+|another-variable
+|
+|with default value
+
+|date
+|
+|
+
+|date-time
+|
+|
+
+|duration
+|A duration.
+|2d
+
+|instant
+|
+|123
+
+|variable
+|This is my variable.
+|
+
+
+|===
+// end::this.is.my[]
+
+// tag::this.is.my.first-level-nested-property[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.first-level-nested-property +]
+ifdef::property-group-simple-title[.*_this.is.my.first-level-nested-property_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my.first-level-nested-property
+endif::[]
+*Class:* `org.rodnansol.FirstLevelNestedProperty`
+[cols="2,3,1"]
+|===
+|Key  |Description |Default value 
+
+
+|desc
+|Description of this thing.
+|123
+
+|name
+|Name of the custom property.
+|ABC
+
+
+|===
+// end::this.is.my.first-level-nested-property[]
+
+

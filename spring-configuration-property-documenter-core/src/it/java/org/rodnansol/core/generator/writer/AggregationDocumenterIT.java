@@ -1,5 +1,6 @@
 package org.rodnansol.core.generator.writer;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -7,8 +8,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.TemplateCompilerFactory;
+import org.rodnansol.core.generator.template.TemplateMode;
 import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.customization.AbstractTemplateCustomization;
 import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
 import org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization;
@@ -19,8 +21,6 @@ import org.rodnansol.core.project.ProjectFactory;
 import org.rodnansol.core.project.simple.SimpleProject;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Stream;
@@ -38,7 +38,7 @@ class AggregationDocumenterIT {
     @TempDir
     Path tempDir;
 
-    AggregationDocumenter underTest = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultProvidedInstance(), MetadataInputResolverContext.INSTANCE, PropertyGroupFilterService.INSTANCE);
+    AggregationDocumenter underTest = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultCompiler(), MetadataInputResolverContext.INSTANCE, PropertyGroupFilterService.INSTANCE);
 
     public static Stream<TestCase> noEnvFormatCases() {
         return Stream.of(
@@ -56,9 +56,18 @@ class AggregationDocumenterIT {
         );
     }
 
+    public static Stream<TestCase> compactModeCases() {
+        return Stream.of(
+            new TestCase(TEST_JSON, TemplateType.MARKDOWN, MAIN_EXPECTED_FOLDER + "expected-compact-mode.md"),
+            new TestCase(TEST_JSON, TemplateType.ADOC, MAIN_EXPECTED_FOLDER + "expected-compact-mode.adoc"),
+            new TestCase(TEST_JSON, TemplateType.HTML, MAIN_EXPECTED_FOLDER + "expected-compact-mode.html")
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("noEnvFormatCases")
-    void readMetadataAndGenerateRenderedFile_shouldNotRenderEnvironmentFormatIntoFinalFile_whenEnvironmentFormatIsDisabled(TestCase testCase) throws IOException {
+    @DisplayName("Should NOT include environment variable format when disabled")
+    void readMetadataAndGenerateRenderedFile_shouldNotRenderEnvironmentFormatIntoFinalFile_whenEnvironmentFormatIsDisabled(TestCase testCase) {
         // Given
         TemplateType templateType = testCase.templateType;
         Path resolve = tempDir.resolve("IT-output-aggregated-without-env-format-" + templateType.name() + templateType.getExtension());
@@ -70,14 +79,13 @@ class AggregationDocumenterIT {
         underTest.createDocumentsAndAggregate(command);
 
         // Then
-        List<String> actualFile = Files.readAllLines(resolve);
-        List<String> expectedFile = Files.readAllLines(Path.of(testCase.expectedFile));
-        assertThat(actualFile).containsExactlyElementsOf(expectedFile);
+        assertThat(resolve).hasSameTextualContentAs(Path.of(testCase.expectedFile));
     }
 
     @ParameterizedTest
     @MethodSource("envFormatCases")
-    void readMetadataAndGenerateRenderedFile_shouldRenderEnvironmentFormatIntoFinalFile_whenEnvironmentFormatIsEnabled(TestCase testCase) throws IOException {
+    @DisplayName("Should include environment variable format when enabled")
+    void readMetadataAndGenerateRenderedFile_shouldRenderEnvironmentFormatIntoFinalFile_whenEnvironmentFormatIsEnabled(TestCase testCase) {
         // Given
         TemplateType templateType = testCase.templateType;
         Path resolve = tempDir.resolve("IT-output-aggregated-with-env-format-" + templateType.name() + templateType.getExtension());
@@ -89,9 +97,25 @@ class AggregationDocumenterIT {
         underTest.createDocumentsAndAggregate(command);
 
         // Then
-        List<String> actualFile = Files.readAllLines(resolve);
-        List<String> expectedFile = Files.readAllLines(Path.of(testCase.expectedFile));
-        assertThat(actualFile).containsExactlyElementsOf(expectedFile);
+        assertThat(resolve).hasSameTextualContentAs(Path.of(testCase.expectedFile));
+    }
+
+    @ParameterizedTest
+    @MethodSource("compactModeCases")
+    @DisplayName("Should render document in compact mode when compact mode is enabled")
+    void readMetadataAndGenerateRenderedFile_shouldReturnDocumentInCompactMode_whenCompactModeIsEnabled(TestCase testCase) {
+        // Given
+        TemplateType templateType = testCase.templateType;
+        Path resolve = tempDir.resolve("IT-output-aggregated-compact-mode-" + templateType.name() + templateType.getExtension());
+        AbstractTemplateCustomization templateCustomization = getTemplateCustomization(templateType);
+        templateCustomization.setTemplateMode(TemplateMode.COMPACT);
+        CreateAggregationCommand command = getCreateAggregationCommand(testCase, templateType, resolve, templateCustomization);
+        command.setDescription("This is a test description");
+        // When
+        underTest.createDocumentsAndAggregate(command);
+
+        // Then
+        assertThat(resolve).hasSameTextualContentAs(Path.of(testCase.expectedFile));
     }
 
     private AbstractTemplateCustomization getTemplateCustomization(TemplateType templateType) {
@@ -118,12 +142,14 @@ class AggregationDocumenterIT {
     }
 
     private CreateAggregationCommand getCreateAggregationCommand(TestCase testCase, TemplateType templateType, Path resolve, AbstractTemplateCustomization templateCustomization) {
-        return new CreateAggregationCommand(PROJECT, "IT",
+        CreateAggregationCommand createAggregationCommand = new CreateAggregationCommand(PROJECT, "IT",
             List.of(
-                new CombinedInput(new File(testCase.inputFile), "Document 1"),
-                new CombinedInput(new File(testCase.inputFile), "Document 2")
+                new CombinedInput(new File(testCase.inputFile), "Document 1", "Document 1 description"),
+                new CombinedInput(new File(testCase.inputFile), "Document 2", "Document 2 description")
             ),
             templateType, templateCustomization, resolve.toFile());
+        createAggregationCommand.setDescription("This is a test description");
+        return createAggregationCommand;
     }
 
 

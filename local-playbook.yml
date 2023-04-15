@@ -1,7 +1,7 @@
 site:
   title: Rodnan Sol
   url: http://rodnansol.org
-  start_page: spring-configuration-property-documenter::index.adoc[]
+  start_page: spring-configuration-property-documenter::index.adoc
 content:
   sources:
     - url: ./

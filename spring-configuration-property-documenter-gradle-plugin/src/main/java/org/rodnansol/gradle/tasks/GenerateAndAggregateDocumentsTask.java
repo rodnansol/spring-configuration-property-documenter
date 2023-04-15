@@ -11,7 +11,7 @@ import org.gradle.api.tasks.options.Option;
 import org.mapstruct.factory.Mappers;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.TemplateCompilerFactory;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.TemplateType;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
@@ -145,7 +145,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
     @Input
     @Optional
     @Option(option = "templateCompilerName", description = "Name of the template compiler, by default Handlebars will be used")
-    private String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
+    private String templateCompilerName = TemplateCompilerFactory.getDefaultCompilerName();;
 
     /**
      * Custom header template file.

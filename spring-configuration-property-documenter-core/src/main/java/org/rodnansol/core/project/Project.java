@@ -47,10 +47,10 @@ public abstract class Project {
     @Override
     public String toString() {
         return "Project{" +
-            "basedir=" + basedir +
-            ", name='" + name + '\'' +
-            ", modules=" + modules +
-            ", projectType=" + projectType +
+            "basedir=" + basedir + '\n' +
+            ", name='" + name + '\'' + '\n' +
+            ", modules=" + modules + '\n' +
+            ", projectType=" + projectType + '\n' +
             '}';
     }
 

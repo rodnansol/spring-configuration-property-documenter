@@ -1,7 +1,8 @@
 package org.rodnansol.core.generator.template.customization;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
-import org.rodnansol.core.generator.template.PropertyGroupConstants;
+import org.rodnansol.core.generator.template.data.PropertyGroupConstants;
+import org.rodnansol.core.generator.template.TemplateMode;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,12 +17,14 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
 
     /**
      * Table of Contents title.
+     *
      * @since 0.4.0
      */
     protected String tocTitle;
 
     /**
      * If the header should be enabled or not.
+     *
      * @since 0.2.0
      */
     protected boolean headerEnabled = true;
@@ -78,9 +81,19 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
 
     /**
      * Field storing customization options for the content template.
+     *
      * @since 0.6.0
      */
     protected ContentCustomization contentCustomization = new ContentCustomization();
+
+    /**
+     * Controls the template mode.
+     * <p>
+     * By default, the mode is STANDARD to provide backward compatibility.
+     *
+     * @since 0.6.0
+     */
+    protected TemplateMode templateMode = TemplateMode.STANDARD;
 
     public String getTocTitle() {
         return tocTitle;
@@ -172,16 +185,13 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractTemplateCustomization that = (AbstractTemplateCustomization) o;
-        return headerEnabled == that.headerEnabled && tableOfContentsEnabled == that.tableOfContentsEnabled && includeUnknownGroup == that.includeUnknownGroup && includeGenerationDate == that.includeGenerationDate && removeEmptyGroups == that.removeEmptyGroups && Objects.equals(tocTitle, that.tocTitle) && Objects.equals(unknownGroupLocalization, that.unknownGroupLocalization) && Objects.equals(locale, that.locale) && Objects.equals(contentCustomization, that.contentCustomization);
+    public TemplateMode getTemplateMode() {
+        return templateMode;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(tocTitle, headerEnabled, tableOfContentsEnabled, includeUnknownGroup, unknownGroupLocalization, includeGenerationDate, removeEmptyGroups, locale, contentCustomization);
+    public void setTemplateMode(TemplateMode templateMode) {
+        this.templateMode = templateMode;
     }
 
     @Override
@@ -192,10 +202,25 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
             ", tableOfContentsEnabled=" + tableOfContentsEnabled +
             ", includeUnknownGroup=" + includeUnknownGroup +
             ", unknownGroupLocalization='" + unknownGroupLocalization + '\'' +
+            ", includeEnvFormat=" + includeEnvFormat +
             ", includeGenerationDate=" + includeGenerationDate +
             ", removeEmptyGroups=" + removeEmptyGroups +
             ", locale='" + locale + '\'' +
             ", contentCustomization=" + contentCustomization +
+            ", templateMode=" + templateMode +
             '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractTemplateCustomization that = (AbstractTemplateCustomization) o;
+        return headerEnabled == that.headerEnabled && tableOfContentsEnabled == that.tableOfContentsEnabled && includeUnknownGroup == that.includeUnknownGroup && includeEnvFormat == that.includeEnvFormat && includeGenerationDate == that.includeGenerationDate && removeEmptyGroups == that.removeEmptyGroups && Objects.equals(tocTitle, that.tocTitle) && Objects.equals(unknownGroupLocalization, that.unknownGroupLocalization) && Objects.equals(locale, that.locale) && Objects.equals(contentCustomization, that.contentCustomization) && templateMode == that.templateMode;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tocTitle, headerEnabled, tableOfContentsEnabled, includeUnknownGroup, unknownGroupLocalization, includeEnvFormat, includeGenerationDate, removeEmptyGroups, locale, contentCustomization, templateMode);
     }
 }

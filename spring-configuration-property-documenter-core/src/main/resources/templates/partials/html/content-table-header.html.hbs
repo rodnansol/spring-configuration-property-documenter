@@ -1,0 +1,22 @@
+<thead>
+    <tr>
+        {{#is_included "key" ~}}
+        <th>{{i18n "template.key"}}</th>
+        {{~/is_included}}
+        {{#is_included "type" ~}}
+        <th>{{i18n "template.type"}}</th>
+        {{~/is_included}}
+        {{#is_included "description" ~}}
+        <th>{{i18n "template.description"}}</th>
+        {{~/is_included}}
+        {{#is_included "defaultValue" ~}}
+        <th>{{i18n "template.defaultValue"}}</th>
+        {{~/is_included}}
+        {{#is_included "deprecation" ~}}
+        <th>{{i18n "template.deprecation"}}</th>
+        {{~/is_included}}
+        {{#is_included "envFormat" ~}}
+        <th>{{i18n "template.environmentVariable"}}</th>
+        {{~/is_included}}
+    </tr>
+</thead>

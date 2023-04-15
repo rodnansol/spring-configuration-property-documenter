@@ -3,9 +3,8 @@ package org.rodnansol.core.action;
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
-import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
-import org.rodnansol.core.generator.template.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerFactory;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.generator.writer.CreateDocumentCommand;
 import org.rodnansol.core.generator.writer.Documenter;
@@ -37,7 +36,7 @@ public class DocumentGenerationAction {
     private String description;
     private String template;
     private File outputFile;
-    private String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
+    private String templateCompilerName = TemplateCompilerFactory.getDefaultCompilerName();
     private List<String> excludedGroups;
     private List<String> includedGroups;
     private List<String> excludedProperties;
@@ -78,7 +77,7 @@ public class DocumentGenerationAction {
 
     private void initializeTemplate(TemplateType templateType) {
         if (template == null) {
-            template = templateType.getSingleTemplate();
+            template = templateType.getSingleTemplate(templateCustomization.getTemplateMode());
         }
     }
 

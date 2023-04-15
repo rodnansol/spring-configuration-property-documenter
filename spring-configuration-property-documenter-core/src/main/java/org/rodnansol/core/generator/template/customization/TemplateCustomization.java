@@ -1,6 +1,7 @@
 package org.rodnansol.core.generator.template.customization;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
+import org.rodnansol.core.generator.template.TemplateMode;
 
 /**
  * Class represents a template customization object.
@@ -73,5 +74,21 @@ public interface TemplateCustomization {
      * @since 0.6.0
      */
     void setContentCustomization(@NonNull ContentCustomization contentCustomization);
+
+    /**
+     * Controls if the template should be rendered in compact mode or not.
+     * <p>
+     * By default, for backward compatibility the compact mode is turned off.
+     *
+     * @since 0.6.0
+     */
+    TemplateMode getTemplateMode();
+
+    /**
+     * Sets the template mode.
+     *
+     * @since 0.6.0
+     */
+    void setTemplateMode(TemplateMode templateMode);
 
 }

@@ -1,0 +1,209 @@
+<html lang="en">
+<head>
+    <title>IT</title>
+    <style>
+        
+        :root {
+            --background-color: #7db04b;
+            --link-color: black;
+            --collapsible-hover-color: #96d95c;
+            --code-color: #eeeeee;
+            --even-table-row-color: #f3f3f3;
+            --last-table-row-color: #009879;
+            --table-row-color: #ffffff;
+            --table-row-border-color: #dddddd;
+            --text-color: black
+        }
+        
+
+        .top {
+            --offset: 50px;
+
+            position: sticky;
+            bottom: 20px;
+            left: 95%;
+            place-self: end;
+            margin-top: calc(100vh + var(--offset));
+
+            /* visual styling */
+            text-decoration: none;
+            padding: 10px;
+            font-family: sans-serif;
+            color: #fff;
+            background: var(--background-color);
+            border-radius: 100px;
+            white-space: nowrap;
+        }
+
+        html,
+        body {
+            scroll-behavior: smooth;
+            color: var(--text-color);
+        }
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+            width: 85%;
+        }
+        .center-text {
+            text-align: center;
+        }
+
+        .table {
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            table-layout: fixed ;
+            width: 100% ;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .table thead tr {
+            background-color: var(--background-color);
+            color: var(--table-row-color);
+            text-align: left;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px 15px;
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid var(--table-row-border-color);
+        }
+
+        .table tbody tr:nth-of-type(even) {
+            background-color: var(--even-table-row-color);
+        }
+
+        .table tbody tr:last-of-type {
+            border-bottom: 2px solid var(--last-table-row-color);
+        }
+
+        code {
+            background-color: var(--code-color);
+        }
+
+        .collapsible {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 18px;
+            border: none;
+            width: 100%;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .active, .collapsible:hover {
+            background-color: var(--collapsible-hover-color)
+        }
+
+        #toc-content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+        #toc-content.visible {
+            max-height: 200vh;
+            transition: max-height 0.5s ease-in;
+        }
+
+        a {
+            font-family: sans-serif;
+            color: var(--link-color);
+        }
+    </style>
+</head>
+
+<body>
+
+
+<h1 class="center center-text">IT</h1>
+<p class="center-text"> This is a test description</p>
+
+
+
+<div class="center">
+    <button type="button" class="collapsible">Table of Contents</button>
+    <div id="toc-content">
+
+        
+            <ul>
+                
+                    <li><a href="#Unknown group">Unknown group - <code>Unknown</code></a></li>
+                
+            </ul>
+        
+    </div>
+</div>
+
+
+
+
+<div class="center">
+    <table class="table">
+        <thead>
+    <tr>
+        <th>Key</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default value</th>
+        <th>Deprecation</th>
+        
+    </tr>
+</thead>
+<tr>
+        <td>myproduct.features.foobar.enabled</td>
+        <td>java.lang.Boolean</td>
+        <td>Enable the foobar feature</td>
+        <td>true</td>
+        <td></td>
+        </tr>
+<tr>
+        <td>myproduct.features.foobar.number</td>
+        <td>java.lang.Number</td>
+        <td>Number value</td>
+        <td>12.99</td>
+        <td></td>
+        </tr>
+<tr>
+        <td>myproduct.features.foobar.value</td>
+        <td>java.lang.String</td>
+        <td>String value</td>
+        <td>Hello world</td>
+        <td></td>
+        </tr>
+
+</table>
+<hr>
+</div>
+
+
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            let tocContent = document.getElementById('toc-content');
+            tocContent.classList.toggle("visible");
+        });
+    }
+
+</script>
+
+
+
+<a href="#" class="top">Back to Top &#8593;</a>
+
+</body>
+</html>
+

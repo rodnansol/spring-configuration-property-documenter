@@ -2,7 +2,7 @@ package org.rodnansol.gradle.tasks.customization;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import groovy.lang.Closure;
-import org.rodnansol.core.generator.template.PropertyGroupConstants;
+import org.rodnansol.core.generator.template.data.PropertyGroupConstants;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -78,6 +78,15 @@ public abstract class AbstractTemplateCustomization implements Serializable {
      */
     protected ContentCustomization contentCustomization = new ContentCustomization();
 
+    /**
+     * Controls the template mode.
+     * <p>
+     * By default, the mode is STANDARD to provide backward compatibility.
+     *
+     * @since 0.6.0
+     */
+    protected TemplateMode templateMode = TemplateMode.STANDARD;
+
     public String getTocTitle() {
         return tocTitle;
     }
@@ -151,6 +160,14 @@ public abstract class AbstractTemplateCustomization implements Serializable {
         this.contentCustomization = contentCustomization;
     }
 
+    public TemplateMode getTemplateMode() {
+        return templateMode;
+    }
+
+    public void setTemplateMode(TemplateMode templateMode) {
+        this.templateMode = templateMode;
+    }
+
     /**
      * DSL entry point for the {@link AbstractTemplateCustomization#contentCustomization} field.
      */
@@ -165,12 +182,12 @@ public abstract class AbstractTemplateCustomization implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractTemplateCustomization that = (AbstractTemplateCustomization) o;
-        return headerEnabled == that.headerEnabled && tableOfContentsEnabled == that.tableOfContentsEnabled && includeUnknownGroup == that.includeUnknownGroup && includeGenerationDate == that.includeGenerationDate && removeEmptyGroups == that.removeEmptyGroups && Objects.equals(tocTitle, that.tocTitle) && Objects.equals(unknownGroupLocalization, that.unknownGroupLocalization) && Objects.equals(locale, that.locale) && Objects.equals(contentCustomization, that.contentCustomization);
+        return headerEnabled == that.headerEnabled && tableOfContentsEnabled == that.tableOfContentsEnabled && includeUnknownGroup == that.includeUnknownGroup && includeGenerationDate == that.includeGenerationDate && removeEmptyGroups == that.removeEmptyGroups && templateMode == that.templateMode && Objects.equals(tocTitle, that.tocTitle) && Objects.equals(unknownGroupLocalization, that.unknownGroupLocalization) && Objects.equals(locale, that.locale) && Objects.equals(contentCustomization, that.contentCustomization);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tocTitle, headerEnabled, tableOfContentsEnabled, includeUnknownGroup, unknownGroupLocalization, includeGenerationDate, removeEmptyGroups, locale, contentCustomization);
+        return Objects.hash(tocTitle, headerEnabled, tableOfContentsEnabled, includeUnknownGroup, unknownGroupLocalization, includeGenerationDate, removeEmptyGroups, locale, contentCustomization, templateMode);
     }
 
     @Override
@@ -185,6 +202,7 @@ public abstract class AbstractTemplateCustomization implements Serializable {
             ", removeEmptyGroups=" + removeEmptyGroups +
             ", locale='" + locale + '\'' +
             ", contentCustomization=" + contentCustomization +
+            ", compactMode=" + templateMode +
             '}';
     }
 }
