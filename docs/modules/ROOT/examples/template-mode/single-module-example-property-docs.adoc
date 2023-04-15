@@ -1,0 +1,204 @@
+// tag::Random name for the Unknown group[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== Random name for the Unknown group +]
+ifdef::property-group-simple-title[.*_Random name for the Unknown group_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== Random name for the Unknown group
+endif::[]
+*Class:* `Unknown`
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+
+
+|===
+// end::Random name for the Unknown group[]
+
+// tag::this.is.your[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.your +]
+ifdef::property-group-simple-title[.*_this.is.your_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.your
+endif::[]
+*Class:* `org.rodnansol.YourProperties`
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+
+|property
+|java.lang.String
+|This is YOUR property.
+|
+|
+|`THIS_IS_YOUR_PROPERTY`
+
+
+|===
+// end::this.is.your[]
+
+// tag::this.is.a.bean.configuration[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.a.bean.configuration +]
+ifdef::property-group-simple-title[.*_this.is.a.bean.configuration_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.a.bean.configuration
+endif::[]
+*Class:* `org.rodnansol.PropertiesForConfiguration`
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+
+|configuration-value
+|java.lang.String
+|A field inside a class that is not property by default by within a Configuration class.
+|
+|
+|`THIS_IS_A_BEAN_CONFIGURATION_CONFIGURATIONVALUE`
+
+
+|===
+// end::this.is.a.bean.configuration[]
+
+// tag::this.is.my.nested[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.nested +]
+ifdef::property-group-simple-title[.*_this.is.my.nested_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my.nested
+endif::[]
+*Class:* `org.rodnansol.TopLevelClassNestedProperty`
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+
+|nested-value
+|java.lang.String
+|Nested value.
+|
+|
+|`THIS_IS_MY_NESTED_NESTEDVALUE`
+
+
+|===
+// end::this.is.my.nested[]
+
+// tag::this.is.my.first-level-nested-property.second-level-nested-class[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.first-level-nested-property.second-level-nested-class +]
+ifdef::property-group-simple-title[.*_this.is.my.first-level-nested-property.second-level-nested-class_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my.first-level-nested-property.second-level-nested-class
+endif::[]
+*Class:* `org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass`
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+
+|second-level-value
+|java.lang.String
+|Custom nested
+|
+|
+|`THIS_IS_MY_FIRSTLEVELNESTEDPROPERTY_SECONDLEVELNESTEDCLASS_SECONDLEVELVALUE`
+
+
+|===
+// end::this.is.my.first-level-nested-property.second-level-nested-class[]
+
+// tag::this.is.my[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my +]
+ifdef::property-group-simple-title[.*_this.is.my_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my
+endif::[]
+*Class:* `org.rodnansol.MyProperties`
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+
+|another-variable
+|java.lang.String
+|
+|with default value
+|Reason: null, use for replacement: null
+|`THIS_IS_MY_ANOTHERVARIABLE`
+
+|date
+|java.time.LocalDate
+|
+|
+|
+|`THIS_IS_MY_DATE`
+
+|date-time
+|java.time.LocalDateTime
+|
+|
+|
+|`THIS_IS_MY_DATETIME`
+
+|duration
+|java.time.Duration
+|A duration.
+|2d
+|Reason: Because it is deprecated, use for replacement: instant
+|`THIS_IS_MY_DURATION`
+
+|instant
+|java.time.Instant
+|
+|123
+|
+|`THIS_IS_MY_INSTANT`
+
+|variable
+|java.lang.String
+|This is my variable.
+|
+|
+|`THIS_IS_MY_VARIABLE`
+
+
+|===
+// end::this.is.my[]
+
+// tag::this.is.my.first-level-nested-property[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.first-level-nested-property +]
+ifdef::property-group-simple-title[.*_this.is.my.first-level-nested-property_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my.first-level-nested-property
+endif::[]
+*Class:* `org.rodnansol.FirstLevelNestedProperty`
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+
+|desc
+|java.lang.String
+|Description of this thing.
+|123
+|
+|`THIS_IS_MY_FIRSTLEVELNESTEDPROPERTY_DESC`
+
+|name
+|java.lang.String
+|Name of the custom property.
+|ABC
+|
+|`THIS_IS_MY_FIRSTLEVELNESTEDPROPERTY_NAME`
+
+
+|===
+// end::this.is.my.first-level-nested-property[]
+
+

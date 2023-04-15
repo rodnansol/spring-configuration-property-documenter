@@ -50,6 +50,61 @@ The provided/packaged templates can be found here:
 * *spring-configuration-property-documenter-core/src/main/resources/templates/partials*
 ** Contains the templates for the content, and for the HTML a few helper templates
 
+[#template-modes]
+=== Template modes
+
+[sidebar]
+With the release of the *0.6.0* version the tool now supports different templates modes, the default and fallback option is called *STANDARD*
+
+With the template mode setting you can set how your template should look like, right now this customization option just selects different template for the different sections.
+
+Available modes:
+
+- *Standard* - Default mode where the property group based properties are separated by the groups, and they are listed in different tables.
+- *Compact* - All the properties from the available property groups are shown in one just one table, no grouping by property groups.
+** *In this case the keys will be shown with their fully qualified name*.
+
+Check the xref:template-customizations[template customizations] for the setting.
+
+==== Examples
+
+===== Standard
+
+:property-group-discrete-heading:
+[%collapsible]
+.AsciiDoc
+====
+include::example$template-mode/single-module-example-property-docs.adoc[]
+
+====
+:property-group-discrete-heading!:
+
+[%collapsible]
+.Markdown
+====
+image::image$standard-document-md.png[]
+
+====
+
+===== Compact
+
+:property-group-discrete-heading:
+[%collapsible]
+.AsciiDoc
+====
+include::example$template-mode/compact-mode.adoc[]
+
+====
+:property-group-discrete-heading!:
+
+[%collapsible]
+.Markdown
+====
+image::image$compact-document-md.png[]
+
+====
+
+
 === AsciiDoc customizations
 
 The final AsciiDoc files when they are being included, the rendered files are utilizing the following AsciiDoc related features:
@@ -490,6 +545,12 @@ There are few Java classes to be discovered if you wish:
 |<<content-customization,ContentCustomization>>
 |Configures the customization for the content (tables, property groups and properties)
 |Check defaults below.
+|0.6.0
+
+|templateMode
+|STANDARD or COMPACT
+|Sets the template mode. Read more about xref:template-modes[here]
+|STANDARD
 |0.6.0
 
 |===
