@@ -14,7 +14,7 @@ endif::[]
 :toc-placement!:
 :toclevels: 4
 
-As written in the *README* file the core module is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine. With that we are able to create smaller files and we can render them together.
+As written in the *README* file the core module is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine. With that we are able to create smaller files, and we can render them together.
 
 If you would like to use your own templates as inputs you should first read through the following section to know which parameters you can use in your template.
 
@@ -24,12 +24,13 @@ toc::[]
 
 By default, the tool depends on the Handlebars 3rd party library to put life into the templates.
 
-With that said, Handlerbars supports custom helpers, and there are a few helpers, those can be used in any <<_custom_templates, custom template>>.
+With that said, Handlerbars supports custom helpers, and there are a few helpers, those can be used in any xref:custom-templates[custom template].
 
 Helpers:
 
 * `as_env` - (`org.rodnansol.core.generator.template.handlebars.EnvironmentVariableHelper`) - Renders the parameter property to its environment variable form.
 * `is_included` - (`org.rodnansol.core.generator.template.handlebars.IsIncludedHelper`) - Checks if a given property can be rendred into the document or not.
+* `is_compact_mode` - (`org.rodnansol.core.generator.template.handlebars.IsCompactModeHelper`) - Shows if the template mode is set to *COMPACT* or not.
 ** These can be configured with <<content-customization,this object>> - Keys it can handle:
 *** class
 *** key
@@ -196,6 +197,7 @@ endif::[]
 <3> Enable the discrete headings
 <4> Disabled the discrete headings to make sure another included files are not inheriting the attributes
 
+[#custom-templates]
 == Custom templates
 
 You are not forced to use our templates, we can understand it is not your taste and maybe the customization options for the provided ones are not that flexible for your (for example the HTML format).

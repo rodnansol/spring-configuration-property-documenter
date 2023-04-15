@@ -10,8 +10,12 @@ import org.rodnansol.core.generator.template.TemplateType;
  */
 public class TemplateCustomizationFactory {
 
-    private TemplateCustomizationFactory(){}
+    private TemplateCustomizationFactory() {
+    }
 
+    /**
+     * Returns an empty {@link TemplateCustomization} instance for the given template type.
+     */
     public static TemplateCustomization getDefaultTemplateCustomizationByType(TemplateType templateType) {
         switch (templateType) {
             case MARKDOWN:
