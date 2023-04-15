@@ -108,7 +108,7 @@
 
     <profiles>
         <profile>
-            <id>build</id>
+            <id>gradle-build</id>
             <repositories>
                 <repository>
                     <id>gradle</id>
