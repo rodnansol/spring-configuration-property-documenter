@@ -145,7 +145,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
     @Input
     @Optional
     @Option(option = "templateCompilerName", description = "Name of the template compiler, by default Handlebars will be used")
-    private String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
+    private String templateCompilerName = TemplateCompilerFactory.getDefaultCompilerName();;
 
     /**
      * Custom header template file.

@@ -84,4 +84,11 @@ public interface TemplateCustomization {
      */
     TemplateMode getTemplateMode();
 
+    /**
+     * Sets the template mode.
+     *
+     * @since 0.6.0
+     */
+    void setTemplateMode(TemplateMode templateMode);
+
 }

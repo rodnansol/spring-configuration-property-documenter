@@ -40,7 +40,7 @@ class DocumenterIT {
     @TempDir
     Path tempDir;
 
-    Documenter underTest = new Documenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultProvidedInstance(), MetadataInputResolverContext.INSTANCE, PropertyGroupFilterService.INSTANCE);
+    Documenter underTest = new Documenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultCompiler(), MetadataInputResolverContext.INSTANCE, PropertyGroupFilterService.INSTANCE);
 
     public static Stream<TestCase> noEnvFormatCases() {
         return Stream.of(

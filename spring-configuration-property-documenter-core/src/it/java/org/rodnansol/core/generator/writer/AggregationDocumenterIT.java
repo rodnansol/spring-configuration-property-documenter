@@ -38,7 +38,7 @@ class AggregationDocumenterIT {
     @TempDir
     Path tempDir;
 
-    AggregationDocumenter underTest = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultProvidedInstance(), MetadataInputResolverContext.INSTANCE, PropertyGroupFilterService.INSTANCE);
+    AggregationDocumenter underTest = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getDefaultCompiler(), MetadataInputResolverContext.INSTANCE, PropertyGroupFilterService.INSTANCE);
 
     public static Stream<TestCase> noEnvFormatCases() {
         return Stream.of(

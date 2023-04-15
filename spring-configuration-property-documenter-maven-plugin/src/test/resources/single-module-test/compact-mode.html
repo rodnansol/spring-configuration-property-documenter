@@ -1,0 +1,284 @@
+<html lang="en">
+<head>
+    <title>single-module-example</title>
+    <style>
+        
+        :root {
+            --background-color: #7db04b;
+            --link-color: black;
+            --collapsible-hover-color: #96d95c;
+            --code-color: #eeeeee;
+            --even-table-row-color: #f3f3f3;
+            --last-table-row-color: #009879;
+            --table-row-color: #ffffff;
+            --table-row-border-color: #dddddd;
+            --text-color: black
+        }
+        
+
+        .top {
+            --offset: 50px;
+
+            position: sticky;
+            bottom: 20px;
+            left: 95%;
+            place-self: end;
+            margin-top: calc(100vh + var(--offset));
+
+            /* visual styling */
+            text-decoration: none;
+            padding: 10px;
+            font-family: sans-serif;
+            color: #fff;
+            background: var(--background-color);
+            border-radius: 100px;
+            white-space: nowrap;
+        }
+
+        html,
+        body {
+            scroll-behavior: smooth;
+            color: var(--text-color);
+        }
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+            width: 85%;
+        }
+        .center-text {
+            text-align: center;
+        }
+
+        .table {
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            table-layout: fixed ;
+            width: 100% ;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .table thead tr {
+            background-color: var(--background-color);
+            color: var(--table-row-color);
+            text-align: left;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px 15px;
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid var(--table-row-border-color);
+        }
+
+        .table tbody tr:nth-of-type(even) {
+            background-color: var(--even-table-row-color);
+        }
+
+        .table tbody tr:last-of-type {
+            border-bottom: 2px solid var(--last-table-row-color);
+        }
+
+        code {
+            background-color: var(--code-color);
+        }
+
+        .collapsible {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 18px;
+            border: none;
+            width: 100%;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .active, .collapsible:hover {
+            background-color: var(--collapsible-hover-color)
+        }
+
+        #toc-content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+        #toc-content.visible {
+            max-height: 200vh;
+            transition: max-height 0.5s ease-in;
+        }
+
+        a {
+            font-family: sans-serif;
+            color: var(--link-color);
+        }
+    </style>
+</head>
+
+<body>
+
+
+<h1 class="center center-text">single-module-example</h1>
+
+
+
+
+<div class="center">
+    <button type="button" class="collapsible">Table of Contents</button>
+    <div id="toc-content">
+
+        
+            <ul>
+                
+                    <li><a href="#Unknown group">Unknown group - <code>Unknown</code></a></li>
+                
+                    <li><a href="#this.is.your">this.is.your - <code>org.rodnansol.YourProperties</code></a></li>
+                
+                    <li><a href="#this.is.a.bean.configuration">this.is.a.bean.configuration - <code>org.rodnansol.PropertiesForConfiguration</code></a></li>
+                
+                    <li><a href="#this.is.my.nested">this.is.my.nested - <code>org.rodnansol.TopLevelClassNestedProperty</code></a></li>
+                
+                    <li><a href="#this.is.my.first-level-nested-property.second-level-nested-class">this.is.my.first-level-nested-property.second-level-nested-class - <code>org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass</code></a></li>
+                
+                    <li><a href="#this.is.my">this.is.my - <code>org.rodnansol.MyProperties</code></a></li>
+                
+                    <li><a href="#this.is.my.first-level-nested-property">this.is.my.first-level-nested-property - <code>org.rodnansol.FirstLevelNestedProperty</code></a></li>
+                
+            </ul>
+        
+    </div>
+</div>
+
+
+
+
+<div class="center">
+    <table class="table">
+        <thead>
+    <tr>
+        <th>Key</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default value</th>
+        <th>Deprecation</th>
+        
+    </tr>
+</thead>
+<tr>
+        <td>this.is.your.property</td>
+        <td>java.lang.String</td>
+        <td>This is YOUR property.</td>
+        <td></td>
+        <td></td>
+        </tr>
+<tr>
+        <td>this.is.a.bean.configuration.configuration-value</td>
+        <td>java.lang.String</td>
+        <td>A field inside a class that is not property by default by within a Configuration class.</td>
+        <td></td>
+        <td></td>
+        </tr>
+<tr>
+        <td>this.is.my.nested.nested-value</td>
+        <td>java.lang.String</td>
+        <td>Nested value.</td>
+        <td></td>
+        <td></td>
+        </tr>
+<tr>
+        <td>this.is.my.first-level-nested-property.second-level-nested-class.second-level-value</td>
+        <td>java.lang.String</td>
+        <td>Custom nested</td>
+        <td></td>
+        <td></td>
+        </tr>
+<tr>
+        <td>this.is.my.another-variable</td>
+        <td>java.lang.String</td>
+        <td></td>
+        <td>with default value</td>
+        <td>Reason: null, use for replacement: null</td>
+        </tr>
+<tr>
+        <td>this.is.my.date</td>
+        <td>java.time.LocalDate</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+<tr>
+        <td>this.is.my.date-time</td>
+        <td>java.time.LocalDateTime</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+<tr>
+        <td>this.is.my.duration</td>
+        <td>java.time.Duration</td>
+        <td>A duration.</td>
+        <td>2d</td>
+        <td>Reason: Because it is deprecated, use for replacement: instant</td>
+        </tr>
+<tr>
+        <td>this.is.my.instant</td>
+        <td>java.time.Instant</td>
+        <td></td>
+        <td>123</td>
+        <td></td>
+        </tr>
+<tr>
+        <td>this.is.my.variable</td>
+        <td>java.lang.String</td>
+        <td>This is my variable.</td>
+        <td></td>
+        <td></td>
+        </tr>
+<tr>
+        <td>this.is.my.first-level-nested-property.desc</td>
+        <td>java.lang.String</td>
+        <td>Description of this thing.</td>
+        <td>123</td>
+        <td></td>
+        </tr>
+<tr>
+        <td>this.is.my.first-level-nested-property.name</td>
+        <td>java.lang.String</td>
+        <td>Name of the custom property.</td>
+        <td>ABC</td>
+        <td></td>
+        </tr>
+
+</table>
+<hr>
+</div>
+
+
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            let tocContent = document.getElementById('toc-content');
+            tocContent.classList.toggle("visible");
+        });
+    }
+
+</script>
+
+
+
+<a href="#" class="top">Back to Top &#8593;</a>
+
+</body>
+</html>
+

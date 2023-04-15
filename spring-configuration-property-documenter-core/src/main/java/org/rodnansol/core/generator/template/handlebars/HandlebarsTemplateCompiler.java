@@ -29,6 +29,8 @@ import java.util.Objects;
  */
 public class HandlebarsTemplateCompiler implements TemplateCompiler {
 
+    public static final TemplateCompiler INSTANCE = new HandlebarsTemplateCompiler();
+
     private static final Logger LOGGER = LoggerFactory.getLogger(HandlebarsTemplateCompiler.class);
     private static final String HELPER_AS_ENV = "as_env";
     private static final String HELPER_IS_INCLUDED = "is_included";

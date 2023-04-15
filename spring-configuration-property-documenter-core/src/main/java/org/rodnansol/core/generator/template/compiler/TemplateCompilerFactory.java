@@ -49,9 +49,16 @@ public class TemplateCompilerFactory {
     /**
      * Returns the default provided instance which is the {@link HandlebarsTemplateCompiler}.
      *
-     * @return returns a new {@link HandlebarsTemplateCompiler} instance.
+     * @return returns the singleton {@link HandlebarsTemplateCompiler} instance.
      */
-    public static TemplateCompiler getDefaultProvidedInstance() {
-        return new HandlebarsTemplateCompiler();
+    public static TemplateCompiler getDefaultCompiler() {
+        return HandlebarsTemplateCompiler.INSTANCE;
+    }
+
+    /**
+     * Returns the class name of the defualt compiler.
+     */
+    public static String getDefaultCompilerName() {
+        return getDefaultCompiler().getClass().getName();
     }
 }

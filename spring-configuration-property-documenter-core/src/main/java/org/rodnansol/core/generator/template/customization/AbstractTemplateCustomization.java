@@ -189,6 +189,7 @@ public abstract class AbstractTemplateCustomization implements TemplateCustomiza
         return templateMode;
     }
 
+    @Override
     public void setTemplateMode(TemplateMode templateMode) {
         this.templateMode = templateMode;
     }

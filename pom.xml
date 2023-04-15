@@ -56,7 +56,7 @@
         <spring-boot.version>2.7.8</spring-boot.version>
         <maven-docck-plugin.version>1.1</maven-docck-plugin.version>
         <maven-plugin-plugin.version>3.7.0</maven-plugin-plugin.version>
-        <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
+        <maven-site-plugin.version>4.0.0-M7</maven-site-plugin.version>
         <maven-project-info-reports-plugin.version>3.4.1</maven-project-info-reports-plugin.version>
         <maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
@@ -68,6 +68,11 @@
         <javax.inject.version>1</javax.inject.version>
         <spotbugs-annotations.version>4.7.3</spotbugs-annotations.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
+        <maven-plugin-testing-harness.version>3.3.0</maven-plugin-testing-harness.version>
+        <asciidoctor-maven-plugin.version>2.2.3</asciidoctor-maven-plugin.version>
+        <maven-plugin-report-plugin.version>3.8.1</maven-plugin-report-plugin.version>
+        <itf.version>0.12.0</itf.version>
+        <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
     </properties>
 
     <name>Spring Configuration Property Documenter</name>
@@ -255,31 +260,41 @@
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
                 <version>${assertj-core.version}</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>${mockito-core.version}</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${mockito-junit-jupiter.version}</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.hamcrest</groupId>
                 <artifactId>hamcrest-all</artifactId>
                 <version>${hamcrest-all.version}</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-params</artifactId>
                 <version>${junit-jupiter-params.version}</version>
-                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.plugin-testing</groupId>
+                <artifactId>maven-plugin-testing-harness</artifactId>
+                <version>${maven-plugin-testing-harness.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soebes.itf.jupiter.extension</groupId>
+                <artifactId>itf-assertj</artifactId>
+                <version>${itf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soebes.itf.jupiter.extension</groupId>
+                <artifactId>itf-jupiter-extension</artifactId>
+                <version>${itf.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -324,8 +339,8 @@
                     <version>${maven-docck-plugin.version}</version>
                 </plugin>
                 <plugin>
-                    <artifactId>maven-plugin-plugin</artifactId>
-                    <version>${maven-plugin-plugin.version}</version>
+                    <artifactId>maven-plugin-report-plugin</artifactId>
+                    <version>${maven-plugin-report-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -336,6 +351,56 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
                     <version>${maven-project-info-reports-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${build-helper-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>add-integration-test-sources</id>
+                            <phase>generate-test-sources</phase>
+                            <goals>
+                                <goal>add-test-source</goal>
+                            </goals>
+                            <configuration>
+                                <sources>
+                                    <source>src/it/java</source>
+                                    <source>src/it/resources-its</source>
+                                </sources>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>add-integration-test-resources</id>
+                            <phase>generate-test-resources</phase>
+                            <goals>
+                                <goal>add-test-resource</goal>
+                            </goals>
+                            <configuration>
+                                <resources>
+                                    <resource>
+                                        <filtering>true</filtering>
+                                        <directory>src/it/resources</directory>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>com.soebes.itf.jupiter.extension</groupId>
+                    <artifactId>itf-maven-plugin</artifactId>
+                    <version>${itf.version}</version>
+                    <executions>
+                        <execution>
+                            <id>installing</id>
+                            <phase>pre-integration-test</phase>
+                            <goals>
+                                <goal>install</goal>
+                                <goal>resources-its</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -359,16 +424,6 @@
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven-javadoc-plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven-resources-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -414,6 +469,8 @@
                 </executions>
                 <configuration>
                     <systemPropertyVariables>
+                        <maven.version>${maven.version}</maven.version>
+                        <maven.home>${maven.home}</maven.home>
                         <jacoco-agent.destfile>**/jacoco.exec</jacoco-agent.destfile>
                     </systemPropertyVariables>
                 </configuration>
@@ -466,7 +523,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-plugin-plugin</artifactId>
+                <artifactId>maven-plugin-report-plugin</artifactId>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -493,9 +550,24 @@
                     <id>ossrh</id>
                     <url>${ossrh.url}/service/local/staging/deploy/maven2/</url>
                 </repository>
+                <site>
+                    <id>rodnansol</id>
+                    <name>RodnanSol</name>
+                    <url>https://rodnansol.github.io</url>
+                </site>
             </distributionManagement>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin.version}</version>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>${maven-resources-plugin.version}</version>
+                    </plugin>
                     <plugin>
                         <inherited>false</inherited>
                         <groupId>org.jreleaser</groupId>

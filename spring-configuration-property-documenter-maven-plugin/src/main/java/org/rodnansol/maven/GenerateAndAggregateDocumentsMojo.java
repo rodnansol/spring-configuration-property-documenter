@@ -130,7 +130,7 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
      * @since 0.2.0
      */
     @Parameter(property = "templateCompilerName")
-    String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
+    String templateCompilerName = TemplateCompilerFactory.getDefaultCompilerName();;
 
     /**
      * Custom header template file.

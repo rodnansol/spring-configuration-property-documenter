@@ -5,9 +5,14 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.rodnansol.core.action.DocumentGenerationAction;
-import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
 import org.rodnansol.core.generator.template.TemplateType;
-import org.rodnansol.core.generator.template.customization.*;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerFactory;
+import org.rodnansol.core.generator.template.customization.AsciiDocTemplateCustomization;
+import org.rodnansol.core.generator.template.customization.HtmlTemplateCustomization;
+import org.rodnansol.core.generator.template.customization.MarkdownTemplateCustomization;
+import org.rodnansol.core.generator.template.customization.TemplateCustomization;
+import org.rodnansol.core.generator.template.customization.XmlTemplateCustomization;
+import org.rodnansol.core.generator.template.handlebars.HandlebarsTemplateCompiler;
 import org.rodnansol.core.project.ProjectFactory;
 
 import java.io.File;
@@ -136,7 +141,7 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
      * @since 0.2.0
      */
     @Parameter(property = "templateCompilerName")
-    String templateCompilerName = HandlebarsTemplateCompiler.class.getName();
+    String templateCompilerName = TemplateCompilerFactory.getDefaultCompilerName();;
 
     /**
      * List of excluded properties.

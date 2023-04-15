@@ -1,3 +1,4 @@
+import org.rodnansol.gradle.tasks.customization.TemplateMode
 import org.rodnansol.gradle.tasks.AggregationInput
 
 buildscript {
@@ -84,6 +85,51 @@ tasks.register('aggregateAdocWithDsl') {
         asciiDocCustomization {
             contentCustomization {
                 includeEnvFormat = true
+            }
+            unknownGroupLocalization = "Renamed unknown group"
+            tocLevels = 3
+        }
+    }
+}
+
+tasks.register('aggregateCompactAdocWithDsl') {
+    dependsOn generateAndAggregateDocuments {
+        documentName = ""
+        documentDescription = "This is my properties"
+        type = "ADOC"
+
+        metadataInputs {
+            metadata {
+                name = "Module A"
+                input = file("gradle-multi-module-a")
+            }
+            metadata {
+                name = "Module B"
+                input = file("gradle-multi-module-b")
+            }
+            metadata {
+                name = "Sprint Boot 2.7.8 - Include Groups and Lists"
+                description = "Sprint Boot 2.7.8 related properties with inclusions"
+                input = file(System.getProperty("user.home") + "/.m2/repository/org/springframework/boot/spring-boot/2.7.8/spring-boot-2.7.8.jar")
+                includedProperties = ["logging.charset.console", "spring.banner.image.invert"]
+                includedGroups = ["Unknown group"]
+            }
+            metadata {
+                name = "Sprint Boot 2.7.8 - Exclude Groups and Lists"
+                description = "Sprint Boot 2.7.8 related properties with exclusions"
+                input = file(System.getProperty("user.home") + "/.m2/repository/org/springframework/boot/spring-boot/2.7.8/spring-boot-2.7.8.jar")
+                excludedProperties = ["logging.charset.console", "spring.banner.image.invert"]
+                excludedGroups = ["spring.jta.atomikos.datasource"]
+            }
+        }
+
+        outputFile = new File("build/property-docs/compact-adoc.adoc")
+        asciiDocCustomization {
+            templateMode = TemplateMode.COMPACT
+
+            contentCustomization {
+                includeType = false
+                includeDeprecation = false
             }
             unknownGroupLocalization = "Renamed unknown group"
             tocLevels = 3
