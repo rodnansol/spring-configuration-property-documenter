@@ -7,6 +7,7 @@ on:
 
 jobs:
   snapshot-release:
+    if: "startsWith(github.event.head_commit.message, 'release: Releasing version') != true"
     name: snapshot-release
     runs-on: ${{ matrix.os }}
     strategy:

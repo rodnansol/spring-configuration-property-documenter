@@ -21,7 +21,7 @@ jobs:
         run: |
           git config --global user.email "${{ secrets.COMMIT_EMAIL }}"
           git config --global user.name "Nándor Holozsnyák"
-          git commit -a -m "Releasing version ${RELEASE_VERSION}"
+          git commit -a -m "release: Releasing version ${RELEASE_VERSION}"
           git push origin main
         env:
           RELEASE_VERSION: ${{ inputs.releaseVersion }}

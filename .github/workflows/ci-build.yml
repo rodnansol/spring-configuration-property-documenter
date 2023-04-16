@@ -12,6 +12,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    if: "startsWith(github.event.head_commit.message, 'release: Releasing version') != true"
     strategy:
       matrix:
         os: [ubuntu-latest]
