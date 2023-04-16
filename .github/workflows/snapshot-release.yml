@@ -1,0 +1,52 @@
+name: Snapshot release
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  snapshot-release:
+    if: "startsWith(github.event.head_commit.message, 'release: Releasing version') != true"
+    name: snapshot-release
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    env:
+      JRELEASER_TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
+      JRELEASER_TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
+      JRELEASER_TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+      JRELEASER_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+      JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.GPG_PUBLIC_KEY }}
+      JRELEASER_GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
+      JRELEASER_NEXUS2_MAVEN_CENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      JRELEASER_NEXUS2_MAVEN_CENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      JRELEASER_DISCORD_WEBHOOK: ${{ secrets.SPRING_CONFIGURATION_PROPERTY_DOCUMENTER_DISCORD_WEBHOOK }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+          cache: maven
+      - name: Stage Files for Snapshot Release
+        run: |
+          ./mvnw versions:set -DnewVersion=999-SNAPSHOT
+          ./mvnw -Prelease,gradle-build deploy -DaltDeploymentRepository=local::file:./target/staging-deploy -pl '!spring-configuration-property-documenter-report'
+          ./scripts/jbang-version-release.sh 999-SNAPSHOT
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v3
+        if: always() # always run even if the previous step fails
+        with:
+          report_paths: '**/target/surefire-reports/TEST-*.xml'
+      - name: Run JReleaser - Snapshot Release
+        run: |
+          ./mvnw jreleaser:release -Prelease -N -Djreleaser-nexus-deploy.active=SNAPSHOT -Djreleaser-github-release.pre-release=true
+        

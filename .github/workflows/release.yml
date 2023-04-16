@@ -8,12 +8,32 @@ on:
         type: string
 
 jobs:
+#  commit-release:
+#    name: Commit release
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Version
+#        id: vars
+#        shell: bash
+#        run: |
+#          echo ${RELEASE_VERSION} > VERSION
+#          git add VERSION
+#          git config --global user.email "${{ secrets.COMMIT_EMAIL }}"
+#          git config --global user.name "${{ secrets.COMMIT_AUTHOR }}"
+#          git commit -m "release: Releasing version ${RELEASE_VERSION}"
+#          git push origin master
+#        env:
+#          RELEASE_VERSION: ${{ inputs.releaseVersion }}
   release:
+#    needs: commit-release
+    name: tagging-and-releasing
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
-    name: tagging-and-releasing
     env:
       JRELEASER_TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
       JRELEASER_TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
@@ -36,15 +56,15 @@ jobs:
         with:
           java-version: 11
           distribution: 'temurin'
-          cache: 'maven'
+          cache: maven
       - name: Stage Files for Release
         run: |
-          mvn versions:set -DnewVersion=$RELEASE_VERSION
-          mvn -Prelease,gradle-build deploy -DaltDeploymentRepository=local::file:./target/staging-deploy -pl '!spring-configuration-property-documenter-report'
+          ./mvnw versions:set -DnewVersion=$RELEASE_VERSION
+          ./mvnw -Prelease,gradle-build deploy -DskipITs -DaltDeploymentRepository=local::file:./target/staging-deploy -pl '!spring-configuration-property-documenter-report'
           ./scripts/jbang-version-release.sh $RELEASE_VERSION
         env:
           RELEASE_VERSION: ${{ inputs.releaseVersion }}
       - name: Run JReleaser - Full Release
         run: |
-          mvn jreleaser:full-release -Prelease -N
+          ./mvnw jreleaser:full-release -Prelease -N
         
