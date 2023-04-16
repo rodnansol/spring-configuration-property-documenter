@@ -62,6 +62,7 @@
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
         <maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
         <jreleaser-github-release.draft>false</jreleaser-github-release.draft>
+        <jreleaser-github-release.pre-release>false</jreleaser-github-release.pre-release>
         <jreleaser-nexus-deploy.active>ALWAYS</jreleaser-nexus-deploy.active>
         <groovy.version>4.0.10</groovy.version>
         <gradle.version>6.1.1</gradle.version>
@@ -590,6 +591,10 @@
                                 <release>
                                     <github>
                                         <draft>${jreleaser-github-release.draft}</draft>
+                                        <prerelease>
+                                            <enabled>${jreleaser-github-release.pre-release}</enabled>
+                                            <pattern>.*-SNAPSHOT</pattern>
+                                        </prerelease>
                                         <discussionCategoryName>Announcements</discussionCategoryName>
                                         <changelog>
                                             <formatted>ALWAYS</formatted>

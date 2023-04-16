@@ -75,16 +75,13 @@ create-jbang-release version:
   ./scripts/jbang-version-release.sh {{version}}
 
 # Snapshot release
-snapshot-release:
+snapshot-release: (create-jbang-release "999-SNAPSHOT")
   mvn versions:set -DnewVersion=999-SNAPSHOT
-  mvn clean -Prelease,build deploy -DaltDeploymentRepository=local::file:./target/staging-deploy  -pl '!spring-configuration-property-documenter-report'
-  mvn jreleaser:deploy -Prelease -N -Djreleaser-nexus-deploy.active=SNAPSHOT
+  mvn clean -Prelease,gradle-build -DskipTests deploy -DaltDeploymentRepository=local::file:./target/staging-deploy  -pl '!spring-configuration-property-documenter-report'
+  mvn jreleaser:release -Prelease -N -Djreleaser-nexus-deploy.active=SNAPSHOT -Djreleaser-github-release.pre-release=true -X
 
 only-snapshot-release:
-  mvn jreleaser:deploy -Prelease -N -Djreleaser-nexus-deploy.active=SNAPSHOT -X
-
-generate-antora:
-  antora local-playbook.yml
+  mvn jreleaser:deploy -Prelease -N -Djreleaser-nexus-deploy.active=SNAPSHOT -Djreleaser-github-release.pre-release=true -X
 
 generate-antora:
   antora local-playbook.yml
