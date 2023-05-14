@@ -1,6 +1,8 @@
 = Spring Configuration Property Documenter
 ifndef::env-github[]
 :icons: font
+:docs-url-prefix: page$
+:docs-images-prefix: image$
 endif::[]
 ifdef::env-github[]
 :caution-caption: :fire:
@@ -8,6 +10,8 @@ ifdef::env-github[]
 :note-caption: :paperclip:
 :tip-caption: :bulb:
 :warning-caption: :warning:
+:docs-url-prefix: docs/modules/ROOT/pages/
+:docs-images-prefix: docs/modules/ROOT/images/
 endif::[]
 :toc:
 :toc-placement!:
@@ -151,10 +155,10 @@ This tool will let you create:
 
 styled documents about your configuration properties.
 
-The tool is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine, if you would like to create custom templates check the xref:page$template-customization.adoc[] section.
+The tool is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine, if you would like to create custom templates check the xref:{docs-url-prefix}template-customization.adoc[] section.
 
 
-You can use our xref:page$maven-plugin.adoc[Maven] plugin or our xref:page$gradle-plugin.adoc[Gradle] plugin to utilize the document generation tool.
+You can use our {docs-url-prefix}$maven-plugin.adoc[Maven] plugin or our xref:{docs-url-prefix}gradle-plugin.adoc[Gradle] plugin to utilize the document generation tool.
 
 
 Check out the https://github.com/rodnansol/spring-configuration-property-documenter/tree/master/samples[samples] folder for the different samples.
@@ -162,32 +166,31 @@ Check out the https://github.com/rodnansol/spring-configuration-property-documen
 TIP: If you are using Spring with Quarkus, you can use this tool as well, please check out the Quarkus example in the *samples* folder.
 
 ==== Results
+
 [%collapsible]
 .AsciiDoc
 ====
-image::image$asciidoc-result.png[]
-image::image$asciidoc-result-2.png[]
+image::{docs-images-prefix}asciidoc-result.png[]
+image::{docs-images-prefix}asciidoc-result-2.png[]
 ====
 
 [%collapsible]
 .Markdown
 ====
-image::image$markdown-result.png[]
+image::{docs-images-prefix}markdown-result.png[]
 ====
 
 [%collapsible]
 .HTML
 ====
-image::image$html-result.png[]
+image::{docs-images-prefix}html-result.png[]
 ====
 
 [%collapsible]
 .XML
 ====
-image::image$xml-result.png[]
+image::{docs-images-prefix}xml-result.png[]
 ====
-
-
 
 == Setup
 === Requirements
@@ -212,15 +215,15 @@ This Maven module contains the "core" codebase for the whole project, other modu
 
 [#maven-plugin]
 ==== spring-configuration-property-documenter-maven-plugin
-This Maven module is a Maven plugin implementation, please check the xref:page$maven-plugin.adoc[] part for the available goals and configuration.
+This Maven module is a Maven plugin implementation, please check the xref:{docs-url-prefix}maven-plugin.adoc[] part for the available goals and configuration.
 
 [#jbang-module]
 ==== jbang
-If you are not willing to use the Maven/Gradle plugin (that is coming soon), and you are familiar with JBang you can use this module where a `PropertyDocumenter` script is resides, to have a new entry point to the tool. Please read the xref:page$usage-jbang.adoc[] for more information.
+If you are not willing to use the Maven/Gradle plugin (that is coming soon), and you are familiar with JBang you can use this module where a `PropertyDocumenter` script is resides, to have a new entry point to the tool. Please read the xref:{docs-url-prefix}usage-jbang.adoc[] for more information.
 
 [#gradle-plugin]
 ==== spring-configuration-property-documenter-gradle-plugin
-This Maven module is a Gradle plugin implementation, please check the xref:page$gradle-plugin.adoc[] part for the available goals and configuration.
+This Maven module is a Gradle plugin implementation, please check the xref:{docs-url-prefix}gradle-plugin.adoc[] part for the available goals and configuration.
 
 == Usage
 
@@ -228,12 +231,13 @@ As said before the tool can be executed by multiple tools, by far probably the m
 
 === Entry points
 
-* xref:page$maven-plugin.adoc[]
-* xref:page$gradle-plugin.adoc[]
-* xref:page$usage-jbang.adoc[]
+* xref:{docs-url-prefix}maven-plugin.adoc[]
+* xref:{docs-url-prefix}gradle-plugin.adoc[]
+* xref:{docs-url-prefix}usage-jbang.adoc[]
 
 === Customization
-*  xref:page$template-customization.adoc[]
+
+* xref:{docs-url-prefix}template-customization.adoc[]
 
 == Contribution
 
