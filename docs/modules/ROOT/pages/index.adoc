@@ -155,10 +155,10 @@ This tool will let you create:
 
 styled documents about your configuration properties.
 
-The tool is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine, if you would like to create custom templates check the xref:{docs-url-prefix}template-customization.adoc[] section.
+The tool is using https://jknack.github.io/handlebars.java/[Handlebars] as the templating engine, if you would like to create custom templates check the xref:{docs-url-prefix}template-customization.adoc[Template customization] section.
 
 
-You can use our {docs-url-prefix}$maven-plugin.adoc[Maven] plugin or our xref:{docs-url-prefix}gradle-plugin.adoc[Gradle] plugin to utilize the document generation tool.
+You can use our xref:{docs-url-prefix}maven-plugin.adoc[Maven] plugin or our xref:{docs-url-prefix}gradle-plugin.adoc[Gradle] plugin to utilize the document generation tool.
 
 
 Check out the https://github.com/rodnansol/spring-configuration-property-documenter/tree/master/samples[samples] folder for the different samples.
@@ -215,15 +215,15 @@ This Maven module contains the "core" codebase for the whole project, other modu
 
 [#maven-plugin]
 ==== spring-configuration-property-documenter-maven-plugin
-This Maven module is a Maven plugin implementation, please check the xref:{docs-url-prefix}maven-plugin.adoc[] part for the available goals and configuration.
+This Maven module is a Maven plugin implementation, please check the xref:{docs-url-prefix}maven-plugin.adoc[Maven plugin] part for the available goals and configuration.
 
 [#jbang-module]
 ==== jbang
-If you are not willing to use the Maven/Gradle plugin (that is coming soon), and you are familiar with JBang you can use this module where a `PropertyDocumenter` script is resides, to have a new entry point to the tool. Please read the xref:{docs-url-prefix}usage-jbang.adoc[] for more information.
+If you are not willing to use the Maven/Gradle plugin (that is coming soon), and you are familiar with JBang you can use this module where a `PropertyDocumenter` script is resides, to have a new entry point to the tool. Please read the xref:{docs-url-prefix}usage-jbang.adoc[JBang] for more information.
 
 [#gradle-plugin]
 ==== spring-configuration-property-documenter-gradle-plugin
-This Maven module is a Gradle plugin implementation, please check the xref:{docs-url-prefix}gradle-plugin.adoc[] part for the available goals and configuration.
+This Maven module is a Gradle plugin implementation, please check the xref:{docs-url-prefix}gradle-plugin.adoc[Gradle] part for the available goals and configuration.
 
 == Usage
 
@@ -231,13 +231,13 @@ As said before the tool can be executed by multiple tools, by far probably the m
 
 === Entry points
 
-* xref:{docs-url-prefix}maven-plugin.adoc[]
-* xref:{docs-url-prefix}gradle-plugin.adoc[]
-* xref:{docs-url-prefix}usage-jbang.adoc[]
+* xref:{docs-url-prefix}maven-plugin.adoc[Maven plugin]
+* xref:{docs-url-prefix}gradle-plugin.adoc[Gradle plugin]
+* xref:{docs-url-prefix}usage-jbang.adoc[JBang]
 
 === Customization
 
-* xref:{docs-url-prefix}template-customization.adoc[]
+* xref:{docs-url-prefix}template-customization.adoc[Template customization]
 
 == Contribution
 
