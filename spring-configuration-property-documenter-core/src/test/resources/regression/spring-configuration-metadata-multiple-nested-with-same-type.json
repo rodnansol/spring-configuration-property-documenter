@@ -1,0 +1,50 @@
+{
+  "groups": [
+    {
+      "name": "my.app.parent.my-app-configuration",
+      "type": "com.playground.springplayground.MyApplicationConfiguration",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration"
+    },
+    {
+      "name": "my.app.parent.my-app-configuration.abc",
+      "type": "com.playground.springplayground.MyApplicationConfiguration$MyNestedChildConfiguration",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration",
+      "sourceMethod": "abc()"
+    },
+    {
+      "name": "my.app.parent.my-app-configuration.efg",
+      "type": "com.playground.springplayground.MyApplicationConfiguration$MyNestedChildConfiguration",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration",
+      "sourceMethod": "efg()"
+    },
+    {
+      "name": "my.app.parent.my-app-configuration.xyz",
+      "type": "com.playground.springplayground.MyApplicationConfiguration$MyNestedChildConfiguration",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration",
+      "sourceMethod": "xyz()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "my.app.parent.my-app-configuration.abc.bar",
+      "type": "java.lang.String",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration$MyNestedChildConfiguration"
+    },
+    {
+      "name": "my.app.parent.my-app-configuration.efg.bar",
+      "type": "java.lang.String",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration$MyNestedChildConfiguration"
+    },
+    {
+      "name": "my.app.parent.my-app-configuration.foo",
+      "type": "java.lang.String",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration"
+    },
+    {
+      "name": "my.app.parent.my-app-configuration.xyz.bar",
+      "type": "java.lang.String",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration$MyNestedChildConfiguration"
+    }
+  ],
+  "hints": []
+}

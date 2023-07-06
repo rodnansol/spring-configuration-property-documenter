@@ -78,22 +78,9 @@ public class MetadataReader {
         }
     }
 
-    private PropertyGroup setProperties(Map<String, List<Property>> propertyMap, PropertyGroup propertyGroup) {
-        List<Property> properties = propertyMap.get(propertyGroup.getType());
-        if (properties == null || properties.isEmpty()) {
-            LOGGER.warn("Property group with name:[{}] is having no properties, please check if you provided the getter/setter methods. If your class is empty intentionally, please forget this warning here.", propertyGroup.getGroupName());
-            return propertyGroup;
-        }
-        List<Property> collectedProperties = properties.stream()
-            .map(property -> updateProperty(propertyGroup, property))
-            .collect(Collectors.toList());
-        propertyGroup.setProperties(collectedProperties);
-        return propertyGroup;
-    }
-
     private Property updateProperty(PropertyGroup propertyGroup, Property property) {
         String groupName = propertyGroup.getGroupName();
-        if(propertyGroup.isUnknownGroup()) {
+        if (propertyGroup.isUnknownGroup()) {
             property.setKey(property.getFqName());
         } else {
             property.setKey(property.getFqName().substring(groupName.length() + 1));
@@ -103,9 +90,9 @@ public class MetadataReader {
 
     private List<PropertyGroup> flattenValues(Map<String, List<PropertyGroup>> propertyGroupsByType) {
         return propertyGroupsByType.values()
-            .stream()
-            .flatMap(Collection::stream)
-            .collect(Collectors.toList());
+                .stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 
     private void updateGroupsWithPropertiesAndAssociations(Map<String, List<Property>> propertyMap, Map<String, List<PropertyGroup>> propertyGroupsByType) {
@@ -123,18 +110,32 @@ public class MetadataReader {
 
     private List<PropertyGroup> updatePropertiesAndReturnNestedGroups(Map<String, List<Property>> propertyMap, Map.Entry<String, List<PropertyGroup>> propertyEntry) {
         return propertyEntry.getValue()
-            .stream()
-            .map(propertyGroup -> setProperties(propertyMap, propertyGroup))
-            .filter(PropertyGroup::isNested)
-            .collect(Collectors.toList());
+                .stream()
+                .map(propertyGroup -> setProperties(propertyMap, propertyGroup))
+                .filter(PropertyGroup::isNested)
+                .collect(Collectors.toList());
+    }
+
+    private PropertyGroup setProperties(Map<String, List<Property>> propertyMap, PropertyGroup propertyGroup) {
+        List<Property> properties = propertyMap.get(propertyGroup.getType());
+        if (properties == null || properties.isEmpty()) {
+            LOGGER.warn("Property group with name:[{}] is having no properties, please check if you provided the getter/setter methods. If your class is empty intentionally, please forget this warning here.", propertyGroup.getGroupName());
+            return propertyGroup;
+        }
+        List<Property> collectedProperties = properties.stream()
+                .filter(property -> property.getFqName().startsWith(propertyGroup.getGroupName()) || propertyGroup.isUnknownGroup())
+                .map(property -> updateProperty(propertyGroup, property))
+                .collect(Collectors.toList());
+        propertyGroup.setProperties(collectedProperties);
+        return propertyGroup;
     }
 
     private Map<String, List<PropertyGroup>> getPropertyGroups(ConfigurationMetadata configurationMetadata) {
         Map<String, List<PropertyGroup>> propertyGroupMap = configurationMetadata.getItems()
-            .stream()
-            .filter(itemMetadata -> itemMetadata.isOfItemType(ItemMetadata.ItemType.GROUP))
-            .map(itemMetadata -> new PropertyGroup(itemMetadata.getName(), itemMetadata.getType(), getSourceTypeOrDefault(itemMetadata)))
-            .collect(Collectors.groupingBy(PropertyGroup::getSourceType, Collectors.toList()));
+                .stream()
+                .filter(itemMetadata -> itemMetadata.isOfItemType(ItemMetadata.ItemType.GROUP))
+                .map(itemMetadata -> new PropertyGroup(itemMetadata.getName(), itemMetadata.getType(), getSourceTypeOrDefault(itemMetadata)))
+                .collect(Collectors.groupingBy(PropertyGroup::getSourceType, Collectors.toList()));
         List<PropertyGroup> value = new ArrayList<>();
         value.add(PropertyGroup.createUnknownGroup());
         propertyGroupMap.put(PropertyGroupConstants.UNKNOWN, value);
@@ -144,11 +145,11 @@ public class MetadataReader {
     private Map<String, List<Property>> getPropertyMap(ConfigurationMetadata configurationMetadata) {
         Function<ItemMetadata, String> getSourceType = this::getSourceTypeOrDefault;
         return configurationMetadata.getItems()
-            .stream()
-            .filter(itemMetadata -> itemMetadata.isOfItemType(ItemMetadata.ItemType.PROPERTY))
-            .collect(Collectors.groupingBy(getSourceType,
-                Collectors.mapping(this::mapToProperty, Collectors.toList()))
-            );
+                .stream()
+                .filter(itemMetadata -> itemMetadata.isOfItemType(ItemMetadata.ItemType.PROPERTY))
+                .collect(Collectors.groupingBy(getSourceType,
+                        Collectors.mapping(this::mapToProperty, Collectors.toList()))
+                );
     }
 
     private String getSourceTypeOrDefault(ItemMetadata current) {
