@@ -1,0 +1,34 @@
+{
+  "groups": [
+    {
+      "name": "my.app.parent.my-app-configuration",
+      "type": "com.playground.springplayground.MyApplicationConfiguration",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration"
+    },
+    {
+      "name": "my.app.parent.my-app-configuration.abcd",
+      "type": "com.playground.springplayground.MyApplicationConfiguration$MyNestedChildConfiguration",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration",
+      "sourceMethod": "abcd()"
+    },
+    {
+      "name": "my.app.parent.my-app-configuration.another-child-config",
+      "type": "com.playground.springplayground.MyApplicationConfiguration$MyNestedChildConfiguration",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration",
+      "sourceMethod": "anotherChildConfig()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "my.app.parent.my-app-configuration.abcd.ab",
+      "type": "java.lang.String",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration$MyNestedChildConfiguration"
+    },
+    {
+      "name": "my.app.parent.my-app-configuration.another-child-config.ab",
+      "type": "java.lang.String",
+      "sourceType": "com.playground.springplayground.MyApplicationConfiguration$MyNestedChildConfiguration"
+    }
+  ],
+  "hints": []
+}
