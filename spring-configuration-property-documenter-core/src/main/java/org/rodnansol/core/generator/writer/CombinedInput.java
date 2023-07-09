@@ -3,6 +3,7 @@ package org.rodnansol.core.generator.writer;
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * @author nandorholozsnyak
@@ -70,14 +71,14 @@ public class CombinedInput {
 
     @Override
     public String toString() {
-        return "CombinedInput{" +
-            "input=" + input + '\n' +
-            ", sectionName='" + sectionName + '\'' + '\n' +
-            ", description='" + description + '\'' + '\n' +
-            ", excludedProperties=" + excludedProperties + '\n' +
-            ", includedProperties=" + includedProperties + '\n' +
-            ", excludedGroups=" + excludedGroups + '\n' +
-            ", includedGroups=" + includedGroups + '\n' +
-            '}';
+        return new StringJoiner(", ", CombinedInput.class.getSimpleName() + "[", "]")
+            .add("input=" + input)
+            .add("sectionName='" + sectionName + "'")
+            .add("description='" + description + "'")
+            .add("excludedGroups=" + excludedGroups)
+            .add("includedGroups=" + includedGroups)
+            .add("excludedProperties=" + excludedProperties)
+            .add("includedProperties=" + includedProperties)
+            .toString();
     }
 }

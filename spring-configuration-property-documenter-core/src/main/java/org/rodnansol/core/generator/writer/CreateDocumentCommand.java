@@ -26,6 +26,7 @@ public class CreateDocumentCommand {
     private List<String> includedGroups;
     private List<String> excludedProperties;
     private List<String> includedProperties;
+    private boolean failOnMissingInput;
 
     public CreateDocumentCommand(Project project, String name, File metadataInput, String template, File output, TemplateCustomization templateCustomization) {
         this.project = Objects.requireNonNull(project, "project is NULL");
@@ -98,5 +99,14 @@ public class CreateDocumentCommand {
 
     public void setIncludedGroups(List<String> includedGroups) {
         this.includedGroups = includedGroups;
+    }
+
+
+    public boolean isFailOnMissingInput() {
+        return failOnMissingInput;
+    }
+
+    public void setFailOnMissingInput(boolean failOnMissingInput) {
+        this.failOnMissingInput = failOnMissingInput;
     }
 }

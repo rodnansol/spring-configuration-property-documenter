@@ -33,7 +33,7 @@ debug-multi-module-docs: build
 build-gradle-plugin:
   rm -rf ~/.m2/repository/org/rodnansol/spring-configuration-property-documenter-gradle-plugin
   rm -rf ~/.gradle/caches
-  mvn clean install -Pbuild -pl 'spring-configuration-property-documenter-gradle-plugin'
+  mvn clean install -Pgradle-build -pl 'spring-configuration-property-documenter-gradle-plugin'
 
 # Dry full-release
 dry-release:

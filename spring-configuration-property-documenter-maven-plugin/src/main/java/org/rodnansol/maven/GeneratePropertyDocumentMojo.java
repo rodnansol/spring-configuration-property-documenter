@@ -175,6 +175,14 @@ public class GeneratePropertyDocumentMojo extends AbstractMojo {
     @Parameter(property = "includedGroups")
     List<String> includedGroups = new ArrayList<>();
 
+    /**
+     * Define if the process should fail if the given input file is not found.
+     *
+     * @since 0.7.0
+     */
+    @Parameter(property = "failOnMissingInput", defaultValue = "true")
+    boolean failOnMissingInput;
+
 
     @Override
     public void execute() {

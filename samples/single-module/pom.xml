@@ -78,7 +78,7 @@
                         <configuration>
                             <type>ADOC</type>
                             <asciiDocCustomization>
-                                <compactMode>true</compactMode>
+                                <templateMode>COMPACT</templateMode>
                             </asciiDocCustomization>
                             <outputFile>target/compact-mode.adoc</outputFile>
                         </configuration>
@@ -97,6 +97,18 @@
                                     <includeEnvFormat>true</includeEnvFormat>
                                 </contentCustomization>
                             </asciiDocCustomization>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-empty-output-file-because-input-file-is-missing</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>generate-property-document</goal>
+                        </goals>
+                        <configuration>
+                            <metadataInput>not-existing.json</metadataInput>
+                            <type>ADOC</type>
+                            <outputFile>target/not-existing-input-file.adoc</outputFile>
                         </configuration>
                     </execution>
                     <execution>
@@ -216,7 +228,7 @@
                         <configuration>
                             <type>MARKDOWN</type>
                             <markdownCustomization>
-                                <compactMode>true</compactMode>
+                                <templateMode>COMPACT</templateMode>
                             </markdownCustomization>
                             <outputFile>target/compact-mode.md</outputFile>
                         </configuration>
@@ -262,7 +274,7 @@
                         <configuration>
                             <type>HTML</type>
                             <htmlCustomization>
-                                <compactMode>true</compactMode>
+                                <templateMode>COMPACT</templateMode>
                             </htmlCustomization>
                             <outputFile>target/compact-mode.html</outputFile>
                         </configuration>

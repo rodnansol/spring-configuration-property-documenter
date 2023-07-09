@@ -2,6 +2,7 @@ package org.rodnansol.gradle.tasks.customization;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Class containing header customization data.
@@ -125,14 +126,14 @@ public class ContentCustomization implements Serializable {
 
     @Override
     public String toString() {
-        return "ContentCustomization{" +
-            "includeClass=" + includeClass +
-            ", includeKey=" + includeKey +
-            ", includeType=" + includeType +
-            ", includeDescription=" + includeDescription +
-            ", includeDefaultValue=" + includeDefaultValue +
-            ", includeDeprecation=" + includeDeprecation +
-            ", includeEnvFormat=" + includeEnvFormat +
-            '}';
+        return new StringJoiner(", ", ContentCustomization.class.getSimpleName() + "[", "]")
+            .add("includeClass=" + includeClass)
+            .add("includeKey=" + includeKey)
+            .add("includeType=" + includeType)
+            .add("includeDescription=" + includeDescription)
+            .add("includeDefaultValue=" + includeDefaultValue)
+            .add("includeDeprecation=" + includeDeprecation)
+            .add("includeEnvFormat=" + includeEnvFormat)
+            .toString();
     }
 }

@@ -1,5 +1,6 @@
 [#header]
 = Migrations
+
 ifndef::env-github[]
 :icons: font
 endif::[]
@@ -14,7 +15,64 @@ endif::[]
 :toc-placement!:
 :toclevels: 4
 
+[#version-0-7-0]
+== 0.6.0 -> 0.7.0
 
+Before the 0.7.0 version in case any of the input files during the `generate-and-aggregate-documents` Maven goal or `generateAndAggregateDocuments` Gradle task was missing the documentation was created but the missing elements were not rendered into the document, because there was nothing to be read.
+
+With the release of the 0.7.0 this changes and the build will fail, but it can be parametrized for both available goals/tasks.
+
+Maven goals:
+
+* generate-property-document
+* generate-and-aggregate-documents
+
+Gradle tasks:
+
+* generatePropertyDocument
+* generateAndAggregateDocuments
+
+=== Maven
+
+.pom.xml
+[source,xml]
+----
+<executions>
+    <execution>
+        <id>generate-adoc</id>
+        <phase>process-classes</phase>
+        <goals>
+            <goal>generate-property-document</goal>
+        </goals>
+        <configuration>
+            <type>TYPE</type>
+            <!--Set to true if the build should fail if the input file is missing, set to false if it should generate an empty document-->
+            <failOnMissingInput>true</failOnMissingInput>
+        </configuration>
+    </execution>
+    <execution>
+        <id>generate-adoc</id>
+        <phase>process-classes</phase>
+        <goals>
+            <goal>generate-and-aggregate-documents</goal>
+        </goals>
+        <configuration>
+            <type>TYPE</type>
+            <!--Set to true if the build should fail if the input file is missing, set to false if it should generate an empty document-->
+            <failOnMissingInput>true</failOnMissingInput>
+        </configuration>
+    </execution>
+</executions>
+----
+
+=== Gradle
+
+[#version-0-6-1]
+== 0.6.0 -> 0.6.1
+
+No changes required.
+
+[#version-0-6-0]
 == 0.5.1 -> 0.6.0
 
 === Including environment format
@@ -24,6 +82,7 @@ Header appearance in the tables are now customizable, and to make sure the envir
 A new level of configuration is introduced, it can be configured with the `contentCustomization` key in Maven and in Gradle.
 
 ==== Maven
+
 .Till 0.5.1
 [source,xml]
 ----
@@ -92,6 +151,7 @@ A new level of configuration is introduced, it can be configured with the `conte
 ----
 
 ==== Gradle
+
 .Till 0.5.1
 [source,groovy]
 ----
@@ -188,32 +248,52 @@ tasks.register('generateXml') {
 }
 ----
 
+[#version-0-5-1]
 == 0.5.0 -> 0.5.1
+
 No changes required.
 
+[#version-0-5-0]
 == 0.4.0 -> 0.5.0
+
 No changes required.
 
+[#version-0-4-0]
 == 0.3.0 -> 0.4.0
+
 No changes required.
 
+[#version-0-3-0]
 == 0.2.4 -> 0.3.0
+
 No changes required.
 
+[#version-0-2-4]
 == 0.2.3 -> 0.2.4
+
 No changes required.
 
+[#version-0-2-3]
 == 0.2.2 -> 0.2.3
+
 No changes required.
 
+[#version-0-2-2]
 == 0.2.1 -> 0.2.2
+
 No changes required.
 
+[#version-0-2-1]
 == 0.2.0 -> 0.2.1
+
 No changes required.
 
+[#version-0-2-0]
 == 0.1.1 -> 0.2.0
+
 No changes required.
 
+[#version-0-1-1]
 == 0.1.0 -> 0.1.1
+
 No changes required.

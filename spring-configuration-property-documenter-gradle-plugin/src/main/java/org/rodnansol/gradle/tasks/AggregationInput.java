@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Class representing an input in the gradle.build's task configuration.
@@ -144,14 +145,14 @@ public class AggregationInput implements Serializable {
 
     @Override
     public String toString() {
-        return "AggregationInput{" +
-            "excludedProperties=" + excludedProperties +
-            ", includedProperties=" + includedProperties +
-            ", excludedGroups=" + excludedGroups +
-            ", includedGroups=" + includedGroups +
-            ", name='" + name + '\'' +
-            ", description='" + description + '\'' +
-            ", input=" + input +
-            '}';
+        return new StringJoiner(", ", AggregationInput.class.getSimpleName() + "[", "]")
+            .add("excludedProperties=" + excludedProperties)
+            .add("includedProperties=" + includedProperties)
+            .add("excludedGroups=" + excludedGroups)
+            .add("includedGroups=" + includedGroups)
+            .add("name='" + name + "'")
+            .add("description='" + description + "'")
+            .add("input=" + input)
+            .toString();
     }
 }

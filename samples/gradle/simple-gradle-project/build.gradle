@@ -86,3 +86,23 @@ tasks.register('generateXml') {
         }
     }
 }
+
+tasks.register('generateAdocFromMissingInputFile') {
+    dependsOn generatePropertyDocument {
+        metadataInput = new File("non-existing.json")
+        failOnMissingInput = false
+        outputFile = new File("build/property-docs/non-existing-file.adoc")
+        documentName = "Hello World"
+        type = "ADOC"
+        asciiDocCustomization {
+            contentCustomization {
+                includeEnvFormat = true
+                includeClass = false
+                includeDeprecation = false
+                includeDescription = false
+            }
+            unknownGroupLocalization = "Renamed unknown group"
+            tocLevels = 3
+        }
+    }
+}

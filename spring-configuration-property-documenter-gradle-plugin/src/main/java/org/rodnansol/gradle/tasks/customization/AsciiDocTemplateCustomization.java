@@ -1,6 +1,7 @@
 package org.rodnansol.gradle.tasks.customization;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Class representing extra customizations for the AsciiDoc template.
@@ -64,16 +65,19 @@ public class AsciiDocTemplateCustomization extends AbstractTemplateCustomization
 
     @Override
     public String toString() {
-        return "AsciiDocTemplateCustomization{" +
-            "tocPlacement=" + tocPlacement +
-            ", tocLevels=" + tocLevels +
-            ", headerEnabled=" + headerEnabled +
-            ", tableOfContentsEnabled=" + tableOfContentsEnabled +
-            ", includeUnknownGroup=" + includeUnknownGroup +
-            ", unknownGroupLocalization='" + unknownGroupLocalization + '\'' +
-            ", includeGenerationDate=" + includeGenerationDate +
-            ", removeEmptyGroups=" + removeEmptyGroups +
-            ", locale='" + locale + '\'' +
-            "} " + super.toString();
+        return new StringJoiner(", ", AsciiDocTemplateCustomization.class.getSimpleName() + "[", "]")
+            .add("tocPlacement=" + tocPlacement)
+            .add("tocLevels=" + tocLevels)
+            .add("tocTitle='" + tocTitle + "'")
+            .add("headerEnabled=" + headerEnabled)
+            .add("tableOfContentsEnabled=" + tableOfContentsEnabled)
+            .add("includeUnknownGroup=" + includeUnknownGroup)
+            .add("unknownGroupLocalization='" + unknownGroupLocalization + "'")
+            .add("includeGenerationDate=" + includeGenerationDate)
+            .add("removeEmptyGroups=" + removeEmptyGroups)
+            .add("locale='" + locale + "'")
+            .add("contentCustomization=" + contentCustomization)
+            .add("templateMode=" + templateMode)
+            .toString();
     }
 }

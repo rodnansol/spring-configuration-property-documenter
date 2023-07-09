@@ -1,11 +1,14 @@
 package org.rodnansol.core.generator.writer;
 
+import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.reader.MetadataReader;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.generator.template.TemplateMode;
@@ -21,11 +24,13 @@ import org.rodnansol.core.project.ProjectFactory;
 import org.rodnansol.core.project.simple.SimpleProject;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.fail;
 
 @ExtendWith(MockitoExtension.class)
@@ -116,6 +121,52 @@ class AggregationDocumenterIT {
 
         // Then
         assertThat(resolve).hasSameTextualContentAs(Path.of(testCase.expectedFile));
+    }
+
+    @Test
+    @DisplayName("Should return an empty file with basic content when the input file is missing and it is set to not fail")
+    void readMetadataAndGenerateRenderedFile_shouldReturnEmptyFile_whenInputFileIsMissing() throws IOException {
+        // Given
+        TemplateType templateType = TemplateType.ADOC;
+        Path resolve = tempDir.resolve("IT-output-non-existing-input-" + templateType.name() + templateType.getExtension());
+        AbstractTemplateCustomization templateCustomization = getTemplateCustomization(templateType);
+        templateCustomization.setTemplateMode(TemplateMode.COMPACT);
+        CreateAggregationCommand createAggregationCommand = new CreateAggregationCommand(PROJECT, "IT",
+            List.of(
+                new CombinedInput(new File("non-existing-file.json"), "Document 1", "Document 1 description")
+            ),
+            templateType, templateCustomization, resolve.toFile());
+        createAggregationCommand.setDescription("This is a test description");
+        createAggregationCommand.setFailOnMissingInput(false);
+
+        // When
+        underTest.createDocumentsAndAggregate(createAggregationCommand);
+
+        // Then
+        assertThat(resolve).hasSameTextualContentAs(Path.of(MAIN_EXPECTED_FOLDER + "expected-non-existing-input-file.adoc"));
+    }
+
+    @Test
+    @DisplayName("Should throw DocumentGenerationException exception when the input file is missing and it is meant to fail in this case")
+    void readMetadataAndGenerateRenderedFile_shouldFail_whenInputFileIsMissingAndItIsMeanToFail() {
+        // Given
+        TemplateType templateType = TemplateType.ADOC;
+        Path resolve = tempDir.resolve("IT-output-non-existing-input-" + templateType.name() + templateType.getExtension());
+        AbstractTemplateCustomization templateCustomization = getTemplateCustomization(templateType);
+        templateCustomization.setTemplateMode(TemplateMode.COMPACT);
+        CreateAggregationCommand createAggregationCommand = new CreateAggregationCommand(PROJECT, "IT",
+            List.of(
+                new CombinedInput(new File("non-existing-file.json"), "Document 1", "Document 1 description")
+            ),
+            templateType, templateCustomization, resolve.toFile());
+        createAggregationCommand.setDescription("This is a test description");
+        createAggregationCommand.setFailOnMissingInput(true);
+
+        // When
+        ThrowableAssert.ThrowingCallable callable = () -> underTest.createDocumentsAndAggregate(createAggregationCommand);
+
+        // Then
+        assertThatThrownBy(callable).isInstanceOf(DocumentGenerationException.class);
     }
 
     private AbstractTemplateCustomization getTemplateCustomization(TemplateType templateType) {

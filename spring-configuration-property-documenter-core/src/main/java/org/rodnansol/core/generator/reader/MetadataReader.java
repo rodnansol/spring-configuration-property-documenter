@@ -60,13 +60,16 @@ public class MetadataReader {
      * <p>
      * <b>NOTE:</b> The current implementation is a bit fuzzy, when the time comes we can come up with a more efficient solution, but right now this is the "contact" basically.
      *
-     * @param metadataStream stream containing the content of the <code>spring-configuration-metadata.json</code>.
+     * @param metadataStream stream containing the content of the <code>spring-configuration-metadata.json</code> or an empty list if the incoming stream is empty.
      * @return groups and properties converted to a List of {@link PropertyGroup}.
      * @since 0.1.0
      */
     public List<PropertyGroup> readPropertiesAsPropertyGroupList(InputStream metadataStream) {
         Objects.requireNonNull(metadataStream, "metadataStream is NULL");
         try {
+            if (metadataStream.available() == 0) {
+                return List.of();
+            }
             ConfigurationMetadata configurationMetadata = new JsonMarshaller().read(metadataStream);
             Map<String, List<Property>> propertyMap = getPropertyMap(configurationMetadata);
             Map<String, List<PropertyGroup>> propertyGroupsByType = getPropertyGroups(configurationMetadata);
@@ -90,9 +93,9 @@ public class MetadataReader {
 
     private List<PropertyGroup> flattenValues(Map<String, List<PropertyGroup>> propertyGroupsByType) {
         return propertyGroupsByType.values()
-                .stream()
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+            .stream()
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList());
     }
 
     private void updateGroupsWithPropertiesAndAssociations(Map<String, List<Property>> propertyMap, Map<String, List<PropertyGroup>> propertyGroupsByType) {
@@ -110,10 +113,10 @@ public class MetadataReader {
 
     private List<PropertyGroup> updatePropertiesAndReturnNestedGroups(Map<String, List<Property>> propertyMap, Map.Entry<String, List<PropertyGroup>> propertyEntry) {
         return propertyEntry.getValue()
-                .stream()
-                .map(propertyGroup -> setProperties(propertyMap, propertyGroup))
-                .filter(PropertyGroup::isNested)
-                .collect(Collectors.toList());
+            .stream()
+            .map(propertyGroup -> setProperties(propertyMap, propertyGroup))
+            .filter(PropertyGroup::isNested)
+            .collect(Collectors.toList());
     }
 
     private PropertyGroup setProperties(Map<String, List<Property>> propertyMap, PropertyGroup propertyGroup) {
@@ -123,19 +126,19 @@ public class MetadataReader {
             return propertyGroup;
         }
         List<Property> collectedProperties = properties.stream()
-                .filter(property -> property.getFqName().startsWith(propertyGroup.getGroupName()) || propertyGroup.isUnknownGroup())
-                .map(property -> updateProperty(propertyGroup, property))
-                .collect(Collectors.toList());
+            .filter(property -> property.getFqName().startsWith(propertyGroup.getGroupName()) || propertyGroup.isUnknownGroup())
+            .map(property -> updateProperty(propertyGroup, property))
+            .collect(Collectors.toList());
         propertyGroup.setProperties(collectedProperties);
         return propertyGroup;
     }
 
     private Map<String, List<PropertyGroup>> getPropertyGroups(ConfigurationMetadata configurationMetadata) {
         Map<String, List<PropertyGroup>> propertyGroupMap = configurationMetadata.getItems()
-                .stream()
-                .filter(itemMetadata -> itemMetadata.isOfItemType(ItemMetadata.ItemType.GROUP))
-                .map(itemMetadata -> new PropertyGroup(itemMetadata.getName(), itemMetadata.getType(), getSourceTypeOrDefault(itemMetadata)))
-                .collect(Collectors.groupingBy(PropertyGroup::getSourceType, Collectors.toList()));
+            .stream()
+            .filter(itemMetadata -> itemMetadata.isOfItemType(ItemMetadata.ItemType.GROUP))
+            .map(itemMetadata -> new PropertyGroup(itemMetadata.getName(), itemMetadata.getType(), getSourceTypeOrDefault(itemMetadata)))
+            .collect(Collectors.groupingBy(PropertyGroup::getSourceType, Collectors.toList()));
         List<PropertyGroup> value = new ArrayList<>();
         value.add(PropertyGroup.createUnknownGroup());
         propertyGroupMap.put(PropertyGroupConstants.UNKNOWN, value);
@@ -145,11 +148,11 @@ public class MetadataReader {
     private Map<String, List<Property>> getPropertyMap(ConfigurationMetadata configurationMetadata) {
         Function<ItemMetadata, String> getSourceType = this::getSourceTypeOrDefault;
         return configurationMetadata.getItems()
-                .stream()
-                .filter(itemMetadata -> itemMetadata.isOfItemType(ItemMetadata.ItemType.PROPERTY))
-                .collect(Collectors.groupingBy(getSourceType,
-                        Collectors.mapping(this::mapToProperty, Collectors.toList()))
-                );
+            .stream()
+            .filter(itemMetadata -> itemMetadata.isOfItemType(ItemMetadata.ItemType.PROPERTY))
+            .collect(Collectors.groupingBy(getSourceType,
+                Collectors.mapping(this::mapToProperty, Collectors.toList()))
+            );
     }
 
     private String getSourceTypeOrDefault(ItemMetadata current) {

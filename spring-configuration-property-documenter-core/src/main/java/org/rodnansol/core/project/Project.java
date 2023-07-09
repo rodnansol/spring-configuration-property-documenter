@@ -4,6 +4,7 @@ import org.rodnansol.core.generator.template.TemplateType;
 
 import java.io.File;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Class representing a project.
@@ -46,12 +47,12 @@ public abstract class Project {
 
     @Override
     public String toString() {
-        return "Project{" +
-            "basedir=" + basedir + '\n' +
-            ", name='" + name + '\'' + '\n' +
-            ", modules=" + modules + '\n' +
-            ", projectType=" + projectType + '\n' +
-            '}';
+        return new StringJoiner(", ", Project.class.getSimpleName() + "[", "]")
+            .add("basedir=" + basedir)
+            .add("name='" + name + "'")
+            .add("projectType=" + projectType)
+            .add("modules=" + modules)
+            .toString();
     }
 
     /**
