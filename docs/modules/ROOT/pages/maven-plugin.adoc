@@ -39,8 +39,6 @@ The plugin is having multiple <<available-goals-and-config, goals>> at this mome
 Spring's annotation processor will kick in the `compile` phase, and because of that the plugin must be linked after that lifecycle, for example the `process-classes`.
 
 .pom.xml
-[%collapsible]
-====
 [source,xml]
 ----
  <build>
@@ -87,7 +85,6 @@ Spring's annotation processor will kick in the `compile` phase, and because of t
         </plugins>
     </build>
 ----
-====
 
 In this example 3 files are going to be created with different extensions (Markdown, AsciiDoc, HTML).
 
