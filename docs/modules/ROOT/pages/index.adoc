@@ -289,7 +289,7 @@ Please fork the project if you would like to contribute.
 
 The project requires at least Java 11, if sdkman is installed on your machine `sdk e` command could be used in the terminal to set up the required Java version.
 
-- To build the project just run: `mvn verify -Pbuild` - The `build` profile is required to access the Gradle dependencies
+- To build the project just run: `mvn verify`
 - If you want to build the samples run: `mvn install` and then `mvn package -f samples/pom.xml`
 
 === Code formatter

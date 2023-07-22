@@ -8,7 +8,7 @@ MAVEN_HOME := home_dir + "/.sdkman/candidates/maven/3.9.0"
 
 # maven build without tests
 build:
-   mvn -DskipTests clean install -Pbuild
+   mvn -DskipTests clean install
 
 # maven build without tests
 verify:
@@ -33,7 +33,7 @@ debug-multi-module-docs: build
 build-gradle-plugin:
   rm -rf ~/.m2/repository/org/rodnansol/spring-configuration-property-documenter-gradle-plugin
   rm -rf ~/.gradle/caches
-  mvn clean install -Pbuild -pl 'spring-configuration-property-documenter-gradle-plugin'
+  mvn clean install -pl 'spring-configuration-property-documenter-gradle-plugin'
 
 # Dry full-release
 dry-release:
@@ -77,7 +77,7 @@ create-jbang-release version:
 # Snapshot release
 snapshot-release: (create-jbang-release "999-SNAPSHOT")
   mvn versions:set -DnewVersion=999-SNAPSHOT
-  mvn clean -Prelease,gradle-build -DskipTests deploy -DaltDeploymentRepository=local::file:./target/staging-deploy  -pl '!spring-configuration-property-documenter-report'
+  mvn clean -Prelease -DskipTests deploy -DaltDeploymentRepository=local::file:./target/staging-deploy  -pl '!spring-configuration-property-documenter-report'
   mvn jreleaser:release -Prelease -N -Djreleaser-nexus-deploy.active=SNAPSHOT -Djreleaser-github-release.pre-release=true -X
 
 only-snapshot-release:

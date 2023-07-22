@@ -39,7 +39,7 @@ jobs:
       - name: Stage Files for Snapshot Release
         run: |
           ./mvnw versions:set -DnewVersion=999-SNAPSHOT
-          ./mvnw -Prelease,gradle-build deploy -DaltDeploymentRepository=local::file:./target/staging-deploy -pl '!spring-configuration-property-documenter-report'
+          ./mvnw -Prelease deploy -DaltDeploymentRepository=local::file:./target/staging-deploy -pl '!spring-configuration-property-documenter-report'
           ./scripts/jbang-version-release.sh 999-SNAPSHOT
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v3
