@@ -106,20 +106,15 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>gradle-build</id>
-            <repositories>
-                <repository>
-                    <id>gradle</id>
-                    <url>https://repo.gradle.org/gradle/libs-releases-local/</url>
-                </repository>
-                <repository>
-                    <id>google</id>
-                    <url>https://maven.google.com/</url>
-                </repository>
-            </repositories>
-        </profile>
-    </profiles>
+    <repositories>
+        <repository>
+            <id>gradle</id>
+            <url>https://repo.gradle.org/gradle/libs-releases-local/</url>
+        </repository>
+        <repository>
+            <id>google</id>
+            <url>https://maven.google.com/</url>
+        </repository>
+    </repositories>
 
 </project>

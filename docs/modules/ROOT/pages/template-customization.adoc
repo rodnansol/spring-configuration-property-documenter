@@ -711,6 +711,12 @@ The following languages are supported, feel free to open new pull requests for a
 
 * English
 * Hungarian
+* German
+* Dutch
+* French
+* Italian
+* Romanian
+
 
 The default file can be found here: `spring-configuration-property-documenter-core/src/main/resources/messages.properties`
 

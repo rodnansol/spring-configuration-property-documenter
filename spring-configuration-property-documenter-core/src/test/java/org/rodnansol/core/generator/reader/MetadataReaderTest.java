@@ -1,6 +1,7 @@
 package org.rodnansol.core.generator.reader;
 
 import org.assertj.core.api.AssertionsForClassTypes;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -242,6 +243,7 @@ class MetadataReaderTest {
 
         @Test
         @Issue("#71")
+        @DisplayName("Should return the same property only once per property group when input is having the same input type multiple times defined")
         void readPropertiesAsPropertyGroupList_whenSingleTypeIsBeingReusedMultipleTimes() throws FileNotFoundException {
             // Given
             String fileName = TEST_RESOURCES_DIRECTORY + "regression/spring-configuration-metadata-multiple-nested-with-same-type.json";
@@ -276,6 +278,7 @@ class MetadataReaderTest {
 
         @Test
         @Issue("#72")
+        @DisplayName("Should return properties with correct 'key' when type is used multiple times with different prefixes")
         void readPropertiesAsPropertyGroupList() throws FileNotFoundException {
             // Given
             String fileName = TEST_RESOURCES_DIRECTORY + "regression/spring-configuration-metadata-with-variable-field-name.json";
@@ -299,6 +302,26 @@ class MetadataReaderTest {
             List<PropertyGroup> expectedYourProperties1 = List.of(PropertyGroup.createUnknownGroup(), topLevelGroup, nestedFirst, nestedSecond);
             assertThat(propertyGroups)
                     .containsAll(expectedYourProperties1);
+        }
+
+        @Test
+        @Issue("#79")
+        @DisplayName("Should return correct 'key' when property group is having empty name")
+        void readPropertiesAsPropertyGroupList_whenProperyParentIsNotHavingName() throws FileNotFoundException {
+            // Given
+            String fileName = TEST_RESOURCES_DIRECTORY + "regression/spring-configuration-metadata-with-no-prefix-at-parent-level.json";
+
+            // When
+            List<PropertyGroup> propertyGroups = underTest.readPropertiesAsPropertyGroupList(new FileInputStream(fileName));
+
+            // Then
+            PropertyGroup topLevelGroup = new PropertyGroup("", "com.example.springconfigpropertyreproducer.MyConfigurationProperties", "com.example.springconfigpropertyreproducer.MyConfigurationProperties");
+            topLevelGroup.addProperty(new Property("my-property", "java.lang.String", "my-property", "Generic property", "propertyValue", null));
+
+
+            List<PropertyGroup> expectedYourProperties1 = List.of(PropertyGroup.createUnknownGroup(), topLevelGroup);
+            assertThat(propertyGroups)
+                .containsAll(expectedYourProperties1);
         }
     }
 

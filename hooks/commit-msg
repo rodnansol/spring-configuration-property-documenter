@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if git rev-parse -q --verify MERGE_HEAD; then
+    echo "This is a merge commit, no checks are required"
+    exit 0
+fi
+
 # Create a regex for a conventional commit.
 convetional_commit_regex="^(release|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z \-]+\))?!?: .+$"
 

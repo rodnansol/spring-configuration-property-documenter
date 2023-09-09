@@ -1,0 +1,19 @@
+{
+  "groups": [
+    {
+      "name": "",
+      "type": "com.example.springconfigpropertyreproducer.MyConfigurationProperties",
+      "sourceType": "com.example.springconfigpropertyreproducer.MyConfigurationProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "my-property",
+      "type": "java.lang.String",
+      "description": "Generic property",
+      "sourceType": "com.example.springconfigpropertyreproducer.MyConfigurationProperties",
+      "defaultValue": "propertyValue"
+    }
+  ],
+  "hints": []
+}

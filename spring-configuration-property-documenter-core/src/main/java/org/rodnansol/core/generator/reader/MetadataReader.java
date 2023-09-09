@@ -86,7 +86,11 @@ public class MetadataReader {
         if (propertyGroup.isUnknownGroup()) {
             property.setKey(property.getFqName());
         } else {
-            property.setKey(property.getFqName().substring(groupName.length() + 1));
+            if(propertyGroup.getGroupName().isBlank()) {
+                property.setKey(property.getFqName());
+            } else {
+                property.setKey(property.getFqName().substring(groupName.length() + 1));
+            }
         }
         return property;
     }
