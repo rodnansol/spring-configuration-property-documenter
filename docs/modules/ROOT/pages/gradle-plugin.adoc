@@ -399,6 +399,12 @@ Or run them in two separate commands:
 |Empty list - Everything will be included
 |0.5.0
 
+|failOnMissingInput
+|Defines if the build should fail if the input file is missing/not existing.
+|Yes
+|
+|0.7.0
+
 |===
 ====
 
@@ -503,6 +509,12 @@ Or run them in two separate commands:
 |No
 |
 |0.5.0
+
+|failOnMissingInput
+|Defines if the build should fail if the input file is missing/not existing.
+|Yes
+|
+|0.7.0
 
 |===
 

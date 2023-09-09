@@ -67,6 +67,48 @@ Gradle tasks:
 
 === Gradle
 
+.gradle.build
+[source,groovy]
+----
+tasks.register('generateAdoc') {
+    dependsOn generatePropertyDocument {
+        failOnMissingInput = true // Will fail if input is missing
+        documentName = "Hello World"
+        type = "ADOC"
+        asciiDocCustomization {
+            contentCustomization {
+                includeEnvFormat = true
+                includeClass = false
+                includeDeprecation = false
+                includeDescription = false
+            }
+            unknownGroupLocalization = "Renamed unknown group"
+            tocLevels = 3
+        }
+    }
+}
+
+tasks.register('generateAdocFromMissingInputFile') {
+    dependsOn generatePropertyDocument {
+        failOnMissingInput = false // Won't fail if input is missing, and empty file will be made
+        metadataInput = new File("non-existing.json")
+        outputFile = new File("build/property-docs/non-existing-file.adoc")
+        documentName = "Hello World"
+        type = "ADOC"
+        asciiDocCustomization {
+            contentCustomization {
+                includeEnvFormat = true
+                includeClass = false
+                includeDeprecation = false
+                includeDescription = false
+            }
+            unknownGroupLocalization = "Renamed unknown group"
+            tocLevels = 3
+        }
+    }
+}
+----
+
 [#version-0-6-1]
 == 0.6.0 -> 0.6.1
 
