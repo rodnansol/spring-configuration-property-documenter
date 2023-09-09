@@ -373,7 +373,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", GeneratePropertyDocumentTask.class.getSimpleName() + "[", "]")
+        return new StringJoiner(",\n\t", GeneratePropertyDocumentTask.class.getSimpleName() + "[", "]")
             .add("documentName='" + documentName + "'")
             .add("documentDescription='" + documentDescription + "'")
             .add("template='" + template + "'")

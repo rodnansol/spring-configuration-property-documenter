@@ -145,7 +145,7 @@ public class AggregationInput implements Serializable {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", AggregationInput.class.getSimpleName() + "[", "]")
+        return new StringJoiner(",\n\t", AggregationInput.class.getSimpleName() + "[", "]")
             .add("excludedProperties=" + excludedProperties)
             .add("includedProperties=" + includedProperties)
             .add("excludedGroups=" + excludedGroups)

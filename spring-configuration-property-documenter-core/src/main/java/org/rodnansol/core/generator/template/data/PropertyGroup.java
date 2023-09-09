@@ -1,8 +1,12 @@
 package org.rodnansol.core.generator.template.data;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 import static org.rodnansol.core.generator.template.data.PropertyGroupConstants.UNKNOWN;
 import static org.rodnansol.core.generator.template.data.PropertyGroupConstants.UNKNOWN_GROUP;
@@ -15,17 +19,22 @@ import static org.rodnansol.core.generator.template.data.PropertyGroupConstants.
  */
 public class PropertyGroup {
 
-    private String groupName;
+    @Nullable
     private final String type;
+    @Nullable
     private final String sourceType;
+    @Nullable
+    private String groupName;
+    @NonNull
     private List<Property> properties;
+    @Nullable
     private PropertyGroup parentGroup;
     private List<PropertyGroup> childrenGroups;
     private boolean nested;
     private boolean unknownGroup = false;
 
     public PropertyGroup(String groupName, String type, String sourceType) {
-        this(groupName,type,sourceType,new ArrayList<>());
+        this(groupName, type, sourceType, new ArrayList<>());
     }
 
     public PropertyGroup(String groupName, String type, String sourceType, List<Property> properties) {
@@ -33,7 +42,7 @@ public class PropertyGroup {
         this.type = type;
         this.sourceType = sourceType;
         this.nested = !type.equals(sourceType);
-        this.properties = Objects.requireNonNull(properties,"properties is NULL");
+        this.properties = Objects.requireNonNull(properties, "properties is NULL");
     }
 
     /**
@@ -47,8 +56,13 @@ public class PropertyGroup {
         return propertyGroup;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    /**
+     * Creates a new instance of the Builder class.
+     *
+     * @return a new instance of the Builder class.
+     */
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getType() {
@@ -81,6 +95,10 @@ public class PropertyGroup {
 
     public String getGroupName() {
         return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public String getSourceType() {
@@ -118,24 +136,21 @@ public class PropertyGroup {
      * @param property new property.
      */
     public PropertyGroup addProperty(Property property) {
-        if (properties == null) {
-            properties = new ArrayList<>();
-        }
         properties.add(property);
         return this;
     }
 
     @Override
     public String toString() {
-        return "PropertyGroup{" +
-            "groupName='" + groupName + '\'' +
-            ", type='" + type + '\'' +
-            ", sourceType='" + sourceType + '\'' +
-            ", properties=" + properties +
-            ", parentGroup=" + parentGroup +
-            ", nested=" + nested +
-            ", unknownGroup=" + unknownGroup +
-            '}';
+        return new StringJoiner(",\n\t", PropertyGroup.class.getSimpleName() + "[", "]")
+            .add("type='" + type + "'")
+            .add("sourceType='" + sourceType + "'")
+            .add("groupName='" + groupName + "'")
+            .add("properties=" + properties)
+            .add("parentGroup=" + parentGroup)
+            .add("nested=" + nested)
+            .add("unknownGroup=" + unknownGroup)
+            .toString();
     }
 
     @Override
@@ -155,5 +170,59 @@ public class PropertyGroup {
     @Override
     public int hashCode() {
         return Objects.hash(groupName, type, sourceType, properties, parentGroup, nested, unknownGroup);
+    }
+
+    public static final class Builder {
+
+        private String groupName;
+        private String type;
+        private String sourceType;
+        private List<Property> properties = new ArrayList<>();
+        private PropertyGroup parentGroup;
+        private boolean nested;
+        private boolean unknownGroup = false;
+
+        public Builder withGroupName(String groupName) {
+            this.groupName = groupName;
+            return this;
+        }
+
+        public Builder withType(String type) {
+            this.type = type;
+            return this;
+        }
+
+        public Builder withSourceType(String sourceType) {
+            this.sourceType = sourceType;
+            return this;
+        }
+
+        public Builder withProperties(List<Property> properties) {
+            this.properties = properties;
+            return this;
+        }
+
+        public Builder withParentGroup(PropertyGroup parentGroup) {
+            this.parentGroup = parentGroup;
+            return this;
+        }
+
+        public Builder withNested(boolean nested) {
+            this.nested = nested;
+            return this;
+        }
+
+        public Builder withUnknownGroup(boolean unknownGroup) {
+            this.unknownGroup = unknownGroup;
+            return this;
+        }
+
+        public PropertyGroup build() {
+            PropertyGroup propertyGroup = new PropertyGroup(groupName, type, sourceType, properties);
+            propertyGroup.setNested(nested);
+            propertyGroup.setParentGroup(parentGroup);
+            propertyGroup.setUnknownGroup(unknownGroup);
+            return propertyGroup;
+        }
     }
 }

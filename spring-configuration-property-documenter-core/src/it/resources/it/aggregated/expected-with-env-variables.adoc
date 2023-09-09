@@ -38,8 +38,8 @@ endif::[]
 
 |myproduct.features.foobar.value
 |java.lang.String
-|String value
-|Hello world
+|String \| value
+|Hello \| world
 |
 |`MYPRODUCT_FEATURES_FOOBAR_VALUE`
 
@@ -80,8 +80,8 @@ endif::[]
 
 |myproduct.features.foobar.value
 |java.lang.String
-|String value
-|Hello world
+|String \| value
+|Hello \| world
 |
 |`MYPRODUCT_FEATURES_FOOBAR_VALUE`
 

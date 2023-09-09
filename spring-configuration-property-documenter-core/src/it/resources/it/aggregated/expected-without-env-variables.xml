@@ -52,8 +52,8 @@
                         <property>
                             <key>myproduct.features.foobar.value</key>
                             <type>java.lang.String</type>
-                            <description>String value</description>
-                            <defaultValue>Hello world</defaultValue>
+                            <description>String | value</description>
+                            <defaultValue>Hello | world</defaultValue>
                             <propertyDeprecation></propertyDeprecation>
 
                         </property>

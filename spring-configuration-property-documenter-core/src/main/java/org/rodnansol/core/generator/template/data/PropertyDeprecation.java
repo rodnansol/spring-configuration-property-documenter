@@ -1,5 +1,7 @@
 package org.rodnansol.core.generator.template.data;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.util.Objects;
 
 /**
@@ -10,18 +12,22 @@ import java.util.Objects;
  */
 public class PropertyDeprecation {
 
+    @Nullable
     private final String reason;
+    @Nullable
     private final String replacement;
 
-    public PropertyDeprecation(String reason, String replacement) {
+    public PropertyDeprecation(@Nullable String reason, @Nullable String replacement) {
         this.reason = reason;
         this.replacement = replacement;
     }
 
+    @Nullable
     public String getReason() {
         return reason;
     }
 
+    @Nullable
     public String getReplacement() {
         return replacement;
     }

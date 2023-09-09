@@ -36,8 +36,8 @@ endif::[]
 
 |myproduct.features.foobar.value
 |java.lang.String
-|String value
-|Hello world
+|String \| value
+|Hello \| world
 |
 
 
@@ -75,8 +75,8 @@ endif::[]
 
 |myproduct.features.foobar.value
 |java.lang.String
-|String value
-|Hello world
+|String \| value
+|Hello \| world
 |
 
 

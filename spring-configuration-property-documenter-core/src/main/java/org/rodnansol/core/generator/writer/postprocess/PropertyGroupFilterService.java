@@ -22,13 +22,14 @@ public class PropertyGroupFilterService {
         this.propertyGroupPostProcessors = propertyGroupPostProcessors;
     }
 
-    public PropertyGroupFilterService() {
+    private PropertyGroupFilterService() {
         this(List.of(
             new UnknownGroupRemovalPostProcessor(),
             new IncludeExcludeGroupPostProcessor(),
             new IncludeExcludePropertyPostProcessor(),
             new EmptyGroupRemovalPostProcessor(),
-            new UnknownGroupRenamePostProcessor()
+            new UnknownGroupRenamePostProcessor(),
+            new SpecialCharacterPostProcessor()
         ));
     }
 

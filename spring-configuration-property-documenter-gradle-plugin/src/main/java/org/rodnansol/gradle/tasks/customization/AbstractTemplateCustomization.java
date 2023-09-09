@@ -193,7 +193,7 @@ public abstract class AbstractTemplateCustomization implements Serializable {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", AbstractTemplateCustomization.class.getSimpleName() + "[", "]")
+        return new StringJoiner(",\n\t", AbstractTemplateCustomization.class.getSimpleName() + "[", "]")
             .add("tocTitle='" + tocTitle + "'")
             .add("headerEnabled=" + headerEnabled)
             .add("tableOfContentsEnabled=" + tableOfContentsEnabled)

@@ -1,5 +1,7 @@
 package org.rodnansol.core.generator.template.data;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 
 import java.time.LocalDateTime;
@@ -12,14 +14,19 @@ import java.util.stream.Collectors;
  */
 public class SubTemplateData implements TemplateData {
 
+    @Nullable
     private final String moduleName;
+    @NonNull
 
     private final List<PropertyGroup> propertyGroups;
 
+    @Nullable
     private String moduleDescription;
 
+    @Nullable
     private LocalDateTime generationDate;
 
+    @Nullable
     private TemplateCustomization templateCustomization;
 
     public SubTemplateData(String moduleName, List<PropertyGroup> propertyGroups) {

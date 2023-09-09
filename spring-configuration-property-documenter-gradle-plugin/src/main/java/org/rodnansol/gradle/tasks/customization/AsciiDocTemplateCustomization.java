@@ -65,7 +65,7 @@ public class AsciiDocTemplateCustomization extends AbstractTemplateCustomization
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", AsciiDocTemplateCustomization.class.getSimpleName() + "[", "]")
+        return new StringJoiner(",\n\t", AsciiDocTemplateCustomization.class.getSimpleName() + "[", "]")
             .add("tocPlacement=" + tocPlacement)
             .add("tocLevels=" + tocLevels)
             .add("tocTitle='" + tocTitle + "'")

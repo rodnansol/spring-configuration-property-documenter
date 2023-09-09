@@ -5,6 +5,7 @@ import org.rodnansol.core.generator.template.customization.TemplateCustomization
 
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Class grouping attributes together that helps to post process the property groups and properties.
@@ -80,13 +81,13 @@ public class PostProcessPropertyGroupsCommand {
 
     @Override
     public String toString() {
-        return "PostProcessPropertyGroupsCommand{" +
-            "templateCustomization=" + templateCustomization +
-            ", propertyGroups=" + propertyGroups +
-            ", excludedGroups=" + excludedGroups +
-            ", includedGroups=" + includedGroups +
-            ", excludedProperties=" + excludedProperties +
-            ", includedProperties=" + includedProperties +
-            '}';
+        return new StringJoiner(",\n\t", PostProcessPropertyGroupsCommand.class.getSimpleName() + "[", "]")
+            .add("templateCustomization=" + templateCustomization)
+            .add("propertyGroups=" + propertyGroups)
+            .add("excludedGroups=" + excludedGroups)
+            .add("includedGroups=" + includedGroups)
+            .add("excludedProperties=" + excludedProperties)
+            .add("includedProperties=" + includedProperties)
+            .toString();
     }
 }

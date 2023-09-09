@@ -392,7 +392,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", GenerateAndAggregateDocumentsTask.class.getSimpleName() + "[", "]")
+        return new StringJoiner(",\n\t", GenerateAndAggregateDocumentsTask.class.getSimpleName() + "[", "]")
             .add("metadataInputs=" + metadataInputs)
             .add("documentName='" + documentName + "'")
             .add("documentDescription='" + documentDescription + "'")
