@@ -42,6 +42,7 @@ tasks.named('test') {
 
 tasks.register('generateAdoc') {
     dependsOn generatePropertyDocument {
+        failOnMissingInput = true
         documentName = "Hello World"
         type = "ADOC"
         asciiDocCustomization {
@@ -83,6 +84,26 @@ tasks.register('generateXml') {
         type = "XML"
         xmlCustomization {
             unknownGroupLocalization = "Renamed unknown group in HTML"
+        }
+    }
+}
+
+tasks.register('generateAdocFromMissingInputFile') {
+    dependsOn generatePropertyDocument {
+        failOnMissingInput = false
+        metadataInput = new File("non-existing.json")
+        outputFile = new File("build/property-docs/non-existing-file.adoc")
+        documentName = "Hello World"
+        type = "ADOC"
+        asciiDocCustomization {
+            contentCustomization {
+                includeEnvFormat = true
+                includeClass = false
+                includeDeprecation = false
+                includeDescription = false
+            }
+            unknownGroupLocalization = "Renamed unknown group"
+            tocLevels = 3
         }
     }
 }

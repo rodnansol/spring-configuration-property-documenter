@@ -62,6 +62,36 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>aggregate-docs-markdown-with-non-existing-sources</id>
+                        <goals>
+                            <goal>generate-and-aggregate-documents</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <type>MARKDOWN</type>
+                            <failOnMissingInput>false</failOnMissingInput>
+                            <inputs>
+                                <input>
+                                    <name>Multi Module A</name>
+                                    <description>Multi Module A properties with a folder input</description>
+                                    <input>../multi-module-non-existing-a</input>
+                                </input>
+                                <input>
+                                    <name>Multi Module B</name>
+                                    <description>Multi Module B properties with a folder input</description>
+                                    <input>../multi-module-non-existing-b</input>
+                                </input>
+                            </inputs>
+                            <markdownCustomization>
+                                <headerEnabled>false</headerEnabled>
+                                <contentCustomization>
+                                    <includeEnvFormat>true</includeEnvFormat>
+                                </contentCustomization>
+                            </markdownCustomization>
+                            <outputFile>target/aggregated-non-existing-sources-md.md</outputFile>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>aggregate-docs-markdown-with-spring-related-configurations</id>
                         <goals>
                             <goal>generate-and-aggregate-documents</goal>
@@ -335,7 +365,7 @@
                                 </input>
                             </inputs>
                             <asciiDocCustomization>
-                                <compactMode>true</compactMode>
+                                <templateMode>COMPACT</templateMode>
                             </asciiDocCustomization>
                             <outputFile>target/compact-include-and-exclude-list-based-document.adoc</outputFile>
                         </configuration>

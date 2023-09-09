@@ -41,6 +41,7 @@ public class DocumentGenerationAction {
     private List<String> includedGroups;
     private List<String> excludedProperties;
     private List<String> includedProperties;
+    private boolean failOnMissingInput;
 
     public DocumentGenerationAction(Project project, String name, TemplateCustomization templateCustomization, TemplateType templateType, File metadataInput) {
         this.project = Objects.requireNonNull(project, "project is NULL");
@@ -69,6 +70,7 @@ public class DocumentGenerationAction {
             command.setIncludedGroups(includedGroups);
             command.setExcludedProperties(excludedProperties);
             command.setIncludedProperties(includedProperties);
+            command.setFailOnMissingInput(failOnMissingInput);
             documenter.readMetadataAndGenerateRenderedFile(command);
         } catch (IOException e) {
             throw new DocumentGenerationException("Unable to create final document", e);
@@ -124,4 +126,11 @@ public class DocumentGenerationAction {
         this.includedProperties = includedProperties;
     }
 
+    public boolean isFailOnMissingInput() {
+        return failOnMissingInput;
+    }
+
+    public void setFailOnMissingInput(boolean failOnMissingInput) {
+        this.failOnMissingInput = failOnMissingInput;
+    }
 }

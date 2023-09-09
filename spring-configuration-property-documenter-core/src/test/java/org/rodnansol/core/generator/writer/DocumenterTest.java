@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.rodnansol.core.generator.reader.MetadataReader;
+import org.rodnansol.core.generator.resolver.InputFileResolutionStrategy;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.generator.template.data.MainTemplateData;
 import org.rodnansol.core.generator.template.data.Property;
@@ -76,7 +77,7 @@ class DocumenterTest {
             new PropertyGroup("group1", "type", "sourceType", List.of(new Property("org.rodnansol.value", "java.lang.String"))),
             new PropertyGroup("group2", "type", "sourceType", List.of(new Property("org.rodnansol.another-value", "java.lang.String")))
         );
-        when(metadataInputResolverContext.getInputStreamFromFile(project, inputFile)).thenReturn(inputStream);
+        when(metadataInputResolverContext.getInputStreamFromFile(project, inputFile, InputFileResolutionStrategy.RETURN_EMPTY)).thenReturn(inputStream);
         when(metadataReader.readPropertiesAsPropertyGroupList(inputStream)).thenReturn(propertyGroups);
         when(templateCompiler.compileTemplate(eq(singleTemplate), any())).thenReturn("Hello World");
         when(templateCompiler.getMemoryStore()).thenReturn(mock(TemplateCompilerMemoryStore.class));

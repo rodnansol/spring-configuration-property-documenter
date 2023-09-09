@@ -1,8 +1,8 @@
 package org.rodnansol.core.generator.template.customization;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
-import org.rodnansol.core.generator.template.data.PropertyGroupConstants;
 import org.rodnansol.core.generator.template.TemplateMode;
+import org.rodnansol.core.generator.template.data.PropertyGroupConstants;
 
 import java.io.Serializable;
 import java.util.Objects;

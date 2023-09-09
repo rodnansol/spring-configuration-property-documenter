@@ -27,6 +27,7 @@ import org.rodnansol.gradle.tasks.customization.XmlTemplateCustomization;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Task to generate a single document.
@@ -90,10 +91,9 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
      *
      * @since 0.5.0
      */
-    @InputFile
-    @Optional
     @Option(option = "metadataInput", description = "Metadata input file")
     private File metadataInput = new File("build/classes/java/main/META-INF/spring-configuration-metadata.json");
+
     /**
      * Output file.
      *
@@ -103,6 +103,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
     @Optional
     @Option(option = "outputFile", description = "Output file")
     private File outputFile;
+
     /**
      * Define if the process should fail on an error or not.
      *
@@ -111,7 +112,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
     @Input
     @Optional
     @Option(option = "failOnError", description = "Fail on error or not")
-    private boolean failOnError = true;
+    private Boolean failOnError = true;
     /**
      * Template compiler class's fully qualified name .
      * <p>
@@ -192,6 +193,16 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
     @Internal
     private XmlTemplateCustomization xmlCustomization = new XmlTemplateCustomization();
 
+    /**
+     * Define if the process should fail if the given input file is not found.
+     *
+     * @since 0.7.0
+     */
+    @Input
+    @Optional
+    @Option(option = "failOnMissingInput", description = "Fail if the input file is missing")
+    private Boolean failOnMissingInput = true;
+
     @TaskAction
     public void execute() {
         try {
@@ -210,7 +221,8 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
     private DocumentGenerationAction setupAction() {
         Project project = getProject();
         GradleProject gradleProject = ProjectFactory.ofGradleProject(project.getProjectDir(), project.getName(), List.of());
-        DocumentGenerationAction documentGenerationAction = new DocumentGenerationAction(gradleProject, documentName, getActualTemplateCustomization(), type, metadataInput);
+        DocumentGenerationAction documentGenerationAction = new DocumentGenerationAction(gradleProject, documentName,
+            getActualTemplateCustomization(), type, metadataInput);
         documentGenerationAction.setTemplateCompilerName(templateCompilerName);
         documentGenerationAction.setDescription(documentDescription);
         documentGenerationAction.setTemplate(template);
@@ -219,6 +231,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
         documentGenerationAction.setIncludedGroups(includedGroups);
         documentGenerationAction.setExcludedProperties(excludedProperties);
         documentGenerationAction.setIncludedProperties(includedProperties);
+        documentGenerationAction.setFailOnMissingInput(failOnMissingInput);
         return documentGenerationAction;
     }
 
@@ -268,6 +281,8 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
         this.type = type;
     }
 
+    @InputFile
+    @Optional
     public File getMetadataInput() {
         return metadataInput;
     }
@@ -282,14 +297,6 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
 
     public void setOutputFile(File outputFile) {
         this.outputFile = outputFile;
-    }
-
-    public Boolean getFailOnError() {
-        return failOnError;
-    }
-
-    public void setFailOnError(Boolean failOnError) {
-        this.failOnError = failOnError;
     }
 
     public String getTemplateCompilerName() {
@@ -348,26 +355,43 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
         return xmlCustomization;
     }
 
+    public Boolean getFailOnError() {
+        return failOnError;
+    }
+
+    public void setFailOnError(Boolean failOnError) {
+        this.failOnError = failOnError;
+    }
+
+    public Boolean getFailOnMissingInput() {
+        return failOnMissingInput;
+    }
+
+    public void setFailOnMissingInput(Boolean failOnMissingInput) {
+        this.failOnMissingInput = failOnMissingInput;
+    }
+
     @Override
     public String toString() {
-        return "GenerateDocumentTask{" +
-            "documentName='" + documentName + '\'' +
-            ", documentDescription='" + documentDescription + '\'' +
-            ", template='" + template + '\'' +
-            ", type='" + type + '\'' +
-            ", metadataInput=" + metadataInput +
-            ", outputFile=" + outputFile +
-            ", failOnError=" + failOnError +
-            ", templateCompilerName='" + templateCompilerName + '\'' +
-            ", excludedProperties=" + excludedProperties +
-            ", includedProperties=" + includedProperties +
-            ", excludedGroups=" + excludedGroups +
-            ", includedGroups=" + includedGroups +
-            ", asciiDocCustomization=" + asciiDocCustomization +
-            ", htmlCustomization=" + htmlCustomization +
-            ", markdownCustomization=" + markdownCustomization +
-            ", xmlCustomization=" + xmlCustomization +
-            "} " + super.toString();
+        return new StringJoiner(", ", GeneratePropertyDocumentTask.class.getSimpleName() + "[", "]")
+            .add("documentName='" + documentName + "'")
+            .add("documentDescription='" + documentDescription + "'")
+            .add("template='" + template + "'")
+            .add("type=" + type)
+            .add("metadataInput=" + metadataInput)
+            .add("outputFile=" + outputFile)
+            .add("failOnError=" + failOnError)
+            .add("templateCompilerName='" + templateCompilerName + "'")
+            .add("excludedProperties=" + excludedProperties)
+            .add("includedProperties=" + includedProperties)
+            .add("excludedGroups=" + excludedGroups)
+            .add("includedGroups=" + includedGroups)
+            .add("asciiDocCustomization=" + asciiDocCustomization)
+            .add("htmlCustomization=" + htmlCustomization)
+            .add("markdownCustomization=" + markdownCustomization)
+            .add("xmlCustomization=" + xmlCustomization)
+            .add("failOnMissingInput=" + failOnMissingInput)
+            .toString();
     }
 
     /**

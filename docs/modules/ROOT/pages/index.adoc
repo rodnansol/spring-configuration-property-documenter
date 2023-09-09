@@ -16,6 +16,7 @@ endif::[]
 :toc:
 :toc-placement!:
 :toclevels: 4
+:latest-version: 0.7.0
 
 [.text-center]
 image:https://img.shields.io/maven-central/v/org.rodnansol/spring-configuration-property-documenter.svg[Maven Central]
@@ -192,6 +193,45 @@ image::{docs-images-prefix}html-result.png[]
 image::{docs-images-prefix}xml-result.png[]
 ====
 
+=== Try out quickly with Maven
+
+==== Via direct plugin execution
+
+[source,bash,subs=+attributes]
+----
+mvn clean package  \
+  org.rodnansol:spring-configuration-property-documenter-maven-plugin:{latest-version}:generate-property-document \
+  -Dtype=ADOC
+----
+
+An Asciidoc based property documentation should be available in your `target/property-docs` folder.
+
+==== Via minimal pom.xml configuration
+
+.pom.xml
+[source,xml,subs=+attributes]
+----
+<plugin>
+    <groupId>org.rodnansol</groupId>
+    <artifactId>spring-configuration-property-documenter-maven-plugin</artifactId>
+    <version>{latest-version}</version>
+    <executions>
+        <execution>
+            <id>generate-adoc-without-deprecation-and-type</id>
+            <phase>process-classes</phase>
+            <goals>
+                <goal>generate-property-document</goal>
+            </goals>
+            <configuration>
+                <type>ADOC</type>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+----
+
+NOTE: Don't worry, we have a Gradle plugin as well, check it out xref:{docs-url-prefix}gradle-plugin.adoc[here].
+
 == Setup
 === Requirements
 
@@ -249,7 +289,7 @@ Please fork the project if you would like to contribute.
 
 The project requires at least Java 11, if sdkman is installed on your machine `sdk e` command could be used in the terminal to set up the required Java version.
 
-- To build the project just run: `mvn verify -Pbuild` - The `build` profile is required to access the Gradle dependencies
+- To build the project just run: `mvn verify`
 - If you want to build the samples run: `mvn install` and then `mvn package -f samples/pom.xml`
 
 === Code formatter

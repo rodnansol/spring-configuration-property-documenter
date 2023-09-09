@@ -37,8 +37,18 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "ParkerM",
+      "name": "Parker Mauney",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5124113?v=4",
+      "profile": "https://github.com/ParkerM",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "skipCi": true,
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "commitType": "docs"
 }

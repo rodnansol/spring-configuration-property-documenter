@@ -17,11 +17,19 @@ public class MetadataInputResolverContext {
 
     public static final MetadataInputResolverContext INSTANCE = new MetadataInputResolverContext();
 
-    private static final List<MetadataInputResolver> METADATA_INPUT_RESOLVERS = List.of(
-        new JarFileMetadataInputResolver(),
-        new FileMetadataInputResolver(),
-        new DirectoryMetadataInputResolver()
-    );
+    private final List<MetadataInputResolver> metadataInputResolvers;
+
+    public MetadataInputResolverContext() {
+        this(List.of(
+            new JarFileMetadataInputResolver(),
+            new FileMetadataInputResolver(),
+            new DirectoryMetadataInputResolver()
+        ));
+    }
+
+    public MetadataInputResolverContext(List<MetadataInputResolver> metadataInputResolvers) {
+        this.metadataInputResolvers = metadataInputResolvers;
+    }
 
     /**
      * Returns the requested file from the given input.
@@ -37,11 +45,11 @@ public class MetadataInputResolverContext {
      *
      * @param project project instance.
      * @param input   input.
-     * @return the file's content in an {@link InputStream} instance.
-     * @throws DocumentGenerationException if none of the resolvers are able to find the file.
+     * @return the file's content in an {@link InputStream} instance or an empty input stream if the {@link InputFileResolutionStrategy} is <b>RETURN_EMPTY</b>
+     * @throws DocumentGenerationException if none of the resolvers are able to find the file and the {@link InputFileResolutionStrategy} is <b>THROW_EXCEPTION</b>
      */
-    public InputStream getInputStreamFromFile(Project project, File input) {
-        for (MetadataInputResolver metadataInputResolver : METADATA_INPUT_RESOLVERS) {
+    public InputStream getInputStreamFromFile(Project project, File input, InputFileResolutionStrategy inputFileResolutionStrategy) {
+        for (MetadataInputResolver metadataInputResolver : metadataInputResolvers) {
             if (metadataInputResolver.supports(input)) {
                 InputStream inputStream = metadataInputResolver.resolveInputStream(project, input);
                 if (inputStream != null) {
@@ -49,7 +57,10 @@ public class MetadataInputResolverContext {
                 }
             }
         }
-        throw new DocumentGenerationException("Unable to locate the spring-configuration-metadata.json file from the given input:[" + input + "]");
+        if (inputFileResolutionStrategy == InputFileResolutionStrategy.THROW_EXCEPTION) {
+            throw new DocumentGenerationException("Unable to locate the spring-configuration-metadata.json file from the given input:[" + input + "]");
+        }
+        return InputStream.nullInputStream();
     }
 
 }

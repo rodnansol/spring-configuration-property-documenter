@@ -109,6 +109,9 @@
     <profiles>
         <profile>
             <id>gradle-build</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <repositories>
                 <repository>
                     <id>gradle</id>
