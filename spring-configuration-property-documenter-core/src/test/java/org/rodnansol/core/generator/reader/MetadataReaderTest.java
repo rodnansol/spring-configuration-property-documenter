@@ -183,7 +183,6 @@ class MetadataReaderTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-            TEST_RESOURCES_DIRECTORY + "spring-configuration-metadata-empty.json",
             TEST_RESOURCES_DIRECTORY + "spring-configuration-metadata-invalid.json"})
     void readPropertiesAsPropertyGroupList_shouldThrowMetadataConversionException_whenAnErrorOccursDuringConversion(String metadataFileLocation) throws FileNotFoundException {
         // Given
@@ -192,6 +191,20 @@ class MetadataReaderTest {
         AssertionsForClassTypes.assertThatThrownBy(() -> underTest.readPropertiesAsPropertyGroupList(new FileInputStream(metadataFileLocation)))
                 .isInstanceOf(MetadataConversionException.class);
         // Then
+
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+        TEST_RESOURCES_DIRECTORY + "spring-configuration-metadata-empty.json"})
+    void readPropertiesAsPropertyGroupList_shouldReturnEmptyList_whenInputIsEmpty(String metadataFileLocation) throws FileNotFoundException {
+        // Given
+
+        // When
+        List<PropertyGroup> propertyGroups = underTest.readPropertiesAsPropertyGroupList(new FileInputStream(metadataFileLocation));
+
+        // Then
+        assertThat(propertyGroups).isEmpty();
 
     }
 

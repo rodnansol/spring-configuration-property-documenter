@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 /**
@@ -177,6 +178,16 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
     @Option(option = "footerTemplate", description = "Template file to be used in the footer section generation")
     private String footerTemplate;
 
+    /**
+     * Define if the process should fail if the given input file is not found.
+     *
+     * @since 0.7.0
+     */
+    @Input
+    @Optional
+    @Option(option = "failOnMissingInput", description = "Fail if the input file is missing")
+    private boolean failOnMissingInput = true;
+
     @TaskAction
     public void execute() {
         LOGGER.info("Creating aggregation based on the following inputs:[{}]", metadataInputs);
@@ -191,6 +202,7 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
         CreateAggregationCommand createAggregationCommand = new CreateAggregationCommand(gradleProject, documentName, combinedInputs, type, getActualTemplateCustomization(), outputFile);
         createAggregationCommand.setDescription(documentDescription);
         createAggregationCommand.setCustomTemplate(new CustomTemplate(headerTemplate, contentTemplate, footerTemplate));
+        createAggregationCommand.setFailOnMissingInput(failOnMissingInput);
         return createAggregationCommand;
     }
 
@@ -312,6 +324,14 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
         return metadataInputs;
     }
 
+    public boolean isFailOnMissingInput() {
+        return failOnMissingInput;
+    }
+
+    public void setFailOnMissingInput(boolean failOnMissingInput) {
+        this.failOnMissingInput = failOnMissingInput;
+    }
+
     /**
      * DSL entry point for the {@link GenerateAndAggregateDocumentsTask#markdownCustomization} field.
      */
@@ -370,4 +390,23 @@ public abstract class GenerateAndAggregateDocumentsTask extends ConventionTask {
         }
     }
 
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", GenerateAndAggregateDocumentsTask.class.getSimpleName() + "[", "]")
+            .add("metadataInputs=" + metadataInputs)
+            .add("documentName='" + documentName + "'")
+            .add("documentDescription='" + documentDescription + "'")
+            .add("type=" + type)
+            .add("htmlCustomization=" + htmlCustomization)
+            .add("markdownCustomization=" + markdownCustomization)
+            .add("asciiDocCustomization=" + asciiDocCustomization)
+            .add("xmlCustomization=" + xmlCustomization)
+            .add("outputFile=" + outputFile)
+            .add("templateCompilerName='" + templateCompilerName + "'")
+            .add("headerTemplate='" + headerTemplate + "'")
+            .add("contentTemplate='" + contentTemplate + "'")
+            .add("footerTemplate='" + footerTemplate + "'")
+            .add("failOnMissingInput=" + failOnMissingInput)
+            .toString();
+    }
 }

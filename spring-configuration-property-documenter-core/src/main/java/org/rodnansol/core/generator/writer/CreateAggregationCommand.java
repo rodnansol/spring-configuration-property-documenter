@@ -7,6 +7,7 @@ import org.rodnansol.core.project.Project;
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Class representing the aggregation action command.
@@ -24,6 +25,7 @@ public class CreateAggregationCommand {
     private final File output;
     private String description;
     private CustomTemplate customTemplate;
+    private boolean failOnMissingInput;
 
     public CreateAggregationCommand(Project project, String aggregatedDocumentHeader, List<CombinedInput> inputStreams, TemplateType templateType, TemplateCustomization templateCustomization, File output) {
         this.project = Objects.requireNonNull(project, "project is NULL");
@@ -74,17 +76,26 @@ public class CreateAggregationCommand {
         this.customTemplate = customTemplate;
     }
 
+    public boolean isFailOnMissingInput() {
+        return failOnMissingInput;
+    }
+
+    public void setFailOnMissingInput(boolean failOnMissingInput) {
+        this.failOnMissingInput = failOnMissingInput;
+    }
+
     @Override
     public String toString() {
-        return "CreateAggregationCommand{ \n" +
-            "project=" + project + '\n' +
-            ", aggregatedDocumentHeader='" + aggregatedDocumentHeader + '\'' + '\n' +
-            ", combinedInputs=" + combinedInputs + '\n' +
-            ", templateType=" + templateType + '\n' +
-            ", templateCustomization=" + templateCustomization + '\n' +
-            ", output=" + output + '\n' +
-            ", description='" + description + '\'' + '\n' +
-            ", customTemplate=" + customTemplate + '\n' +
-            '}';
+        return new StringJoiner(", ", CreateAggregationCommand.class.getSimpleName() + "[", "]")
+            .add("project=" + project)
+            .add("aggregatedDocumentHeader='" + aggregatedDocumentHeader + "'")
+            .add("combinedInputs=" + combinedInputs)
+            .add("templateType=" + templateType)
+            .add("templateCustomization=" + templateCustomization)
+            .add("output=" + output)
+            .add("description='" + description + "'")
+            .add("customTemplate=" + customTemplate)
+            .add("failOnMissingInput=" + failOnMissingInput)
+            .toString();
     }
 }

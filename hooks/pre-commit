@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
-echo "Verifying project before committing"
-./mvnw clean verify
+if git rev-parse -q --verify MERGE_HEAD; then
+    echo "This is a merge commit, no builds are going to be executed."
+else
+    echo "Building project"
+    ./mvnw clean verify
+fi

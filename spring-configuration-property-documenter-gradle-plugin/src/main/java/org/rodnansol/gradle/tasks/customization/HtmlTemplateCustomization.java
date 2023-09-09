@@ -1,6 +1,7 @@
 package org.rodnansol.gradle.tasks.customization;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Class representing HTML customizations.
@@ -148,5 +149,30 @@ public class HtmlTemplateCustomization extends AbstractTemplateCustomization {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), backgroundColor, linkColor, collapsibleHoverColor, codeColor, evenTableRowColor, lastTableRowColor, tableRowColor, tableRowBorderColor, textColor);
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", HtmlTemplateCustomization.class.getSimpleName() + "[", "]")
+            .add("backgroundColor='" + backgroundColor + "'")
+            .add("linkColor='" + linkColor + "'")
+            .add("collapsibleHoverColor='" + collapsibleHoverColor + "'")
+            .add("codeColor='" + codeColor + "'")
+            .add("evenTableRowColor='" + evenTableRowColor + "'")
+            .add("lastTableRowColor='" + lastTableRowColor + "'")
+            .add("tableRowColor='" + tableRowColor + "'")
+            .add("tableRowBorderColor='" + tableRowBorderColor + "'")
+            .add("textColor='" + textColor + "'")
+            .add("tocTitle='" + tocTitle + "'")
+            .add("headerEnabled=" + headerEnabled)
+            .add("tableOfContentsEnabled=" + tableOfContentsEnabled)
+            .add("includeUnknownGroup=" + includeUnknownGroup)
+            .add("unknownGroupLocalization='" + unknownGroupLocalization + "'")
+            .add("includeGenerationDate=" + includeGenerationDate)
+            .add("removeEmptyGroups=" + removeEmptyGroups)
+            .add("locale='" + locale + "'")
+            .add("contentCustomization=" + contentCustomization)
+            .add("templateMode=" + templateMode)
+            .toString();
     }
 }

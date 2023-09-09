@@ -5,14 +5,15 @@ import com.github.jknack.handlebars.internal.lang3.tuple.ImmutablePair;
 import com.github.jknack.handlebars.internal.lang3.tuple.Pair;
 import org.rodnansol.core.generator.DocumentGenerationException;
 import org.rodnansol.core.generator.reader.MetadataReader;
+import org.rodnansol.core.generator.resolver.InputFileResolutionStrategy;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
+import org.rodnansol.core.generator.template.TemplateType;
+import org.rodnansol.core.generator.template.compiler.TemplateCompiler;
+import org.rodnansol.core.generator.template.compiler.TemplateCompilerMemoryStoreConstants;
+import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.generator.template.data.MainTemplateData;
 import org.rodnansol.core.generator.template.data.PropertyGroup;
 import org.rodnansol.core.generator.template.data.SubTemplateData;
-import org.rodnansol.core.generator.template.compiler.TemplateCompiler;
-import org.rodnansol.core.generator.template.compiler.TemplateCompilerMemoryStoreConstants;
-import org.rodnansol.core.generator.template.TemplateType;
-import org.rodnansol.core.generator.template.customization.TemplateCustomization;
 import org.rodnansol.core.generator.writer.postprocess.PostProcessPropertyGroupsCommand;
 import org.rodnansol.core.generator.writer.postprocess.PropertyGroupFilterService;
 import org.rodnansol.core.util.CoreFileUtils;
@@ -72,16 +73,27 @@ public class AggregationDocumenter {
         List<PropertyGroup> propertyGroups = new ArrayList<>(createAggregationCommand.getCombinedInputs().size());
         for (CombinedInput entry : createAggregationCommand.getCombinedInputs()) {
             LOGGER.info("Processing entry:[{}]", entry);
-            try (InputStream inputStream = metadataInputResolverContext.getInputStreamFromFile(createAggregationCommand.getProject(), entry.getInput())) {
+            try (InputStream inputStream = getInputStreamFromFile(createAggregationCommand, entry)) {
                 List<PropertyGroup> groups = metadataReader.readPropertiesAsPropertyGroupList(inputStream);
                 filterGroupsAndProperties(createAggregationCommand.getTemplateCustomization(), entry, groups);
                 propertyGroups.addAll(groups);
                 subTemplateDataList.add(createModuleTemplateData(createAggregationCommand.getTemplateCustomization(), entry.getSectionName(), groups, entry.getDescription()));
+            } catch (DocumentGenerationException e) {
+                // [#68] Generate an empty file if the spring-configuration-metadata.json is missing
+                // Because of the introduction of the "failOnMissingInput" attribute this exception must be propagated
+                // Other exceptions can be just logged out
+                throw e;
             } catch (Exception e) {
                 LOGGER.warn("Error during reading an entry:[" + entry.getInput() + "]", e);
             }
         }
         return new ImmutablePair<>(subTemplateDataList, propertyGroups);
+    }
+
+    private InputStream getInputStreamFromFile(CreateAggregationCommand createAggregationCommand, CombinedInput entry) {
+        return metadataInputResolverContext.getInputStreamFromFile(createAggregationCommand.getProject(),
+            entry.getInput(),
+            InputFileResolutionStrategy.ofBooleanValue(createAggregationCommand.isFailOnMissingInput()));
     }
 
     void filterGroupsAndProperties(TemplateCustomization templateCustomization, CombinedInput entry, List<PropertyGroup> groups) {

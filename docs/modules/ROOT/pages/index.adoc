@@ -16,7 +16,7 @@ endif::[]
 :toc:
 :toc-placement!:
 :toclevels: 4
-:latest-version: 0.6.1
+:latest-version: 0.7.0
 
 [.text-center]
 image:https://img.shields.io/maven-central/v/org.rodnansol/spring-configuration-property-documenter.svg[Maven Central]

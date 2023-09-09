@@ -156,6 +156,14 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
     @Parameter(property = "footerTemplate")
     String footerTemplate;
 
+    /**
+     * Define if the process should fail if the given input file is not found.
+     *
+     * @since 0.7.0
+     */
+    @Parameter(property = "failOnMissingInput", defaultValue = "true")
+    boolean failOnMissingInput;
+
     @Override
     public void execute() {
         AggregationDocumenter aggregationDocumenter = new AggregationDocumenter(MetadataReader.INSTANCE, TemplateCompilerFactory.getInstance(templateCompilerName), MetadataInputResolverContext.INSTANCE, PropertyGroupFilterService.INSTANCE);
@@ -169,6 +177,7 @@ public class GenerateAndAggregateDocumentsMojo extends AbstractMojo {
         CreateAggregationCommand createAggregationCommand = new CreateAggregationCommand(mavenProject, name, combinedInputs, type, getActualTemplateCustomization(), outputFile);
         createAggregationCommand.setDescription(description);
         createAggregationCommand.setCustomTemplate(new CustomTemplate(headerTemplate, contentTemplate, footerTemplate));
+        createAggregationCommand.setFailOnMissingInput(failOnMissingInput);
         return createAggregationCommand;
     }
 

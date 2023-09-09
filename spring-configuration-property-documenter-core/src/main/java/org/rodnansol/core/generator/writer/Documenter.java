@@ -1,6 +1,7 @@
 package org.rodnansol.core.generator.writer;
 
 import org.rodnansol.core.generator.reader.MetadataReader;
+import org.rodnansol.core.generator.resolver.InputFileResolutionStrategy;
 import org.rodnansol.core.generator.resolver.MetadataInputResolverContext;
 import org.rodnansol.core.generator.template.data.MainTemplateData;
 import org.rodnansol.core.generator.template.data.PropertyGroup;
@@ -67,7 +68,9 @@ public class Documenter {
     }
 
     private MainTemplateData createTemplateData(CreateDocumentCommand createDocumentCommand) throws IOException {
-        try (InputStream inputStream = metadataInputResolverContext.getInputStreamFromFile(createDocumentCommand.getProject(), createDocumentCommand.getMetadataInput())) {
+        try (InputStream inputStream = metadataInputResolverContext.getInputStreamFromFile(createDocumentCommand.getProject(),
+            createDocumentCommand.getMetadataInput(),
+            InputFileResolutionStrategy.ofBooleanValue(createDocumentCommand.isFailOnMissingInput()))) {
             List<PropertyGroup> propertyGroups = metadataReader.readPropertiesAsPropertyGroupList(inputStream);
             TemplateCustomization templateCustomization = createDocumentCommand.getTemplateCustomization();
             filterGroupsAndProperties(createDocumentCommand, propertyGroups, templateCustomization);

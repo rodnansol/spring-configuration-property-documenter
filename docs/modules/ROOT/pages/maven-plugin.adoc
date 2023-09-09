@@ -374,6 +374,12 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |Empty list - Everything will be included
 |0.4.0
 
+|failOnMissingInput
+|Defines if the build should fail if the input file is missing/not existing.
+|Yes
+|
+|0.7.0
+
 |===
 ====
 
@@ -478,6 +484,12 @@ As we can see in the `input` tags we can define an `input` field that can be:
 |No
 |
 |0.2.1
+
+|failOnMissingInput
+|Defines if the build should fail if any of the input files are missing/not existing.
+|Yes
+|
+|0.7.0
 
 |===
 

@@ -6,6 +6,7 @@ import org.rodnansol.core.generator.template.data.PropertyGroupConstants;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Class represents a template customization object.
@@ -192,17 +193,17 @@ public abstract class AbstractTemplateCustomization implements Serializable {
 
     @Override
     public String toString() {
-        return "AbstractTemplateCustomization{" +
-            "tocTitle='" + tocTitle + '\'' +
-            ", headerEnabled=" + headerEnabled +
-            ", tableOfContentsEnabled=" + tableOfContentsEnabled +
-            ", includeUnknownGroup=" + includeUnknownGroup +
-            ", unknownGroupLocalization='" + unknownGroupLocalization + '\'' +
-            ", includeGenerationDate=" + includeGenerationDate +
-            ", removeEmptyGroups=" + removeEmptyGroups +
-            ", locale='" + locale + '\'' +
-            ", contentCustomization=" + contentCustomization +
-            ", compactMode=" + templateMode +
-            '}';
+        return new StringJoiner(", ", AbstractTemplateCustomization.class.getSimpleName() + "[", "]")
+            .add("tocTitle='" + tocTitle + "'")
+            .add("headerEnabled=" + headerEnabled)
+            .add("tableOfContentsEnabled=" + tableOfContentsEnabled)
+            .add("includeUnknownGroup=" + includeUnknownGroup)
+            .add("unknownGroupLocalization='" + unknownGroupLocalization + "'")
+            .add("includeGenerationDate=" + includeGenerationDate)
+            .add("removeEmptyGroups=" + removeEmptyGroups)
+            .add("locale='" + locale + "'")
+            .add("contentCustomization=" + contentCustomization)
+            .add("templateMode=" + templateMode)
+            .toString();
     }
 }
