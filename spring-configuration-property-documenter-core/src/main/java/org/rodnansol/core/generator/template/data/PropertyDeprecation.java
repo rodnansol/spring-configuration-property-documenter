@@ -17,20 +17,17 @@ public class PropertyDeprecation {
     @Nullable
     private final String replacement;
 
-    public PropertyDeprecation() {
-        reason = null;
-        replacement = null;
-    }
-
-    public PropertyDeprecation(String reason, String replacement) {
+    public PropertyDeprecation(@Nullable String reason, @Nullable String replacement) {
         this.reason = reason;
         this.replacement = replacement;
     }
 
+    @Nullable
     public String getReason() {
         return reason;
     }
 
+    @Nullable
     public String getReplacement() {
         return replacement;
     }

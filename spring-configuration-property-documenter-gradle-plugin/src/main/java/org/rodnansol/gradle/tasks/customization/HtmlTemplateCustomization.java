@@ -153,7 +153,7 @@ public class HtmlTemplateCustomization extends AbstractTemplateCustomization {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", HtmlTemplateCustomization.class.getSimpleName() + "[", "]")
+        return new StringJoiner(",\n\t", HtmlTemplateCustomization.class.getSimpleName() + "[", "]")
             .add("backgroundColor='" + backgroundColor + "'")
             .add("linkColor='" + linkColor + "'")
             .add("collapsibleHoverColor='" + collapsibleHoverColor + "'")

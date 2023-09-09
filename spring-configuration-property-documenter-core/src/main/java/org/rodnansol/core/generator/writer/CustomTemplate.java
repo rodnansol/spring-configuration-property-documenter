@@ -1,5 +1,7 @@
 package org.rodnansol.core.generator.writer;
 
+import java.util.StringJoiner;
+
 /**
  * Class representing a customization for the templates.
  * <p>
@@ -46,10 +48,10 @@ public class CustomTemplate {
 
     @Override
     public String toString() {
-        return "CustomTemplate{" +
-            "customHeaderTemplate='" + customHeaderTemplate + '\'' +
-            ", customContentTemplate='" + customContentTemplate + '\'' +
-            ", customFooterTemplate='" + customFooterTemplate + '\'' +
-            '}';
+        return new StringJoiner(",\n\t", CustomTemplate.class.getSimpleName() + "[", "]")
+            .add("customHeaderTemplate='" + customHeaderTemplate + "'")
+            .add("customContentTemplate='" + customContentTemplate + "'")
+            .add("customFooterTemplate='" + customFooterTemplate + "'")
+            .toString();
     }
 }

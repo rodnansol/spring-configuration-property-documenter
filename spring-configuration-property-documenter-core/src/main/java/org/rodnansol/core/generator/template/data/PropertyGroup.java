@@ -6,6 +6,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 import static org.rodnansol.core.generator.template.data.PropertyGroupConstants.UNKNOWN;
 import static org.rodnansol.core.generator.template.data.PropertyGroupConstants.UNKNOWN_GROUP;
@@ -141,15 +142,15 @@ public class PropertyGroup {
 
     @Override
     public String toString() {
-        return "PropertyGroup{" +
-            "groupName='" + groupName + '\'' +
-            ", type='" + type + '\'' +
-            ", sourceType='" + sourceType + '\'' +
-            ", properties=" + properties +
-            ", parentGroup=" + parentGroup +
-            ", nested=" + nested +
-            ", unknownGroup=" + unknownGroup +
-            '}';
+        return new StringJoiner(",\n\t", PropertyGroup.class.getSimpleName() + "[", "]")
+            .add("type='" + type + "'")
+            .add("sourceType='" + sourceType + "'")
+            .add("groupName='" + groupName + "'")
+            .add("properties=" + properties)
+            .add("parentGroup=" + parentGroup)
+            .add("nested=" + nested)
+            .add("unknownGroup=" + unknownGroup)
+            .toString();
     }
 
     @Override

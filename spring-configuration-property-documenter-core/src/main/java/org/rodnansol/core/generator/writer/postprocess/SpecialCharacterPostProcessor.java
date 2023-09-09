@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.Objects;
 
 import static java.util.Map.entry;
 import static java.util.Map.ofEntries;
@@ -62,8 +63,10 @@ class SpecialCharacterPostProcessor implements PropertyGroupPostProcessor {
 
     private void replaceSpecialCharacters(Property property, Map<String, String> specialCharacterMap) {
         specialCharacterMap.forEach((character, replacement) -> {
-            property.setDescription(property.getDescription().replace(character, replacement));
-            property.setDefaultValue(property.getDefaultValue().replace(character, replacement));
+            if (Objects.nonNull(property.getDescription()))
+                property.setDescription(property.getDescription().replace(character, replacement));
+            if (Objects.nonNull(property.getDefaultValue()))
+                property.setDefaultValue(property.getDefaultValue().replace(character, replacement));
         });
     }
 }

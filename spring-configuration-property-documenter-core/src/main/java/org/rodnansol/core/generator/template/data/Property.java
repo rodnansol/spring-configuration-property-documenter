@@ -1,9 +1,10 @@
 package org.rodnansol.core.generator.template.data;
 
-import com.github.jknack.handlebars.internal.lang3.StringUtils;
 import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Class representing a property.
@@ -26,18 +27,22 @@ public class Property {
     /**
      * Property's key.
      */
+    @Nullable
     private String key;
     /**
      * Property's description if specified.
      */
+    @Nullable
     private String description;
     /**
      * Property's default value if specified.
      */
+    @Nullable
     private String defaultValue;
     /**
      * Property's deprecation.
      */
+    @Nullable
     private PropertyDeprecation propertyDeprecation;
 
     public Property(String fqName, String type) {
@@ -47,10 +52,10 @@ public class Property {
 
     public Property(String fqName, String type, String key, String description, String defaultValue, PropertyDeprecation propertyDeprecation) {
         this(fqName, type);
-        this.key = StringUtils.defaultIfBlank(key, "");
-        this.description = StringUtils.defaultIfBlank(description, "");
-        this.defaultValue = StringUtils.defaultIfBlank(defaultValue, "");
-        this.propertyDeprecation = Objects.requireNonNullElse(propertyDeprecation, new PropertyDeprecation());
+        this.key = key;
+        this.description = description;
+        this.defaultValue = defaultValue;
+        this.propertyDeprecation = propertyDeprecation;
     }
 
     /**
@@ -64,42 +69,47 @@ public class Property {
         return new Builder(fqName, type);
     }
 
+    @Nullable
     public String getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public void setKey(@Nullable String key) {
         this.key = key;
     }
 
+    @Nullable
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@Nullable String description) {
         this.description = description;
     }
 
+    @Nullable
     public String getDefaultValue() {
         return defaultValue;
     }
 
-    public void setDefaultValue(String defaultValue) {
+    public void setDefaultValue(@Nullable String defaultValue) {
         this.defaultValue = defaultValue;
     }
 
+    @NonNull
     public String getType() {
         return type;
     }
 
+    @Nullable
     public PropertyDeprecation getPropertyDeprecation() {
         return propertyDeprecation;
     }
 
-    public void setPropertyDeprecation(PropertyDeprecation propertyDeprecation) {
+    public void setPropertyDeprecation(@Nullable PropertyDeprecation propertyDeprecation) {
         this.propertyDeprecation = propertyDeprecation;
     }
-
+    @NonNull
     public String getFqName() {
         return fqName;
     }
@@ -119,14 +129,14 @@ public class Property {
 
     @Override
     public String toString() {
-        return "Property{" +
-            "fqName='" + fqName + '\'' +
-            ", type='" + type + '\'' +
-            ", key='" + key + '\'' +
-            ", description='" + description + '\'' +
-            ", defaultValue='" + defaultValue + '\'' +
-            ", propertyDeprecation=" + propertyDeprecation +
-            '}';
+        return new StringJoiner(",\n\t", Property.class.getSimpleName() + "[", "]")
+            .add("fqName='" + fqName + "'")
+            .add("type='" + type + "'")
+            .add("key='" + key + "'")
+            .add("description='" + description + "'")
+            .add("defaultValue='" + defaultValue + "'")
+            .add("propertyDeprecation=" + propertyDeprecation)
+            .toString();
     }
 
     public static final class Builder {
