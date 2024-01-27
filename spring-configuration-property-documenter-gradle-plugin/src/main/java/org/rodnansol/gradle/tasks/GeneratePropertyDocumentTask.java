@@ -110,9 +110,8 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
      * @since 0.5.0
      */
     @Input
-    @Optional
     @Option(option = "failOnError", description = "Fail on error or not")
-    private Boolean failOnError = true;
+    private boolean failOnError = true;
     /**
      * Template compiler class's fully qualified name .
      * <p>
@@ -123,7 +122,7 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
     @Input
     @Optional
     @Option(option = "templateCompilerName", description = "Name of the template compiler, by default Handlebars will be used")
-    private String templateCompilerName = TemplateCompilerFactory.getDefaultCompilerName();;
+    private String templateCompilerName = TemplateCompilerFactory.getDefaultCompilerName();
     /**
      * List of excluded properties.
      *
@@ -199,9 +198,8 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
      * @since 0.7.0
      */
     @Input
-    @Optional
     @Option(option = "failOnMissingInput", description = "Fail if the input file is missing")
-    private Boolean failOnMissingInput = true;
+    private boolean failOnMissingInput = true;
 
     @TaskAction
     public void execute() {
@@ -355,19 +353,19 @@ public abstract class GeneratePropertyDocumentTask extends ConventionTask {
         return xmlCustomization;
     }
 
-    public Boolean getFailOnError() {
+    public boolean isFailOnError() {
         return failOnError;
     }
 
-    public void setFailOnError(Boolean failOnError) {
+    public void setFailOnError(boolean failOnError) {
         this.failOnError = failOnError;
     }
 
-    public Boolean getFailOnMissingInput() {
+    public boolean isFailOnMissingInput() {
         return failOnMissingInput;
     }
 
-    public void setFailOnMissingInput(Boolean failOnMissingInput) {
+    public void setFailOnMissingInput(boolean failOnMissingInput) {
         this.failOnMissingInput = failOnMissingInput;
     }
 

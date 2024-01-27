@@ -29,6 +29,7 @@ tasks.register('aggregateAdocWithImperative') {
     dependsOn generateAndAggregateDocuments {
         documentName = "Hello World"
         type = "ADOC"
+        failOnMissingInput = true
 
         def moduleA = new AggregationInput()
         moduleA.name = "Module A document"
