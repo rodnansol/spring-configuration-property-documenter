@@ -267,7 +267,7 @@ public interface TemplateCompiler {
 
 === Register custom template compiler
 
-To register your service create a file named `org.rodnansol.core.generator.template.TemplateCompiler` under the `META-INF/services` directory and put your class's fully qualified name into the file.
+To register your service create a file named `org.rodnansol.core.generator.template.compiler.TemplateCompiler` under the `META-INF/services` directory and put your class's fully qualified name into the file.
 
 To make sure you have the necessary classes, at least for now, you have to add the following dependency to your project:
 
