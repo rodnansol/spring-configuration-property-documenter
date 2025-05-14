@@ -14,6 +14,7 @@ import org.springframework.boot.configurationprocessor.metadata.JsonMarshaller;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -99,6 +100,7 @@ public class MetadataReader {
         return propertyGroupsByType.values()
             .stream()
             .flatMap(Collection::stream)
+            .sorted(Comparator.comparing(PropertyGroup::getGroupName))
             .collect(Collectors.toList());
     }
 

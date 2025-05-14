@@ -22,30 +22,6 @@ endif::[]
 |===
 // end::Unknown group[]
 
-// tag::this.is.your[]
-ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.your +]
-ifdef::property-group-simple-title[.*_this.is.your_* +]
-ifdef::property-group-discrete-heading[]
-[discrete]
-=== this.is.your
-endif::[]
-*Class:* `org.rodnansol.YourProperties`
-[cols="2,1,3,1,1,1"]
-|===
-|Key |Type |Description |Default value |Deprecation|Environment variable 
-
-
-|property
-|java.lang.String
-|This is YOUR property.
-|
-|
-|`THIS_IS_YOUR_PROPERTY`
-
-
-|===
-// end::this.is.your[]
-
 // tag::this.is.a.bean.configuration[]
 ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.a.bean.configuration +]
 ifdef::property-group-simple-title[.*_this.is.a.bean.configuration_* +]
@@ -69,54 +45,6 @@ endif::[]
 
 |===
 // end::this.is.a.bean.configuration[]
-
-// tag::this.is.my.nested[]
-ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.nested +]
-ifdef::property-group-simple-title[.*_this.is.my.nested_* +]
-ifdef::property-group-discrete-heading[]
-[discrete]
-=== this.is.my.nested
-endif::[]
-*Class:* `org.rodnansol.TopLevelClassNestedProperty`
-[cols="2,1,3,1,1,1"]
-|===
-|Key |Type |Description |Default value |Deprecation|Environment variable 
-
-
-|nested-value
-|java.lang.String
-|Nested value.
-|
-|
-|`THIS_IS_MY_NESTED_NESTEDVALUE`
-
-
-|===
-// end::this.is.my.nested[]
-
-// tag::this.is.my.first-level-nested-property.second-level-nested-class[]
-ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.first-level-nested-property.second-level-nested-class +]
-ifdef::property-group-simple-title[.*_this.is.my.first-level-nested-property.second-level-nested-class_* +]
-ifdef::property-group-discrete-heading[]
-[discrete]
-=== this.is.my.first-level-nested-property.second-level-nested-class
-endif::[]
-*Class:* `org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass`
-[cols="2,1,3,1,1,1"]
-|===
-|Key |Type |Description |Default value |Deprecation|Environment variable 
-
-
-|second-level-value
-|java.lang.String
-|Custom nested
-|
-|
-|`THIS_IS_MY_FIRSTLEVELNESTEDPROPERTY_SECONDLEVELNESTEDCLASS_SECONDLEVELVALUE`
-
-
-|===
-// end::this.is.my.first-level-nested-property.second-level-nested-class[]
 
 // tag::this.is.my.first-level-nested-property[]
 ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.first-level-nested-property +]
@@ -148,5 +76,77 @@ endif::[]
 
 |===
 // end::this.is.my.first-level-nested-property[]
+
+// tag::this.is.my.first-level-nested-property.second-level-nested-class[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.first-level-nested-property.second-level-nested-class +]
+ifdef::property-group-simple-title[.*_this.is.my.first-level-nested-property.second-level-nested-class_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my.first-level-nested-property.second-level-nested-class
+endif::[]
+*Class:* `org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass`
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+
+|second-level-value
+|java.lang.String
+|Custom nested
+|
+|
+|`THIS_IS_MY_FIRSTLEVELNESTEDPROPERTY_SECONDLEVELNESTEDCLASS_SECONDLEVELVALUE`
+
+
+|===
+// end::this.is.my.first-level-nested-property.second-level-nested-class[]
+
+// tag::this.is.my.nested[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.nested +]
+ifdef::property-group-simple-title[.*_this.is.my.nested_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my.nested
+endif::[]
+*Class:* `org.rodnansol.TopLevelClassNestedProperty`
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+
+|nested-value
+|java.lang.String
+|Nested value.
+|
+|
+|`THIS_IS_MY_NESTED_NESTEDVALUE`
+
+
+|===
+// end::this.is.my.nested[]
+
+// tag::this.is.your[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.your +]
+ifdef::property-group-simple-title[.*_this.is.your_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.your
+endif::[]
+*Class:* `org.rodnansol.YourProperties`
+[cols="2,1,3,1,1,1"]
+|===
+|Key |Type |Description |Default value |Deprecation|Environment variable 
+
+
+|property
+|java.lang.String
+|This is YOUR property.
+|
+|
+|`THIS_IS_YOUR_PROPERTY`
+
+
+|===
+// end::this.is.your[]
 
 

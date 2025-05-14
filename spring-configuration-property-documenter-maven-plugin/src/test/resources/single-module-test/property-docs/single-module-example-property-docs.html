@@ -139,17 +139,17 @@
                 
                     <li><a href="#Unknown group">Unknown group - <code>Unknown</code></a></li>
                 
-                    <li><a href="#this.is.your">this.is.your - <code>org.rodnansol.YourProperties</code></a></li>
-                
                     <li><a href="#this.is.a.bean.configuration">this.is.a.bean.configuration - <code>org.rodnansol.PropertiesForConfiguration</code></a></li>
-                
-                    <li><a href="#this.is.my.nested">this.is.my.nested - <code>org.rodnansol.TopLevelClassNestedProperty</code></a></li>
-                
-                    <li><a href="#this.is.my.first-level-nested-property.second-level-nested-class">this.is.my.first-level-nested-property.second-level-nested-class - <code>org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass</code></a></li>
                 
                     <li><a href="#this.is.my">this.is.my - <code>org.rodnansol.MyProperties</code></a></li>
                 
                     <li><a href="#this.is.my.first-level-nested-property">this.is.my.first-level-nested-property - <code>org.rodnansol.FirstLevelNestedProperty</code></a></li>
+                
+                    <li><a href="#this.is.my.first-level-nested-property.second-level-nested-class">this.is.my.first-level-nested-property.second-level-nested-class - <code>org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass</code></a></li>
+                
+                    <li><a href="#this.is.my.nested">this.is.my.nested - <code>org.rodnansol.TopLevelClassNestedProperty</code></a></li>
+                
+                    <li><a href="#this.is.your">this.is.your - <code>org.rodnansol.YourProperties</code></a></li>
                 
             </ul>
         
@@ -177,31 +177,6 @@
         </tbody>
     </table>
     <hr>
-    <h2 id="this.is.your">this.is.your</h2>
-    <b>Class:</b> <code>org.rodnansol.YourProperties</code>
-    <table class="table">
-        <thead>
-    <tr>
-        <th>Key</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default value</th>
-        <th>Deprecation</th>
-        <th>Environment variable</th>
-    </tr>
-</thead>
-        <tbody>
-        <tr>
-                <td>property</td>
-                <td>java.lang.String</td>
-                <td>This is YOUR property.</td>
-                <td></td>
-                <td></td>
-                <td>THIS_IS_YOUR_PROPERTY</td>
-                </tr>
-        </tbody>
-    </table>
-    <hr>
     <h2 id="this.is.a.bean.configuration">this.is.a.bean.configuration</h2>
     <b>Class:</b> <code>org.rodnansol.PropertiesForConfiguration</code>
     <table class="table">
@@ -223,56 +198,6 @@
                 <td></td>
                 <td></td>
                 <td>THIS_IS_A_BEAN_CONFIGURATION_CONFIGURATIONVALUE</td>
-                </tr>
-        </tbody>
-    </table>
-    <hr>
-    <h2 id="this.is.my.nested">this.is.my.nested</h2>
-    <b>Class:</b> <code>org.rodnansol.TopLevelClassNestedProperty</code>
-    <table class="table">
-        <thead>
-    <tr>
-        <th>Key</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default value</th>
-        <th>Deprecation</th>
-        <th>Environment variable</th>
-    </tr>
-</thead>
-        <tbody>
-        <tr>
-                <td>nested-value</td>
-                <td>java.lang.String</td>
-                <td>Nested value.</td>
-                <td></td>
-                <td></td>
-                <td>THIS_IS_MY_NESTED_NESTEDVALUE</td>
-                </tr>
-        </tbody>
-    </table>
-    <hr>
-    <h2 id="this.is.my.first-level-nested-property.second-level-nested-class">this.is.my.first-level-nested-property.second-level-nested-class</h2>
-    <b>Class:</b> <code>org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass</code>
-    <table class="table">
-        <thead>
-    <tr>
-        <th>Key</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default value</th>
-        <th>Deprecation</th>
-        <th>Environment variable</th>
-    </tr>
-</thead>
-        <tbody>
-        <tr>
-                <td>second-level-value</td>
-                <td>java.lang.String</td>
-                <td>Custom nested</td>
-                <td></td>
-                <td></td>
-                <td>THIS_IS_MY_FIRSTLEVELNESTEDPROPERTY_SECONDLEVELNESTEDCLASS_SECONDLEVELVALUE</td>
                 </tr>
         </tbody>
     </table>
@@ -371,6 +296,81 @@
                 <td>ABC</td>
                 <td></td>
                 <td>THIS_IS_MY_FIRSTLEVELNESTEDPROPERTY_NAME</td>
+                </tr>
+        </tbody>
+    </table>
+    <hr>
+    <h2 id="this.is.my.first-level-nested-property.second-level-nested-class">this.is.my.first-level-nested-property.second-level-nested-class</h2>
+    <b>Class:</b> <code>org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass</code>
+    <table class="table">
+        <thead>
+    <tr>
+        <th>Key</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default value</th>
+        <th>Deprecation</th>
+        <th>Environment variable</th>
+    </tr>
+</thead>
+        <tbody>
+        <tr>
+                <td>second-level-value</td>
+                <td>java.lang.String</td>
+                <td>Custom nested</td>
+                <td></td>
+                <td></td>
+                <td>THIS_IS_MY_FIRSTLEVELNESTEDPROPERTY_SECONDLEVELNESTEDCLASS_SECONDLEVELVALUE</td>
+                </tr>
+        </tbody>
+    </table>
+    <hr>
+    <h2 id="this.is.my.nested">this.is.my.nested</h2>
+    <b>Class:</b> <code>org.rodnansol.TopLevelClassNestedProperty</code>
+    <table class="table">
+        <thead>
+    <tr>
+        <th>Key</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default value</th>
+        <th>Deprecation</th>
+        <th>Environment variable</th>
+    </tr>
+</thead>
+        <tbody>
+        <tr>
+                <td>nested-value</td>
+                <td>java.lang.String</td>
+                <td>Nested value.</td>
+                <td></td>
+                <td></td>
+                <td>THIS_IS_MY_NESTED_NESTEDVALUE</td>
+                </tr>
+        </tbody>
+    </table>
+    <hr>
+    <h2 id="this.is.your">this.is.your</h2>
+    <b>Class:</b> <code>org.rodnansol.YourProperties</code>
+    <table class="table">
+        <thead>
+    <tr>
+        <th>Key</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default value</th>
+        <th>Deprecation</th>
+        <th>Environment variable</th>
+    </tr>
+</thead>
+        <tbody>
+        <tr>
+                <td>property</td>
+                <td>java.lang.String</td>
+                <td>This is YOUR property.</td>
+                <td></td>
+                <td></td>
+                <td>THIS_IS_YOUR_PROPERTY</td>
                 </tr>
         </tbody>
     </table>
