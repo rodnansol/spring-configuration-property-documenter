@@ -333,25 +333,24 @@ class MetadataReaderTest {
         @DisplayName("Should correctly process additional metadata with custom group and property without explicit sourceType for property")
         void readPropertiesAsPropertyGroupList_shouldHandleAdditionalMetadataCorrectly_whenCustomGroupAndPropertyAreDefined() {
             // Given
-            String jsonInput = """
-                {
-                    "groups": [
-                        {
-                            "name": "audit.javers",
-                            "type": "audit.JaversProperties",
-                            "sourceType": "audit.JaversProperties"
-                        }
-                    ],
-                    "properties": [
-                        {
-                            "name": "audit.javers.enabled",
-                            "type": "java.lang.Boolean",
-                            "description": "Whether Javers audit logging is enabled.",
-                            "defaultValue": true
-                        }
-                    ],
-                    "hints": []
-                }""";
+            String jsonInput = "{\n" +
+                "    \"groups\": [\n" +
+                "        {\n" +
+                "            \"name\": \"audit.javers\",\n" +
+                "            \"type\": \"audit.JaversProperties\",\n" +
+                "            \"sourceType\": \"audit.JaversProperties\"\n" +
+                "        }\n" +
+                "    ],\n" +
+                "    \"properties\": [\n" +
+                "        {\n" +
+                "            \"name\": \"audit.javers.enabled\",\n" +
+                "            \"type\": \"java.lang.Boolean\",\n" +
+                "            \"description\": \"Whether Javers audit logging is enabled.\",\n" +
+                "            \"defaultValue\": true\n" +
+                "        }\n" +
+                "    ],\n" +
+                "    \"hints\": []\n" +
+                "}";
             InputStream inputStream = new ByteArrayInputStream(jsonInput.getBytes(StandardCharsets.UTF_8));
 
             // When
@@ -379,16 +378,16 @@ class MetadataReaderTest {
             assertThat(enabledProperty.getDescription()).isEqualTo("Whether Javers audit logging is enabled.");
 
             // Ensure the property is not in the "Unknown group" if that group exists and is empty or doesn't contain this property
-            Optional<PropertyGroup> unknownGroupOpt = propertyGroups.stream()
-                .filter(PropertyGroup::isUnknownGroup)
-                .findFirst();
-
-            if (unknownGroupOpt.isPresent()) {
-                PropertyGroup unknownGroup = unknownGroupOpt.get();
-                boolean propertyInUnknownGroup = unknownGroup.getProperties().stream()
-                    .anyMatch(p -> "audit.javers.enabled".equals(p.getFqName()));
-                assertThat(propertyInUnknownGroup).isFalse();
-            }
+            // More robust check: assert that no other group except auditJaversGroup contains this property by FQ name.
+            propertyGroups.stream()
+                .filter(pg -> !"audit.javers".equals(pg.getGroupName()))
+                .forEach(otherGroup -> {
+                    boolean propertyInOtherGroup = otherGroup.getProperties().stream()
+                        .anyMatch(p -> "audit.javers.enabled".equals(p.getFqName()));
+                    assertThat(propertyInOtherGroup)
+                        .as("Property audit.javers.enabled should not be in group: " + otherGroup.getGroupName())
+                        .isFalse();
+                });
         }
     }
 
