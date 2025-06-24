@@ -17,6 +17,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -72,10 +77,10 @@ public class MetadataReader {
             }
             ConfigurationMetadata configurationMetadata = new JsonMarshaller().read(metadataStream);
             Map<String, List<Property>> propertyMap = getPropertyMap(configurationMetadata);
-            Map<String, List<PropertyGroup>> propertyGroupsByType = getPropertyGroups(configurationMetadata);
-            updateGroupsWithPropertiesAndAssociations(propertyMap, propertyGroupsByType);
-            LOGGER.trace("Configuration metadata contains number of group:[{}] and properties:[{}]", propertyGroupsByType.size(), propertyMap.size());
-            return flattenValues(propertyGroupsByType);
+            Map<String, List<PropertyGroup>> propertyGroupsBySourceType = getPropertyGroups(configurationMetadata); // Renamed for clarity
+            updateGroupsWithPropertiesAndAssociations(propertyMap, propertyGroupsBySourceType);
+            LOGGER.trace("Configuration metadata contains number of group:[{}] and properties:[{}]", propertyGroupsBySourceType.size(), propertyMap.size());
+            return flattenValues(propertyGroupsBySourceType);
         } catch (Exception e) {
             throw new MetadataConversionException("Error during converting properties to list of ProperyGroups", e);
         }
@@ -89,28 +94,37 @@ public class MetadataReader {
             if(propertyGroup.getGroupName().isBlank()) {
                 property.setKey(property.getFqName());
             } else {
-                property.setKey(property.getFqName().substring(groupName.length() + 1));
+                // Ensure property name actually starts with groupName + "." before substring
+                if (property.getFqName().startsWith(groupName + ".")) {
+                    property.setKey(property.getFqName().substring(groupName.length() + 1));
+                } else {
+                    // If not, it might be a property directly in a "group" that's actually a top-level property,
+                    // or a mismatch. For safety, use fqName.
+                    property.setKey(property.getFqName());
+                }
             }
         }
         return property;
     }
 
-    private List<PropertyGroup> flattenValues(Map<String, List<PropertyGroup>> propertyGroupsByType) {
-        return propertyGroupsByType.values()
+    private List<PropertyGroup> flattenValues(Map<String, List<PropertyGroup>> propertyGroupsBySourceType) {
+        return propertyGroupsBySourceType.values()
             .stream()
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
     }
 
-    private void updateGroupsWithPropertiesAndAssociations(Map<String, List<Property>> propertyMap, Map<String, List<PropertyGroup>> propertyGroupsByType) {
-        for (Map.Entry<String, List<PropertyGroup>> entry : propertyGroupsByType.entrySet()) {
+    private void updateGroupsWithPropertiesAndAssociations(Map<String, List<Property>> propertyMap, Map<String, List<PropertyGroup>> propertyGroupsBySourceType) {
+        for (Map.Entry<String, List<PropertyGroup>> entry : propertyGroupsBySourceType.entrySet()) {
             List<PropertyGroup> nestedProperties = updatePropertiesAndReturnNestedGroups(propertyMap, entry);
             for (PropertyGroup nestedProperty : nestedProperties) {
-                List<PropertyGroup> parentList = propertyGroupsByType.get(nestedProperty.getSourceType());
-                parentList.stream().filter(propertyGroup -> propertyGroup.getType().equals(nestedProperty.getSourceType())).findFirst().ifPresent(parent -> {
-                    parent.addChildGroup(nestedProperty);
-                    nestedProperty.setParentGroup(parent);
-                });
+                List<PropertyGroup> parentList = propertyGroupsBySourceType.get(nestedProperty.getSourceType());
+                if (parentList != null) { // Added null check
+                    parentList.stream().filter(propertyGroup -> propertyGroup.getType().equals(nestedProperty.getSourceType())).findFirst().ifPresent(parent -> {
+                        parent.addChildGroup(nestedProperty);
+                        nestedProperty.setParentGroup(parent);
+                    });
+                }
             }
         }
     }
@@ -124,13 +138,21 @@ public class MetadataReader {
     }
 
     private PropertyGroup setProperties(Map<String, List<Property>> propertyMap, PropertyGroup propertyGroup) {
-        List<Property> properties = propertyMap.get(propertyGroup.getType());
-        if (properties == null || properties.isEmpty()) {
-            LOGGER.warn("Property group with name:[{}] is having no properties, please check if you provided the getter/setter methods. If your class is empty intentionally, please forget this warning here.", propertyGroup.getGroupName());
+        // Key for propertyMap should be the sourceType that was used when populating propertyMap.
+        // This is propertyGroup.getSourceType() because getPropertyGroups also uses getSourceTypeOrDefault for groups.
+        List<Property> potentialProperties = propertyMap.get(propertyGroup.getSourceType());
+        if (potentialProperties == null || potentialProperties.isEmpty()) {
+            if (!propertyGroup.isUnknownGroup() && !propertyGroup.getGroupName().isEmpty()) { // Avoid warning for truly unknown or empty named groups
+                LOGGER.warn("Property group with name:[{}] and sourceType:[{}] has no associated properties. " +
+                            "Check if getter/setter methods are provided or if 'sourceType' in 'additional-spring-configuration-metadata.json' is correct. " +
+                            "If the group is intentionally empty, please ignore this warning.",
+                            propertyGroup.getGroupName(), propertyGroup.getSourceType());
+            }
+            propertyGroup.setProperties(List.of()); // Ensure it's an empty list
             return propertyGroup;
         }
-        List<Property> collectedProperties = properties.stream()
-            .filter(property -> property.getFqName().startsWith(propertyGroup.getGroupName()) || propertyGroup.isUnknownGroup())
+        List<Property> collectedProperties = potentialProperties.stream()
+            .filter(property -> propertyGroup.isUnknownGroup() || property.getFqName().startsWith(propertyGroup.getGroupName()))
             .map(property -> updateProperty(propertyGroup, property))
             .collect(Collectors.toList());
         propertyGroup.setProperties(collectedProperties);
@@ -141,26 +163,70 @@ public class MetadataReader {
         Map<String, List<PropertyGroup>> propertyGroupMap = configurationMetadata.getItems()
             .stream()
             .filter(itemMetadata -> itemMetadata.isOfItemType(ItemMetadata.ItemType.GROUP))
-            .map(itemMetadata -> new PropertyGroup(itemMetadata.getName(), itemMetadata.getType(), getSourceTypeOrDefault(itemMetadata)))
+            .map(itemMetadata -> new PropertyGroup(itemMetadata.getName(), itemMetadata.getType(), getSourceTypeOrDefault(itemMetadata))) // Pass itemMetadata itself
             .collect(Collectors.groupingBy(PropertyGroup::getSourceType, Collectors.toList()));
-        List<PropertyGroup> value = new ArrayList<>();
-        value.add(PropertyGroup.createUnknownGroup());
-        propertyGroupMap.put(PropertyGroupConstants.UNKNOWN, value);
+        // Ensure the canonical "Unknown" group is always there and other groups that might also have an "UNKNOWN" sourceType are preserved.
+        propertyGroupMap.computeIfAbsent(PropertyGroupConstants.UNKNOWN, k -> new ArrayList<>()).add(0, PropertyGroup.createUnknownGroup()); // Add to existing list, perhaps at the beginning
         return propertyGroupMap;
     }
 
     private Map<String, List<Property>> getPropertyMap(ConfigurationMetadata configurationMetadata) {
-        Function<ItemMetadata, String> getSourceType = this::getSourceTypeOrDefault;
+        List<ItemMetadata> groupItems = configurationMetadata.getItems().stream()
+            .filter(item -> item.isOfItemType(ItemMetadata.ItemType.GROUP))
+            .collect(Collectors.toList());
+
+        Function<ItemMetadata, String> propertySourceTypeResolver = propertyItem -> {
+            // Priority 1: Explicit sourceType on the property item itself.
+            if (propertyItem.getSourceType() != null) {
+                return propertyItem.getSourceType();
+            }
+
+            // Priority 2: Infer from group if property name is prefixed by a group name.
+            String propertyName = propertyItem.getName();
+            ItemMetadata bestMatchingGroup = null;
+            int longestMatchLength = -1; // Use -1 to ensure any group name match is longer
+
+            for (ItemMetadata groupItem : groupItems) {
+                String groupName = groupItem.getName();
+                if (groupName == null || groupName.isEmpty()) continue; // Skip groups with no name
+
+                // Check if propertyName starts with "groupName."
+                if (propertyName.startsWith(groupName + ".")) {
+                    if (groupName.length() > longestMatchLength) {
+                        // This group is a more specific prefix.
+                        // The sourceType for the property will be the group's sourceType or type.
+                        String groupSourceType = groupItem.getSourceType() != null ? groupItem.getSourceType() : groupItem.getType();
+                        if (groupSourceType != null) { // We need a valid sourceType from the group
+                           longestMatchLength = groupName.length();
+                           bestMatchingGroup = groupItem;
+                        }
+                    }
+                }
+            }
+
+            if (bestMatchingGroup != null) {
+                 // Use the sourceType of the best matching group, or its type if sourceType is null.
+                return bestMatchingGroup.getSourceType() != null ? bestMatchingGroup.getSourceType() : bestMatchingGroup.getType();
+            }
+
+            // Priority 3: Fallback to UNKNOWN if no other sourceType can be determined.
+            return PropertyGroupConstants.UNKNOWN;
+        };
+
         return configurationMetadata.getItems()
             .stream()
             .filter(itemMetadata -> itemMetadata.isOfItemType(ItemMetadata.ItemType.PROPERTY))
-            .collect(Collectors.groupingBy(getSourceType,
+            .collect(Collectors.groupingBy(propertySourceTypeResolver,
                 Collectors.mapping(this::mapToProperty, Collectors.toList()))
             );
     }
 
-    private String getSourceTypeOrDefault(ItemMetadata current) {
-        return Optional.ofNullable(current.getSourceType()).orElse(PropertyGroupConstants.UNKNOWN);
+    // getSourceTypeOrDefault is now primarily for groups.
+    // A group's sourceType is what it declares. If it declares none, then its 'type' is used. If that's also none, it's UNKNOWN.
+    private String getSourceTypeOrDefault(ItemMetadata groupItem) {
+        return Optional.ofNullable(groupItem.getSourceType())
+            .orElse(Optional.ofNullable(groupItem.getType())
+            .orElse(PropertyGroupConstants.UNKNOWN));
     }
 
     private Property mapToProperty(ItemMetadata itemMetadata) {

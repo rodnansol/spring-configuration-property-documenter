@@ -15,8 +15,12 @@ import org.rodnansol.core.generator.template.data.PropertyGroup;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -322,6 +326,69 @@ class MetadataReaderTest {
             List<PropertyGroup> expectedYourProperties1 = List.of(PropertyGroup.createUnknownGroup(), topLevelGroup);
             assertThat(propertyGroups)
                 .containsAll(expectedYourProperties1);
+        }
+
+        @Test
+        @Issue("https://github.com/rodnansol/spring-configuration-property-documenter/issues/112")
+        @DisplayName("Should correctly process additional metadata with custom group and property without explicit sourceType for property")
+        void readPropertiesAsPropertyGroupList_shouldHandleAdditionalMetadataCorrectly_whenCustomGroupAndPropertyAreDefined() {
+            // Given
+            String jsonInput = """
+                {
+                    "groups": [
+                        {
+                            "name": "audit.javers",
+                            "type": "audit.JaversProperties",
+                            "sourceType": "audit.JaversProperties"
+                        }
+                    ],
+                    "properties": [
+                        {
+                            "name": "audit.javers.enabled",
+                            "type": "java.lang.Boolean",
+                            "description": "Whether Javers audit logging is enabled.",
+                            "defaultValue": true
+                        }
+                    ],
+                    "hints": []
+                }""";
+            InputStream inputStream = new ByteArrayInputStream(jsonInput.getBytes(StandardCharsets.UTF_8));
+
+            // When
+            List<PropertyGroup> propertyGroups = underTest.readPropertiesAsPropertyGroupList(inputStream);
+
+            // Then
+            assertThat(propertyGroups).hasSizeGreaterThanOrEqualTo(1); // Expect at least the audit.javers group (and potentially the default 'Unknown group')
+
+            Optional<PropertyGroup> auditJaversGroupOpt = propertyGroups.stream()
+                .filter(pg -> "audit.javers".equals(pg.getGroupName()))
+                .findFirst();
+
+            assertThat(auditJaversGroupOpt).isPresent();
+            PropertyGroup auditJaversGroup = auditJaversGroupOpt.get();
+
+            assertThat(auditJaversGroup.getType()).isEqualTo("audit.JaversProperties");
+            assertThat(auditJaversGroup.getSourceType()).isEqualTo("audit.JaversProperties");
+            assertThat(auditJaversGroup.getProperties()).hasSize(1);
+
+            Property enabledProperty = auditJaversGroup.getProperties().get(0);
+            assertThat(enabledProperty.getFqName()).isEqualTo("audit.javers.enabled");
+            assertThat(enabledProperty.getKey()).isEqualTo("enabled"); // After processing by updateProperty
+            assertThat(enabledProperty.getType()).isEqualTo("java.lang.Boolean");
+            assertThat(enabledProperty.getDefaultValue()).isEqualTo("true");
+            assertThat(enabledProperty.getDescription()).isEqualTo("Whether Javers audit logging is enabled.");
+
+            // Ensure the property is not in the "Unknown group" if that group exists and is empty or doesn't contain this property
+            Optional<PropertyGroup> unknownGroupOpt = propertyGroups.stream()
+                .filter(PropertyGroup::isUnknownGroup)
+                .findFirst();
+
+            if (unknownGroupOpt.isPresent()) {
+                PropertyGroup unknownGroup = unknownGroupOpt.get();
+                boolean propertyInUnknownGroup = unknownGroup.getProperties().stream()
+                    .anyMatch(p -> "audit.javers.enabled".equals(p.getFqName()));
+                assertThat(propertyInUnknownGroup).isFalse();
+            }
         }
     }
 
