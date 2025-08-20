@@ -6,7 +6,7 @@
     {{#each propertyGroups ~}}
     <h2 id="{{#if moduleName}}{{moduleName}}-{{/if}}{{groupName}}">{{groupName}}</h2>
     {{#is_included "class" ~}}
-        <b>{{i18n "template.class"}}:</b> <code>{{type}}</code>
+    {{#if type}}<b>{{i18n "template.class"}}:</b> <code>{{type}}</code>{{/if}}
     {{/is_included ~}}
     <table class="table">
         {{> templates/partials/html/content-table-header.html}}
@@ -17,7 +17,7 @@
                 <td>{{key}}</td>
                 {{/is_included ~}}
                 {{#is_included "type" ~}}
-                <td>{{type}}</td>
+                <td>{{#if type}}{{type}}{{/if}}</td>
                 {{/is_included ~}}
                 {{#is_included "description" ~}}
                 <td>{{description}}</td>
