@@ -27,6 +27,18 @@ jobs:
         if: always() # always run even if the previous step fails
         with:
           report_paths: '**/target/surefire-reports/TEST-*.xml'
+      - name: Allure Report
+        uses: allure-actions/allure-report@v2
+        if: always()
+        with:
+          results-dir: '**/target/allure-results'
+          report-dir: 'allure-report'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          allure-endpoint: ''
+          allure-project-id: ''
+          allure-results: ''
+        env:
+          ALLURE_RESULTS_DIR: '**/target/allure-results'
 #      - name: Add coverage to PR
 #        id: jacoco
 #        uses: madrapps/jacoco-report@v1.3
