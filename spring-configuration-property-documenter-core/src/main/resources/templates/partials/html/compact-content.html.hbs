@@ -4,7 +4,7 @@
         <td>{{fqName}}</td>
         {{/is_included ~}}
         {{#is_included "type" ~}}
-        <td>{{type}}</td>
+    <td>{{#if type}}{{type}}{{/if}}</td>
         {{/is_included ~}}
         {{#is_included "description" ~}}
         <td>{{description}}</td>
