@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "test.group",
+      "type": "com.example.springpropertysources.MyProperties",
+      "sourceType": "com.example.springpropertysources.MyProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "test.group.without.type",
+      "description": "Property without type field",
+      "sourceType": "com.example.springpropertysources.MyProperties"
+    },
+    {
+      "name": "test.group.with.type",
+      "type": "java.lang.String",
+      "description": "Property with type field",
+      "sourceType": "com.example.springpropertysources.MyProperties"
+    }
+  ]
+}

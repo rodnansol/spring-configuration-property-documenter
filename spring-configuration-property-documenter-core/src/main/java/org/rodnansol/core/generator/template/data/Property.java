@@ -22,7 +22,7 @@ public class Property {
     /**
      * Type of the property, most likely to be a Java class.
      */
-    @NonNull
+    @Nullable
     private final String type;
     /**
      * Property's key.
@@ -47,7 +47,7 @@ public class Property {
 
     public Property(String fqName, String type) {
         this.fqName = Objects.requireNonNull(fqName, "fqName is NULL");
-        this.type = Objects.requireNonNull(type, "type is NULL");
+        this.type = type;
     }
 
     public Property(String fqName, String type, String key, String description, String defaultValue, PropertyDeprecation propertyDeprecation) {
@@ -96,7 +96,7 @@ public class Property {
         this.defaultValue = defaultValue;
     }
 
-    @NonNull
+    @Nullable
     public String getType() {
         return type;
     }

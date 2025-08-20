@@ -4,11 +4,11 @@
             <propertyGroups>{{#each propertyGroups}}
                     <propertyGroup>
                         <groupName>{{groupName}}</groupName>
-                        <type>{{type}}</type>
+                        {{#if type}}<type>{{type}}</type>{{/if}}
                         <properties>{{#each properties}}
                             <property>
                                 <key>{{key}}</key>
-                                <type>{{type}}</type>
+                                {{#if type}}<type>{{type}}</type>{{/if}}
                                 <description>{{description}}</description>
                                 <defaultValue>{{defaultValue}}</defaultValue>
                                 <propertyDeprecation>{{propertyDeprecation}}</propertyDeprecation>

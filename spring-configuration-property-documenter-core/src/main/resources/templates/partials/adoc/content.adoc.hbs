@@ -16,7 +16,9 @@ ifdef::property-group-discrete-heading[]
 === {{groupName}}
 endif::[]
 {{#is_included "class" ~}}
+{{#if type ~}}
 *{{i18n "template.class"}}:* `{{type}}`
+{{/if ~}}
 {{/is_included ~}}
 
 {{> templates/partials/adoc/content-table-header.adoc}}
@@ -25,7 +27,7 @@ endif::[]
 |{{key}}
 {{/is_included ~}}
 {{#is_included "type" ~}}
-|{{type}}
+|{{#if type}}{{type}}{{/if}}
 {{/is_included ~}}
 {{#is_included "description" ~}}
 |{{description}}

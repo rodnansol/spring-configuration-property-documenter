@@ -323,6 +323,26 @@ class MetadataReaderTest {
             assertThat(propertyGroups)
                 .containsAll(expectedYourProperties1);
         }
+
+        @Test
+        @Issue("#115")
+        @DisplayName("Should parse property with null type and not fail")
+        void shouldParsePropertyWithNullType() throws Exception {
+            // Given
+            String file = TEST_RESOURCES_DIRECTORY + "regression/spring-configuration-metadata-property-without-type.json";
+
+            // When
+            List<PropertyGroup> propertyGroups = underTest.readPropertiesAsPropertyGroupList(new FileInputStream(file));
+
+            // Then
+            PropertyGroup testGroup = new PropertyGroup("test.group", "com.example.springpropertysources.MyProperties", "com.example.springpropertysources.MyProperties");
+            testGroup.addProperty(new Property("test.group.with.type", "java.lang.String", "with.type", "Property with type field", null, null));
+            testGroup.addProperty(new Property("test.group.without.type", null, "without.type", "Property without type field", null, null));
+
+            List<PropertyGroup> expectedGroups = List.of(PropertyGroup.createUnknownGroup(), testGroup);
+            assertThat(propertyGroups)
+                .containsAll(expectedGroups);
+        }
     }
 
     static class ReadPropertiesAsPropertyGroupListTestCase {
