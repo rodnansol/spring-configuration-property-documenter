@@ -241,7 +241,6 @@ class MetadataReaderTest {
     @Nested
     class RegressionTests {
 
-        @Test
         @Issue("#71")
         @DisplayName("Should return the same property only once per property group when input is having the same input type multiple times defined")
         void readPropertiesAsPropertyGroupList_whenSingleTypeIsBeingReusedMultipleTimes() throws FileNotFoundException {
@@ -322,6 +321,25 @@ class MetadataReaderTest {
             List<PropertyGroup> expectedYourProperties1 = List.of(PropertyGroup.createUnknownGroup(), topLevelGroup);
             assertThat(propertyGroups)
                 .containsAll(expectedYourProperties1);
+        }
+
+        @Test
+        @Issue("#112")
+        @DisplayName("Should map group and property from additional-spring-configuration-metadata.json with type and sourceType present")
+        void readPropertiesAsPropertyGroupList_whenAdditionalMetadataWithTypeAndSourceType() throws Exception {
+                // Given
+                String fileName = TEST_RESOURCES_DIRECTORY + "regression/additional-spring-configuration-metadata-javers.json";
+
+                // When
+                List<PropertyGroup> propertyGroups = underTest.readPropertiesAsPropertyGroupList(new FileInputStream(fileName));
+
+                // Then
+                PropertyGroup expectedGroup = new PropertyGroup("audit.javers", "audit.JaversProperties", "audit.JaversProperties");
+                expectedGroup.addProperty(new Property("audit.javers.enabled", "java.lang.Boolean", "enabled", "Whether Javers audit logging is enabled.", "true", null));
+
+                List<PropertyGroup> expectedGroups = List.of(PropertyGroup.createUnknownGroup(), expectedGroup);
+                assertThat(propertyGroups)
+                        .containsAll(expectedGroups);
         }
     }
 
