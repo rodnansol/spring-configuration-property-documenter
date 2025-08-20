@@ -1,0 +1,18 @@
+{
+    "groups": [
+        {
+            "name": "audit.javers",
+            "type": "audit.JaversProperties",
+            "sourceType": "audit.JaversProperties"
+        }
+    ],
+    "properties": [
+        {
+            "name": "audit.javers.enabled",
+            "type": "java.lang.Boolean",
+            "defaultValue": true,
+            "description": "Whether Javers audit logging is enabled.",
+            "sourceType": "audit.JaversProperties"
+        }
+    ]
+}
