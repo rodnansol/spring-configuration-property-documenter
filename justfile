@@ -85,3 +85,16 @@ only-snapshot-release:
 
 generate-antora:
   antora local-playbook.yml
+
+create-new-gpg-key:
+  gpg --full-generate-key
+  
+list-gpg-keys:
+   gpg --list-secret-keys --keyid-format LONG
+
+export-public-gpg-key id:
+   gpg --armor --export {{ id }} > public.key
+   
+export-secret-gpg-key id:
+   gpg --armor --export-secret-keys {{ id }} > secret.key
+
