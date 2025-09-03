@@ -1,4 +1,6 @@
 .env
+public.key
+secret.key
 out/
 target/
 !.mvn/wrapper/maven-wrapper.jar
