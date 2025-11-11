@@ -10,24 +10,9 @@
 |Key |Type |Description |Default value |Deprecation
 
 
-|this.is.your.property
-|java.lang.String
-|This is YOUR property.
-|
-|
 |this.is.a.bean.configuration.configuration-value
 |java.lang.String
 |A field inside a class that is not property by default by within a Configuration class.
-|
-|
-|this.is.my.nested.nested-value
-|java.lang.String
-|Nested value.
-|
-|
-|this.is.my.first-level-nested-property.second-level-nested-class.second-level-value
-|java.lang.String
-|Custom nested
 |
 |
 |this.is.my.another-variable
@@ -69,6 +54,21 @@
 |java.lang.String
 |Name of the custom property.
 |ABC
+|
+|this.is.my.first-level-nested-property.second-level-nested-class.second-level-value
+|java.lang.String
+|Custom nested
+|
+|
+|this.is.my.nested.nested-value
+|java.lang.String
+|Nested value.
+|
+|
+|this.is.your.property
+|java.lang.String
+|This is YOUR property.
+|
 |
 
 |===

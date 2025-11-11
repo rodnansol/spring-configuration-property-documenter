@@ -22,27 +22,6 @@ endif::[]
 |===
 // end::Unknown group[]
 
-// tag::this.is.your[]
-ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.your +]
-ifdef::property-group-simple-title[.*_this.is.your_* +]
-ifdef::property-group-discrete-heading[]
-[discrete]
-=== this.is.your
-endif::[]
-*Class:* `org.rodnansol.YourProperties`
-[cols="2,3,1"]
-|===
-|Key  |Description |Default value 
-
-
-|property
-|This is YOUR property.
-|
-
-
-|===
-// end::this.is.your[]
-
 // tag::this.is.a.bean.configuration[]
 ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.a.bean.configuration +]
 ifdef::property-group-simple-title[.*_this.is.a.bean.configuration_* +]
@@ -63,48 +42,6 @@ endif::[]
 
 |===
 // end::this.is.a.bean.configuration[]
-
-// tag::this.is.my.nested[]
-ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.nested +]
-ifdef::property-group-simple-title[.*_this.is.my.nested_* +]
-ifdef::property-group-discrete-heading[]
-[discrete]
-=== this.is.my.nested
-endif::[]
-*Class:* `org.rodnansol.TopLevelClassNestedProperty`
-[cols="2,3,1"]
-|===
-|Key  |Description |Default value 
-
-
-|nested-value
-|Nested value.
-|
-
-
-|===
-// end::this.is.my.nested[]
-
-// tag::this.is.my.first-level-nested-property.second-level-nested-class[]
-ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.first-level-nested-property.second-level-nested-class +]
-ifdef::property-group-simple-title[.*_this.is.my.first-level-nested-property.second-level-nested-class_* +]
-ifdef::property-group-discrete-heading[]
-[discrete]
-=== this.is.my.first-level-nested-property.second-level-nested-class
-endif::[]
-*Class:* `org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass`
-[cols="2,3,1"]
-|===
-|Key  |Description |Default value 
-
-
-|second-level-value
-|Custom nested
-|
-
-
-|===
-// end::this.is.my.first-level-nested-property.second-level-nested-class[]
 
 // tag::this.is.my[]
 ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my +]
@@ -171,5 +108,68 @@ endif::[]
 
 |===
 // end::this.is.my.first-level-nested-property[]
+
+// tag::this.is.my.first-level-nested-property.second-level-nested-class[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.first-level-nested-property.second-level-nested-class +]
+ifdef::property-group-simple-title[.*_this.is.my.first-level-nested-property.second-level-nested-class_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my.first-level-nested-property.second-level-nested-class
+endif::[]
+*Class:* `org.rodnansol.FirstLevelNestedProperty$SecondLevelNestedClass`
+[cols="2,3,1"]
+|===
+|Key  |Description |Default value 
+
+
+|second-level-value
+|Custom nested
+|
+
+
+|===
+// end::this.is.my.first-level-nested-property.second-level-nested-class[]
+
+// tag::this.is.my.nested[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.my.nested +]
+ifdef::property-group-simple-title[.*_this.is.my.nested_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.my.nested
+endif::[]
+*Class:* `org.rodnansol.TopLevelClassNestedProperty`
+[cols="2,3,1"]
+|===
+|Key  |Description |Default value 
+
+
+|nested-value
+|Nested value.
+|
+
+
+|===
+// end::this.is.my.nested[]
+
+// tag::this.is.your[]
+ifndef::property-group-simple-title,property-group-discrete-heading[=== this.is.your +]
+ifdef::property-group-simple-title[.*_this.is.your_* +]
+ifdef::property-group-discrete-heading[]
+[discrete]
+=== this.is.your
+endif::[]
+*Class:* `org.rodnansol.YourProperties`
+[cols="2,3,1"]
+|===
+|Key  |Description |Default value 
+
+
+|property
+|This is YOUR property.
+|
+
+
+|===
+// end::this.is.your[]
 
 
