@@ -17,6 +17,7 @@ import java.io.File;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
+import static io.qameta.allure.Allure.step;
 
 @ExtendWith(MockitoExtension.class)
 class AggregationDocumenterTest {
@@ -36,22 +37,23 @@ class AggregationDocumenterTest {
 
     @Test
     void filterGroupsAndProperties_shouldCallPropertyGroupFilterService() {
-        // Given
-        MarkdownTemplateCustomization templateCustomization = new MarkdownTemplateCustomization();
-        CombinedInput combinedInput = new CombinedInput(file, "testSection", "testDescription");
-        combinedInput.setExcludedGroups(List.of("excluded-group"));
-        combinedInput.setExcludedProperties(List.of("excluded-property"));
-        combinedInput.setIncludedGroups(List.of("included-group"));
-        combinedInput.setIncludedProperties(List.of("included-property"));
-        List<PropertyGroup> propertyGroups = List.of();
-
-        // When
-        underTest.filterGroupsAndProperties(templateCustomization, combinedInput, propertyGroups);
-
-        // Then
-        PostProcessPropertyGroupsCommand expectedCommand = new PostProcessPropertyGroupsCommand(templateCustomization, propertyGroups,
-            List.of("excluded-group"), List.of("included-group"),
-            List.of("excluded-property"), List.of("included-property"));
-        verify(propertyGroupFilterService).postProcessPropertyGroups(expectedCommand);
+        step("Preparation", () -> {
+            MarkdownTemplateCustomization templateCustomization = new MarkdownTemplateCustomization();
+            CombinedInput combinedInput = new CombinedInput(file, "testSection", "testDescription");
+            combinedInput.setExcludedGroups(List.of("excluded-group"));
+            combinedInput.setExcludedProperties(List.of("excluded-property"));
+            combinedInput.setIncludedGroups(List.of("included-group"));
+            combinedInput.setIncludedProperties(List.of("included-property"));
+            List<PropertyGroup> propertyGroups = List.of();
+            step("Test logic", () -> {
+                underTest.filterGroupsAndProperties(templateCustomization, combinedInput, propertyGroups);
+                step("Assertions", () -> {
+                    PostProcessPropertyGroupsCommand expectedCommand = new PostProcessPropertyGroupsCommand(templateCustomization, propertyGroups,
+                        List.of("excluded-group"), List.of("included-group"),
+                        List.of("excluded-property"), List.of("included-property"));
+                    verify(propertyGroupFilterService).postProcessPropertyGroups(expectedCommand);
+                });
+            });
+        });
     }
 }

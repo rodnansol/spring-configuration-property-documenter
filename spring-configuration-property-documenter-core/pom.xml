@@ -82,6 +82,13 @@
             <artifactId>junit-pioneer</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- Allure JUnit5 adapter -->
+        <dependency>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-junit5</artifactId>
+        <version>2.29.1</version>
+        <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -89,6 +96,23 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <!-- Allure Report Plugin -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.11.2</version>
+            </plugin>
+            <!-- Surefire plugin konfiguráció Allure-hoz -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
         </plugins>
     </build>
